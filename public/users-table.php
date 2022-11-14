@@ -31,7 +31,7 @@
                                     <th data-field="referrals" data-sortable="true">Referrals</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="codes" data-sortable="true">Codes</th>
-
+                                    <th data-field="operate">Action</th>
 
                                 </tr>
                             </thead>

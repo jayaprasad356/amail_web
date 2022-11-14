@@ -63,21 +63,19 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%'";
     }
-    if (isset($_GET['sort'])){
+    if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
-
     }
-    if (isset($_GET['order'])){
+    if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
-
-    }        
+    }
     $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM users ". $where ." ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -86,20 +84,22 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-            $tempRow['id'] = $row['id'];
-            $tempRow['name'] = $row['name'];
-            $tempRow['mobile'] = $row['mobile'];
-            $tempRow['password'] = $row['password'];
-            $tempRow['dob'] = $row['dob'];
-            $tempRow['email'] = $row['email'];
-            $tempRow['city'] = $row['city'];
-            $tempRow['earn'] = $row['earn'];
-            $tempRow['referrals'] = $row['referrals'];
-            $tempRow['codes'] = $row['codes'];
-            $tempRow['balance'] = $row['balance'];
+        $operate = '<a href="edit-users.php?id=' . $row['id'] . '" class="label label-primary" title="Edit">Edit</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['password'] = $row['password'];
+        $tempRow['dob'] = $row['dob'];
+        $tempRow['email'] = $row['email'];
+        $tempRow['city'] = $row['city'];
+        $tempRow['earn'] = $row['earn'];
+        $tempRow['referrals'] = $row['referrals'];
+        $tempRow['codes'] = $row['codes'];
+        $tempRow['balance'] = $row['balance'];
+        $tempRow['operate'] = $operate;
 
-            $rows[] = $tempRow;
-        }
+        $rows[] = $tempRow;
+    }
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }

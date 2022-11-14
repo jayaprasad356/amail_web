@@ -7,9 +7,9 @@ session_start();
     $fn = new custom_functions();
     $db->connect();
     date_default_timezone_set('Asia/Kolkata');
-    $sql = "SELECT * FROM settings";
-    $db->sql($sql);
-    $res = $db->getResult();
+    // $sql = "SELECT * FROM settings";
+    // $db->sql($sql);
+    // $res = $db->getResult();
     
     ?>
 <!DOCTYPE html>
