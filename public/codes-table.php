@@ -7,7 +7,7 @@
         <!-- Main row -->
         <div class="row">
             <!-- Left col -->
-            <div class="col-xs-12">
+            <div class="col-xs-12 col-md-10">
                 <div class="box">
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">

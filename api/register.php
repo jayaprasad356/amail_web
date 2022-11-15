@@ -53,7 +53,7 @@ $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
 $email = $db->escapeString($_POST['email']);
 $password = $db->escapeString($_POST['password']);
-$city = $db->escapeString($_POST['mobile']);
+$city = $db->escapeString($_POST['city']);
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $dob = $db->escapeString($_POST['dob']);
 
