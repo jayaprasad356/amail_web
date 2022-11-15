@@ -34,7 +34,7 @@ if ($num >= 1) {
         $temp['referrals'] = $row['referrals'];
         $temp['earn'] = $row['earn'];
         $temp['subscription'] = $row['subscription'];
-        $temp['qrcode'] = $row['qrcode'];
+        $temp['codes'] = $row['codes'];
         $rows[] = $temp;
         
     }

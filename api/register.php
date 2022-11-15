@@ -58,28 +58,28 @@ $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ?
 $dob = $db->escapeString($_POST['dob']);
 
 
-$sql = "SELECT * FROM users WHERE id=" . $user_id;
+$sql = "SELECT * FROM users WHERE mobile=' $mobile'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $sql = "UPDATE users SET name='$name',mobile='$mobile',password='$password',email='$email',city='$city',dob='$dob',referred_by='$referred_by' WHERE id=" . $user_id;
-    $db->sql($sql);
-    $sql = "SELECT * FROM users WHERE id=" . $user_id;
-    $db->sql($sql);
-    $res = $db->getResult();
-    $response['success'] = true;
-    $response['message'] = "User Updated Successfully";
-    $response['data'] = $res;
+    $response['success'] = false;
+    $response['message'] ="Mobile Number Already Exists";
     print_r(json_encode($response));
     return false;
 }
 else{
     
-    $response['success'] = false;
-    $response['message'] ="User Not Found";
+    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by')";
+    $db->sql($sql);
+    $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $response['success'] = true;
+    $response['message'] = "Successfully Registered";
+    $response['data'] = $res;
     print_r(json_encode($response));
-    return false;
+
 
 }
 

@@ -163,106 +163,20 @@ $fn = new custom_functions;
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-                <!-- <li class="treeview">
-                    <a href="users.php">
-                        <i class="fa fa-user"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="categories.php">
-                        <i class="fa fa-bullseye"></i>
-                        <span>Categories</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="products.php">
-                        <i class="fa fa-cube"></i>
-                        <span>Products</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="slides.php">
-                        <i class="fa fa-sliders"></i>
-                        <span>Slides</span>
-                    </a>
-                </li> -->
-                <!-- <li class="treeview">
-                    <a href="services.php">
-                        <i class="fa fa-wrench"></i>
-                        <span>Services</span>
-                    </a>
-                </li> -->
-                <!-- <li class="treeview">
-                    <a href="rental_categories.php">
-                        <i class="fa fa-bullseye"></i>
-                        <span>Rental Category</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="rentals.php">
-                        <i class="fa fa-truck"></i>
-                        <span>Rentals</span>
-                    </a>
-                </li> -->
+               
                 <li class="treeview">
                     <a href="users.php">
                     <i class="fa fa-users"></i>
                         <span>Users</span>
                     </a>
                 </li>
-                <!-- <li class="treeview">
-                    <a href="bike_services.php">
-                    <i class="fa fa-wrench"></i>
-                        <span>Bike Services</span>
+                <li class="treeview">
+                    <a href="codes.php">
+                    <i class="fa fa-bullseye"></i>
+                        <span>Codes</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="puncture_services.php">
-                    <i class="fa fa-circle"></i>
-                        <span>Puncture Servics</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="tyre_products.php">
-                    <i class="fa fa-cube"></i>
-                        <span>Tyre Products</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="bike_products.php">
-                    <i class="fa fa-thumb-tack"></i>
-                         <span>Bike Product Size</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="batteries.php">
-                    <i class="fa fa-battery-full"></i>
-                         <span>Batteries</span>
-                    </a>
-                </li> -->
-                <!-- <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-location-arrow"></i>
-                        <span>Deliver Pincodes</span>
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="pincodes.php"><i class="fa fa-sliders"></i> Manage Pincodes</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="orders.php">
-                        <i class="fa fa-shopping-cart"></i>
-                        <span>Orders</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="notifications.php">
-                        <i class="fa fa-bell"></i>
-                        <span>Notifications</span>
-                    </a>
-                </li> -->
+              
               
             </ul>
             </section>

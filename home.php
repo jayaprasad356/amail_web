@@ -19,7 +19,7 @@ if ($currentTime > $_SESSION['timeout']) {
 // destroy previous session timeout and create new one
 unset($_SESSION['timeout']);
 $_SESSION['timeout'] = $currentTime + $expired;
-$function = new custom_functions;
+
 include "header.php";
 ?>
 <html>
