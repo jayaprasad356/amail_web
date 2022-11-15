@@ -84,7 +84,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        $operate = '<a href="edit-users.php?id=' . $row['id'] . '" class="label label-primary" title="Edit">Edit</a>';
+        $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
@@ -92,6 +92,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['dob'] = $row['dob'];
         $tempRow['email'] = $row['email'];
         $tempRow['city'] = $row['city'];
+        $tempRow['device_id'] = $row['device_id'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['referrals'] = $row['referrals'];
         $tempRow['codes'] = $row['codes'];

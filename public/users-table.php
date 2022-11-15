@@ -1,9 +1,10 @@
 <section class="content-header">
-    <h1>
-        Users /
-        <small><a href="home.php"><i class="fa fa-home"></i> Home</a></small>
-</h1>
-    
+    <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
+
+    <ol class="breadcrumb">
+        <a class="btn btn-block btn-default" href="add-user.php"><i class="fa fa-plus-square"></i> Add New User</a>
+    </ol>
+
 </section>
     <!-- Main content -->
     <section class="content">
@@ -27,6 +28,7 @@
                                     <th data-field="dob" data-sortable="true">Date of Birth</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
+                                    <th data-field="device_id" data-sortable="true">Device Id</th>
                                     <th data-field="earn" data-sortable="true">Earn</th>
                                     <th data-field="referrals" data-sortable="true">Referrals</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>

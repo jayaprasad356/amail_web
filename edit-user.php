@@ -27,7 +27,7 @@
 </body>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?php include('public/edit-users-form.php'); ?>
+        <?php include('public/edit-user-form.php'); ?>
       </div><!-- /.content-wrapper -->
   </body>
 </html>
