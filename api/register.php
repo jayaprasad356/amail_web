@@ -49,6 +49,12 @@ if (empty($_POST['dob'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['device_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Device Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $name = $db->escapeString($_POST['name']);
 $mobile = $db->escapeString($_POST['mobile']);
 $email = $db->escapeString($_POST['email']);
@@ -56,7 +62,7 @@ $password = $db->escapeString($_POST['password']);
 $city = $db->escapeString($_POST['city']);
 $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
 $dob = $db->escapeString($_POST['dob']);
-
+$device_id = $db->escapeString($_POST['device_id']);
 
 $sql = "SELECT * FROM users WHERE mobile=' $mobile'";
 $db->sql($sql);
@@ -70,7 +76,7 @@ if ($num == 1) {
 }
 else{
     
-    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by')";
+    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);

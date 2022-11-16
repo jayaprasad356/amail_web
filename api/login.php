@@ -24,17 +24,38 @@ if (empty($_POST['password'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['device_id'])) {
+    $response['success'] = false;
+    $response['message'] = "Device Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $mobile = $db->escapeString($_POST['mobile']);
 $password = $db->escapeString($_POST['password']);
+$device_id = $db->escapeString($_POST['device_id']);
 $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
-    $response['success'] = true;
-    $response['message'] = "Logged In Successfully";
-    $response['data'] = $res;
-    print_r(json_encode($response));
+    $sql = "SELECT * FROM users WHERE device_id ='$device_id'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $num = $db->numRows($res);
+    if ($num == 1){
+        $response['success'] = true;
+        $response['message'] = "Logged In Successfully";
+        $response['data'] = $res;
+        print_r(json_encode($response));
+    }
+    else{
+        $response['success'] = false;
+        $response['message'] = "Please Login With your Device";
+        $response['data'] = $res;
+        print_r(json_encode($response));
+    
+    }
+
 }
 else{
     $response['success'] = false;
