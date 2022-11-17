@@ -101,6 +101,12 @@ class Database
             return false; // No rows where returned
         }
     }
+    public function random_strings($length_of_string) 
+    { 
+        $str_result = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; 
+        return substr(str_shuffle($str_result), 0, $length_of_string); 
+    } 
+
 
     // Function to SELECT from the database
     public function select($table, $rows = '*', $join = null, $where = null, $order = null, $limit = null)
