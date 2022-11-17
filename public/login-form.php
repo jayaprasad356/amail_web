@@ -50,7 +50,7 @@ if (isset($_POST['btnLogin'])) {
     <!-- general form elements -->
     <div class='row'>
         <div class="col-md-12 text-center">
-            <img src="dist/img/logo.png" height="110">
+            <img src="dist/img/logo.jpeg" height="110">
             <h3>ABCD -Dashboard</h3>
         </div>
         <div class="box box-info col-md-12">
@@ -64,7 +64,7 @@ if (isset($_POST['btnLogin'])) {
             <form method="post" enctype="multipart/form-data">
                 <div class="box-body">
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Email :</label>
+                        <label for="exampleInputEmail1">Username :</label>
                         <input type="text" name="email" class="form-control" value="<?= defined('ALLOW_MODIFICATION') && ALLOW_MODIFICATION == 0 ? 'admin' : '' ?>" required>
                     </div>
                     <div class="form-group">

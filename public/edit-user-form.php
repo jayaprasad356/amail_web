@@ -161,7 +161,7 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
 									<div class="form-group col-md-12">
-										<label class="control-label">Status</label><i class="text-danger asterik">*</i>
+										<label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
 										<div id="status" class="btn-group">
 											<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
 												<input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified

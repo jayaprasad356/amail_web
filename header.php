@@ -15,7 +15,7 @@ $fn = new custom_functions;
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="icon" type="image/ico" href="dist/img/favicon.png">
+        <link rel="icon" type="image/ico" href="dist/img/favicon.jpeg">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -171,9 +171,21 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="codes.php">
-                    <i class="fa fa-bullseye"></i>
-                        <span>Codes</span>
+                    <a href="bank_details.php">
+                    <i class="fa fa-bank"></i>
+                        <span>Bank Details</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="withdrawals.php">
+                    <i class="fa fa-money"></i>
+                        <span>Withdrawals</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="transactions.php">
+                    <i class="fa fa-arrow-right"></i>
+                       <span>Transactions</span>
                     </a>
                 </li>
               
