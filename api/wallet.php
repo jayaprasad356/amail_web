@@ -25,22 +25,42 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']);
+$sql = "SELECT * FROM users WHERE id = $user_id ";
+$db->sql($sql);
+$res = $db->getResult();
+
+$datetime = date('Y-m-d H:i:s');
+$last_updated = $res[0]['last_updated'];
+$date1 = new DateTime($last_updated);
+$date2 = new DateTime($datetime);
+$interval = $date1->diff($date2);
+$days = $interval->days;
+if($days != 0){
+    $sql = "UPDATE `users` SET  `today_codes` = 0,`last_updated` = '$datetime' WHERE `id` = $user_id";
+    $db->sql($sql);
+
+}
+$type = 'generate';
+
 if($codes != 0){
-    $datetime = date('Y-m-d H:i:s');
-    $type = 'generate';
     $amount = $codes * 0.17;
     $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
     $db->sql($sql);
     $res = $db->getResult();
 
-    $sql = "UPDATE `users` SET `earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
+    $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
     $db->sql($sql);
 }
 
+
+
+
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
-$res = $db->getResult();
-$balance = $res[0]['balance'];
+$ures = $db->getResult();
+$balance = $ures[0]['balance'];
+$today_codes = $ures[0]['today_codes'];
+$total_codes = $ures[0]['total_codes'];
 $sql = "SELECT * FROM transactions WHERE user_id = $user_id ORDER BY ID DESC";
 $db->sql($sql);
 $res = $db->getResult();
@@ -50,8 +70,8 @@ $db->sql($sql);
 $bank_details_res = $db->getResult();
 
 $response['success'] = true;
-$response['balance'] = $balance;
 $response['message'] = "Wallet Retrived Successfully";
+$response['user_details'] = $ures;
 $response['bank_details'] = $bank_details_res;
 $response['data'] = $res;
 print_r(json_encode($response));

@@ -38,20 +38,21 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1){
-    $sql = "SELECT * FROM users WHERE device_id ='$device_id'";
+    $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
     if ($num == 1){
         $response['success'] = true;
+        $response['device_verify'] = true;
         $response['message'] = "Logged In Successfully";
         $response['data'] = $res;
         print_r(json_encode($response));
     }
     else{
-        $response['success'] = false;
+        $response['success'] = true;
+        $response['device_verify'] = false;
         $response['message'] = "Please Login With your Device";
-        $response['data'] = $res;
         print_r(json_encode($response));
     
     }
@@ -60,7 +61,6 @@ if ($num == 1){
 else{
     $response['success'] = false;
     $response['message'] = "User Not Found";
-    $response['data'] = $res;
     print_r(json_encode($response));
 
 }

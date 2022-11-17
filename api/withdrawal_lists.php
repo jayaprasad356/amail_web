@@ -21,19 +21,38 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT * FROM withdrawals WHERE id = '$user_id'";
+$sql = "SELECT * FROM withdrawals WHERE user_id = '$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['user_id'] = $row['user_id'];
+        $temp['amount'] = $row['amount'];
+        $temp['datetime'] = $row['datetime'];
+        $status = $row['status'];
+        if($status == 0){
+            $temp['status'] = 'process';
+
+        }else if($status == 1){
+            $temp['status'] = 'paid';
+
+        }else{
+            $temp['status'] = 'cancelled';
+
+        }
+        
+        $rows[] = $temp;
+    }
     $response['success'] = true;
     $response['message'] = "Withdrawals listed Successfully";
-    $response['data'] = $res;
+    $response['data'] = $rows;
     print_r(json_encode($response));
 
 }else{
     $response['success'] = false;
-    $response['message'] = "No Users Found";
+    $response['message'] = "No Results Found";
     print_r(json_encode($response));
 
 }

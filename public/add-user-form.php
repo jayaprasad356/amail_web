@@ -19,11 +19,7 @@ if (isset($_POST['btnAdd'])) {
         $dob = $db->escapeString(($_POST['dob']));
         $email = $db->escapeString(($_POST['email']));
         $city = $db->escapeString(($_POST['city']));
-        $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : "0";
-        $referrals = (isset($_POST['referrals']) && !empty($_POST['referrals'])) ? $db->escapeString($_POST['referrals']) : "0";
-        $balance = (isset($_POST['balance']) && !empty($_POST['balance'])) ? $db->escapeString($_POST['balance']) : "0";
         $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
-        $codes = (isset($_POST['codes']) && !empty($_POST['codes'])) ? $db->escapeString($_POST['codes']) : "";
         $error = array();
        
         if (empty($name)) {
@@ -52,7 +48,7 @@ if (isset($_POST['btnAdd'])) {
        if (!empty($name) && !empty($device_id) && !empty($email) && !empty($mobile) && !empty($password) && !empty($city)  && !empty($dob)) 
        {
            
-            $sql_query = "INSERT INTO users (name,device_id,mobile,email,password,dob,city,earn,referrals,balance,referred_by,codes)VALUES('$name','$device_id','$mobile','$email','$password','$dob','$city','$earn','$referrals','$balance','$referred_by','$codes')";
+            $sql_query = "INSERT INTO users (name,device_id,mobile,email,password,dob,city,referred_by)VALUES('$name','$device_id','$mobile','$email','$password','$dob','$city','$referred_by')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -140,37 +136,12 @@ if (isset($_POST['btnAdd'])) {
                                     <input type="text" class="form-control" name="city" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Earn</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="earn" required>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Referrals</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="referrals" >
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Referred_by</label><i class="text-danger asterik">*</i>
+                                    <label for="exampleInputEmail1">Referral Code</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="referred_by" >
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Balance</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="balance" >
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Codes</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="codes" >
-                                </div>
-                            </div>
-                        </div>
 
                         
 

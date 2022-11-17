@@ -77,7 +77,7 @@ $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
-$response['message'] = "Bank Details Retrived Successfully";
+$response['message'] = "Bank Details Updated Successfully";
 $response['data'] = $res;
 print_r(json_encode($response));
 

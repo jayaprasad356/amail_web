@@ -94,8 +94,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['city'] = $row['city'];
         $tempRow['device_id'] = $row['device_id'];
         $tempRow['earn'] = $row['earn'];
-        $tempRow['referrals'] = $row['referrals'];
-        $tempRow['codes'] = $row['codes'];
+        $tempRow['total_referrals'] = $row['total_referrals'];
+        $tempRow['today_codes'] = $row['today_codes'];
+        $tempRow['total_codes'] = $row['total_codes'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['operate'] = $operate;
 

@@ -30,9 +30,10 @@
                                     <th data-field="city" data-sortable="true">City</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>
                                     <th data-field="earn" data-sortable="true">Earn</th>
-                                    <th data-field="referrals" data-sortable="true">Referrals</th>
+                                    <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
-                                    <th data-field="codes" data-sortable="true">Codes</th>
+                                    <th data-field="today_codes" data-sortable="true">Today Codes</th>
+                                    <th data-field="total_codes" data-sortable="true">Total Codes</th>
                                     <th data-field="operate">Action</th>
 
                                 </tr>

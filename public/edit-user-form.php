@@ -23,15 +23,16 @@ if (isset($_POST['btnEdit'])) {
             $email = $db->escapeString(($_POST['email']));
             $city = $db->escapeString(($_POST['city']));
             $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : "0";
-            $referrals = (isset($_POST['referrals']) && !empty($_POST['referrals'])) ? $db->escapeString($_POST['referrals']) : "0";
+            $total_referrals = (isset($_POST['total_referrals']) && !empty($_POST['total_referrals'])) ? $db->escapeString($_POST['total_referrals']) : 0;
             $balance = (isset($_POST['balance']) && !empty($_POST['balance'])) ? $db->escapeString($_POST['balance']) : "0";
-            $codes = (isset($_POST['codes']) && !empty($_POST['codes'])) ? $db->escapeString($_POST['codes']) : "";
+            $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
+            $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city)) 
 		{
 
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', earn='$earn', referrals='$referrals', balance='$balance', codes='$codes',device_id='$device_id' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', earn='$earn', total_referrals='$total_referrals', balance='$balance', total_codes=$total_codes,today_codes=$today_codes,device_id='$device_id' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -143,18 +144,23 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Referrals</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="referrals" value="<?php echo $res[0]['referrals']; ?>">
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Total Referrals</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Balance</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>">
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Codes</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="codes" value="<?php echo $res[0]['codes']; ?>">
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Today Codes</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="today_codes" value="<?php echo $res[0]['today_codes']; ?>">
                                 </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Total Codes</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_codes" value="<?php echo $res[0]['total_codes']; ?>">
+                                </div>
+
                                 
                             </div>
                         </div>

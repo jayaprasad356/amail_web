@@ -23,25 +23,10 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    foreach ($res as $row) {
-        $temp['id'] = $row['id'];
-        $temp['name'] = $row['name'];
-        $temp['mobile'] = $row['mobile'];
-        $temp['dob'] = $row['dob'];
-        $temp['password'] = $row['password'];
-        $temp['city'] = $row['city'];
-        $temp['email'] = $row['email'];
-        $temp['referrals'] = $row['referrals'];
-        $temp['earn'] = $row['earn'];
-        $temp['subscription'] = $row['subscription'];
-        $temp['codes'] = $row['codes'];
-        $rows[] = $temp;
-        
-    }
 
     $response['success'] = true;
     $response['message'] = "Users listed Successfully";
-    $response['data'] = $rows;
+    $response['data'] = $res;
     print_r(json_encode($response));
 
 }else{

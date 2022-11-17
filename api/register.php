@@ -12,6 +12,7 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+date_default_timezone_set('Asia/Kolkata');
 
 if (empty($_POST['name'])) {
     $response['success'] = false;
@@ -75,8 +76,11 @@ if ($num == 1) {
     return false;
 }
 else{
-    
-    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id')";
+
+
+    $refer_code = $db->random_strings(6);
+    $datetime = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`refer_code`,`last_updated`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$refer_code','$datetime')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
