@@ -33,7 +33,7 @@ if ($num >= 1) {
         $temp['datetime'] = $row['datetime'];
         $status = $row['status'];
         if($status == 0){
-            $temp['status'] = 'process';
+            $temp['status'] = 'pending';
 
         }else if($status == 1){
             $temp['status'] = 'paid';
