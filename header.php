@@ -108,7 +108,7 @@ $fn = new custom_functions;
             <a href="home.php" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">
-                    <h2>ABCD</h2>
+                     <img src="dist/img/logo.jpeg" height="25px" width="25px" style="border-radius:15px;" alt="">
                 </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
@@ -186,6 +186,12 @@ $fn = new custom_functions;
                     <a href="transactions.php">
                     <i class="fa fa-arrow-right"></i>
                        <span>Transactions</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="notifications.php">
+                    <i class="fa fa-bell"></i>
+                       <span>Notifications</span>
                     </a>
                 </li>
               
