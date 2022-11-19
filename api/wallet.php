@@ -25,10 +25,17 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']);
-$sql = "SELECT * FROM users WHERE id = $user_id ";
+$date = date('Y-m-d');
+$sql = "SELECT *,datediff('$date', joined_date) AS history_days  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
+$history_days = $res[0]['history_days'];
 
+if($history_days > VALID_DAYS){
+    $sql = "UPDATE `users` SET  `code_generate` = 0 WHERE `id` = $user_id";
+    $db->sql($sql);
+
+}
 $datetime = date('Y-m-d H:i:s');
 $last_updated = $res[0]['last_updated'];
 $date1 = new DateTime($last_updated);
@@ -43,7 +50,7 @@ if($days != 0){
 $type = 'generate';
 
 if($codes != 0){
-    $amount = $codes * 0.17;
+    $amount = $codes * COST_PER_CODE;
     $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
     $db->sql($sql);
     $res = $db->getResult();
@@ -61,6 +68,7 @@ $ures = $db->getResult();
 $balance = $ures[0]['balance'];
 $today_codes = $ures[0]['today_codes'];
 $total_codes = $ures[0]['total_codes'];
+
 $sql = "SELECT * FROM transactions WHERE user_id = $user_id ORDER BY ID DESC";
 $db->sql($sql);
 $res = $db->getResult();
