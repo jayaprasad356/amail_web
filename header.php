@@ -163,7 +163,12 @@ $fn = new custom_functions;
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-               
+                <li class="treeview">
+                    <a href="admins.php">
+                    <i class="fa fa-adn"></i>
+                       <span>Admin</span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="users.php">
                     <i class="fa fa-users"></i>
@@ -189,13 +194,18 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="referal_codes.php">
+                    <i class="fa fa-arrow-right"></i>
+                       <span> Manage Referal Codes</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="notifications.php">
                     <i class="fa fa-bell"></i>
                        <span>Notifications</span>
                     </a>
                 </li>
-              
-              
+               
             </ul>
             </section>
             <!-- /.sidebar -->

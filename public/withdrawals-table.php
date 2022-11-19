@@ -20,11 +20,29 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
 }
 if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
     for ($i = 0; $i < count($_POST['enable']); $i++) {
-    
         $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
-        $sql = "UPDATE withdrawals SET status=2 WHERE id = $enable";
+
+        $sql = "SELECT * FROM `withdrawals` WHERE id = $enable AND status != 2 ";
         $db->sql($sql);
-        $result = $db->getResult();
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        if ($num >= 1) {
+            $sql = "UPDATE withdrawals SET status=2 WHERE id = $enable";
+            $db->sql($sql);
+            $sql = "SELECT * FROM `withdrawals` WHERE id = $enable ";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $user_id= $res[0]['user_id'];
+            $amount= $res[0]['amount'];
+            $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
+            $db->sql($sql);
+
+        }
+    
+
+
+
+
     }
 }
 
@@ -95,13 +113,18 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Name</th>
                                     <th data-field="amount" data-sortable="true" data-visible="true" data-footer-formatter="priceFormatter">Amount</th>
+                                    <th data-field="status" data-sortable="true">Status</th>
+                                    <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="datetime" data-sortable="true">DateTime</th>
                                     <th data-field="account_num" data-sortable="true">Account Number</th>
                                     <th data-field="holder_name" data-sortable="true">Holder Name</th>
                                     <th data-field="bank" data-sortable="true">Bank</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="ifsc" data-sortable="true">IFSC</th>
-                                    <th data-field="status" data-sortable="true">Status</th>
+                                    <th data-field="total_codes" data-sortable="true">Total Codes</th>
+                                    <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
+                                    <th data-field="mobile" data-sortable="true">Mobile</th>
+                                    <th data-field="referred_by" data-sortable="true">Referred By</th>
                                     <!-- <th  data-field="operate" data-events="actionEvents">Action</th> -->
                                 </tr>
                             </thead>
@@ -182,6 +205,10 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
 
     });
     });
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
 
 </script>
 
