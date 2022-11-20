@@ -77,7 +77,11 @@ if (isset($_POST['btnEdit'])) {
         }
         if($status == 1 && $register_bonus_sent != 1){
             $register_bonus = 1000 * COST_PER_CODE;
-            $sql_query = "UPDATE users SET `earn` = earn + $register_bonus,`balance` = balance + $register_bonus,register_bonus_sent = 1,`today_codes` = today_codes + 1000,`total_codes` = total_codes + 1000 WHERE id =  $ID";
+            $total_codes = $total_codes + 1000;
+            $today_codes = $today_codes + 1000;
+            $earn = $earn + $register_bonus;
+            $balance = $balance + $register_bonus;
+            $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,1000,'$datetime','register_bonus')";
             $db->sql($sql_query);
