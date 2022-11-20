@@ -5,7 +5,6 @@ include('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $db->sql("SET NAMES 'utf8'");
-$auth_username = $db->escapeString($_SESSION["user"]);
 
 include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
@@ -23,5 +22,16 @@ if (isset($_POST['delete_variant'])) {
         echo 0;
     }
 }
+if (isset($_POST['refer_code_change'])) {
+    $user_id = $db->escapeString($fn->xss_clean($_POST['user_id']));
+    $sql = "SELECT * FROM users WHERE id=" . $user_id;
+    $db->sql($sql);
+    $res = $db->getResult();
+    if (!empty($res)) {
+        $refer_code = $res[0]['refer_code'];
+        echo $refer_code;
+    } else {
+        echo "";
+    }
 
-
+}

@@ -69,7 +69,11 @@ $balance = $ures[0]['balance'];
 $today_codes = $ures[0]['today_codes'];
 $total_codes = $ures[0]['total_codes'];
 
-$sql = "SELECT * FROM transactions WHERE user_id = $user_id ORDER BY ID DESC";
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$setres = $db->getResult();
+
+$sql = "SELECT * FROM transactions WHERE user_id = $user_id AND datetime >= ( CURDATE() - INTERVAL 2 DAY ) ORDER BY ID DESC";
 $db->sql($sql);
 $res = $db->getResult();
 
@@ -79,6 +83,7 @@ $bank_details_res = $db->getResult();
 
 $response['success'] = true;
 $response['message'] = "Wallet Retrived Successfully";
+$response['settings'] = $setres;
 $response['user_details'] = $ures;
 $response['bank_details'] = $bank_details_res;
 $response['data'] = $res;

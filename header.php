@@ -2,7 +2,7 @@
 $db = new Database();
 $db->connect();
 $db->sql("SET NAMES 'utf8'");
-
+date_default_timezone_set('Asia/Kolkata');
 include('includes/variables.php');
 include_once('includes/custom-functions.php');
 include_once('includes/functions.php');
@@ -126,15 +126,15 @@ $fn = new custom_functions;
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="images/avatar.png" class="user-image" alt="User Image">
-                                    <span class="hidden-xs">Admin</span>
+                                    <span class="hidden-xs"><?php echo $_SESSION['username'] ?></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
                                         <img src="images/avatar.png" class="img-circle" alt="User Image">
                                         <p>
-                                            Admin
-                                            <small>admin@gmail.com</small>
+                                        <?php echo $_SESSION['username'] ?>
+                                            <small><?php echo $_SESSION['email'] ?></small>
                                         </p>
                                     </li>
                                     <li class="user-footer">
@@ -163,12 +163,7 @@ $fn = new custom_functions;
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="admins.php">
-                    <i class="fa fa-adn"></i>
-                       <span>Admin</span>
-                    </a>
-                </li>
+
                 <li class="treeview">
                     <a href="users.php">
                     <i class="fa fa-users"></i>
@@ -195,7 +190,7 @@ $fn = new custom_functions;
                 </li>
                 <li class="treeview">
                     <a href="referal_codes.php">
-                    <i class="fa fa-arrow-right"></i>
+                    <i class="fa fa-money"></i>
                        <span> Manage Referal Codes</span>
                     </a>
                 </li>
@@ -203,6 +198,24 @@ $fn = new custom_functions;
                     <a href="notifications.php">
                     <i class="fa fa-bell"></i>
                        <span>Notifications</span>
+                    </a>
+                </li>
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
+                    <li class="treeview">
+                        <a href="admins.php">
+                        <i class="fa fa-adn"></i>
+                        <span>Multiple Admin</span>
+                        </a>
+                    </li>
+                <?php
+
+                }
+                ?>
+
+                <li class="treeview">
+                    <a href="settings.php">
+                        <i class="fa fa-gear"></i><span>Settings</span>  
                     </a>
                 </li>
                

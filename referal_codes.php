@@ -39,7 +39,7 @@ $_SESSION['timeout'] = $currentTime + $expired;
 <body>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <?php include('public/search-form.php'); ?>
+        <?php include('public/referal-codes-form.php'); ?>
     </div><!-- /.content-wrapper -->
 </body>
 

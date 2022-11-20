@@ -17,7 +17,6 @@ if (isset($_POST['btnAdd'])) {
         $password = $db->escapeString(($_POST['password']));
         $refer_code = $db->escapeString(($_POST['refer_code']));
         $email = $db->escapeString(($_POST['email']));
-        $status = $db->escapeString(($_POST['status']));
         $error = array();
        
         if (empty($name)) {
@@ -39,8 +38,15 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($name) && !empty($role) && !empty($email) && !empty($password) && !empty($refer_code)) 
        {
-           
-            $sql_query = "INSERT INTO admin (name,role,email,password,refer_code,status)VALUES('$name','$role','$email','$password','$refer_code',0)";
+        $sql_query = "SELECT * FROM admin WHERE email = '$email'";
+        $db->sql($sql_query);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        if ($num >= 1) {
+            $error['add_admin'] = " <span class='label label-danger'>Admin Already Added</span>";
+            
+        }else{
+            $sql_query = "INSERT INTO admin (name,role,email,password,refer_code,status)VALUES('$name','$role','$email','$password','$refer_code',1)";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -50,14 +56,19 @@ if (isset($_POST['btnAdd'])) {
             }
 
             if ($result == 1) {
+                echo $num;
                 
                 $error['add_admin'] = "<section class='content-header'>
                                                 <span class='label label-success'>Admin Added Successfully</span> </section>";
             } else {
                 $error['add_admin'] = " <span class='label label-danger'>Failed</span>";
             }
-            }
         }
+            
+        }
+           
+
+    }
 ?>
 <section class="content-header">
     <h1>Add New admin <small><a href='admins.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Admins</a></small></h1>

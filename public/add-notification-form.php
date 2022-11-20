@@ -3,7 +3,6 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-
 $sql = "SELECT id, name FROM categories ORDER BY id ASC";
 $db->sql($sql);
 $res = $db->getResult();
@@ -26,8 +25,9 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($title) && !empty($description)) 
        {
+        $datetime = date('Y-m-d H:i:s');
            
-            $sql_query = "INSERT INTO notifications (title,description)VALUES('$title','$description')";
+            $sql_query = "INSERT INTO notifications (title,description,date)VALUES('$title','$description','$datetime')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {

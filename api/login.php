@@ -40,6 +40,9 @@ $num = $db->numRows($res);
 if ($num == 1){
     $status = $res[0]['status'];
     if ($status == 1){
+        $sql = "SELECT * FROM settings";
+        $db->sql($sql);
+        $setres = $db->getResult();
         $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
         $db->sql($sql);
         $res = $db->getResult();
@@ -50,6 +53,7 @@ if ($num == 1){
             $response['device_verify'] = true;
             $response['message'] = "Logged In Successfully";
             $response['data'] = $res;
+            $response['settings'] = $setres;
             print_r(json_encode($response));
         }
         else{

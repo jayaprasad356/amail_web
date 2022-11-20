@@ -14,6 +14,7 @@ if (isset($_GET['id'])) {
     exit(0);
 }
 if (isset($_POST['btnEdit'])) {
+            $datetime = date('Y-m-d H:i:s');
 
             $name = $db->escapeString(($_POST['name']));
             $device_id = $db->escapeString(($_POST['device_id']));
@@ -26,6 +27,7 @@ if (isset($_POST['btnEdit'])) {
             $refer_code = $db->escapeString(($_POST['refer_code']));
             $joined_date = $db->escapeString(($_POST['joined_date']));
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
+            $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
             $refer_bonus_sent = (isset($_POST['refer_bonus_sent']) && !empty($_POST['refer_bonus_sent'])) ? $db->escapeString($_POST['refer_bonus_sent']) : 0;
             $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
             $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : 0;
@@ -45,12 +47,18 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql_query);
             $res = $db->getResult();
             if (empty($res)) {
-                $sql_query = "SELECT * FROM users WHERE referred_by =  '$referred_by'";
+
+                $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
                 $db->sql($sql_query);
                 $res = $db->getResult();
+                $user_id = $res[0]['id'];
+                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                $db->sql($sql_query);
                 $code_generate = $res[0]['code_generate'];
                 if($code_generate == 1){
                     $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus WHERE refer_code =  '$referred_by' AND code_generate = 1";
+                    $db->sql($sql_query);
+                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,1000,'$datetime','code_bonus')";
                     $db->sql($sql_query);
                 }
                 $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
@@ -61,7 +69,7 @@ if (isset($_POST['btnEdit'])) {
 
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', total_codes=$total_codes,today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -221,6 +229,16 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Withdrawal Status</label><br>
+                                    <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
 									<div class="form-group col-md-12">
 										<label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
@@ -263,6 +281,19 @@ if (isset($_POST['btnCancel'])) { ?>
 
         } else {
             $('#code_generate_status').val(0);
+        }
+    };
+</script>
+
+<script>
+    var changeCheckbox = document.querySelector('#withdrawal_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#withdrawal_status').val(1);
+
+        } else {
+            $('#withdrawal_status').val(0);
         }
     };
 </script>
