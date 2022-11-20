@@ -15,6 +15,7 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
             $datetime = date('Y-m-d H:i:s');
+            $date = date('Y-m-d');
 
             $name = $db->escapeString(($_POST['name']));
             $device_id = $db->escapeString(($_POST['device_id']));
@@ -25,7 +26,7 @@ if (isset($_POST['btnEdit'])) {
             $city = $db->escapeString(($_POST['city']));
             $status = $db->escapeString(($_POST['status']));
             $refer_code = $db->escapeString(($_POST['refer_code']));
-            $joined_date = $db->escapeString(($_POST['joined_date']));
+            $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
             $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
             $refer_bonus_sent = (isset($_POST['refer_bonus_sent']) && !empty($_POST['refer_bonus_sent'])) ? $db->escapeString($_POST['refer_bonus_sent']) : 0;
