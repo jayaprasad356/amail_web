@@ -6,6 +6,7 @@ define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('COST_PER_CODE', 0.17);
 define('VALID_DAYS', 50);
+define('MAIN_REFER', 'MIS');
 class Database
 {
     /* 
@@ -104,7 +105,7 @@ class Database
     }
     public function random_strings($length_of_string) 
     { 
-        $str_result = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'; 
+        $str_result = '1234567890'; 
         return substr(str_shuffle($str_result), 0, $length_of_string); 
     } 
 

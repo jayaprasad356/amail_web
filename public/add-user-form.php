@@ -13,7 +13,6 @@ $res = $db->getResult();
 if (isset($_POST['btnAdd'])) {
 
         $name = $db->escapeString(($_POST['name']));
-        $device_id = $db->escapeString($_POST['device_id']);
         $mobile = $db->escapeString(($_POST['mobile']));
         $password = $db->escapeString(($_POST['password']));
         $dob = $db->escapeString(($_POST['dob']));
@@ -24,9 +23,6 @@ if (isset($_POST['btnAdd'])) {
        
         if (empty($name)) {
             $error['name'] = " <span class='label label-danger'>Required!</span>";
-        }
-        if (empty($device_id)) {
-            $error['device_id'] = " <span class='label label-danger'>Required!</span>";
         }
         if (empty($mobile)) {
             $error['mobile'] = " <span class='label label-danger'>Required!</span>";
@@ -45,26 +41,34 @@ if (isset($_POST['btnAdd'])) {
         }
        
        
-       if (!empty($name) && !empty($device_id) && !empty($email) && !empty($mobile) && !empty($password) && !empty($city)  && !empty($dob)) 
+       if (!empty($name) && !empty($email) && !empty($mobile) && !empty($password) && !empty($city)  && !empty($dob)) 
        {
+        if(empty($referred_by)){
+            $refer_code = MAIN_REFER . $db->random_strings(5);
+    
+        }
+        else{
+            $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
+    
+        }
            
-            $sql_query = "INSERT INTO users (name,device_id,mobile,email,password,dob,city,referred_by)VALUES('$name','$device_id','$mobile','$email','$password','$dob','$city','$referred_by')";
-            $db->sql($sql_query);
-            $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
-            }
+        $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code')";
+        $db->sql($sql_query);
+        $result = $db->getResult();
+        if (!empty($result)) {
+            $result = 0;
+        } else {
+            $result = 1;
+        }
 
-            if ($result == 1) {
-                
-                $error['add_user'] = "<section class='content-header'>
-                                                <span class='label label-success'>User Added Successfully</span> </section>";
-            } else {
-                $error['add_user'] = " <span class='label label-danger'>Failed</span>";
-            }
-            }
+        if ($result == 1) {
+            
+            $error['add_user'] = "<section class='content-header'>
+                                            <span class='label label-success'>User Added Successfully</span> </section>";
+        } else {
+            $error['add_user'] = " <span class='label label-danger'>Failed</span>";
+        }
+        }
         }
 ?>
 <section class="content-header">
@@ -95,10 +99,7 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="name" required>
                                 </div>
-                                <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Device Id</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="device_id" required>
-                                </div>
+
                             </div>
                             
                         </div>
@@ -136,7 +137,7 @@ if (isset($_POST['btnAdd'])) {
                                     <input type="text" class="form-control" name="city" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">Referral Code</label><i class="text-danger asterik">*</i>
+                                    <label for="exampleInputEmail1">Referred By</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="referred_by" >
                                 </div>
                             </div>

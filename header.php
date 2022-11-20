@@ -133,7 +133,7 @@ $fn = new custom_functions;
                                     <li class="user-header">
                                         <img src="images/avatar.png" class="img-circle" alt="User Image">
                                         <p>
-                                        <?php echo $_SESSION['username'] ?>
+                                        <?php echo 'Refer Code - ' . $_SESSION['refer_code'] ?>
                                             <small><?php echo $_SESSION['email'] ?></small>
                                         </p>
                                     </li>
@@ -171,6 +171,16 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="referal_codes.php">
+                    <i class="fa fa-money"></i>
+                       <span> Manage Referal Codes</span>
+                    </a>
+                </li>
+
+
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
+                <li class="treeview">
                     <a href="bank_details.php">
                     <i class="fa fa-bank"></i>
                         <span>Bank Details</span>
@@ -188,10 +198,11 @@ $fn = new custom_functions;
                        <span>Transactions</span>
                     </a>
                 </li>
+
                 <li class="treeview">
-                    <a href="referal_codes.php">
+                    <a href="manage-devices.php">
                     <i class="fa fa-money"></i>
-                       <span> Manage Referal Codes</span>
+                       <span> Manage Devices</span>
                     </a>
                 </li>
                 <li class="treeview">
@@ -200,24 +211,23 @@ $fn = new custom_functions;
                        <span>Notifications</span>
                     </a>
                 </li>
-                <?php
-                if($_SESSION['role'] == 'Super Admin'){?>
                     <li class="treeview">
                         <a href="admins.php">
                         <i class="fa fa-adn"></i>
                         <span>Multiple Admin</span>
                         </a>
                     </li>
+                    <li class="treeview">
+                    <a href="settings.php">
+                        <i class="fa fa-gear"></i><span>Settings</span>  
+                    </a>
+                </li>
                 <?php
 
                 }
                 ?>
 
-                <li class="treeview">
-                    <a href="settings.php">
-                        <i class="fa fa-gear"></i><span>Settings</span>  
-                    </a>
-                </li>
+
                
             </ul>
             </section>

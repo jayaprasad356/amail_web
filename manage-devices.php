@@ -32,14 +32,14 @@ $_SESSION['timeout'] = $currentTime + $expired;
 <html>
 
 <head>
-    <title>Manage Reffered By | - Dashboard</title>
+    <title>Manage Devices | - Dashboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <?php include('public/referal-codes-form.php'); ?>
+        <?php include('public/manage-device-table.php'); ?>
     </div><!-- /.content-wrapper -->
 </body>
 

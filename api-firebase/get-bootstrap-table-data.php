@@ -61,7 +61,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -69,13 +69,24 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
+
+
+    
+    if($_SESSION['role'] == 'Super Admin'){
+        $join = "WHERE id IS NOT NULL";
+    }
+    else{
+        $refer_code = $_SESSION['refer_code'];
+        $join = "WHERE refer_code REGEXP '^$refer_code'";
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM users " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+        
+    $sql = "SELECT * FROM users $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -346,9 +357,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'notifications') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $operate = ' <a class="text text-danger" href="delete-notification.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['title'] = $row['title'];
         $tempRow['description'] = $row['description'];
+        $tempRow['datetime'] = $row['datetime'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
@@ -417,12 +431,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'admin') {
     print_r(json_encode($bulkData));
 }
 
-///referal codes table codes here
-if (isset($_GET['table']) && $_GET['table'] == 'referal_codes') {
+if (isset($_GET['table']) && $_GET['table'] == 'manage_devices') {
     $offset = 0;
     $limit = 10;
     $where = '';
-    $sort = 'id';
+    $sort = 'dq.id';
     $order = 'DESC';
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -436,7 +449,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'referal_codes') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR mobile like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -444,13 +457,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'referal_codes') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`mobile`) as total FROM `users`" . $where;
+    $join = "WHERE u.id = dq.user_id ";
+    $sql = "SELECT COUNT(*) as total FROM users u,device_requests dq $join " ;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM users WHERE mobile=$mobile" . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+
+    $sql = "SELECT *,dq.id AS id,dq.device_id AS device_id FROM users u,device_requests dq $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -459,15 +474,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'referal_codes') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $operate = ' <a class="btn btn-success" href="verify-device.php?id=' . $row['id'] . '">Verify</a>';
+
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
-        $tempRow['earn'] = $row['earn'];
-        $tempRow['total_referrals'] = $row['total_referrals'];
-        $tempRow['today_codes'] = $row['today_codes'];
-        $tempRow['total_codes'] = $row['total_codes'];
-        $tempRow['balance'] = $row['balance'];
-        $tempRow['refer_code'] = $row['refer_code'];
+        $tempRow['device_id'] = $row['device_id'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

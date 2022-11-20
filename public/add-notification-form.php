@@ -9,7 +9,7 @@ $res = $db->getResult();
 
 ?>
 <?php
-if (isset($_POST['btnAdd'])) {
+if (isset($_POST['btnd'])) {
 
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString($_POST['description']);
@@ -27,7 +27,7 @@ if (isset($_POST['btnAdd'])) {
        {
         $datetime = date('Y-m-d H:i:s');
            
-            $sql_query = "INSERT INTO notifications (title,description,date)VALUES('$title','$description','$datetime')";
+            $sql_query = "INSERT INTO notifications (title,description,datetime)VALUES('$title','$description','$datetime')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -66,7 +66,7 @@ if (isset($_POST['btnAdd'])) {
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form name="add_notification_form" method="post" enctype="multipart/form-data">
+                <form id='notification_form' method="post" action="send-multiple-push.php" enctype="multipart/form-data">
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
@@ -94,6 +94,7 @@ if (isset($_POST['btnAdd'])) {
                     </div>
 
                 </form>
+                <div id="result"></div>
 
             </div><!-- /.box -->
         </div>
@@ -103,15 +104,29 @@ if (isset($_POST['btnAdd'])) {
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script>
-    $('#add_notification_form').validate({
+    $('#notification_form').on('submit', function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: formData,
+                dataType: 'json',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(result) {
 
-        ignore: [],
-        debug: false,
-        rules: {
-            title: "required",
-            description: "required",
-        }
-    });
+                    $('#result').html(result.message);
+                    $('#result').show().delay(6000).fadeOut();
+                    $('#notification_form').each(function() {
+                        this.reset();
+                    });
+                    
+                }
+            });
+
+        });
     $('#btnClear').on('click', function() {
         for (instance in CKEDITOR.instances) {
             CKEDITOR.instances[instance].setData('');

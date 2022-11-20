@@ -25,12 +25,19 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']);
+$fcm_id = $db->escapeString($_POST['fcm_id']);
 $date = date('Y-m-d');
 $sql = "SELECT *,datediff('$date', joined_date) AS history_days  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $history_days = $res[0]['history_days'];
 
+
+if(!empty($fcm_id)){
+    $sql = "UPDATE `users` SET  `fcm_id` = '$fcm_id' WHERE `id` = $user_id";
+    $db->sql($sql);
+
+}
 if($history_days > VALID_DAYS){
     $sql = "UPDATE `users` SET  `code_generate` = 0 WHERE `id` = $user_id";
     $db->sql($sql);

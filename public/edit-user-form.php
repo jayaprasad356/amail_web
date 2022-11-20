@@ -18,7 +18,7 @@ if (isset($_POST['btnEdit'])) {
             $date = date('Y-m-d');
 
             $name = $db->escapeString(($_POST['name']));
-            $device_id = $db->escapeString(($_POST['device_id']));
+            $device_id = (isset($_POST['device_id']) && !empty($_POST['device_id'])) ? $db->escapeString($_POST['device_id']) : '';
             $mobile = $db->escapeString(($_POST['mobile']));
             $password = $db->escapeString(($_POST['password']));
             $dob = $db->escapeString(($_POST['dob']));
@@ -30,6 +30,7 @@ if (isset($_POST['btnEdit'])) {
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
             $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
             $refer_bonus_sent = (isset($_POST['refer_bonus_sent']) && !empty($_POST['refer_bonus_sent'])) ? $db->escapeString($_POST['refer_bonus_sent']) : 0;
+            $register_bonus_sent = (isset($_POST['register_bonus_sent']) && !empty($_POST['register_bonus_sent'])) ? $db->escapeString($_POST['register_bonus_sent']) : 0;
             $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
             $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : 0;
             $code_generate = (isset($_POST['code_generate']) && !empty($_POST['code_generate'])) ? $db->escapeString($_POST['code_generate']) : 0;
@@ -39,7 +40,7 @@ if (isset($_POST['btnEdit'])) {
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
             $error = array();
 
-     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($refer_code) && !empty($code_generate_time)) {
+     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $code_bonus = 1000 * COST_PER_CODE;
@@ -53,21 +54,34 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 $res = $db->getResult();
                 $user_id = $res[0]['id'];
-                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                $db->sql($sql_query);
-                $code_generate = $res[0]['code_generate'];
-                if($code_generate == 1){
-                    $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus WHERE refer_code =  '$referred_by' AND code_generate = 1";
+                $num = $db->numRows($res);
+                if ($num == 1){
+                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                     $db->sql($sql_query);
-                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,1000,'$datetime','code_bonus')";
+                    $code_generate = $res[0]['code_generate'];
+                    if($code_generate == 1){
+                        $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus WHERE refer_code =  '$referred_by' AND code_generate = 1";
+                        $db->sql($sql_query);
+                        $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,1000,'$datetime','code_bonus')";
+                        $db->sql($sql_query);
+                    }
+                    $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
                     $db->sql($sql_query);
+
                 }
-                $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
-                $db->sql($sql_query);
+
 
             }
 
 
+        }
+        if($status == 1 && $register_bonus_sent != 1){
+            $register_bonus = 1000 * COST_PER_CODE;
+            $sql_query = "UPDATE users SET `earn` = earn + $register_bonus,`balance` = balance + $register_bonus,register_bonus_sent = 1 WHERE id =  $ID";
+            $db->sql($sql_query);
+            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,1000,'$datetime','register_bonus')";
+            $db->sql($sql_query);
+            
         }
     
         $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date' WHERE id =  $ID";
@@ -129,6 +143,7 @@ if (isset($_POST['btnCancel'])) { ?>
                 <!-- form start -->
                 <form id="edit_user_form" method="post" enctype="multipart/form-data">
                     <input type="hidden" class="form-control" name="refer_bonus_sent" value="<?php echo $res[0]['refer_bonus_sent']; ?>">
+                    <input type="hidden" class="form-control" name="register_bonus_sent" value="<?php echo $res[0]['register_bonus_sent']; ?>">
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
@@ -137,7 +152,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Device Id</label> <i class="text-danger asterik">*</i>
+                                    <label for="exampleInputEmail1">Device Id</label>
                                     <input type="text" class="form-control" name="device_id" value="<?php echo $res[0]['device_id']; ?>">
                                 </div>
                             </div>

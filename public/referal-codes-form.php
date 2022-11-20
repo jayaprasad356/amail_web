@@ -6,12 +6,12 @@ $fn = new custom_functions;
 
 if (isset($_POST['btnUpdate'])) {
     $mobile = $db->escapeString(($_POST['mobile']));
-    $refer_code = $db->escapeString(($_POST['refer_code']));
+    $referred_by = $db->escapeString(($_POST['referred_by']));
     $error = array();
 
-    if (!empty($mobile) && !empty($refer_code)) {
+    if (!empty($mobile) && !empty($referred_by)) {
 
-    $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $mobile";
+    $sql_query = "UPDATE users SET referred_by='$referred_by' WHERE id =  $mobile";
     $db->sql($sql_query);
     $update_result = $db->getResult();
     if (!empty($update_result)) {
@@ -35,7 +35,7 @@ if (isset($_POST['btnUpdate'])) {
 ?>
 <section class="content-header">
     <h1>
-    Manage Referal Codes</h1>
+    Manage Referred By</h1>
     <small><?php echo isset($error['update_users']) ? $error['update_users'] : ''; ?></small>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
@@ -56,7 +56,14 @@ if (isset($_POST['btnUpdate'])) {
                                         <select id='mobile' name="mobile" class='form-control' required>
                                             <option value="">select</option>
                                                 <?php
-                                                $sql = "SELECT id,mobile,name FROM `users` ORDER BY ID DESC LIMIT 10 ";
+                                                if($_SESSION['role'] == 'Super Admin'){
+                                                    $join = "WHERE id IS NOT NULL";
+                                                }
+                                                else{
+                                                    $refer_code = $_SESSION['refer_code'];
+                                                    $join = "WHERE refer_code REGEXP '^$refer_code'";
+                                                }
+                                                $sql = "SELECT id,mobile,name FROM `users` $join ORDER BY ID DESC LIMIT 10 ";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
@@ -71,8 +78,8 @@ if (isset($_POST['btnUpdate'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Refer Code</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" id="refer_code" name="refer_code" value="" >
+                                    <label for="exampleInputEmail1">Referred By</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" id="referred_by" name="referred_by" value="" >
                                 </div>
                             </div>
                             
@@ -125,9 +132,9 @@ if (isset($_POST['btnUpdate'])) {
         $.ajax({
             url: 'public/db-operation.php',
             method: 'POST',
-            data: 'user_id=' + $('#mobile').val() + '&refer_code_change=1',
+            data: 'user_id=' + $('#mobile').val() + '&referred_by_code_change=1',
             success: function(data) {
-                $('#refer_code').val(data);
+                $('#referred_by').val(data);
             }
         });
     });

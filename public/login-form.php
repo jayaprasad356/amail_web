@@ -39,6 +39,7 @@ if (isset($_POST['btnLogin'])) {
             $_SESSION['role'] = $res[0]['role'];
             $_SESSION['username'] = $res[0]['name'];
             $_SESSION['email'] = $res[0]['email'];
+            $_SESSION['refer_code'] = $res[0]['refer_code'];
             $_SESSION['timeout'] = $currentTime + $expired;
             header("location: home.php");
             

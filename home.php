@@ -47,7 +47,14 @@ include "header.php";
                     <div class="small-box bg-aqua">
                         <div class="inner">
                             <h3><?php
-                            $sql = "SELECT * FROM users";
+                            if($_SESSION['role'] == 'Super Admin'){
+                                $join = "WHERE id IS NOT NULL";
+                            }
+                            else{
+                                $refer_code = $_SESSION['refer_code'];
+                                $join = "WHERE refer_code REGEXP '^$refer_code'";
+                            }
+                            $sql = "SELECT * FROM users $join";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -59,54 +66,6 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM admin";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Admins</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-user"></i></div>
-                        <a href="admins.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <!-- <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-green">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM tyre_products";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Tyre Products</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-cubes"></i></div>
-                        <a href="tyre_products.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div> -->
-                <!-- <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-red">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT * FROM showroom";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
-                             ?></h3>
-                            <p>Showrooms</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-map"></i></div>
-                        <a href="showrooms.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div> -->
             </div>
         </section>
     </div>

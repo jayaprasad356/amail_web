@@ -43,6 +43,8 @@ if ($num == 1){
         $sql = "SELECT * FROM settings";
         $db->sql($sql);
         $setres = $db->getResult();
+        $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND password ='$password' AND device_id = ''";
+        $db->sql($sql_query);
         $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
         $db->sql($sql);
         $res = $db->getResult();

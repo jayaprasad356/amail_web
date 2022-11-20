@@ -76,9 +76,16 @@ if ($num == 1) {
     return false;
 }
 else{
+    if(empty($referred_by)){
+        $refer_code = MAIN_REFER . $db->random_strings(5);
 
+    }
+    else{
+        $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
 
-    $refer_code = $db->random_strings(6);
+    }
+
+    
     $datetime = date('Y-m-d H:i:s');
     $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`refer_code`,`last_updated`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$refer_code','$datetime')";
     $db->sql($sql);
