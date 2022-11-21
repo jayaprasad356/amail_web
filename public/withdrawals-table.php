@@ -38,7 +38,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $db->sql($sql);
             
             $datetime = date('Y-m-d H:i:s');
-            $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','Cancelled')";
+            $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','cancelled')";
             $db->sql($sql);
             
 
