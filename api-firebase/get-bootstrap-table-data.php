@@ -113,6 +113,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
         $tempRow['withdrawal'] = $row['withdrawal'];
+        if($row['status']==0)
+            $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
+        elseif($row['status']==1)
+            $tempRow['status']="<label class='label label-success'>Verified</label>";        
+        else
+            $tempRow['status']="<label class='label label-danger'>Blocked</label>";
         if($row['code_generate']==1)
             $tempRow['code_generate'] ="<p class='text text-success'>enabled</p>";
         else
