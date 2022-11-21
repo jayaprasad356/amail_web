@@ -35,7 +35,7 @@ include_once('../includes/crud.php');
 include_once('../includes/variables.php');
 $db = new Database();
 $db->connect();
-
+$currentdate = date('Y-m-d');
 if (isset($config['system_timezone']) && isset($config['system_timezone_gmt'])) {
     date_default_timezone_set($config['system_timezone']);
     $db->sql("SET `time_zone` = '" . $config['system_timezone_gmt'] . "'");
@@ -86,7 +86,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $total = $row['total'];
 
         
-    $sql = "SELECT * FROM users $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $sql = "SELECT *,DATEDIFF( '$currentdate',joined_date) AS history FROM `users` $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -104,11 +104,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['email'] = $row['email'];
         $tempRow['city'] = $row['city'];
         $tempRow['device_id'] = $row['device_id'];
+        $tempRow['refer_code'] = $row['refer_code'];
+        $tempRow['referred_by'] = $row['referred_by'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['total_codes'] = $row['total_codes'];
         $tempRow['balance'] = $row['balance'];
+        $tempRow['history'] = $row['history'];
         $tempRow['operate'] = $operate;
 
         $rows[] = $tempRow;
@@ -209,7 +212,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE u.id=b.user_id AND w.user_id = u.id";
+    $join = "WHERE u.id=w.user_id AND w.user_id = b.user_id";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);
@@ -217,7 +220,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
+    $sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -243,6 +246,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['referred_by'] = $row['referred_by'];
+        $tempRow['refer_code'] = $row['refer_code'];
+        $tempRow['history'] = $row['history'];
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['column'] = $checkbox;
         if($row['status']==1)

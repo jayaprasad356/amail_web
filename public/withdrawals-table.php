@@ -36,6 +36,11 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $amount= $res[0]['amount'];
             $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
             $db->sql($sql);
+            
+            $datetime = date('Y-m-d H:i:s');
+            $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','Cancelled')";
+            $db->sql($sql);
+            
 
         }
     
@@ -125,6 +130,9 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                                     <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="referred_by" data-sortable="true">Referred By</th>
+                                    <th data-field="refer_code" data-sortable="true">Refer Code</th>
+                                    <th data-field="history" data-sortable="true">History</th>
+
                                     <!-- <th  data-field="operate" data-events="actionEvents">Action</th> -->
                                 </tr>
                             </thead>

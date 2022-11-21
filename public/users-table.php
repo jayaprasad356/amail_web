@@ -34,6 +34,10 @@
                                     <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="today_codes" data-sortable="true">Today Codes</th>
                                     <th data-field="total_codes" data-sortable="true">Total Codes</th>
+                                    <th data-field="refer_code" data-sortable="true">Refer Code</th>
+                                    <th data-field="referred_by" data-sortable="true">Refered By</th>
+                                    <th data-field="history" data-sortable="true">History</th>
+
                                     <th data-field="operate">Action</th>
 
                                 </tr>
