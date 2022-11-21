@@ -34,7 +34,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $res = $db->getResult();
             $user_id= $res[0]['user_id'];
             $amount= $res[0]['amount'];
-            $sql = "UPDATE users SET balance= balance + $amount WHERE id = $user_id";
+            $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
             $db->sql($sql);
             
             $datetime = date('Y-m-d H:i:s');

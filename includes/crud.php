@@ -6,7 +6,7 @@ define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('COST_PER_CODE', 0.17);
 define('VALID_DAYS', 50);
-define('MAIN_REFER', 'MIS');
+define('MAIN_REFER', 'MYS');
 class Database
 {
     /* 

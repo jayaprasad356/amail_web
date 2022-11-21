@@ -112,6 +112,16 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_codes'] = $row['total_codes'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
+        $tempRow['withdrawal'] = $row['withdrawal'];
+        if($row['code_generate']==1)
+            $tempRow['code_generate'] ="<p class='text text-success'>enabled</p>";
+        else
+            $tempRow['code_generate']="<p class='text text-danger'>disabled</p>";
+
+        if($row['withdrawal_status']==1)
+            $tempRow['withdrawal_status'] ="<p class='text text-success'>enabled</p>";
+        else
+            $tempRow['withdrawal_status']="<p class='text text-danger'>disabled</p>";
         $tempRow['operate'] = $operate;
 
         $rows[] = $tempRow;

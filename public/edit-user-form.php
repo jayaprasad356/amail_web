@@ -53,9 +53,10 @@ if (isset($_POST['btnEdit'])) {
                 $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
                 $db->sql($sql_query);
                 $res = $db->getResult();
-                $user_id = $res[0]['id'];
+
                 $num = $db->numRows($res);
                 if ($num == 1){
+                    $user_id = $res[0]['id'];
                     $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                     $db->sql($sql_query);
                     $code_generate = $res[0]['code_generate'];
