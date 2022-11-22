@@ -1,7 +1,7 @@
 <?php
 
 
-define('DOMAIN_URL', 'http://abcd.greymatterworks.in/'); /* chnage to your domain here - don't forget to add forward slash at the end of the URL like this "/" */
+define('DOMAIN_URL', 'https://admin.abcdapp.in/'); /* chnage to your domain here - don't forget to add forward slash at the end of the URL like this "/" */
 define('ALLOW_MODIFICATION', 1);
 define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it to anything you like*/
 define('COST_PER_CODE', 0.17);
@@ -16,10 +16,17 @@ class Database
      * Database class
      */
 
-    private $db_host = "localhost";  // Change as required
-    private $db_user = "u743445510_abcd";  // Change as required
-    private $db_pass = "Abcd@2022";  // Change as required
-    private $db_name = "u743445510_abcd";    // Change as required
+    // private $db_host = "localhost";
+    // private $db_user = "u743445510_abcd";
+    // private $db_pass = "Abcd@2022"; 
+    // private $db_name = "u743445510_abcd"; 
+
+
+    //LIve
+    private $db_host = "localhost";
+    private $db_user = "u117947056_abcd";
+    private $db_pass = "Abcd@2022"; 
+    private $db_name = "u117947056_abcd"; 
 
     /*
      * Extra variables that are required by other function such as boolean con variable
