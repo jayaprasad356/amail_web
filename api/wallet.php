@@ -46,10 +46,6 @@ if($history_days > VALID_DAYS){
 }
 
 $last_updated = $res[0]['last_updated'];
-$date1 = new DateTime($last_updated);
-$date2 = new DateTime($datetime);
-$interval = $date1->diff($date2);
-$days = $interval->days;
 $days = $res[0]['days'];
 if($days != 0){
     $sql = "UPDATE `users` SET  `today_codes` = 0,`last_updated` = '$datetime' WHERE `id` = $user_id";
@@ -96,7 +92,6 @@ $response['settings'] = $setres;
 $response['user_details'] = $ures;
 $response['bank_details'] = $bank_details_res;
 $response['data'] = $res;
-$response['days'] = $days;
 print_r(json_encode($response));
 
 
