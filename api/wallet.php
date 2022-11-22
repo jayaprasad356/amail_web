@@ -27,7 +27,8 @@ $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']);
 $fcm_id = $db->escapeString($_POST['fcm_id']);
 $date = date('Y-m-d');
-$sql = "SELECT *,datediff('$date', joined_date) AS history_days  FROM users WHERE id = $user_id ";
+$datetime = date('Y-m-d H:i:s');
+$sql = "SELECT *,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $history_days = $res[0]['history_days'];
@@ -43,12 +44,13 @@ if($history_days > VALID_DAYS){
     $db->sql($sql);
 
 }
-$datetime = date('Y-m-d H:i:s');
+
 $last_updated = $res[0]['last_updated'];
 $date1 = new DateTime($last_updated);
 $date2 = new DateTime($datetime);
 $interval = $date1->diff($date2);
 $days = $interval->days;
+$days = $res[0]['days'];
 if($days != 0){
     $sql = "UPDATE `users` SET  `today_codes` = 0,`last_updated` = '$datetime' WHERE `id` = $user_id";
     $db->sql($sql);
