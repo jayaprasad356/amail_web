@@ -18,5 +18,7 @@ date_default_timezone_set('Asia/Kolkata');
 $sql = "UPDATE `users` SET `today_codes` = 0";
 $db->sql($sql);
 
+echo 'Time Updated';
+
 
 ?>
