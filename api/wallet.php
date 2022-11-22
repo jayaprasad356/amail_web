@@ -94,6 +94,7 @@ $response['settings'] = $setres;
 $response['user_details'] = $ures;
 $response['bank_details'] = $bank_details_res;
 $response['data'] = $res;
+$response['days'] = $days;
 print_r(json_encode($response));
 
 
