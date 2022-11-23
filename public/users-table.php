@@ -41,9 +41,6 @@
                                     <th data-field="history" data-sortable="true">History</th>
                                     <th data-field="code_generate" data-sortable="true">Code Generate</th>
                                     <th data-field="withdrawal_status" data-sortable="true">Withdrawal Status</th>
-
-                                  
-
                                     <th data-field="operate">Action</th>
 
                                 </tr>
