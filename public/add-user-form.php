@@ -51,25 +51,33 @@ if (isset($_POST['btnAdd'])) {
             $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
     
         }
-           
-        $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code')";
-        $db->sql($sql_query);
-        $result = $db->getResult();
-        if (!empty($result)) {
-            $result = 0;
-        } else {
-            $result = 1;
+        $sql = "SELECT * FROM users WHERE mobile='$mobile'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        if ($num >= 1) {
+            $error['add_user'] = " <span class='label label-danger'>Mobile Number Already Exists</span>";
         }
-
-        if ($result == 1) {
-            
-            $error['add_user'] = "<section class='content-header'>
-                                            <span class='label label-success'>User Added Successfully</span> </section>";
-        } else {
-            $error['add_user'] = " <span class='label label-danger'>Failed</span>";
+        else{
+            $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code')";
+            $db->sql($sql_query);
+            $result = $db->getResult();
+            if (!empty($result)) {
+                $result = 0;
+            } else {
+                $result = 1;
+            }
+    
+            if ($result == 1) {
+                
+                $error['add_user'] = "<section class='content-header'>
+                                                <span class='label label-success'>User Added Successfully</span> </section>";
+            } else {
+                $error['add_user'] = " <span class='label label-danger'>Failed</span>";
+            }
+            }
         }
-        }
-        }
+ }
 ?>
 <section class="content-header">
     <h1>Add New User <small><a href='users.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Users</a></small></h1>

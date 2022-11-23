@@ -65,7 +65,7 @@ $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ?
 $dob = $db->escapeString($_POST['dob']);
 $device_id = $db->escapeString($_POST['device_id']);
 
-$sql = "SELECT * FROM users WHERE mobile=' $mobile'";
+$sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
