@@ -1,25 +1,4 @@
-<?php
-	// start session
-	
-	session_start();
-  // set time for session timeout
-	
-    // set time for session timeout
-    $currentTime = time() + 25200;
-    $expired = 900;
 
-    // if current time is more than session timeout back to login page
-    if ($currentTime > $_SESSION['timeout']) {
-        session_destroy();
-        header("location:index.php");
-    }
-    // destroy previous session timeout and create new one
-    unset($_SESSION['timeout']);
-    $_SESSION['timeout'] = $currentTime + $expired;
-	
-	
-	
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,15 +26,17 @@ height:100vh;
  </style>
 </head>
 <body>
-<div class="card text-center">
-    <img src="dist/img/payment.jpg" height="420px" alt="...">
-    <div class="card-body" style="background-color:#aa74b0;">
-       <button href="#">Pay Now</button>
-      <h5 class="card-title">All India Students Data Base</h5>
-      <p class="card-text">Buy any college data from us. <br>60000 data minimum purchase</p>
-    </div>
-
+<div class="container-fluid">
+        <div class="card text-center">
+            <img src="dist/img/payment.jpg" height="420px" alt="...">
+            <div class="card-body" style="background-color:#aa74b0;">
+              <form action="pay.html">
+                 <button type="submit">Pay Now</button>
+              </form>
+               <h5 class="card-title">All India Students Data Base</h5>
+              <p class="card-text">Buy any college data from us. <br>60000 data minimum purchase</p>
+            </div>
+        </div>
 </div>
-
 </body>
 </html>
