@@ -103,11 +103,11 @@ include "header.php";
                     <div class="small-box bg-orange">
                         <div class="inner">
                         <h3><?php
-                            $sql = "SELECT * FROM withdrawals WHERE status=1";
+                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=0";
                             $db->sql($sql);
                             $res = $db->getResult();
-                            $num = $db->numRows($res);
-                            echo $num;
+                            $totalamount = $res[0]['amount'];
+                            echo "Rs.".$totalamount;
                              ?></h3>
                             <p>Unpaid Withdrawals</p>
                         </div>
