@@ -81,8 +81,17 @@ else{
 
     }
     else{
-        $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
-
+        $admincode = substr($referred_by, 0, -5);
+        $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode'";
+        $db->sql($sql);
+        $result = $db->getResult();
+        $num = $db->numRows($result);
+        if($num>=1){
+            $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
+        }
+        else{
+            $refer_code = MAIN_REFER . $db->random_strings(5);
+        }
     }
 
     

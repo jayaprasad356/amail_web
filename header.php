@@ -211,15 +211,22 @@ $fn = new custom_functions;
                        <span>Notifications</span>
                     </a>
                 </li>
-                    <li class="treeview">
-                        <a href="admins.php">
-                        <i class="fa fa-adn"></i>
-                        <span>Multiple Admin</span>
-                        </a>
-                    </li>
-                    <li class="treeview">
+                <li class="treeview">
+                    <a href="admins.php">
+                    <i class="fa fa-adn"></i>
+                    <span>Multiple Admin</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="settings.php">
-                        <i class="fa fa-gear"></i><span>Settings</span>  
+                        <i class="fa fa-gear"></i>
+                        <span>Settings</span>  
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="payments.php">
+                    <i class="fa fa-credit-card"></i>   
+                        <span>Payments</span>  
                     </a>
                 </li>
                 <?php
