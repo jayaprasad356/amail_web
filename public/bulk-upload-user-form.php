@@ -80,7 +80,7 @@ $db->sql("SET NAMES 'utf8'");
         //   alert('Please select type.');
         // }
         // if (type1 == 'products') {
-        window.location.href = 'library/stu_form.csv';
+        window.location.href = 'library/users_format.csv';
         // } 
 
     });
