@@ -235,6 +235,12 @@ $fn = new custom_functions;
                         <span>Payments</span>  
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="app-update.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>App Update</span>
+                    </a>
+                </li>
                 <?php
 
                 }
