@@ -181,6 +181,12 @@ $fn = new custom_functions;
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
+                    <a href="bulk-upload-user.php">
+                    <i class="fa fa-folder-open"></i>
+                        <span>User Bulk upload</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="bank_details.php">
                     <i class="fa fa-bank"></i>
                         <span>Bank Details</span>

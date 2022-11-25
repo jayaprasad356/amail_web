@@ -21,6 +21,7 @@
                         }'>
                             <thead>
                                 <tr>
+                                   <th data-field="operate">Action</th>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Phone Number</th>
@@ -41,8 +42,6 @@
                                     <th data-field="history" data-sortable="true">History</th>
                                     <th data-field="code_generate" data-sortable="true">Code Generate</th>
                                     <th data-field="withdrawal_status" data-sortable="true">Withdrawal Status</th>
-                                    <th data-field="operate">Action</th>
-
                                 </tr>
                             </thead>
                         </table>
