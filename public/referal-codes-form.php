@@ -88,7 +88,7 @@ if (isset($_POST['btnUpdate'])) {
                                                     $refer_code = $_SESSION['refer_code'];
                                                     $join = "WHERE refer_code REGEXP '^$refer_code'";
                                                 }
-                                                $sql = "SELECT id,mobile,name FROM `users` $join ORDER BY ID DESC LIMIT 10 ";
+                                                $sql = "SELECT id,mobile,name FROM `users` $join ORDER BY ID DESC ";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
