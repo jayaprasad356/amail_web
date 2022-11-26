@@ -176,6 +176,12 @@ $fn = new custom_functions;
                        <span> Manage Referal Codes</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="referal_bonus.php">
+                    <i class="fa fa-refresh"></i>
+                                           <span> Referal Bonus</span>
+                    </a>
+                </li>
 
 
                 <?php
@@ -207,7 +213,7 @@ $fn = new custom_functions;
 
                 <li class="treeview">
                     <a href="manage-devices.php">
-                    <i class="fa fa-money"></i>
+                    <i class="fa fa-laptop"></i>
                        <span> Manage Devices</span>
                     </a>
                 </li>
