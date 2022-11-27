@@ -30,6 +30,11 @@ if (empty($_POST['amount'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
 
+
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$mres = $db->getResult();
+$main_ws = $mres[0]['withdrawal_status'];
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
@@ -40,7 +45,7 @@ $sql = "SELECT * FROM bank_details WHERE user_id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if($withdrawal_status == 1){
+if($withdrawal_status == 1 &&  $main_ws == 1 ){
     if ($num >= 1) {
         if($balance >= 250){
             if($balance >= $amount){
