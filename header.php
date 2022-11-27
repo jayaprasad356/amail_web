@@ -192,6 +192,7 @@ $fn = new custom_functions;
                         <span>User Bulk upload</span>
                     </a>
                 </li>
+
                 <li class="treeview">
                     <a href="bank_details.php">
                     <i class="fa fa-bank"></i>
@@ -239,6 +240,12 @@ $fn = new custom_functions;
                     <a href="payments.php">
                     <i class="fa fa-credit-card"></i>   
                         <span>Payments</span>  
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="bulk-update-user.php">
+                    <i class="fa fa-folder-open"></i>
+                        <span>User Bulk update</span>
                     </a>
                 </li>
                 <li class="treeview">
