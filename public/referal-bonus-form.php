@@ -72,12 +72,12 @@ if (isset($_POST['btnAdd'])) {
                                                     $refer_code = $_SESSION['refer_code'];
                                                     $join = "WHERE refer_code REGEXP '^$refer_code'";
                                                 }
-                                                $sql = "SELECT id,mobile,name FROM `users` $join ORDER BY ID DESC ";
+                                                $sql = "SELECT id,mobile,name,refer_code FROM `users` $join ORDER BY ID DESC ";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] .' - '. $value['mobile']?></option>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] .' - '. $value['mobile'].' - '. $value['refer_code']?></option>
                                             <?php } ?>
                                         </select>
                                 </div>
