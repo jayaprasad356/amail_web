@@ -53,7 +53,7 @@ $db->sql("SET NAMES 'utf8'");
                         <button type="submit" class="btn btn-primary" id="submit_btn" name="btnAdd">Upload</button>
                         <!-- <input type="reset" class="btn-warning btn" value="Clear" /> -->
 
-                        <a class='btn btn-info' href='library/users_format.csv' download='library/users_format.csv'> <em class='fa fa-download'></em> Download Sample File</a>
+                        <a class='btn btn-info' href='library/users_format.csv' download='users_format.csv'> <em class='fa fa-download'></em> Download Sample File</a>
                     
                     </div>
                     <div class="form-group">
