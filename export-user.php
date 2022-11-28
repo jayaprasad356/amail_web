@@ -8,7 +8,7 @@ $db->connect();
 	$db->sql($sql_query);
 	$developer_records = $db->getResult();
 	
-	$filename = "phpzag_data_export_".date('Ymd') . ".xls";			
+	$filename = "Allusers-data".date('Ymd') . ".xls";			
 	header("Content-Type: application/vnd.ms-excel");
 	header("Content-Disposition: attachment; filename=\"$filename\"");	
 	$show_coloumn = false;

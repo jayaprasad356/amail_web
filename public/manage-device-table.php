@@ -14,7 +14,7 @@
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=manage_devices" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="dq.id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
-                            "fileName": "devices-list-<?= date('d-m-Y') ?>",
+                            "fileName": "Yellow app-devices-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
                             <thead>
