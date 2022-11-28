@@ -179,7 +179,7 @@ $fn = new custom_functions;
                 <li class="treeview">
                     <a href="referal_bonus.php">
                     <i class="fa fa-refresh"></i>
-                                           <span> Referal Bonus</span>
+                        <span> Referal Bonus</span>
                     </a>
                 </li>
 
