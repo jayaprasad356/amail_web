@@ -89,7 +89,9 @@ if (isset($_POST['bulk_upload']) && $_POST['bulk_upload'] == 1) {
                 $emapData[18] = trim($db->escapeString($emapData[18]));
                 $emapData[19] = trim($db->escapeString($emapData[19]));
                 $emapData[20] = trim($db->escapeString($emapData[20]));
-                $emapData[21] = trim($db->escapeString($emapData[21]));   
+                $emapData[21] = trim($db->escapeString($emapData[21])); 
+                $emapData[22] = trim($db->escapeString($emapData[22]));  
+                $emapData[23] = trim($db->escapeString($emapData[23]));    
                 $data = array(
                     'name'=>$emapData[0],
                     'mobile'=>$emapData[1],
@@ -169,44 +171,8 @@ if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
                 $emapData[19] = trim($db->escapeString($emapData[19]));
                 $emapData[20] = trim($db->escapeString($emapData[20]));
                 $emapData[21] = trim($db->escapeString($emapData[21]));   
-                
-                $mobile = $emapData[1];
-                if (empty($mobile)) {
-                    echo "<p class='alert alert-danger'>Mobile Number Should Not Empty</p><br>";
-                    return false;
-
-                }
-            }
-
-            $count1++;
-        }
-        fclose($file);
-        $file = fopen($filename, "r");
-        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
-            // print_r($emapData);
-            if ($count1 != 0) {
-                $emapData[0] = trim($db->escapeString($emapData[0]));
-                $emapData[1] = trim($db->escapeString($emapData[1]));          
-                $emapData[2] = trim($db->escapeString($emapData[2]));
-                $emapData[3] = trim($db->escapeString($emapData[3]));
-                $emapData[4] = trim($db->escapeString($emapData[4]));
-                $emapData[5] = trim($db->escapeString($emapData[5]));
-                $emapData[6] = trim($db->escapeString($emapData[6]));
-                $emapData[7] = trim($db->escapeString($emapData[7]));
-                $emapData[8] = trim($db->escapeString($emapData[8]));
-                $emapData[9] = trim($db->escapeString($emapData[9]));
-                $emapData[10] = trim($db->escapeString($emapData[10]));
-                $emapData[11] = trim($db->escapeString($emapData[11]));
-                $emapData[12] = trim($db->escapeString($emapData[12]));
-                $emapData[13] = trim($db->escapeString($emapData[13]));
-                $emapData[14] = trim($db->escapeString($emapData[14]));
-                $emapData[15] = trim($db->escapeString($emapData[15]));
-                $emapData[16] = trim($db->escapeString($emapData[16]));
-                $emapData[17] = trim($db->escapeString($emapData[17]));
-                $emapData[18] = trim($db->escapeString($emapData[18]));
-                $emapData[19] = trim($db->escapeString($emapData[19]));
-                $emapData[20] = trim($db->escapeString($emapData[20]));
-                $emapData[21] = trim($db->escapeString($emapData[21]));   
+                $emapData[22] = trim($db->escapeString($emapData[22]));  
+                $emapData[23] = trim($db->escapeString($emapData[23]));   
                 // $data = array(
                 //     'name'=>$emapData[0],
                 //     'mobile'=>$emapData[1],
@@ -235,8 +201,11 @@ if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
                   
                                  
                 // );
-                $sql = "UPDATE users SET `dob`='" . $emapData[3] . "',`joined_date`='" . $emapData[23] . "' WHERE mobile=" . $emapData[1];
-                $db->sql($sql);
+                if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$emapData[23])) {
+                    $sql = "UPDATE users SET `joined_date`='$emapData[23]' WHERE mobile= '$emapData[1]'";
+                    $db->sql($sql);
+                }
+
 
             }
 
