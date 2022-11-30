@@ -221,7 +221,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND u.name like '%" . $search . "%' OR w.datetime like '%" . $search . "%' OR w.id like '%" . $search . "%'";
+        $where .= "AND u.mobile like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -229,7 +229,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE u.id=w.user_id AND w.user_id = b.user_id";
+    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);
