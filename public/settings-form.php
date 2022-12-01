@@ -77,6 +77,15 @@ $res = $db->getResult();
                                     </div>
                                 </div>
                             </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Sync Time</label><br>
+                                        <input type="text"class="form-control" name="sync_time">
+                                    </div>
+                                </div>
+                            </div>
                            
                     </div>
                   

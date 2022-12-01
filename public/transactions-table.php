@@ -9,6 +9,9 @@
             <!-- Left col -->
             <div class="col-12 col-md-10">
                 <div class="box">
+                    <form action="export-transaction.php">
+                        <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Transactions</button>
+                    </form>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
                         <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=transactions" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{

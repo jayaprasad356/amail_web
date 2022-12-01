@@ -116,7 +116,6 @@ $data = array();
 $sql_query = "SELECT * FROM users WHERE id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
-
 if (isset($_POST['btnCancel'])) { ?>
     <script>
         window.location.href = "users.php";
@@ -139,6 +138,14 @@ if (isset($_POST['btnCancel'])) { ?>
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
+                <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-primary" href="add-codes.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i> Add Codes</a>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <h4 class="box-title"> </h4>
+                                <a class="btn btn-block btn-success" href="add-balance.php?id=<?php echo $ID ?>"><i class="fa fa-plus-square"></i>  Add Balance</a>
+                            </div>
                 </div>
                 <div class="box-header">
                     <?php echo isset($error['cancelable']) ? '<span class="label label-danger">Till status is required.</span>' : ''; ?>
