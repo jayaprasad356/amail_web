@@ -4,7 +4,7 @@ $db = new Database();
 $db->connect();
 
 
-	$sql_query = "SELECT *  FROM transactions";
+	$sql_query = "SELECT t.codes,t.amount,t.datetime,u.mobile,u.name,u.joined_date  FROM transactions t,users u WHERE t.user_id = u.id";
 	$db->sql($sql_query);
 	$developer_records = $db->getResult();
 	
