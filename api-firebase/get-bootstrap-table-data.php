@@ -314,7 +314,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT t.id AS id,t.*,u.name FROM `transactions` t $join 
+    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile FROM `transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -327,6 +327,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['amount'] = $row['amount'];
         $tempRow['codes'] = $row['codes'];
         $tempRow['datetime'] = $row['datetime'];
