@@ -8,20 +8,24 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 include_once('../includes/crud.php');
-
+date_default_timezone_set('Asia/Kolkata');
 $db = new Database();
 $db->connect();
-
-$sql = "SELECT * FROM app_settings";
+$sql = "SELECT * FROM `notifications` ORDER BY id DESC LIMIT 20 ";
 $db->sql($sql);
 $res = $db->getResult();
-$sql = "SELECT * FROM settings";
-$db->sql($sql);
-$set = $db->getResult();
-$response['success'] = true;
-$response['message'] = "App Update listed Successfully";
-$response['data'] = $res;
-$response['settings'] = $set;
-print_r(json_encode($response));
+$num = $db->numRows($res);
+if ($num >= 1) {
+    $response['success'] = true;
+    $response['message'] = "Notification listed Successfully";
+    $response['data'] = $res;
+    print_r(json_encode($response));
+
+}else{
+    $response['success'] = false;
+    $response['message'] = "No Data Found";
+    print_r(json_encode($response));
+
+}
 
 ?>
