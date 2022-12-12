@@ -53,15 +53,21 @@ if($days != 0){
 
 }
 $type = 'generate';
-
-if($codes != 0){
-    $amount = $codes * COST_PER_CODE;
-    $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
-    $db->sql($sql);
-    $res = $db->getResult();
-
-    $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
-    $db->sql($sql);
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$setres = $db->getResult();
+$code_generate = $setres[0]['code_generate'];
+if($code_generate == 1){
+    if($codes != 0){
+        $amount = $codes * COST_PER_CODE;
+        $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
+        $db->sql($sql);
+        $res = $db->getResult();
+    
+        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
+        $db->sql($sql);
+    }
+    
 }
 
 
@@ -74,9 +80,7 @@ $balance = $ures[0]['balance'];
 $today_codes = $ures[0]['today_codes'];
 $total_codes = $ures[0]['total_codes'];
 
-$sql = "SELECT * FROM settings";
-$db->sql($sql);
-$setres = $db->getResult();
+
 
 $sql = "SELECT * FROM transactions WHERE user_id = $user_id AND datetime >= ( CURDATE() - INTERVAL 2 DAY ) ORDER BY ID DESC";
 $db->sql($sql);

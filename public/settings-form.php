@@ -10,8 +10,10 @@ if (isset($_POST['btnUpdate'])) {
 
     $code_generate = $db->escapeString(($_POST['code_generate']));
     $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
+    $sync_time = $db->escapeString(($_POST['sync_time']));
+    $payment_link = $db->escapeString(($_POST['payment_link']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,payment_link = '$payment_link' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -82,7 +84,16 @@ $res = $db->getResult();
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Sync Time</label><br>
-                                        <input type="text"class="form-control" name="sync_time">
+                                        <input type="number"class="form-control" name="sync_time" value="<?= $res[0]['sync_time'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Payment Link</label><br>
+                                        <input type="link"class="form-control" name="payment_link" value="<?= $res[0]['payment_link'] ?>">
                                     </div>
                                 </div>
                             </div>

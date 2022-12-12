@@ -26,7 +26,7 @@ include "header.php";
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>ABCD - Dashboard</title>
+    <title>Fortune - Dashboard</title>
 </head>
 
 <body>
@@ -70,7 +70,14 @@ include "header.php";
                     <div class="small-box bg-green">
                         <div class="inner">
                         <h3><?php
-                            $sql = "SELECT * FROM users WHERE status=1";
+                            if($_SESSION['role'] == 'Super Admin'){
+                                $join = "WHERE status=1";
+                            }
+                            else{
+                                $refer_code = $_SESSION['refer_code'];
+                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code'";
+                            }
+                            $sql = "SELECT * FROM users $join";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -82,7 +89,9 @@ include "header.php";
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-xs-6">
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
+                                <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-red">
                         <div class="inner">
                         <h3><?php
@@ -115,6 +124,43 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $totalamount = $res[0]['amount'];
+                            echo "Rs.".$totalamount;
+                             ?></h3>
+                            <p>Paid Withdrawals</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-money"></i></div>
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(amount) AS amount FROM transactions";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $totalamount = $res[0]['amount'];
+                            echo "Rs.".$totalamount;
+                             ?></h3>
+                            <p>Total Transactions</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-arrow-right"></i></div>
+                        <a href="transactions.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <?php
+                    
+                }
+                ?>
+
             </div>
         </section>
     </div>

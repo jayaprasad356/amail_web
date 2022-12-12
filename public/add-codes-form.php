@@ -7,7 +7,7 @@ $fn = new custom_functions;
 $sql = "SELECT id, name FROM categories ORDER BY id ASC";
 $db->sql($sql);
 $res = $db->getResult();
-
+date_default_timezone_set('Asia/Kolkata');
 ?>
 <?php
  $ID = $db->escapeString($_GET['id']);
@@ -21,9 +21,15 @@ if (isset($_POST['btnAdd'])) {
        
             if (!empty($codes)) 
             {
-                
-                 $sql_query = "UPDATE users SET total_codes=total_codes+ $codes WHERE id=$ID";
-                 $db->sql($sql_query);
+                $datetime = date('Y-m-d H:i:s');
+                $type = 'generate';
+                $amount = $codes * COST_PER_CODE;
+                $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
+                $db->sql($sql);
+                $res = $db->getResult();
+            
+                $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+                $db->sql($sql);
                  $result = $db->getResult();
                  if (!empty($result)) {
                      $result = 0;

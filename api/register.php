@@ -76,8 +76,20 @@ if ($num >= 1) {
     return false;
 }
 else{
+
+
+    
+    $datetime = date('Y-m-d H:i:s');
+    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`last_updated`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$datetime')";
+    $db->sql($sql);
+    $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $user_id = $res[0]['id'];
+
+
     if(empty($referred_by)){
-        $refer_code = MAIN_REFER . $db->random_strings(5);
+        $refer_code = MAIN_REFER . $user_id;
 
     }
     else{
@@ -87,17 +99,15 @@ else{
         $result = $db->getResult();
         $num = $db->numRows($result);
         if($num>=1){
-            $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
+            $refer_code = substr($referred_by, 0, -5) . $user_id;
         }
         else{
-            $refer_code = MAIN_REFER . $db->random_strings(5);
+            $refer_code = MAIN_REFER . $user_id;
         }
     }
+    $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
+    $db->sql($sql_query);
 
-    
-    $datetime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`refer_code`,`last_updated`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$refer_code','$datetime')";
-    $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
     $res = $db->getResult();
