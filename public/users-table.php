@@ -20,7 +20,7 @@
                     <br>
                     <div class="col-md-3">
                             <h4 class="box-title">Filter by Joined Date </h4>
-                            <input type="date" class="form-control" id="date" name="date"></input>
+                            <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
                     </div>
                     </div>
                     

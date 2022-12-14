@@ -43,14 +43,6 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($name) && !empty($email) && !empty($mobile) && !empty($password) && !empty($city)  && !empty($dob)) 
        {
-        if(empty($referred_by)){
-            $refer_code = MAIN_REFER . $db->random_strings(5);
-    
-        }
-        else{
-            $refer_code = substr($referred_by, 0, -5) . $db->random_strings(5);
-    
-        }
         $sql = "SELECT * FROM users WHERE mobile='$mobile'";
         $db->sql($sql);
         $res = $db->getResult();
@@ -59,13 +51,39 @@ if (isset($_POST['btnAdd'])) {
             $error['add_user'] = " <span class='label label-danger'>Mobile Number Already Exists</span>";
         }
         else{
-            $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by,refer_code)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by','$refer_code')";
+            $sql_query = "INSERT INTO users (name,mobile,email,password,dob,city,referred_by)VALUES('$name','$mobile','$email','$password','$dob','$city','$referred_by')";
             $db->sql($sql_query);
             $result = $db->getResult();
+
+
             if (!empty($result)) {
                 $result = 0;
             } else {
                 $result = 1;
+
+                $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
+                $db->sql($sql);
+                $res = $db->getResult();
+                $user_id = $res[0]['id'];
+                if(empty($referred_by)){
+                    $refer_code = MAIN_REFER . $user_id;
+            
+                }
+                else{
+                    $admincode = substr($referred_by, 0, -5);
+                    $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode'";
+                    $db->sql($sql);
+                    $result = $db->getResult();
+                    $num = $db->numRows($result);
+                    if($num>=1){
+                        $refer_code = substr($referred_by, 0, -5) . $user_id;
+                    }
+                    else{
+                        $refer_code = MAIN_REFER . $user_id;
+                    }
+                }
+                $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
+                $db->sql($sql_query);
             }
     
             if ($result == 1) {
