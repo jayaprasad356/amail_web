@@ -32,14 +32,17 @@ $sql = "SELECT *,datediff('$date', joined_date) AS history_days,datediff('$datet
 $db->sql($sql);
 $res = $db->getResult();
 $history_days = $res[0]['history_days'];
-
+$type = 'generate';
+$sql = "SELECT * FROM settings";
+$db->sql($sql);
+$setres = $db->getResult();
 
 if(!empty($fcm_id)){
     $sql = "UPDATE `users` SET  `fcm_id` = '$fcm_id' WHERE `id` = $user_id";
     $db->sql($sql);
 
 }
-if($history_days > VALID_DAYS){
+if($history_days > $setres[0]['duration']){
     $sql = "UPDATE `users` SET  `code_generate` = 0 WHERE `id` = $user_id";
     $db->sql($sql);
 
@@ -52,10 +55,7 @@ if($days != 0){
     $db->sql($sql);
 
 }
-$type = 'generate';
-$sql = "SELECT * FROM settings";
-$db->sql($sql);
-$setres = $db->getResult();
+
 $code_generate = $setres[0]['code_generate'];
 if($code_generate == 1){
     if($codes != 0){
