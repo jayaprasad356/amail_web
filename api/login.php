@@ -52,50 +52,63 @@ if ($mobile == '9876543210' AND $password == 'abcd0111') {
     print_r(json_encode($response));
     return false;
 }
-$sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password'";
+$sql = "SELECT * FROM users WHERE mobile ='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $status = $res[0]['status'];
-    if ($status == 1) {
-        $sql = "SELECT * FROM settings";
-        $db->sql($sql);
-        $setres = $db->getResult();
-        $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND password ='$password' AND device_id = ''";
-        $db->sql($sql_query);
-        $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $num = $db->numRows($res);
-        if ($num == 1) {
+    $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $num = $db->numRows($res);
+    if ($num == 1) {
+        
+        $status = $res[0]['status'];
+        if ($status == 1) {
+            $sql = "SELECT * FROM settings";
+            $db->sql($sql);
+            $setres = $db->getResult();
+            $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND password ='$password' AND device_id = ''";
+            $db->sql($sql_query);
+            $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num == 1) {
+                $response['success'] = true;
+                $response['user_verify'] = true;
+                $response['device_verify'] = true;
+                $response['message'] = "Logged In Successfully";
+                $response['data'] = $res;
+                $response['settings'] = $setres;
+                print_r(json_encode($response));
+            } else {
+                $response['success'] = true;
+                $response['user_verify'] = true;
+                $response['device_verify'] = false;
+                $response['message'] = "Please Login With your Device";
+                print_r(json_encode($response));
+            }
+        } else if ($status == 0) {
             $response['success'] = true;
-            $response['user_verify'] = true;
-            $response['device_verify'] = true;
-            $response['message'] = "Logged In Successfully";
-            $response['data'] = $res;
-            $response['settings'] = $setres;
+            $response['user_verify'] = false;
+            $response['message'] = "Your Account is not verified, Please Contact Admin";
             print_r(json_encode($response));
         } else {
             $response['success'] = true;
-            $response['user_verify'] = true;
-            $response['device_verify'] = false;
-            $response['message'] = "Please Login With your Device";
+            $response['user_verify'] = false;
+            $response['message'] = "You are Blocked Please Contact Admin";
             print_r(json_encode($response));
         }
-    } else if ($status == 0) {
-        $response['success'] = true;
-        $response['user_verify'] = false;
-        $response['message'] = "Your Account is not verified, Please Contact Admin";
-        print_r(json_encode($response));
-    } else {
-        $response['success'] = true;
-        $response['user_verify'] = false;
-        $response['message'] = "You are Blocked Please Contact Admin";
+
+    }else {
+        $response['success'] = false;
+        $response['message'] = "Incorrect Password";
         print_r(json_encode($response));
     }
+
 } else {
     $response['success'] = false;
-    $response['message'] = "User Not Found";
+    $response['message'] = "Mobile number Not exist";
     print_r(json_encode($response));
 }
