@@ -16,6 +16,11 @@ if (isset($_POST['btnUpdate'])) {
     $db->sql($sql_query);
     $update_result = $db->getResult();
     if (!empty($update_result)) {
+
+
+        $update_result = 0;
+    } else {
+        $update_result = 1;
         $code_bonus = 1000 * COST_PER_CODE;
         $referral_bonus = 550;
         $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE refer_code =  '$referred_by' AND status = 1";
@@ -35,14 +40,10 @@ if (isset($_POST['btnUpdate'])) {
                 $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,1000,'$datetime','code_bonus')";
                 $db->sql($sql_query);
             }
-            $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
+            $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $mobile";
             $db->sql($sql_query);
 
         }
-
-        $update_result = 0;
-    } else {
-        $update_result = 1;
     }
 
     // check update result
