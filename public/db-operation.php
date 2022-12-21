@@ -167,6 +167,8 @@ if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
                 $emapData[19] = trim($db->escapeString($emapData[19]));
                 $emapData[20] = trim($db->escapeString($emapData[20]));
                 $emapData[21] = trim($db->escapeString($emapData[21]));   
+                $emapData[22] = trim($db->escapeString($emapData[22]));  
+                $emapData[23] = trim($db->escapeString($emapData[23]));   
                 // $data = array(
                 //     'name'=>$emapData[0],
                 //     'mobile'=>$emapData[1],
@@ -193,10 +195,14 @@ if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
                   
                                  
                 // );
-                if(!empty($emapData[1]) && !empty($emapData[16])){
-                    $sql = "UPDATE users SET `refer_code`='$emapData[16]' WHERE mobile= '$emapData[1]'";
+                if (preg_match("/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/",$emapData[23])) {
+                    $sql = "UPDATE users SET `joined_date`='$emapData[23]' WHERE mobile= '$emapData[1]'";
                     $db->sql($sql);
                 }
+                // if(!empty($emapData[1]) && !empty($emapData[16])){
+                //     $sql = "UPDATE users SET `refer_code`='$emapData[16]' WHERE mobile= '$emapData[1]'";
+                //     $db->sql($sql);
+                // }
             }
 
             $count1++;
