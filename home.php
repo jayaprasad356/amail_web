@@ -75,7 +75,7 @@ include "header.php";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code'";
+                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0";
                             }
                             $sql = "SELECT * FROM users $join";
                             $db->sql($sql);
