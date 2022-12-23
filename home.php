@@ -72,7 +72,7 @@ include "header.php";
                         <h3><?php
                             $currentdate = date('Y-m-d');
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE status=1 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
+                                $join = "WHERE status=1 AND today_codes != 0 AND total_codes != 0  AND DATE(last_updated) = '$currentdate' ";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];

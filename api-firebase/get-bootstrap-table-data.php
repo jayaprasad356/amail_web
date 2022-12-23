@@ -54,7 +54,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $where .= "AND joined_date='$date' ";
     }
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
-        $where .= "AND status=1 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
+        $where .= "AND status=1 AND today_codes != 0 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
