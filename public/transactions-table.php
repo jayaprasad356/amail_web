@@ -6,7 +6,7 @@ if (isset($_POST['btnDelete'])) {
     $to_date = $db->escapeString(($_POST['to_date']));
 
 
-    $sql = "DELETE  FROM transactions WHERE datetime BETWEEN '$from_date' AND '$to_date'";
+    $sql = "DELETE  FROM transactions WHERE DATE(datetime) BETWEEN '$from_date' AND '$to_date' AND type = 'generate'";
     $db->sql($sql);
     $result = $db->getResult();
 
@@ -42,27 +42,22 @@ if (isset($_POST['btnDelete'])) {
                                                 <?php } ?>
                                             </select> 
                                     </div>
-                                    <div class="form-group col-md-9">
-                                        <form name="delete_transaction" method="post">
-                                            <div class="form-group">
-                                                    <div class='col-md-4'>
-                                                        <label for="exampleInputEmail1">From Date</label> <i class="text-danger asterik">*</i>
-                                                        <input type="date" class="form-control" name="from_date" required>
-                                                    </div>
-                                            </div>
-                                            <div class="form-group">
-                                                    <div class='col-md-4'>
-                                                        <label for="exampleInputEmail1">To Date</label> <i class="text-danger asterik">*</i>
-                                                        <input type="date" class="form-control" name="to_date" required>
-                                                    </div>
-                                            </div>
-                                            <div class="form-group">
-                                                 <button style="margin-top:22px;" type='submit'  class="btn btn-danger" name="btnDelete">Delete</button>
-                                            </div>
-
-                                        </form>
-                                            
+                                    <form name="delete_transaction" method="post">
+                                    <div class="form-group col-md-3">
+                                            <h4 class="box-title">From Date </h4>
+                                            <input type="date" class="form-control" name="from_date" required>
+                                            </select> 
                                     </div>
+                                    <div class="form-group col-md-3">
+                                            <h4 class="box-title">To Date </h4>
+                                            <input type="date" class="form-control" name="to_date" required>
+                                            </select> 
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                            <button style="margin-top:22px;" type='submit'  class="btn btn-danger" name="btnDelete">Delete</button>
+                                    </div>
+
+                                    </form>
                             </div>
                             <form action="export-transaction.php">
                                 <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Transactions</button>

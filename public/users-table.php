@@ -22,6 +22,13 @@
                             <h4 class="box-title">Filter by Joined Date </h4>
                             <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
                     </div>
+                    <div class="col-md-3">
+                            <h4 class="box-title">Filter Users</h4>
+                            <select id='activeusers' name="activeusers" class='form-control'>
+                                    <option value="">All</option>
+                                    <option value="1"<?php echo (isset($_GET['activeusers'])) ? 'selected' : "" ?>>Active Users</option>
+                            </select>
+                    </div>
                     </div>
                     
                     <!-- /.box-header -->
@@ -71,11 +78,16 @@
             id = $('#date').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#activeusers').on('change', function() {
+            idf = $('#activeusers').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
    
 
     function queryParams(p) {
         return {
             "date": $('#date').val(),
+            "activeusers": $('#activeusers').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

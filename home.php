@@ -87,7 +87,7 @@ include "header.php";
                             <p>Active Users</p>
                         </div>
                         <div class="icon"><i class="fa fa-user"></i></div>
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="users.php?activeusers=1" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <?php
