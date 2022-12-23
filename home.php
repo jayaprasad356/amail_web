@@ -70,12 +70,13 @@ include "header.php";
                     <div class="small-box bg-green">
                         <div class="inner">
                         <h3><?php
+                            $currentdate = date('Y-m-d');
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE status=1 AND total_codes != 0";
+                                $join = "WHERE status=1 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0";
+                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
                             }
                             $sql = "SELECT * FROM users $join";
                             $db->sql($sql);
