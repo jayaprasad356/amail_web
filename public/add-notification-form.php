@@ -13,21 +13,24 @@ if (isset($_POST['btnd'])) {
 
         $title = $db->escapeString(($_POST['title']));
         $description = $db->escapeString($_POST['description']);
+        $link = $db->escapeString($_POST['link']);
         $error = array();
-       
         if (empty($title)) {
             $error['title'] = " <span class='label label-danger'>Required!</span>";
         }
         if (empty($description)) {
             $error['description'] = " <span class='label label-danger'>Required!</span>";
         }
+        if (empty($link)) {
+            $error['link'] = " <span class='label label-danger'>Required!</span>";
+        }
        
        
-       if (!empty($title) && !empty($description)) 
+       
+       if (!empty($title) && !empty($description)&& !empty($link)) 
        {
-        $datetime = date('Y-m-d H:i:s');
-           
-            $sql_query = "INSERT INTO notifications (title,description,datetime)VALUES('$title','$description','$datetime')";
+            $datetime = date('Y-m-d H:i:s');
+            $sql_query = "INSERT INTO notifications (title,description,link,datetime)VALUES('$title','$description','$link','$datetime')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -85,6 +88,16 @@ if (isset($_POST['btnd'])) {
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-6'>
+                                    <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                    <input type="text" class="form-control" name="link" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
                     </div>
                     <!-- /.box-body -->
 

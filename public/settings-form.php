@@ -13,8 +13,11 @@ if (isset($_POST['btnUpdate'])) {
     $sync_time = $db->escapeString(($_POST['sync_time']));
     $duration = $db->escapeString(($_POST['duration']));
     $payment_link = $db->escapeString(($_POST['payment_link']));
+    $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
+    $job_details_link = $db->escapeString(($_POST['job_details_link']));
+    $whatsapp = $db->escapeString(($_POST['whatsapp']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -97,10 +100,34 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Minimum Withdrawal</label><br>
+                                        <input type="number"class="form-control" name="min_withdrawal" value="<?= $res[0]['min_withdrawal'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Whatsapp number</label><br>
+                                        <input type="number"class="form-control" name="whatsapp" value="<?= $res[0]['whatsapp'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Payment Link</label><br>
                                         <input type="link"class="form-control" name="payment_link" value="<?= $res[0]['payment_link'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Job Details Link</label><br>
+                                        <input type="link"class="form-control" name="job_details_link" value="<?= $res[0]['job_details_link'] ?>">
                                     </div>
                                 </div>
                             </div>

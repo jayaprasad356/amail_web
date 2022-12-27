@@ -26,17 +26,24 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']);
 $fcm_id = $db->escapeString($_POST['fcm_id']);
+$old_device_id = (isset($_POST['device_id']) && $_POST['device_id'] != "") ? $db->escapeString($_POST['device_id']) : "";
+    
 $date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
 $sql = "SELECT *,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $history_days = $res[0]['history_days'];
+$device_id = $res[0]['device_id'];
 $type = 'generate';
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $setres = $db->getResult();
+if(isset($_POST['device_id']) && ($device_id != $old_device_id)){
+    $sql = "UPDATE `users` SET  `status` = 2 WHERE `id` = $user_id";
+    $db->sql($sql);
 
+}
 if(!empty($fcm_id)){
     $sql = "UPDATE `users` SET  `fcm_id` = '$fcm_id' WHERE `id` = $user_id";
     $db->sql($sql);

@@ -35,6 +35,7 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $mres = $db->getResult();
 $main_ws = $mres[0]['withdrawal_status'];
+$min_withdrawal = $mres[0]['min_withdrawal'];
 $sql = "SELECT * FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
@@ -47,7 +48,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if($withdrawal_status == 1 &&  $main_ws == 1 ){
     if ($num >= 1) {
-        if($balance >= 250){
+        if($balance >= $min_withdrawal){
             if($balance >= $amount){
                 $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
                 $db->sql($sql);
@@ -72,7 +73,7 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
         }
         else{
             $response['success'] = false;
-            $response['message'] = "Required Minimum Amount to Withdrawal";
+            $response['message'] = "Required Minimum Amount to Withdrawal is ".$min_withdrawal;
             print_r(json_encode($response)); 
         }
     }else{
