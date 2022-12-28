@@ -8,36 +8,76 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 include_once('../includes/crud.php');
+require_once '../includes/functions.php';
+require_once('../includes/firebase.php');
+require_once ('../includes/push.php');
 
+$fnc = new functions;
+
+include_once('../includes/custom-functions.php');
+    
+$fn = new custom_functions;
 $db = new Database();
 $db->connect();
-if (empty($_POST['ty'])) {
+if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Device Id is Empty";
+    $response['message'] = "Mobile is Empty";
     print_r(json_encode($response));
     return false;
 }
-
-$sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
+if (empty($_POST['title'])) {
+    $response['success'] = false;
+    $response['message'] = "Title is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+if (empty($_POST['description'])) {
+    $response['success'] = false;
+    $response['message'] = "Description is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+$title = $db->escapeString($_POST['title']);
+$description = $db->escapeString($_POST['description']);
+$mobile = $db->escapeString($_POST['mobile']);
+$sql = "SELECT * FROM users WHERE mobile ='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
-$push = new Push(
-    $db_con->escapeString($fn->xss_clean($_POST['title'])),
-    $db_con->escapeString($fn->xss_clean($_POST['description'])),
-    null,
-    $type,
-    $id
-);
-$mPushNotification = $push->getPush();
+$num = $db->numRows($res);
+if ($num >= 1) {
+    $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+    $url .= $_SERVER['SERVER_NAME'];
+    $url .= $_SERVER['REQUEST_URI'];
+    $server_url = dirname($url).'/';
+    
+    $push = null;
+    $id = "0";
+    $type = "default";
+    $devicetoken = $fnc->getTokenByMobile($mobile);
+    $push = new Push(
+        $title,
+        $description,
+        null,
+        $type,
+        $id
+    );
+    $mPushNotification = $push->getPush();
 
 
-//creating firebase class object 
-$firebase = new Firebase(); 
+    $f_tokens = array_unique($devicetoken);
+    $devicetoken_chunks = array_chunk($f_tokens,1000);
+    foreach($devicetoken_chunks as $devicetokens){
+        //creating firebase class object 
+        $firebase = new Firebase(); 
 
-//sending push notification and displaying result 
-$firebase->send($devicetokens, $mPushNotification);
-$response['success'] = true;
-$response['message'] = "Notification Send Successfully";
-print_r(json_encode($response));
+        //sending push notification and displaying result 
+        $response['token'] = $devicetokens;
+        $firebase->send($devicetokens, $mPushNotification);
+    }
+
+    $response['success'] = true;
+    $response['message'] = "Notification Send Successfully";
+    print_r(json_encode($response));
+}
 
 ?>
