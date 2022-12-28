@@ -16,8 +16,9 @@ if (isset($_POST['btnUpdate'])) {
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
     $job_details_link = $db->escapeString(($_POST['job_details_link']));
     $whatsapp = $db->escapeString(($_POST['whatsapp']));
+    $chat_support = $db->escapeString(($_POST['chat_support']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -80,6 +81,16 @@ $res = $db->getResult();
                                         <label for="">Withdrawal Status</label><br>
                                         <input type="checkbox" id="withdrawal_button" class="js-switch" <?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 'checked' : '' ?>>
                                         <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Chat Support</label><br>
+                                        <input type="checkbox" id="chat_button" class="js-switch" <?= isset($res[0]['chat_support']) && $res[0]['chat_support'] == 1 ? 'checked' : '' ?>>
+                                        <input type="hidden" id="chat_support" name="chat_support" value="<?= isset($res[0]['chat_support']) && $res[0]['chat_support'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
                             </div>
@@ -173,6 +184,19 @@ $res = $db->getResult();
 
         } else {
             $('#withdrawal_status').val(0);
+        }
+    };
+</script>
+
+<script>
+    var changeCheckbox = document.querySelector('#chat_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#chat_support').val(1);
+
+        } else {
+            $('#chat_support').val(0);
         }
     };
 </script>
