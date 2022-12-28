@@ -52,7 +52,7 @@ if ($num >= 1) {
     
     $push = null;
     $id = "0";
-    $type = "default";
+    $type = "chat";
     $devicetoken = $fnc->getTokenByMobile($mobile);
     $push = new Push(
         $title,
