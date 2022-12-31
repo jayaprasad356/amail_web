@@ -17,8 +17,10 @@ if (isset($_POST['btnUpdate'])) {
     $job_details_link = $db->escapeString(($_POST['job_details_link']));
     $whatsapp = $db->escapeString(($_POST['whatsapp']));
     $chat_support = $db->escapeString(($_POST['chat_support']));
+    $reward = $db->escapeString(($_POST['reward']));
+    $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -121,6 +123,21 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Whatsapp number</label><br>
                                         <input type="number"class="form-control" name="whatsapp" value="<?= $res[0]['whatsapp'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Code Rewards</label><br>
+                                        <input type="number"class="form-control" name="reward" value="<?= $res[0]['reward'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Ad Show Time(min)</label><br>
+                                        <input type="number"class="form-control" name="ad_show_time" value="<?= $res[0]['ad_show_time'] ?>">
                                     </div>
                                 </div>
                             </div>
