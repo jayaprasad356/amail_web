@@ -19,8 +19,10 @@ if (isset($_POST['btnUpdate'])) {
     $chat_support = $db->escapeString(($_POST['chat_support']));
     $reward = $db->escapeString(($_POST['reward']));
     $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
+    $ad_status = $db->escapeString(($_POST['ad_status']));
+    $fetch_time = $db->escapeString(($_POST['fetch_time']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,fetch_time = $fetch_time WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -98,6 +100,16 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Ad Status</label><br>
+                                        <input type="checkbox" id="ad_button" class="js-switch" <?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 'checked' : '' ?>>
+                                        <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Sync Time</label><br>
@@ -138,6 +150,15 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Ad Show Time(min)</label><br>
                                         <input type="number"class="form-control" name="ad_show_time" value="<?= $res[0]['ad_show_time'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Fetch Time(Min)</label><br>
+                                        <input type="number"class="form-control" name="fetch_time" value="<?= $res[0]['fetch_time'] ?>">
                                     </div>
                                 </div>
                             </div>
@@ -214,6 +235,18 @@ $res = $db->getResult();
 
         } else {
             $('#chat_support').val(0);
+        }
+    };
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#ad_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#ad_status').val(1);
+
+        } else {
+            $('#ad_status').val(0);
         }
     };
 </script>
