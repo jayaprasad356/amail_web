@@ -163,6 +163,27 @@ include "header.php";
                 ?>
 
             </div>
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="box box-success">
+                        <?php 
+                        $currentdate = date('Y-m-d');
+                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' GROUP BY hour( datetime ) , day( datetime )";
+                        $db->sql($sql);
+                        $result_order = $db->getResult();
+                        $sql ="SELECT COUNT(id) AS total FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' ";
+                        $db->sql($sql);
+                        $stu_total = $db->getResult();
+                        
+                         ?>
+                        <div class="tile-stats" style="padding:10px;">
+                            <div id="earning_chart" style="width:100%;height:350px;"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
         </section>
     </div>
     <script>
@@ -188,5 +209,30 @@ include "header.php";
 
     </script>
     <?php include "footer.php"; ?>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {
+            'packages': ['bar']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Hour', 'Total - <?= $stu_total[0]['total'] ?>'],
+                <?php foreach ($result_order as $row) {
+                    //$date = date('d-M', strtotime($row['order_date']));
+                    echo "['" . $row['time'] . "'," . $row['numoft'] . "],";
+                } ?>
+            ]);
+            var options = {
+                chart: {
+                    title: 'Transactions By Hour Wise',
+                    //subtitle: 'Total Sale In Last Week (Month: <?php echo date("M"); ?>)',
+                }
+            };
+            var chart = new google.charts.Bar(document.getElementById('earning_chart'));
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    </script>
 </body>
 </html>
