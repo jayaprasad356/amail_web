@@ -11,7 +11,9 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('import_data');
 $sql = "SELECT * FROM `excel_text` LIMIT 50000";
 $db->sql($sql);
 $res = $db->getResult();

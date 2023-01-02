@@ -13,7 +13,9 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 date_default_timezone_set('Asia/Kolkata');
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('withdrawal_lists');
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
     $response['message'] = "User Id is Empty";

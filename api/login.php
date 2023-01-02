@@ -11,7 +11,9 @@ header("Pragma: no-cache");
 include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('login');
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
     $response['message'] = "Mobile is Empty";

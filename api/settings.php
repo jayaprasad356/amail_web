@@ -9,6 +9,9 @@ header("Pragma: no-cache");
 
 include_once('../includes/crud.php');
 date_default_timezone_set('Asia/Kolkata');
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('settings');
 $db = new Database();
 $db->connect();
 $sql = "SELECT * FROM `settings`";

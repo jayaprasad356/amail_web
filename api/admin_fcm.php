@@ -9,9 +9,13 @@ header("Pragma: no-cache");
 
 
 include_once('../includes/crud.php');
-
+include_once('../includes/functions.php');
+    
+$fn = new functions;
 $db = new Database();
 $db->connect();
+
+$fn->monitorApi('admin_fcm');
 
 if (empty($_POST['fcm_id'])) {
     $response['success'] = false;

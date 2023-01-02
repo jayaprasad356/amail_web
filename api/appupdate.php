@@ -11,7 +11,9 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('appupdate');
 $sql = "SELECT * FROM app_settings";
 $db->sql($sql);
 $res = $db->getResult();
