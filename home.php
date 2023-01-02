@@ -189,7 +189,7 @@ include "header.php";
                         $sql ="SELECT hour(datetime) AS time, SUM(codes) AS codes FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' GROUP BY hour( datetime ) , day( datetime )";
                         $db->sql($sql);
                         $result_order2 = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' ";
+                        $sql ="SELECT SUM(codes) AS total FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' ";
                         $db->sql($sql);
                         $stu_total2 = $db->getResult();
                         
