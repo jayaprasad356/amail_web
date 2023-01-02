@@ -112,7 +112,7 @@ $res = $db->getResult();
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Sync Time</label><br>
+                                        <label for="">Sync Time(min)</label><br>
                                         <input type="number"class="form-control" name="sync_time" value="<?= $res[0]['sync_time'] ?>">
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@ $res = $db->getResult();
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Fetch Time(Min)</label><br>
+                                        <label for="">Fetch Time(sec)</label><br>
                                         <input type="number"class="form-control" name="fetch_time" value="<?= $res[0]['fetch_time'] ?>">
                                     </div>
                                 </div>
