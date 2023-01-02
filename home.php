@@ -252,7 +252,7 @@ include "header.php";
             chart.draw(data, google.charts.Bar.convertOptions(options));
 
             var data = google.visualization.arrayToDataTable([
-                ['Hour', 'Total - <?= $stu_total[0]['total'] ?>'],
+                ['Hour', 'Total - <?= $stu_total2[0]['total'] ?>'],
                 <?php foreach ($result_order2 as $row) {
                     //$date = date('d-M', strtotime($row['order_date']));
                     echo "['" . $row['time'] . "'," . $row['codes'] . "],";
