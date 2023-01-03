@@ -33,6 +33,8 @@ include "header.php";
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
+
+
         <section class="content-header">
             <h1>Home</h1>
             <ol class="breadcrumb">
@@ -125,49 +127,37 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
-                <!-- <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-purple">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=1";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $totalamount = $res[0]['amount'];
-                            echo "Rs.".$totalamount;
-                             ?></h3>
-                            <p>Paid Withdrawals</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-money"></i></div>
-                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-aqua">
-                        <div class="inner">
-                        <h3><?php
-                            $sql = "SELECT SUM(amount) AS amount FROM transactions";
-                            $db->sql($sql);
-                            $res = $db->getResult();
-                            $totalamount = $res[0]['amount'];
-                            echo "Rs.".$totalamount;
-                             ?></h3>
-                            <p>Total Transactions</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-arrow-right"></i></div>
-                        <a href="transactions.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-                 -->
                 <?php    
                 }
                 ?>
 
             </div>
             <div class="row">
+            <div class="col-md-12">
+            <form id='notification_form' method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="form-group">
+                        <div class='col-md-3'>
+                            <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d') ?>"></input>       
+                
+                        </div>
+                        <div class='col-md-6'>
+                            <button type="submit" class="btn btn-primary" name="btnSubmit">Submit</button>
+                 
+                        </div>
+                    </div>
+                </div>
+                   
+            </form>
+            </div>
+            </div>
+            <br>
+            <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="box box-success">
                         <?php 
-                        $currentdate = date('Y-m-d');
+                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
+                        
                         $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' GROUP BY hour( datetime ) , day( datetime )";
                         $db->sql($sql);
                         $result_order = $db->getResult();
@@ -185,7 +175,8 @@ include "header.php";
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="box box-success">
                         <?php 
-                        $currentdate = date('Y-m-d');
+                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
+                        
                         $sql ="SELECT hour(datetime) AS time, SUM(codes) AS codes FROM transactions WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' GROUP BY hour( datetime ) , day( datetime )";
                         $db->sql($sql);
                         $result_order2 = $db->getResult();
