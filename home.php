@@ -158,10 +158,10 @@ include "header.php";
                         <?php 
                         $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
                         
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM monitor WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' GROUP BY hour( datetime ) , day( datetime )";
+                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime )";
                         $db->sql($sql);
                         $result_order = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM monitor WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' AND type = 'generate' ";
+                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
                         $db->sql($sql);
                         $stu_total = $db->getResult();
                         
