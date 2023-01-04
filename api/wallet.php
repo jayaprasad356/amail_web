@@ -32,7 +32,7 @@ $old_device_id = (isset($_POST['device_id']) && $_POST['device_id'] != "") ? $db
     
 $date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT *,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days  FROM users WHERE id = $user_id ";
+$sql = "SELECT last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $history_days = $res[0]['history_days'];
