@@ -56,7 +56,7 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code'";
                             }
-                            $sql = "SELECT * FROM users $join";
+                            $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -80,7 +80,7 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
                             }
-                            $sql = "SELECT * FROM users $join";
+                            $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -99,7 +99,7 @@ include "header.php";
                         <div class="inner">
                         <h3><?php
                             $currentdate = date('Y-m-d');
-                            $sql = "SELECT * FROM users WHERE joined_date= '$currentdate'";
+                            $sql = "SELECT id FROM users WHERE joined_date= '$currentdate'";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
