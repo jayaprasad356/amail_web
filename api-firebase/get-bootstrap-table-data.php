@@ -550,7 +550,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
+    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND w.status = 0 ";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);
