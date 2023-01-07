@@ -29,7 +29,7 @@ if (empty($_POST['codes'])) {
     print_r(json_encode($response));
     return false;
 }
-$sql = "SELECT * FROM settings";
+$sql = "SELECT code_generate FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
 
