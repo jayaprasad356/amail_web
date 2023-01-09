@@ -21,8 +21,9 @@ if (isset($_POST['btnUpdate'])) {
     $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
     $ad_status = $db->escapeString(($_POST['ad_status']));
     $fetch_time = $db->escapeString(($_POST['fetch_time']));
+    $sync_codes = $db->escapeString(($_POST['sync_codes']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,fetch_time = $fetch_time WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,fetch_time = $fetch_time,sync_codes = $sync_codes WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -159,6 +160,12 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Fetch Time(sec)</label><br>
                                         <input type="number"class="form-control" name="fetch_time" value="<?= $res[0]['fetch_time'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Sync Codes</label><br>
+                                        <input type="number"class="form-control" name="sync_codes" value="<?= $res[0]['sync_codes'] ?>">
                                     </div>
                                 </div>
                             </div>

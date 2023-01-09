@@ -23,15 +23,9 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['codes'])) {
-    $response['success'] = false;
-    $response['message'] = "Codes is Empty";
-    print_r(json_encode($response));
-    return false;
-}
 
 $user_id = $db->escapeString($_POST['user_id']);
-$codes = $db->escapeString($_POST['codes']); 
+$codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $datetime = date('Y-m-d H:i:s');
 $type = 'generate';
 if($codes != 0){
@@ -44,15 +38,18 @@ if($codes != 0){
     $db->sql($sql);
 }
 
-$sql = "SELECT today_codes,total_codes,balance  FROM users WHERE id = $user_id ";
+$sql = "SELECT today_codes,total_codes,balance,code_generate,status  FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 
 $response['success'] = true;
 $response['message'] = "Code Added Successfully";
+$response['status'] = $res[0]['status'];
+$response['balance'] = $res[0]['balance'];
 $response['today_codes'] = $res[0]['today_codes'];
 $response['total_codes'] = $res[0]['total_codes'];
-$response['balance'] = $res[0]['balance'];
+$response['code_generate'] = $res[0]['code_generate'];
+$response['status'] = $res[0]['status'];
 print_r(json_encode($response));
 
 

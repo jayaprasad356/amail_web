@@ -1,0 +1,4 @@
+UPDATE `users` SET `code_generate_time` = '4' WHERE DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) >= 15 AND DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) < 30 AND total_referrals = 0;
+
+
+UPDATE `users` SET `code_generate_time` = 5 WHERE DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) >= 30 AND total_referrals = 0 ;
