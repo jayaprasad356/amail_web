@@ -25,7 +25,7 @@ $db->sql($sql);
 $set = $db->getResult();
 $res = array();
 if($user_id != ''){
-    $sql = "SELECT code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status  FROM users WHERE id = $user_id ";
+    $sql = "SELECT code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     $history_days = $res[0]['history_days'];
