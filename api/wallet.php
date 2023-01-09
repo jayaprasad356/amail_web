@@ -29,16 +29,6 @@ if (empty($_POST['codes'])) {
     print_r(json_encode($response));
     return false;
 }
-$sql = "SELECT code_generate FROM settings";
-$db->sql($sql);
-$set = $db->getResult();
-
-if($set[0]['code_generate'] == 0){
-    $response['success'] = false;
-    $response['message'] = "Code Generate Disabled";
-    print_r(json_encode($response));
-    return false;    
-}
 
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = $db->escapeString($_POST['codes']); 
