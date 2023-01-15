@@ -36,6 +36,8 @@ if (isset($_POST['btnEdit'])) {
             $code_generate = (isset($_POST['code_generate']) && !empty($_POST['code_generate'])) ? $db->escapeString($_POST['code_generate']) : 0;
             $total_referrals = (isset($_POST['total_referrals']) && !empty($_POST['total_referrals'])) ? $db->escapeString($_POST['total_referrals']) : 0;
             $balance = (isset($_POST['balance']) && !empty($_POST['balance'])) ? $db->escapeString($_POST['balance']) : "0";
+            $refer_balance = (isset($_POST['refer_balance']) && !empty($_POST['refer_balance'])) ? $db->escapeString($_POST['refer_balance']) : "0";
+            
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
             $error = array();
@@ -91,7 +93,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -258,6 +260,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
                                     <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
                             </div>
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Refer Balance</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refer_balance" value="<?php echo $res[0]['refer_balance']; ?>">
+                                </div>
                         </div>
                         <br>
                         <div class="row">
