@@ -9,11 +9,11 @@ if (isset($_POST['btnAdd'])) {
     $error = array();
 
     if (!empty($user_id)) {
-        $code_bonus = REFER_BONUS_CODES * COST_PER_CODE;
-        $referral_bonus = 550;
-        $total_refer_code_bonus = REFER_BONUS_CODES;
+        $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
+        $code_bonus = $refer_bonus_codes * COST_PER_CODE;
+        $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
         $datetime = date('Y-m-d H:i:s');
-        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  '$user_id' AND status = 1";
+        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus WHERE id =  '$user_id' AND status = 1";
         $db->sql($sql_query);
         $res = $db->getResult();
         if (empty($res)) {
@@ -25,9 +25,9 @@ if (isset($_POST['btnAdd'])) {
             $db->sql($sql_query);
             $code_generate = $ures[0]['code_generate'];
             if($code_generate == 1){
-                $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $total_refer_code_bonus,`total_codes` = total_codes + $total_refer_code_bonus WHERE id =  '$user_id' AND code_generate = 1";
+                $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE id =  '$user_id' AND code_generate = 1";
                 $db->sql($sql_query);
-                $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$total_refer_code_bonus,'$datetime','code_bonus')";
+                $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
                 $db->sql($sql_query);
             }
 

@@ -38,39 +38,69 @@ $db->sql($sql);
 $mres = $db->getResult();
 $main_ws = $mres[0]['withdrawal_status'];
 $min_withdrawal = $mres[0]['min_withdrawal'];
-$sql = "SELECT * FROM users WHERE id = $user_id ";
+$sql = "SELECT balance,refer_balance,withdrawal_status FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $balance = $res[0]['balance'];
+$refer_balance = $res[0]['refer_balance'];
 $withdrawal_status = $res[0]['withdrawal_status'];
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT * FROM bank_details WHERE user_id = $user_id ";
+$sql = "SELECT id FROM bank_details WHERE user_id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if($withdrawal_status == 1 &&  $main_ws == 1 ){
     if ($num >= 1) {
         if($amount >= $min_withdrawal){
-            if($balance >= $amount){
-                $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
-                $db->sql($sql);
-                $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`)VALUES('$user_id','$amount','$datetime')";
-                $db->sql($sql);
-                $sql = "SELECT * FROM users WHERE id = $user_id ";
-                $db->sql($sql);
-                $res = $db->getResult();
-                $balance = $res[0]['balance'];
-                $response['success'] = true;
-                $response['balance'] = $balance;
-                $response['message'] = "Withdrawal Requested Successfully";
-                print_r(json_encode($response));
-        
+            if(isset($_POST['withdrawal_type']) && $_POST['withdrawal_type'] == 'refer_withdrawal'){
+                if($refer_balance >= $amount){
+                    $sql = "UPDATE `users` SET `refer_balance` = refer_balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
+                    $db->sql($sql);
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`)VALUES('$user_id','$amount','$datetime')";
+                    $db->sql($sql);
+                    $sql = "SELECT balance,refer_balance FROM users WHERE id = $user_id ";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+                    $balance = $res[0]['balance'];
+                    $refer_balance = $res[0]['refer_balance'];
+                    $response['success'] = true;
+                    $response['balance'] = $balance;
+                    $response['refer_balance'] = $refer_balance;
+                    $response['message'] = "Withdrawal Requested Successfully";
+                    print_r(json_encode($response));
+            
+                }
+                else{
+                    $response['success'] = false;
+                    $response['message'] = "Insufficent Balance";
+                    print_r(json_encode($response)); 
+                }
+
+            }else{
+                if($balance >= $amount){
+                    $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
+                    $db->sql($sql);
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`)VALUES('$user_id','$amount','$datetime')";
+                    $db->sql($sql);
+                    $sql = "SELECT balance,refer_balance FROM users WHERE id = $user_id ";
+                    $db->sql($sql);
+                    $res = $db->getResult();
+                    $balance = $res[0]['balance'];
+                    $refer_balance = $res[0]['refer_balance'];
+                    $response['success'] = true;
+                    $response['balance'] = $balance;
+                    $response['refer_balance'] = $refer_balance;
+                    $response['message'] = "Withdrawal Requested Successfully";
+                    print_r(json_encode($response));
+            
+                }
+                else{
+                    $response['success'] = false;
+                    $response['message'] = "Insufficent Balance";
+                    print_r(json_encode($response)); 
+                }
             }
-            else{
-                $response['success'] = false;
-                $response['message'] = "Insufficent Balance";
-                print_r(json_encode($response)); 
-            }
+
         
         }
         else{

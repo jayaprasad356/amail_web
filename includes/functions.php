@@ -346,6 +346,13 @@ class functions
         $res = $this->db->getResult();
         return $res;
     }
+    public function getSettingsVal($col)
+    {
+        $sql = "SELECT $col FROM settings";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        return $res[0][$col];
+    }
     public function getTokenByUid($uid)
     {
         $sql = "SELECT fcm_id FROM users WHERE id = '" . $uid . "'";

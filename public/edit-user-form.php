@@ -43,10 +43,10 @@ if (isset($_POST['btnEdit'])) {
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
-            $code_bonus = REFER_BONUS_CODES * COST_PER_CODE;
-            $referral_bonus = 550;
-            $total_refer_code_bonus = REFER_BONUS_CODES;
-            $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE refer_code =  '$referred_by' AND status = 1";
+            $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
+            $code_bonus = $refer_bonus_codes * COST_PER_CODE;
+            $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
+            $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus WHERE refer_code =  '$referred_by' AND status = 1";
             $db->sql($sql_query);
             $res = $db->getResult();
             if (empty($res)) {
@@ -62,9 +62,9 @@ if (isset($_POST['btnEdit'])) {
                     $db->sql($sql_query);
                     $code_generate = $res[0]['code_generate'];
                     if($code_generate == 1){
-                        $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $total_refer_code_bonus,`total_codes` = total_codes + $total_refer_code_bonus WHERE refer_code =  '$referred_by' AND code_generate = 1";
+                        $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND code_generate = 1";
                         $db->sql($sql_query);
-                        $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$total_refer_code_bonus,'$datetime','code_bonus')";
+                        $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
                         $db->sql($sql_query);
                     }
                     $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
@@ -78,14 +78,15 @@ if (isset($_POST['btnEdit'])) {
 
         }
         if($status == 1 && $register_bonus_sent != 1){
-            $register_bonus = 1000 * COST_PER_CODE;
-            $total_codes = $total_codes + 1000;
-            $today_codes = $today_codes + 1000;
+            $join_codes = $function->getSettingsVal('join_codes');
+            $register_bonus = $join_codes * COST_PER_CODE;
+            $total_codes = $total_codes + $join_codes;
+            $today_codes = $today_codes + $join_codes;
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
-            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,1000,'$datetime','register_bonus')";
+            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
             
         }

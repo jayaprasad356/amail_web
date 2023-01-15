@@ -243,6 +243,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="reward_settings.php">
+                        <i class="fa fa-gear"></i>
+                        <span>Reward Settings</span>  
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="payments.php">
                     <i class="fa fa-credit-card"></i>   
                         <span>Payments</span>  
