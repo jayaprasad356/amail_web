@@ -110,7 +110,7 @@ $res = $db->getResult();
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                   <div class="form-group" id="status" style="display:none;">
+                                   <div class="form-group" id="status" style="<?php echo isset($res[0]['ad_status']) == 1 ? '' : 'display:none;' ?>">
                                         <label class="control-label">Ad Type</label> <i class="text-danger asterik">*</i><br>
                                         <div  class="btn-group">
                                             <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
