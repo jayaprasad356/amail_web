@@ -17,25 +17,30 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT * FROM users_url WHERE user_id = '$user_id'";
-$db->sql($sql);
-$res = $db->getResult();
-$sql = "SELECT id,url FROM urls ORDER BY RAND() LIMIT 1";
+
+$sql = "SELECT id,url FROM urls WHERE id NOT IN (SELECT url_id FROM users_url WHERE user_id = '$user_id') ORDER BY RAND() LIMIT 1";
 $db->sql($sql);
 $result = $db->getResult();
-
-$num = $db->numRows($res);
-if ($num >= 1) {
+if(!empty($result)){
+    $url_id=$result[0]['id'];
+    $url=$result[0]['url'];
+    $data = array(
+        'user_id' => $user_id,
+        'url_id' => $url_id
+    );
+    $db->insert('users_url', $data);
     $response['success'] = true;
-    $response['url'] = $res;
-    print_r(json_encode($response));
-
-}else{
-    $response['success'] = false;
-    $response['message'] = "No Users Found";
-    print_r(json_encode($response));
-
+    $response['message'] = "Ad URL Generated Successfully";
+    $response['url'] = $url;
+    $response['url_id'] = $url_id;
+    $sql = "UPDATE `urls` SET views= views +1 WHERE id='$url_id'";
+    $db->sql($sql);
 }
-
+else{
+    $response['success'] = false;
+    $response['message'] = "No new URLs available for the user";
+}
+print_r(json_encode($response));
 ?>

@@ -729,7 +729,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'urls') {
     foreach ($res as $row) {
         $tempRow['id'] = $row['id'];
         $tempRow['url'] = $row['url'];
-        $tempRow['views'] ='';
+        $tempRow['views'] =$row['views'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
