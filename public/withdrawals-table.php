@@ -42,13 +42,7 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','cancelled')";
             $db->sql($sql);
             
-
         }
-    
-
-
-
-
     }
 }
 

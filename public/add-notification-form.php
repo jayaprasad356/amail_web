@@ -21,13 +21,10 @@ if (isset($_POST['btnd'])) {
         if (empty($description)) {
             $error['description'] = " <span class='label label-danger'>Required!</span>";
         }
-        if (empty($link)) {
-            $error['link'] = " <span class='label label-danger'>Required!</span>";
-        }
        
        
        
-       if (!empty($title) && !empty($description)&& !empty($link)) 
+       if (!empty($title) && !empty($description)) 
        {
             $datetime = date('Y-m-d H:i:s');
             $sql_query = "INSERT INTO notifications (title,description,link,datetime)VALUES('$title','$description','$link','$datetime')";
@@ -93,11 +90,10 @@ if (isset($_POST['btnd'])) {
                             <div class="form-group">
                                 <div class='col-md-6'>
                                     <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
-                                    <input type="text" class="form-control" name="link" required>
+                                    <input type="text" class="form-control" name="link">
                                 </div>
                             </div>
                         </div>
-                        <br>
                     </div>
                     <!-- /.box-body -->
 

@@ -287,6 +287,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     print_r(json_encode($bulkData));
 }
 
+//transactions table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     $offset = 0;
     $limit = 10;
@@ -348,7 +349,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     print_r(json_encode($bulkData));
 }
 
-//transactions table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'notifications') {
     $offset = 0;
     $limit = 10;
@@ -595,6 +595,194 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
         else
             $tempRow['status']="<p class='text text-danger'>Cancelled</p>";
         // $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+if (isset($_GET['table']) && $_GET['table'] == 'system-users') {
+
+    $offset = 0;
+    $limit = 10;
+    $sort = 'id';
+    $order = 'ASC';
+    $where = '';
+    $condition = '';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && $_GET['search'] != '') {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where = " Where `id` like '%" . $search . "%' OR `username` like '%" . $search . "%' OR `email` like '%" . $search . "%' OR `role` like '%" . $search . "%' OR `date_created` like '%" . $search . "%'";
+    }
+    if ($_SESSION['role'] != 'Super Admin') {
+        if (empty($where)) {
+            $condition .= ' where created_by=' . $_SESSION['id'];
+        } else {
+            $condition .= ' and created_by=' . $_SESSION['id'];
+        }
+    }
+
+    $sql = "SELECT COUNT(id) as total FROM `admin`" . $where . "" . $condition;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM `admin`" . $where . "" . $condition . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . ", " . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+
+    foreach ($res as $row) {
+        if ($row['created_by'] != 0) {
+            $sql = "SELECT username FROM admin WHERE id=" . $row['created_by'];
+            $db->sql($sql);
+            $created_by = $db->getResult();
+        }
+
+        if ($row['role'] != 'Super Admin') {
+            $operate = "<a class='btn btn-xs btn-primary edit-system-user' data-id='" . $row['id'] . "' data-toggle='modal' data-target='#editSystemUserModal' title='Edit'><i class='fa fa-pencil-square-o'></i></a>";
+            $operate .= " <a class='btn btn-xs btn-danger delete-system-user' data-id='" . $row['id'] . "' title='Delete'><i class='fa fa-trash-o'></i></a>";
+        } else {
+            $operate = '';
+        }
+        if ($row['role'] == 'Super Admin') {
+            $role = '<span class="label label-success">Super Admin</span>';
+        }
+        if ($row['role'] == 'Admin') {
+            $role = '<span class="label label-primary">Admin</span>';
+        }
+        if ($row['role'] == 'editor') {
+            $role = '<span class="label label-warning">Editor</span>';
+        }
+        $tempRow['id'] = $row['id'];
+        $tempRow['username'] = $row['username'];
+        $tempRow['email'] = $row['email'];
+        $tempRow['permissions'] = $row['permissions'];
+        $tempRow['role'] = $role;
+        $tempRow['created_by_id'] = $row['created_by'] != 0 ? $row['created_by'] : '-';
+        $tempRow['created_by'] = $row['created_by'] != 0 ? $created_by[0]['username'] : '-';
+        $tempRow['date_created'] = date('d-m-Y h:i:sa', strtotime($row['date_created']));
+        $tempRow['operate'] = $operate;
+
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//urls table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'urls') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE url like '%" . $search . "%' OR id like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `urls`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM urls " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $tempRow['id'] = $row['id'];
+        $tempRow['url'] = $row['url'];
+        $tempRow['views'] ='';
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//task champions table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'task_champions') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE user_id like '%" . $search . "%' OR id like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `task_champions`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM task_champions " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $operate = ' <a class="text text-danger" href="delete-champion.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['user_id'] = $row['user_id'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

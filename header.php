@@ -266,6 +266,24 @@ $fn = new custom_functions;
                         <span>App Update</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="multiple-admins.php">
+                        <i class="fa fa-bullseye"></i>
+                        <span>Multiple Admins</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="urls.php">
+                        <i class="fa fa-tag"></i>
+                        <span>Manage URL</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="champions.php">
+                        <i class="fa fa-trophy"></i>
+                        <span>Task Champion Users</span>
+                    </a>
+                </li>
                 <?php
 
                 }
