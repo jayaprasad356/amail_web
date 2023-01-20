@@ -125,25 +125,6 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
-                                <?php if($res[0]['ad_status']==1){
-                                    ?>
-                                <div class="col-md-6">
-                                   <div class="form-group">
-                                        <label class="control-label">Ad Type</label> <i class="text-danger asterik">*</i><br>
-                                        <div  class="btn-group">
-                                            <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                                <input type="radio" name="ad_type" value="1" <?= ($res[0]['ad_type'] == 1) ? 'checked' : ''; ?>> Google Ad
-                                            </label>
-                                            <label class="btn btn-info" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                                <input type="radio" name="ad_type" value="2" <?= ($res[0]['ad_type'] == 2) ? 'checked' : ''; ?>> Private Ad
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <?php }?>
-                            </div>
-                            <br>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Sync Time(min)</label><br>
