@@ -21,10 +21,11 @@ if (isset($_POST['btnUpdate'])) {
     $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
     $ad_status = $db->escapeString(($_POST['ad_status']));
     $ad_type = (isset($_POST['ad_type']) && !empty($_POST['ad_type'])) ? $db->escapeString($fn->xss_clean($_POST['ad_type'])) : "0";   
+    $champion_task = $db->escapeString(($_POST['champion_task']));
     $fetch_time = $db->escapeString(($_POST['fetch_time']));
     $sync_codes = $db->escapeString(($_POST['sync_codes']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',champion_task=$champion_task,fetch_time = $fetch_time,sync_codes = $sync_codes WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -120,6 +121,16 @@ $res = $db->getResult();
                                                 <input type="radio" name="ad_type" value="2" <?= ($res[0]['ad_type'] == 2) ? 'checked' : ''; ?>> Private Ad
                                             </label>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Champion Task</label><br>
+                                        <input type="checkbox" id="task_button" class="js-switch" <?= isset($res[0]['champion_task']) && $res[0]['champion_task'] == 1 ? 'checked' : '' ?>>
+                                        <input type="hidden" id="champion_task" name="champion_task" value="<?= isset($res[0]['champion_task']) && $res[0]['champion_task'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
                             </div>
@@ -270,6 +281,17 @@ $res = $db->getResult();
         } else {
             $('#ad_status').val(0);
             $('#status').hide();
+        }
+    };
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#task_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#champion_task').val(1);
+        } else {
+            $('#champion_task').val(0);
         }
     };
 </script>
