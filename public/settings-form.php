@@ -20,10 +20,11 @@ if (isset($_POST['btnUpdate'])) {
     $reward = $db->escapeString(($_POST['reward']));
     $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
     $ad_status = $db->escapeString(($_POST['ad_status']));
+    $ad_type = (isset($_POST['ad_type']) && !empty($_POST['ad_type'])) ? $db->escapeString($fn->xss_clean($_POST['ad_type'])) : "0";   
     $fetch_time = $db->escapeString(($_POST['fetch_time']));
     $sync_codes = $db->escapeString(($_POST['sync_codes']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,fetch_time = $fetch_time,sync_codes = $sync_codes WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -108,6 +109,38 @@ $res = $db->getResult();
                                         <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                   <div class="form-group" id="status" style="display:none;">
+                                        <label class="control-label">Ad Type</label> <i class="text-danger asterik">*</i><br>
+                                        <div  class="btn-group">
+                                            <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="ad_type" value="1" <?= ($res[0]['ad_type'] == 1) ? 'checked' : ''; ?>> Google Ad
+                                            </label>
+                                            <label class="btn btn-info" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="ad_type" value="2" <?= ($res[0]['ad_type'] == 2) ? 'checked' : ''; ?>> Private Ad
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <?php if($res[0]['ad_status']==1){
+                                    ?>
+                                <div class="col-md-6">
+                                   <div class="form-group">
+                                        <label class="control-label">Ad Type</label> <i class="text-danger asterik">*</i><br>
+                                        <div  class="btn-group">
+                                            <label class="btn btn-primary" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="ad_type" value="1" <?= ($res[0]['ad_type'] == 1) ? 'checked' : ''; ?>> Google Ad
+                                            </label>
+                                            <label class="btn btn-info" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="ad_type" value="2" <?= ($res[0]['ad_type'] == 2) ? 'checked' : ''; ?>> Private Ad
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php }?>
                             </div>
                             <br>
                             <div class="row">
@@ -251,9 +284,11 @@ $res = $db->getResult();
     changeCheckbox.onchange = function() {
         if ($(this).is(':checked')) {
             $('#ad_status').val(1);
+            $('#status').show();
 
         } else {
             $('#ad_status').val(0);
+            $('#status').hide();
         }
     };
 </script>
