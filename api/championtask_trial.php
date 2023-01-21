@@ -18,7 +18,7 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT * FROM  users WHERE id='$user_id'";
+$sql = "SELECT id,trial_count FROM  users WHERE id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $trial_count=$res[0]['trial_count'];
@@ -31,8 +31,11 @@ if ($trial_count< 10) {
     print_r(json_encode($response));
 
 }else{
+    $sql = "UPDATE users SET trial_expired=1  WHERE id = '$user_id'";
+    $db->sql($sql);
     $response['success'] = false;
     $response['message'] = "Your Trial Period Expired";
+    $response['trial_expired'] = "1";
     print_r(json_encode($response));
 
 }

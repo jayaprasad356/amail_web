@@ -78,7 +78,6 @@ if ($num == 1) {
             $res = $db->getResult();
             $num = $db->numRows($res);
             $user_id = $res[0]['id'];
-            $champion_usertask = $fn->getUserChampionTask($user_id);
             if ($num == 1) {
                 $response['success'] = true;
                 $response['user_verify'] = true;
@@ -86,7 +85,6 @@ if ($num == 1) {
                 $response['message'] = "Logged In Successfully";
                 $response['data'] = $res;
                 $response['settings'] = $setres;
-                $response['user_champion_task'] = $champion_usertask;
                 print_r(json_encode($response));
             } else {
                 $response['success'] = true;
