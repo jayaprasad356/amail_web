@@ -353,6 +353,25 @@ class functions
         $res = $this->db->getResult();
         return $res[0][$col];
     }
+    public function getUserChampionTask($user_id)
+    {
+        $champion_usertask=0;
+        $sql = "SELECT champion_task FROM settings";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        $champion_task =  $res[0]['champion_task'];
+        if($champion_task == 1){
+            $sql = "SELECT id FROM task_champions WHERE user_id='$user_id'";
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            $numcham = $this->$db->numRows($res);
+            if ($numcham >=1) {
+                $champion_usertask=1;
+            }
+
+        }
+        return $champion_usertask;
+    }
     public function getTokenByUid($uid)
     {
         $sql = "SELECT fcm_id FROM users WHERE id = '" . $uid . "'";

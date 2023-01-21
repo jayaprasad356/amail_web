@@ -33,15 +33,16 @@ if($user_id != ''){
     $device_id = $res[0]['device_id'];
     $today_codes = $res[0]['today_codes'];
     $champion_task = $set[0]['champion_task'];
-    if($champion_task ==1){
-        $sql = "SELECT user_id FROM task_champions WHERE user_id='$user_id'";
-        $db->sql($sql);
-        $result = $db->getResult();
-        $num = $db->numRows($result);
-        if ($num >=1) {
-            $champion_usertask=1;
-        }
-    }
+    $champion_usertask = $fn->getUserChampionTask($user_id);
+    // if($champion_task ==1){
+    //     $sql = "SELECT user_id FROM task_champions WHERE user_id='$user_id'";
+    //     $db->sql($sql);
+    //     $result = $db->getResult();
+    //     $numcham = $db->numRows($result);
+    //     if ($numcham >=1) {
+    //         $champion_usertask=1;
+    //     }
+    // }
 
 
 

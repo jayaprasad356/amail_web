@@ -72,6 +72,7 @@ if ($num == 1) {
             $setres = $db->getResult();
             $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND password ='$password' AND device_id = ''";
             $db->sql($sql_query);
+            $champion_usertask = $fn->getUserChampionTask($user_id);
             $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
             $db->sql($sql);
             $res = $db->getResult();
@@ -83,6 +84,7 @@ if ($num == 1) {
                 $response['message'] = "Logged In Successfully";
                 $response['data'] = $res;
                 $response['settings'] = $setres;
+                $response['user_champion_task'] = $champion_usertask;
                 print_r(json_encode($response));
             } else {
                 $response['success'] = true;
