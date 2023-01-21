@@ -368,7 +368,12 @@ class functions
             if ($numcham >=1) {
                 $champion_usertask=1;
             }
+            else{
+                $champion_usertask=0;
+            }
 
+        }else{
+            $champion_usertask=0;
         }
         return $champion_usertask;
     }
