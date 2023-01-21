@@ -10,6 +10,9 @@ header("Pragma: no-cache");
 include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
+date_default_timezone_set('Asia/Kolkata');
+
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
@@ -37,10 +40,12 @@ if (empty($_POST['type'])) {
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
+$type = $db->escapeString($_POST['type']);
 $start_timestamp = $db->escapeString($_POST['start_timestamp']);
 $end_timestamp = $db->escapeString($_POST['end_timestamp']);
-$type = $db->escapeString($_POST['type']);
-$interval = $start_timestamp->diff($end_timestamp);
+$time1 = new DateTime($start_timestamp);
+$time2 = new DateTime($end_timestamp);
+$interval = $time1->diff($time2);
 $time = $interval->format('%i');
 $sql = "INSERT INTO entertainments(`user_id`,`type`,`time`) VALUES ('$user_id','$type','$time')";
 $db->sql($sql);
