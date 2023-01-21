@@ -364,8 +364,8 @@ class functions
             $sql = "SELECT id FROM task_champions WHERE user_id='$user_id'";
             $this->db->sql($sql);
             $res = $this->db->getResult();
-            $numcham = $this->$db->numRows($res);
-            if ($numcham >=1) {
+            
+            if (count($res) >=1) {
                 $champion_usertask=1;
             }
             else{
