@@ -72,11 +72,13 @@ if ($num == 1) {
             $setres = $db->getResult();
             $sql_query = "UPDATE users SET device_id = '$device_id' WHERE mobile ='$mobile' AND password ='$password' AND device_id = ''";
             $db->sql($sql_query);
-            $champion_usertask = $fn->getUserChampionTask($user_id);
+            
             $sql = "SELECT * FROM users WHERE mobile ='$mobile' AND password ='$password' AND device_id ='$device_id'";
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
+            $user_id = $res[0]['id'];
+            $champion_usertask = $fn->getUserChampionTask($user_id);
             if ($num == 1) {
                 $response['success'] = true;
                 $response['user_verify'] = true;
