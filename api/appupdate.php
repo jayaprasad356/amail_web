@@ -24,27 +24,14 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
 $res = array();
-$champion_usertask=0;
 if($user_id != ''){
-    $sql = "SELECT code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date,today_codes,refer_balance,trial_expired,task_type,champion_task_eligible  FROM users WHERE id = $user_id ";
+    $sql = "SELECT code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date,today_codes,refer_balance,trial_expired,task_type,champion_task_eligible,trial_count  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     $history_days = $res[0]['history_days'];
     $device_id = $res[0]['device_id'];
     $today_codes = $res[0]['today_codes'];
     $champion_task = $set[0]['champion_task'];
-    $champion_usertask = $fn->getUserChampionTask($user_id);
-    // if($champion_task ==1){
-    //     $sql = "SELECT user_id FROM task_champions WHERE user_id='$user_id'";
-    //     $db->sql($sql);
-    //     $result = $db->getResult();
-    //     $numcham = $db->numRows($result);
-    //     if ($numcham >=1) {
-    //         $champion_usertask=1;
-    //     }
-    // }
-
-
 
     if(!empty($fcm_id)){
         $sql = "UPDATE `users` SET  `fcm_id` = '$fcm_id' WHERE `id` = $user_id";
@@ -88,7 +75,6 @@ $response['message'] = "App Update listed Successfully";
 $response['data'] = $appres;
 $response['settings'] = $set;
 $response['user_details'] = $res;
-$response['user_champion_task'] = $champion_usertask;
 print_r(json_encode($response));
 
 ?>
