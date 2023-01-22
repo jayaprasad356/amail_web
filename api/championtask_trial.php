@@ -22,7 +22,7 @@ $sql = "SELECT id,trial_count FROM  users WHERE id='$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $trial_count=$res[0]['trial_count'];
-if ($trial_count< 5) {
+if ($trial_count< 10) {
     $sql = "UPDATE users SET trial_count=trial_count+1  WHERE id = '$user_id'";
     $db->sql($sql);
     $res = $db->getResult();

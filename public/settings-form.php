@@ -25,8 +25,10 @@ if (isset($_POST['btnUpdate'])) {
     $fetch_time = $db->escapeString(($_POST['fetch_time']));
     $sync_codes = $db->escapeString(($_POST['sync_codes']));
     $champion_codes = $db->escapeString(($_POST['champion_codes']));
+    $champion_search_count = $db->escapeString(($_POST['champion_search_count']));
+    $champion_demo_link = $db->escapeString(($_POST['champion_demo_link']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',champion_task=$champion_task,fetch_time = $fetch_time,sync_codes = $sync_codes,champion_codes = $champion_codes WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',champion_task=$champion_task,fetch_time = $fetch_time,sync_codes = $sync_codes,champion_codes = $champion_codes,champion_demo_link = '$champion_demo_link',champion_search_count = $champion_search_count WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -203,6 +205,12 @@ $res = $db->getResult();
                                         <input type="number"class="form-control" name="champion_codes" value="<?= $res[0]['champion_codes'] ?>">
                                     </div>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="">Champion Search Count</label><br>
+                                        <input type="number"class="form-control" name="champion_search_count" value="<?= $res[0]['champion_search_count'] ?>">
+                                    </div>
+                                </div>
                             </div>
                             <br>
                             <div class="row">
@@ -219,6 +227,15 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Job Details Link</label><br>
                                         <input type="link"class="form-control" name="job_details_link" value="<?= $res[0]['job_details_link'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Champion Demo Link</label><br>
+                                        <input type="link"class="form-control" name="champion_demo_link" value="<?= $res[0]['champion_demo_link'] ?>">
                                     </div>
                                 </div>
                             </div>
