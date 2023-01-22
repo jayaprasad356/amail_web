@@ -28,6 +28,7 @@ if ($trial_count< 5) {
     $res = $db->getResult();
     $response['success'] = true;
     $response['message'] = "Trial Added Successfully";
+    $response['trial_count'] = $trial_count+1;
     print_r(json_encode($response));
 
 }else{
@@ -36,6 +37,7 @@ if ($trial_count< 5) {
     $response['success'] = false;
     $response['message'] = "Your Trial Period Expired";
     $response['trial_expired'] = "1";
+    $response['trial_count'] = $trial_count;
     print_r(json_encode($response));
 
 }
