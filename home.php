@@ -64,12 +64,12 @@ include "header.php";
                              ?></h3>
                             <p>Users</p>
                         </div>
-                        <div class="icon"><i class="fa fa-users"></i></div>
+                        
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-green">
+                    <div class="small-box bg-aqua">
                         <div class="inner">
                         <h3><?php
                             $currentdate = date('Y-m-d');
@@ -88,7 +88,7 @@ include "header.php";
                              ?></h3>
                             <p>Active Users</p>
                         </div>
-                        <div class="icon"><i class="fa fa-user"></i></div>
+                        
                         <a href="users.php?activeusers=1" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -98,14 +98,14 @@ include "header.php";
                     <div class="small-box bg-teal">
                         <div class="inner">
                             <h3><?php
-                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users WHERE task_type= 'regular'";
+                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
                                 ?></h3>
                                 <p>Users Today Codes</p>
                         </div>
-                        <div class="icon"><i class="fa fa-spin"></i></div>
+                        
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -127,9 +127,32 @@ include "header.php";
                             $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
+                            <p>Champion Users</p>
+                        </div>
+                        
+                        <a href="champion_users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-purple">
+                        <div class="inner">
+                            <h3><?php
+                            if($_SESSION['role'] == 'Super Admin'){
+                                $join = "WHERE id IS NOT NULL AND task_type='champion' AND total_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                            }
+                            else{
+                                $refer_code = $_SESSION['refer_code'];
+                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND total_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                            }
+                            $sql = "SELECT id FROM users $join";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                            echo $num;
+                             ?></h3>
                             <p>Active Champion Users</p>
                         </div>
-                        <div class="icon"><i class="fa fa-users"></i></div>
+                        
                         <a href="champion_users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -147,12 +170,12 @@ include "header.php";
                                 ?></h3>
                                 <p>Champions Today Codes</p>
                         </div>
-                        <div class="icon"><i class="fa fa-spin"></i></div>
+                       
                         <a href="champion_users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-red">
+                    <div class="small-box bg-green">
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
@@ -164,7 +187,7 @@ include "header.php";
                                 ?></h3>
                                 <p>Today Registration</p>
                         </div>
-                        <div class="icon"><i class="fa fa-calendar"></i></div>
+                        
                         <a href="users.php?date=<?php echo date('Y-m-d') ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -180,7 +203,7 @@ include "header.php";
                              ?></h3>
                             <p>Unpaid Withdrawals</p>
                         </div>
-                        <div class="icon"><i class="fa fa-money"></i></div>
+                        
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
