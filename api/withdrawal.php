@@ -56,7 +56,7 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
                 if($refer_balance >= $amount){
                     $sql = "UPDATE `users` SET `refer_balance` = refer_balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
                     $db->sql($sql);
-                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`)VALUES('$user_id','$amount','$datetime')";
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`)VALUES('$user_id','$amount','$datetime','refer_withdrawal')";
                     $db->sql($sql);
                     $sql = "SELECT balance,refer_balance FROM users WHERE id = $user_id ";
                     $db->sql($sql);
@@ -80,7 +80,7 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
                 if($balance >= $amount){
                     $sql = "UPDATE `users` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $user_id";
                     $db->sql($sql);
-                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`)VALUES('$user_id','$amount','$datetime')";
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`)VALUES('$user_id','$amount','$datetime','code_withdrawal')";
                     $db->sql($sql);
                     $sql = "SELECT balance,refer_balance FROM users WHERE id = $user_id ";
                     $db->sql($sql);

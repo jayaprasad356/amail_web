@@ -35,8 +35,16 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $res = $db->getResult();
             $user_id= $res[0]['user_id'];
             $amount= $res[0]['amount'];
-            $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
-            $db->sql($sql);
+            $withdrawal_type= $res[0]['withdrawal_type'];
+            if($withdrawal_type == 'code_withdrawal'){
+                $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
+                $db->sql($sql);
+
+            }else{
+                $sql = "UPDATE users SET refer_balance= refer_balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
+                $db->sql($sql);
+            }
+
             
             $datetime = date('Y-m-d H:i:s');
             $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','cancelled')";
