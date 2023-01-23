@@ -31,7 +31,10 @@ if($user_id != ''){
     $history_days = $res[0]['history_days'];
     $device_id = $res[0]['device_id'];
     $today_codes = $res[0]['today_codes'];
+    $task_type = $res[0]['task_type'];
     $champion_task = $set[0]['champion_task'];
+    
+
 
     if(!empty($fcm_id)){
         $sql = "UPDATE `users` SET  `fcm_id` = '$fcm_id' WHERE `id` = $user_id";
@@ -49,8 +52,7 @@ if($user_id != ''){
         $db->sql($sql);
 
     }
-
-    if($history_days >= 7 && $today_codes > 500){
+    if($task_type == 'champion' || ($history_days >= 7 && $today_codes > 500)){
         $sql = "UPDATE `users` SET  `code_generate_time` = 5 WHERE `id` = $user_id";
         $db->sql($sql);
 
@@ -59,6 +61,7 @@ if($user_id != ''){
         $db->sql($sql);
 
     }
+
 
     $days = $res[0]['days'];
     if($days != 0){
