@@ -170,6 +170,13 @@ $fn = new custom_functions;
                         <span>Users</span>
                     </a>
                 </li>
+                
+                <li class="treeview">
+                    <a href="champion_users.php">
+                    <i class="fa fa-trophy"></i>
+                        <span>Champion Users</span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="referal_codes.php">
                     <i class="fa fa-money"></i>
