@@ -419,7 +419,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND u.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR t.id like '%" . $search . "%'  OR t.type like '%" . $search . "%' OR u.mobile like '%" . $search . "%' ";
+        $where .= "AND u.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR t.id like '%" . $search . "%'  OR t.type like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR u.task_type like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -435,7 +435,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile FROM `transactions` t $join 
+    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile,u.task_type FROM `transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -453,6 +453,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
         $tempRow['codes'] = $row['codes'];
         $tempRow['datetime'] = $row['datetime'];
         $tempRow['type'] = $row['type'];
+        $tempRow['task_type'] = $row['task_type'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

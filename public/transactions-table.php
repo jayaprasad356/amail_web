@@ -78,6 +78,7 @@ if (isset($_POST['btnDelete'])) {
                                     <th data-field="amount" data-sortable="true">Amount</th>
                                     <th data-field="codes" data-sortable="true">Codes</th>
                                     <th data-field="type" data-sortable="true">Type</th>
+                                    <th data-field="task_type" data-sortable="true">Task Type</th>
                                     <th data-field="datetime" data-sortable="true">DateTime</th>
                                 </tr>
                             </thead>
