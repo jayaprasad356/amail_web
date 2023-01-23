@@ -14,8 +14,8 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                    <form action="export-user.php">
-                        <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
+                    <form action="export-champion_users.php">
+                        <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Champion Users</button>
                     </form>
                     <br>
                     <div class="col-md-3">
