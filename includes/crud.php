@@ -17,17 +17,17 @@ class Database
      * Database class
      */
 
-    private $db_host = "localhost";
-    private $db_user = "u743445510_abcd";
-    private $db_pass = "Abcd@2022"; 
-    private $db_name = "u743445510_abcd"; 
+    // private $db_host = "localhost";
+    // private $db_user = "u743445510_abcd";
+    // private $db_pass = "Abcd@2022"; 
+    // private $db_name = "u743445510_abcd"; 
 
 
     //LIve
-    // private $db_host = "localhost";
-    // private $db_user = "u117947056_abcd";
-    // private $db_pass = "Abcd@2022"; 
-    // private $db_name = "u117947056_abcd"; 
+    private $db_host = "localhost";
+    private $db_user = "u117947056_abcd";
+    private $db_pass = "Abcd@2022"; 
+    private $db_name = "u117947056_abcd"; 
 
     /*
      * Extra variables that are required by other function such as boolean con variable
