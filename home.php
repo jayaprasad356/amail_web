@@ -92,6 +92,24 @@ include "header.php";
                         <a href="users.php?activeusers=1" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-teal">
+                        <div class="inner">
+                            <h3><?php
+                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users WHERE task_type= 'regular'";
+                                $db->sql($sql);
+                                $res = $db->getResult();
+                                echo $res[0]['today_codes'];
+                                ?></h3>
+                                <p>Users Today Codes</p>
+                        </div>
+                        <div class="icon"><i class="fa fa-spin"></i></div>
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <?php } ?>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-purple">
                         <div class="inner">
@@ -118,21 +136,6 @@ include "header.php";
 
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-teal">
-                        <div class="inner">
-                            <h3><?php
-                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users WHERE task_type= 'regular'";
-                                $db->sql($sql);
-                                $res = $db->getResult();
-                                echo $res[0]['today_codes'];
-                                ?></h3>
-                                <p>Users Today Codes</p>
-                        </div>
-                        <div class="icon"><i class="fa fa-spin"></i></div>
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-maroon">
                         <div class="inner">
