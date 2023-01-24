@@ -42,6 +42,7 @@ if (isset($_POST['btnEdit'])) {
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
             $task_type = $db->escapeString(($_POST['task_type']));
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
+            $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -95,7 +96,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -294,6 +295,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="champion_task_eligible" name="champion_task_eligible" value="<?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
+                            <div class="col-md-3">
+                                    <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
+                                </div>
                         </div>
                         <div class="row">
 									<div class="form-group col-md-12">
