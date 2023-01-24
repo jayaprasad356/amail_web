@@ -295,7 +295,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="champion_task_eligible" name="champion_task_eligible" value="<?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
-                            <div class="col-md-3">
+
+                        </div>
+                        <div class="row">
+                        <div class="col-md-3">
                                     <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
                                 </div>
