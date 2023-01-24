@@ -297,12 +297,14 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
 
                         </div>
+                        <br>
                         <div class="row">
                         <div class="col-md-3">
                                     <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
                                 </div>
                         </div>
+                        <br>
                         <div class="row">
 									<div class="form-group col-md-12">
 										<label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
