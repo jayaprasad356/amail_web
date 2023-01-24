@@ -138,11 +138,11 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE id IS NOT NULL AND task_type='champion' AND total_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE id IS NOT NULL AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND total_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
                             }
                             $sql = "SELECT id FROM users $join";
                             $db->sql($sql);

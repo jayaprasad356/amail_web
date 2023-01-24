@@ -2,3 +2,9 @@ UPDATE `users` SET `code_generate_time` = '4' WHERE DATEDIFF(CURDATE(),STR_TO_DA
 
 
 UPDATE `users` SET `code_generate_time` = 5 WHERE DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) >= 30 AND total_referrals = 0 ;
+
+
+
+UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB(NOW(), INTERVAL 30 DAY) AND status = 1 AND champion_task_eligible = 0
+
+UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB(NOW(), INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0
