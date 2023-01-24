@@ -98,7 +98,8 @@ include "header.php";
                     <div class="small-box bg-teal">
                         <div class="inner">
                             <h3><?php
-                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users";
+                                $currentdate = date('Y-m-d');
+                                $sql = "SELECT SUM(codes) AS today_codes FROM transactions WHERE DATE(datetime) = '$currentdate'";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
@@ -163,7 +164,11 @@ include "header.php";
                     <div class="small-box bg-maroon">
                         <div class="inner">
                             <h3><?php
-                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users WHERE task_type= 'champion'";
+                                $currentdate = date('Y-m-d');
+                                $sql = "SELECT SUM(codes) AS today_codes
+                                FROM transactions
+                                JOIN users ON transactions.user_id = users.id
+                                WHERE DATE(transactions.datetime) = '$currentdate' AND users.task_type = 'champion'";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
