@@ -318,10 +318,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $where = '';
     $sort = 'w.id';
     $order = 'DESC';
-    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
-        $status = $db->escapeString($fn->xss_clean($_GET['status']));
-        $where .= "AND w.status='$status' ";
-    }
     if ((isset($_GET['user_id']) && $_GET['user_id'] != '')) {
         $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
         $where .= "AND w.user_id = '$user_id'";
@@ -346,7 +342,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
+    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND w.status=0 ";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);
@@ -637,9 +633,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
     $where = '';
     $sort = 'w.id';
     $order = 'DESC';
-    if ((isset($_GET['mobile']))) {
+    if ((isset($_GET['mobile']) && $_GET['mobile'] != '')) {
         $mobile = $db->escapeString($fn->xss_clean($_GET['mobile']));
         $where .= "AND u.mobile='$mobile' ";
+    }
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND w.status='$status' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -661,7 +661,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND w.status = 0 ";
+    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);

@@ -95,15 +95,6 @@ if (isset($_POST['export_all'])) {
                         <div class="box-header">
                                 <div class="row">
                                         <div class="form-group col-md-3">
-                                                <h4 class="box-title">Filter by Status </h4>
-                                                <select id='status' name="status" class='form-control'>
-                                                        <option value="">All</option>
-                                                        <option value="0">Unpaid</option>
-                                                        <option value="1">Paid</option>
-                                                        <option value="2">Cancelled</option>
-                                                </select>
-                                        </div>
-                                        <div class="form-group col-md-3">
                                             <h4 class="box-title">Filter by Name </h4>
                                                 <select id='user_id' name="user_id" class='form-control'>
                                                 <option value=''>All</option>
@@ -206,10 +197,6 @@ if (isset($_POST['export_all'])) {
     
 </script>
 <script>
-        $('#status').on('change', function() {
-            id = $('#status').val();
-            $('#users_table').bootstrapTable('refresh');
-        });
         $('#user_id').on('change', function() {
             id = $('#user_id').val();
             $('#users_table').bootstrapTable('refresh');
@@ -217,7 +204,6 @@ if (isset($_POST['export_all'])) {
 
     function queryParams(p) {
         return {
-            "status": $('#status').val(),
             "user_id": $('#user_id').val(),
             limit: p.limit,
             sort: p.sort,

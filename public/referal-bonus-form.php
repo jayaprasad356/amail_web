@@ -31,9 +31,8 @@ if (isset($_POST['btnAdd'])) {
                 $db->sql($sql_query);
             }
 
-
         }
-        $error['update_users'] = " <section class='content-header'><span class='label label-success'>Refer code updated Successfully</span></section>";
+        $error['update_users'] = " <section class='content-header'><span class='label label-success'>Refer Bonus Added Successfully</span></section>";
     }
 
 
@@ -61,48 +60,62 @@ if (isset($_POST['btnAdd'])) {
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
-                                <div class='col-md-6'>
-                                       <label for="">Mobile Number</label> <i class="text-danger asterik">*</i>
-                                        <select id='user_id' name="user_id" class='form-control' required>
-                                            <option value="">select</option>
-                                                <?php
-                                                if($_SESSION['role'] == 'Super Admin'){
-                                                    $join = "WHERE id IS NOT NULL";
-                                                }
-                                                else{
-                                                    $refer_code = $_SESSION['refer_code'];
-                                                    $join = "WHERE refer_code REGEXP '^$refer_code'";
-                                                }
-                                                $sql = "SELECT id,mobile,name,refer_code FROM `users` $join ORDER BY ID DESC ";
-                                                $db->sql($sql);
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] .' - '. $value['mobile'].' - '. $value['refer_code']?></option>
-                                            <?php } ?>
-                                        </select>
+                                <div class='col-md-4'>
+                                    <label for="mobile_number">Mobile Number</label> <i class="text-danger asterik">*</i>
+                                   <input type="number" id='mobile' name="mobile" class='form-control' required>
                                 </div>
+                                <input style="margin-top:22px;margin-left:22px;" type="submit" class="btn-primary btn" value="Search" name="btnSearch" />&nbsp;
                             </div>
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Total Referal Count</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" id="referal_count" name="referred_by" value="1"  readonly>
-                                </div>
-                            </div>
+                    
+                </form>
+                <form id='add_suspense_form' method="post" enctype="multipart/form-data">
+                    <?php if(isset($_POST['btnSearch'])){ 
+                            $mobile = $db->escapeString($fn->xss_clean($_POST['mobile']));
+                            if($_SESSION['role'] == 'Super Admin'){
+                                $join = "WHERE id IS NOT NULL";
+                            }
+                            else{
+                                $refer_code = $_SESSION['refer_code'];
+                                $join = "WHERE refer_code REGEXP '^$refer_code'";
+                            }
+                            $sql_query = "SELECT id,name,refer_code,mobile FROM users $join AND mobile = '$mobile'";
+                            $db->sql($sql_query);
+                            $ressus = $db->getResult();
+                            if(count($ressus)>0){
+                            ?>
+                            <input type="hidden" name="type" value="<?php echo $type?>">
+                            <input type="hidden" name="user_id" value="<?php echo $ressus[0]['id']?>">
+                            <input  type="hidden" name="refer_code" value="<?php echo $ressus[0]['refer_code']?>">
                             
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-2">
-                                   <input type="submit" class="btn-primary btn" value="Send Referral Bonus" name="btnAdd" />&nbsp;
-                               </div>
-                            </div>
-
-                        </div>
+                            <div class="row">
+                                <div class="form-group">
+                                        <div class='col-md-6'>
+                                            <label for="mobile_number">User Details</label> <i class="text-danger asterik">*</i>
+                                            <input type="text" id='name' name="name" value="<?php echo $ressus[0]['name'] .' - '. $ressus[0]['refer_code'] .' - '. $ressus[0]['mobile'] ?>"  class='form-control' readonly>
+                                        </div>
+                                </div>
+                             </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class='col-md-6'>
+                                            <label for="exampleInputEmail1">Total Referal Count</label> <i class="text-danger asterik">*</i>
+                                            <input type="text" class="form-control" id="referal_count" name="referred_by" value="1"  readonly>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-2">
+                                        <input type="submit" class="btn-primary btn" value="Send Referral Bonus" name="btnAdd" />&nbsp;
+                                    </div>
+                                    </div>
+                                </div>
+                                <?php }else{ echo '<div class="text-danger">Mobile number not found in the system</div>'; } ?>
+                    <?php } ?>
                 </form>
 
 
@@ -127,16 +140,7 @@ if (isset($_POST['btnAdd'])) {
     window.location.reload();
 } 
 </script>
-<script>
-    $(document).ready(function () {
-        $('#user_id').select2({
-        width: 'element',
-        placeholder: 'Type in Mobile to search',
 
-        });
-    });
-
-</script>
 <script>
     $(document).on('change', '#mobile', function() {
         $.ajax({

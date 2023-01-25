@@ -228,8 +228,8 @@ if (isset($_POST['delete_variant'])) {
     }
 }
 if (isset($_POST['referred_by_code_change'])) {
-    $user_id = $db->escapeString($fn->xss_clean($_POST['user_id']));
-    $sql = "SELECT * FROM users WHERE id=" . $user_id;
+    $mobile = $db->escapeString($fn->xss_clean($_POST['mobile']));
+    $sql = "SELECT * FROM users WHERE mobile=" . $mobile;
     $db->sql($sql);
     $res = $db->getResult();
     if (!empty($res)) {

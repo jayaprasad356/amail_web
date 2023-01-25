@@ -13,13 +13,18 @@
                     <div class="box">
                         <div class="box-header">
                                         <div class="form-group col-md-3">
-                                            <label for="exampleInputEmail1">Mobile Number</label>
-                                            <input type="text" class="form-control" name="mobile" id="mobile" required>
+                                                <h4 class="box-title">Filter by Status </h4>
+                                                <select id='status' name="status" class='form-control'>
+                                                        <option value="">All</option>
+                                                        <option value="0">Unpaid</option>
+                                                        <option value="1">Paid</option>
+                                                        <option value="2">Cancelled</option>
+                                                </select>
                                         </div>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
-                            <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=search_withdrawals" data-page-list="[5, 10, 20, 50, 100, 200,500,700,1000]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="w.id" data-show-footer="true" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
+                            <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=search_withdrawals" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="w.id" data-show-footer="true" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                                 "fileName": "Yellow app-withdrawals-list-<?= date('d-m-Y') ?>",
                                 "ignoreColumn": ["operate"] 
                             }'>
@@ -58,14 +63,13 @@
     </section>
 
 <script>
-        $('#mobile').on('change', function() {
-            id = $('#mobile').val();
+        $('#status').on('change', function() {
+            id = $('#status').val();
             $('#users_table').bootstrapTable('refresh');
         });
-       
     function queryParams(p) {
         return {
-            "mobile": $('#mobile').val(),
+            "status": $('#status').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
