@@ -98,8 +98,7 @@ include "header.php";
                     <div class="small-box bg-teal">
                         <div class="inner">
                             <h3><?php
-                                $currentdate = date('Y-m-d');
-                                $sql = "SELECT SUM(codes) AS today_codes FROM transactions WHERE DATE(datetime) = '$currentdate'";
+                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
@@ -164,11 +163,7 @@ include "header.php";
                     <div class="small-box bg-maroon">
                         <div class="inner">
                             <h3><?php
-                                $currentdate = date('Y-m-d');
-                                $sql = "SELECT SUM(codes) AS today_codes
-                                FROM transactions
-                                JOIN users ON transactions.user_id = users.id
-                                WHERE DATE(transactions.datetime) = '$currentdate' AND users.task_type = 'champion'";
+                                $sql = "SELECT SUM(`today_codes`) AS today_codes FROM users WHERE task_type= 'champion'";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
@@ -276,7 +271,45 @@ include "header.php";
                     </div>
 
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-success">
+                        <?php 
+                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
+                        
+                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'   GROUP BY hour( datetime ) , day( datetime )";
+                        $db->sql($sql);
+                        $res_order = $db->getResult();
+                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
+                        $db->sql($sql);
+                        $sts_total = $db->getResult();
+                        
+                         ?>
+                        <div class="tile-stats" style="padding:10px;">
+                            <div id="earning_chart3" style="width:100%;height:350px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="box box-success">
+                        <?php 
+                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
+                        
+                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime ) AND task_type='champion'";
+                        $db->sql($sql);
+                        $result_order4 = $db->getResult();
+                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' ";
+                        $db->sql($sql);
+                        $stu_total4 = $db->getResult();
+                        
+                         ?>
+                        <div class="tile-stats" style="padding:10px;">
+                            <div id="earning_chart4" style="width:100%;height:350px;"></div>
+                        </div>
+                    </div>
 
+                </div>
             </div>
         </section>
     </div>
@@ -324,8 +357,10 @@ include "header.php";
                     //subtitle: 'Total Sale In Last Week (Month: <?php echo date("M"); ?>)',
                 }
             };
+
             var chart = new google.charts.Bar(document.getElementById('earning_chart'));
             chart.draw(data, google.charts.Bar.convertOptions(options));
+
 
             var data = google.visualization.arrayToDataTable([
                 ['Hour', 'Total - <?= $stu_total2[0]['total'] ?>'],

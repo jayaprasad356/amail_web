@@ -68,7 +68,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -350,7 +350,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
+    $sql = "SELECT w.id AS id,w.*,w.withdrawal_type,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -369,6 +369,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['datetime'] = $row['datetime'];
         $tempRow['account_num'] = ','.$row['account_num'].',';
         $tempRow['holder_name'] = $row['holder_name'];
+        $tempRow['withdrawal_type'] = $row['withdrawal_type'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
         $tempRow['total_codes'] = $row['total_codes'];
@@ -669,7 +670,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
+    $sql = "SELECT w.id AS id,w.*,w.withdrawal_type,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -688,6 +689,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'search_withdrawals') {
         $tempRow['datetime'] = $row['datetime'];
         $tempRow['account_num'] = ','.$row['account_num'].',';
         $tempRow['holder_name'] = $row['holder_name'];
+        $tempRow['withdrawal_type'] = $row['withdrawal_type'];
         $tempRow['bank'] = $row['bank'];
         $tempRow['branch'] = $row['branch'];
         $tempRow['total_codes'] = $row['total_codes'];

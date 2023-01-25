@@ -62,7 +62,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-4'>
                                     <label for="mobile_number">Mobile Number</label> <i class="text-danger asterik">*</i>
-                                   <input type="number" id='mobile' name="mobile" class='form-control' required>
+                                   <input type="text" id='mobile' name="mobile" class='form-control' required>
                                 </div>
                                 <input style="margin-top:22px;margin-left:22px;" type="submit" class="btn-primary btn" value="Search" name="btnSearch" />&nbsp;
                             </div>
@@ -72,6 +72,7 @@ if (isset($_POST['btnAdd'])) {
                 <form id='add_suspense_form' method="post" enctype="multipart/form-data">
                     <?php if(isset($_POST['btnSearch'])){ 
                             $mobile = $db->escapeString($fn->xss_clean($_POST['mobile']));
+                            $refer_code = $db->escapeString($fn->xss_clean($_POST['mobile']));
                             if($_SESSION['role'] == 'Super Admin'){
                                 $join = "WHERE id IS NOT NULL";
                             }
@@ -79,7 +80,7 @@ if (isset($_POST['btnAdd'])) {
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code'";
                             }
-                            $sql_query = "SELECT id,name,refer_code,mobile FROM users $join AND mobile = '$mobile'";
+                            $sql_query = "SELECT id,name,refer_code,mobile FROM users $join AND mobile = '$mobile' OR refer_code = '$refer_code'";
                             $db->sql($sql_query);
                             $ressus = $db->getResult();
                             if(count($ressus)>0){

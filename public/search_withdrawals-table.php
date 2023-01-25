@@ -15,7 +15,6 @@
                                         <div class="form-group col-md-3">
                                                 <h4 class="box-title">Filter by Status </h4>
                                                 <select id='status' name="status" class='form-control'>
-                                                        <option value="">All</option>
                                                         <option value="0">Unpaid</option>
                                                         <option value="1">Paid</option>
                                                         <option value="2">Cancelled</option>
@@ -34,6 +33,7 @@
                                         <th data-field="name" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Name</th>
                                         <th data-field="amount" data-sortable="true" data-visible="true" data-footer-formatter="priceFormatter">Amount</th>
                                         <th data-field="status" data-sortable="true">Status</th>
+                                        <th data-field="withdrawal_type" data-sortable="true">Withdrawal Type</th>
                                         <th data-field="balance" data-sortable="true">Balance</th>
                                         <th data-field="datetime" data-sortable="true">DateTime</th>
                                         <th data-field="account_num" data-sortable="true">Account Number</th>
