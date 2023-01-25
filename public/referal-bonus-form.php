@@ -62,7 +62,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-4'>
                                     <label for="mobile_number">Mobile Number</label> <i class="text-danger asterik">*</i>
-                                   <input type="text" id='mobile' name="mobile" class='form-control' required>
+                                   <input type="text" id='mobile_number' name="mobile" class='form-control' required>
                                 </div>
                                 <input style="margin-top:22px;margin-left:22px;" type="submit" class="btn-primary btn" value="Search" name="btnSearch" />&nbsp;
                             </div>
