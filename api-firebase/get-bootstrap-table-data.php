@@ -342,17 +342,23 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND w.status=0 ";
+    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
 
     $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
-
-    $sql = "SELECT w.id AS id,w.*,w.withdrawal_type,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
-    $where ORDER BY $sort $order LIMIT $offset, $limit";
-     $db->sql($sql);
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $sql = "SELECT w.id AS id,w.*,w.withdrawal_type,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
+                        $where ORDER BY $sort $order LIMIT $offset, $limit";
+             $db->sql($sql);
+        }
+        else{
+            $sql = "SELECT w.id AS id,w.*,w.withdrawal_type,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,b.account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join
+                    AND w.status=0 $where ORDER BY $sort $order LIMIT $offset, $limit";
+             $db->sql($sql);
+        }
     $res = $db->getResult();
 
     $bulkData = array();
@@ -896,6 +902,68 @@ if (isset($_GET['table']) && $_GET['table'] == 'task_champions') {
         $tempRow['id'] = $row['id'];
         $tempRow['user_id'] = $row['user_id'];
         $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//user reports table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'user_reports') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if ((isset($_GET['date'])  && $_GET['date'] != '')) {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= "AND joined_date='$date' ";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND u.name like '%" . $search . "%' OR u.mobile like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+
+    $sql = "SELECT COUNT(`id`) as total FROM `users`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+        
+    $sql = "SELECT u.id AS id,u.mobile,u.name,AVG(t.codes) AS avg_codes FROM `transactions` t JOIN `users` u ON t.user_id = u.id WHERE DATE(t.datetime) = '2023-01-26' AND t.datetime BETWEEN '2023-01-26 11:00:00' AND '2023-01-26 17:00:00' AND t.type = 'generate' GROUP BY t.user_id ORDER BY `avg_codes` DESC";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        // $operate = '<a href="edit-user.php?id=' . $row['u.id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        // $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['avg_codes'] = $row['avg_codes'];
+        // $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
