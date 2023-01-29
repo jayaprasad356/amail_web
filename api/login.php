@@ -77,7 +77,6 @@ if ($num == 1) {
             $db->sql($sql);
             $res = $db->getResult();
             $num = $db->numRows($res);
-            $user_id = $res[0]['id'];
             if ($num == 1) {
                 $response['success'] = true;
                 $response['user_verify'] = true;
