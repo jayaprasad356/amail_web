@@ -12,6 +12,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
+
 $sql = "SELECT * FROM valid_urls";
 $db->sql($sql);
 $res = $db->getResult();
