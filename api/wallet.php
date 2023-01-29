@@ -31,7 +31,7 @@ $type = 'generate';
 $sql = "SELECT code_generate FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
-$code_generate = $$set[0]['code_generate'];
+$code_generate = $set[0]['code_generate'];
 if($code_generate == 1){
     if($codes != 0){
         $amount = $codes * COST_PER_CODE;
