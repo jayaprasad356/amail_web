@@ -38,21 +38,9 @@ $url_id = $db->escapeString($_POST['url_id']);
 $secret_code = $db->escapeString($_POST['secret_code']);
 $datetime = date('Y-m-d H:i:s');
 
-$sql = "SELECT id,secret_codes FROM coupons WHERE secret_codes='$secret_code' AND status=1";
+$sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
 $db->sql($sql);
-$result = $db->getResult();
-if(!empty($result)){
-    $code_id=$result[0]['id'];
-    $sql = "UPDATE `coupons` SET status=2 WHERE id='$code_id'";
-    $db->sql($sql);
-    $sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
-    $db->sql($sql);
-    $response['success'] = true;
-    $response['message'] = "Code Rewarded Successfully";
-}
-else{
-    $response['success'] = false;
-    $response['message'] = "Invalid Secret Code";
-}
+$response['success'] = true;
+$response['message'] = "Code Rewarded Successfully";
 print_r(json_encode($response));
 ?>
