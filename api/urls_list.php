@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-$sql = "SELECT id,url,codes FROM urls WHERE id NOT IN (SELECT url_id FROM users_url WHERE user_id = '$user_id')";
+$sql = "SELECT id,url,destination_url,codes FROM urls WHERE id NOT IN (SELECT url_id FROM users_url WHERE user_id = '$user_id')";
 $db->sql($sql);
 $result = $db->getResult();
 if(!empty($result)){
