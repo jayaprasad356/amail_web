@@ -41,7 +41,7 @@ if(!empty($result)){
     $code_id=$result[0]['id'];
     $sql = "UPDATE `coupons` SET status=2 WHERE id='$code_id'";
     $db->sql($sql);
-    $sql = "UPDATE `users_url` SET coupon_code='$secret_code' WHERE url_id='$url_id' AND user_id='$user_id'";
+    $sql = "UPDATE `users_url` SET secret_codes='$secret_code' WHERE url_id='$url_id' AND user_id='$user_id'";
     $db->sql($sql);
     $response['success'] = true;
     $response['message'] = "Code Rewarded Successfully";
