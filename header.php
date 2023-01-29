@@ -170,6 +170,7 @@ $fn = new custom_functions;
                         <span>Users</span>
                     </a>
                 </li>
+           
                 
                 <li class="treeview">
                     <a href="champion_users.php">
@@ -237,12 +238,12 @@ $fn = new custom_functions;
                        <span>Notifications</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="admins.php">
                     <i class="fa fa-adn"></i>
                     <span>Multiple Admin</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="treeview">
                     <a href="settings.php">
                         <i class="fa fa-gear"></i>
@@ -261,10 +262,16 @@ $fn = new custom_functions;
                         <span>Payments</span>  
                     </a>
                 </li>
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="bulk-update-user.php">
                     <i class="fa fa-folder-open"></i>
                         <span>User Bulk update</span>
+                    </a>
+                </li> -->
+                <li class="treeview">
+                    <a href="user_reports.php">
+                    <i class="fa fa-clipboard"></i>
+                        <span>Users Reports</span>
                     </a>
                 </li>
                 <li class="treeview">
