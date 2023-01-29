@@ -7,9 +7,12 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+date_default_timezone_set('Asia/Kolkata');
+
 include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
@@ -33,6 +36,7 @@ if (empty($_POST['secret_code'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $url_id = $db->escapeString($_POST['url_id']);
 $secret_code = $db->escapeString($_POST['secret_code']);
+$datetime = date('Y-m-d H:i:s');
 
 $sql = "SELECT id,secret_codes FROM coupons WHERE secret_codes='$secret_code' AND status=1";
 $db->sql($sql);
@@ -41,7 +45,7 @@ if(!empty($result)){
     $code_id=$result[0]['id'];
     $sql = "UPDATE `coupons` SET status=2 WHERE id='$code_id'";
     $db->sql($sql);
-    $sql = "UPDATE `users_url` SET secret_codes='$secret_code' WHERE url_id='$url_id' AND user_id='$user_id'";
+    $sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
     $db->sql($sql);
     $response['success'] = true;
     $response['message'] = "Code Rewarded Successfully";

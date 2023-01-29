@@ -846,9 +846,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'urls') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $operate = ' <a class="text text-danger" href="delete-url.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['url'] = $row['url'];
+        $tempRow['codes'] = $row['codes'];
         $tempRow['views'] =$row['views'];
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

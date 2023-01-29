@@ -22,7 +22,7 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($url)) 
        {
-            $sql_query = "INSERT INTO urls (url)VALUES('$url')";
+            $sql_query = "INSERT INTO urls (url,codes)VALUES('$url',2)";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -70,7 +70,15 @@ if (isset($_POST['btnAdd'])) {
                                 </div>
 
                             </div>
-                            
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-12'>
+                                    <label for="exampleInputEmail1">Codes</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="codes"  value="2" readonly>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                   
