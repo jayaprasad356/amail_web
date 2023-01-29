@@ -13,16 +13,19 @@ $res = $db->getResult();
 if (isset($_POST['btnAdd'])) {
 
         $url = $db->escapeString(($_POST['url']));
+        $destination_url = $db->escapeString(($_POST['destination_url']));
         $error = array();
        
         if (empty($url)) {
             $error['url'] = " <span class='label label-danger'>Required!</span>";
         }
+        if (empty($destination_url)) {
+            $error['destination_url'] = " <span class='label label-danger'>Required!</span>";
+        }
        
-       
-       if (!empty($url)) 
+       if (!empty($url) && !empty($destination_url) ) 
        {
-            $sql_query = "INSERT INTO urls (url,codes)VALUES('$url',2)";
+            $sql_query = "INSERT INTO urls (url,codes,destination_url)VALUES('$url',2,'$destination_url')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -71,6 +74,17 @@ if (isset($_POST['btnAdd'])) {
 
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-12'>
+                                    <label for="exampleInputEmail1">Destination URL</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="destination_url" required>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
@@ -105,6 +119,7 @@ if (isset($_POST['btnAdd'])) {
         debug: false,
         rules: {
             url: "required",
+            destination_url: "required",
         }
     });
     $('#btnClear').on('click', function() {

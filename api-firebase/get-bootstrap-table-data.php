@@ -849,6 +849,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'urls') {
         $operate = ' <a class="text text-danger" href="delete-url.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['url'] = $row['url'];
+        $tempRow['destination_url'] = $row['destination_url'];
         $tempRow['codes'] = $row['codes'];
         $tempRow['views'] =$row['views'];
         $tempRow['operate'] = $operate;
