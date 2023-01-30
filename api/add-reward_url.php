@@ -37,7 +37,7 @@ $user_id = $db->escapeString($_POST['user_id']);
 $url_id = $db->escapeString($_POST['url_id']);
 $secret_code = $db->escapeString($_POST['secret_code']);
 $datetime = date('Y-m-d H:i:s');
-$sql = "UPDATE `urls` SET `views` = views + 1 WHERE url_id = $user_id";
+$sql = "UPDATE `urls` SET `views` = views + 1 WHERE id = $user_id";
 $db->sql($sql);
 $sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
 $db->sql($sql);
