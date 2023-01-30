@@ -45,7 +45,7 @@ if ($num >= 1) {
 }
 $ad_time_user = false;
 $ad_show_time = intval($ad_show_time);
-if($minutes >= $ad_show_time){
+if($minutes == 0 || $minutes >= $ad_show_time){
     $ad_time_user = true;
     
 }
@@ -63,8 +63,6 @@ if(!empty($result) && $ad_type == 2 && $ad_status == 1 && $ad_time_user == true)
     $response['success'] = true;
     $response['message'] = "URL's Listed Successfully";
     $response['data'] = $result;
-    $response['minutes'] = $minutes;
-    $response['ad_show'] = $ad_show_time;
 }
 else{
     $response['success'] = false;
