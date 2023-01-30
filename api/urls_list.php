@@ -25,7 +25,7 @@ $sql = "SELECT id,url,destination_url,codes FROM urls WHERE id NOT IN (SELECT ur
 $db->sql($sql);
 $result = $db->getResult();
 
-$sql = "SELECT ad_status,ad_type FROM settings)";
+$sql = "SELECT ad_status,ad_type FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
 $ad_status = $set[0]['ad_status'];
