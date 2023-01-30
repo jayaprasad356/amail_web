@@ -28,10 +28,11 @@ $db->sql($sql);
 $set = $db->getResult();
 $ad_show_time = $set[0]['ad_show_time'];
 
-$sql = "SELECT datetime FROM users_url WHERE user_id = '$user_id' ORDER BY id DESC";
+$sql = "SELECT datetime FROM users_url WHERE user_id = $user_id ORDER BY id DESC";
 $db->sql($sql);
 $ures = $db->getResult();
-$num = $db->numRows($ures);
+$num = count($ures);
+$minutes = 0;
 if ($num >= 1) {
     $dt2 = $ures[0]['datetime'];
     $datetime1 = new DateTime($dt1);
@@ -39,13 +40,10 @@ if ($num >= 1) {
     $interval = $datetime1->diff($datetime2);
     $minutes = ($interval->h * 60) + $interval->i;
     
-}else{
-    $minutes = 0;
-
 }
 $ad_time_user = false;
 $ad_show_time = intval($ad_show_time);
-if($minutes == 0 || $minutes >= $ad_show_time){
+if($num == 0 || $minutes >= $ad_show_time){
     $ad_time_user = true;
     
 }
@@ -63,10 +61,16 @@ if(!empty($result) && $ad_type == 2 && $ad_status == 1 && $ad_time_user == true)
     $response['success'] = true;
     $response['message'] = "URL's Listed Successfully";
     $response['data'] = $result;
+    $response['minutes'] = $minutes;
+    $response['ad_show'] = $ad_show_time;
+    $response['total'] = $num;
 }
 else{
     $response['success'] = false;
     $response['message'] = "No new URLs available for the user";
+    $response['minutes'] = $minutes;
+    $response['ad_show'] = $ad_show_time;
+    $response['total'] = $num;
 }
 print_r(json_encode($response));
 ?>
