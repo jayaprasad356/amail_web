@@ -42,8 +42,6 @@ $db->sql($sql);
 $sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
 $db->sql($sql);
 
-$sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
-$db->sql($sql);
 $response['success'] = true;
 $response['message'] = "Code Rewarded Successfully";
 print_r(json_encode($response));
