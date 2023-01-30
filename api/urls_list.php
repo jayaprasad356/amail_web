@@ -19,7 +19,8 @@ if (empty($_POST['user_id'])) {
 }
 
 $user_id = $db->escapeString($_POST['user_id']);
-
+$delete_query = "DELETE FROM users_url WHERE user_id = $user_id AND datetime <= DATE_SUB(NOW(), INTERVAL 24 HOUR)";
+$result = $db->sql($delete_query);
 $sql = "SELECT id,url,destination_url,codes FROM urls WHERE id NOT IN (SELECT url_id FROM users_url WHERE user_id = '$user_id')";
 $db->sql($sql);
 $result = $db->getResult();
