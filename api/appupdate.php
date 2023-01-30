@@ -20,7 +20,7 @@ $datetime = date('Y-m-d H:i:s');
 $old_device_id = (isset($_POST['device_id']) && $_POST['device_id'] != "") ? $db->escapeString($_POST['device_id']) : "";
 $user_id = (isset($_POST['user_id']) && $_POST['user_id'] != "") ? $db->escapeString($_POST['user_id']) : "";
 $fcm_id = (isset($_POST['fcm_id']) && $_POST['fcm_id'] != "") ? $db->escapeString($_POST['fcm_id']) : "";
-$app_version = (isset($_POST['app_version']) && $_POST['app_version'] != "") ? $db->escapeString($_POST['app_version']) : "";
+$app_version = (isset($_POST['app_version']) && $_POST['app_version'] != "") ? $db->escapeString($_POST['app_version']) : 0;
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
