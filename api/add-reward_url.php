@@ -26,20 +26,12 @@ if (empty($_POST['url_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['secret_code'])) {
-    $response['success'] = false;
-    $response['message'] = "Secret Code is Empty";
-    print_r(json_encode($response));
-    return false;
-}
-
 $user_id = $db->escapeString($_POST['user_id']);
 $url_id = $db->escapeString($_POST['url_id']);
-$secret_code = $db->escapeString($_POST['secret_code']);
 $datetime = date('Y-m-d H:i:s');
 $sql = "UPDATE `urls` SET `views` = views + 1 WHERE id = $url_id";
 $db->sql($sql);
-$sql = "INSERT INTO `users_url` (user_id,url_id,secret_codes,datetime) VALUES ('$user_id','$url_id','$secret_code','$datetime')";
+$sql = "INSERT INTO `users_url` (user_id,url_id,datetime) VALUES ('$user_id','$url_id','$datetime')";
 $db->sql($sql);
 
 $response['success'] = true;

@@ -20,6 +20,7 @@ $datetime = date('Y-m-d H:i:s');
 $old_device_id = (isset($_POST['device_id']) && $_POST['device_id'] != "") ? $db->escapeString($_POST['device_id']) : "";
 $user_id = (isset($_POST['user_id']) && $_POST['user_id'] != "") ? $db->escapeString($_POST['user_id']) : "";
 $fcm_id = (isset($_POST['fcm_id']) && $_POST['fcm_id'] != "") ? $db->escapeString($_POST['fcm_id']) : "";
+$app_version = (isset($_POST['app_version']) && $_POST['app_version'] != "") ? $db->escapeString($_POST['app_version']) : "";
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
@@ -33,6 +34,10 @@ if($user_id != ''){
     $today_codes = $res[0]['today_codes'];
     $task_type = $res[0]['task_type'];
     $champion_task = $set[0]['champion_task'];
+
+
+    $sql = "UPDATE `users` SET  `app_version` = '$app_version' WHERE `id` = $user_id";
+    $db->sql($sql);
     
 
 
