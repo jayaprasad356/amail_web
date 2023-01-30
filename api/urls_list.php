@@ -24,7 +24,13 @@ $result = $db->sql($delete_query);
 $sql = "SELECT id,url,destination_url,codes FROM urls WHERE id NOT IN (SELECT url_id FROM users_url WHERE user_id = '$user_id')";
 $db->sql($sql);
 $result = $db->getResult();
-if(!empty($result)){
+
+$sql = "SELECT ad_status,ad_type FROM settings)";
+$db->sql($sql);
+$set = $db->getResult();
+$ad_status = $set[0]['ad_status'];
+$ad_type = $set[0]['ad_type'];
+if(!empty($result) && $ad_type == 2 && $ad_status == 1){
     $response['success'] = true;
     $response['message'] = "URL's Listed Successfully";
     $response['data'] = $result;
