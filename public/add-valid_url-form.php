@@ -19,13 +19,14 @@ if (isset($_POST['btnAdd'])) {
             $error['url'] = " <span class='label label-danger'>Required!</span>";
         }
     
-       
+        $parsed_url = parse_url($url);
+        $host = $parsed_url['host'];
         if (!empty($url)) {
-            $check_query = "SELECT * FROM valid_urls WHERE url = '$url'";
+            $check_query = "SELECT * FROM valid_urls WHERE url = '$host'";
             $db->sql($check_query);
             $check_result = $db->getResult();
             if (empty($check_result)) {
-                $sql_query = "INSERT INTO valid_urls (url)VALUES('$url')";
+                $sql_query = "INSERT INTO valid_urls (url)VALUES('$host')";
                 $db->sql($sql_query);
                 $result = $db->getResult();
                 if (!empty($result)) {
