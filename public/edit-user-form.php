@@ -43,6 +43,7 @@ if (isset($_POST['btnEdit'])) {
             $task_type = $db->escapeString(($_POST['task_type']));
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
+            $ad_status = $db->escapeString(($_POST['ad_status']));
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -96,7 +97,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -299,10 +300,17 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-                        <div class="col-md-3">
+                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
                                 </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="">Ad Status</label><br>
+                                            <input type="checkbox" id="ad_button" class="js-switch" <?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 'checked' : '' ?>>
+                                            <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
+                                        </div>
+                                 </div>
                         </div>
                         <br>
                         <div class="row">
@@ -372,6 +380,18 @@ if (isset($_POST['btnCancel'])) { ?>
 
         } else {
             $('#champion_task_eligible').val(0);
+        }
+    };
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#ad_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#ad_status').val(1);
+
+        } else {
+            $('#ad_status').val(0);
         }
     };
 </script>

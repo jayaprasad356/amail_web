@@ -57,7 +57,11 @@ $db->sql($sql);
 $set = $db->getResult();
 $ad_status = $set[0]['ad_status'];
 $ad_type = $set[0]['ad_type'];
-if(!empty($result) && $ad_type == 2 && $ad_status == 1 && $ad_time_user == true){
+$sql = "SELECT ad_status FROM users";
+$db->sql($sql);
+$user_res = $db->getResult();
+$user_ad_status = $user_res[0]['ad_status'];
+if(!empty($result) && $ad_type == 2 && $ad_status == 1 && $user_ad_status==1 && $ad_time_user == true){
     $response['success'] = true;
     $response['message'] = "URL's Listed Successfully";
     $response['data'] = $result;
