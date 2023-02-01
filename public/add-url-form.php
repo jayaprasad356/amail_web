@@ -89,7 +89,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-12'>
                                     <label for="exampleInputEmail1">Codes</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="codes"  value="2" readonly>
+                                    <input type="text" class="form-control" name="codes"  value="1" readonly>
                                 </div>
 
                             </div>
