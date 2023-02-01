@@ -293,6 +293,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="valid_urls.php">
+                        <i class="fa fa-tag"></i>
+                        <span>Manage Valid URL's</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="champions.php">
                         <i class="fa fa-trophy"></i>
                         <span>Task Champion Users</span>
