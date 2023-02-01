@@ -25,7 +25,7 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($url) && !empty($destination_url) ) 
        {
-            $sql_query = "INSERT INTO urls (url,codes,destination_url)VALUES('$url',2,'$destination_url')";
+            $sql_query = "INSERT INTO urls (url,codes,destination_url)VALUES('$url',1,'$destination_url')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
