@@ -19,7 +19,7 @@ if (empty($_POST['user_id'])) {
 }
 $dt1 = date('Y-m-d H:i:s');
 $user_id = $db->escapeString($_POST['user_id']);
-$delete_query = "DELETE FROM users_url WHERE user_id = $user_id AND datetime <= DATE_SUB(NOW(), INTERVAL 24 HOUR)";
+$delete_query = "DELETE FROM users_url WHERE user_id = $user_id AND datetime <= DATE_SUB('$dt1', INTERVAL 25 HOUR)";
 $result = $db->sql($delete_query);
 
 
