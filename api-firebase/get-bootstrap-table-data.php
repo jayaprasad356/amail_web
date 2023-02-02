@@ -1034,8 +1034,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
     $limit = (isset($_GET['limit']) && !empty(trim($_GET['limit'])) && is_numeric($_GET['limit'])) ? $db->escapeString(trim($fn->xss_clean($_GET['limit']))) : 5;
     $sort = (isset($_GET['sort']) && !empty(trim($_GET['sort']))) ? $db->escapeString(trim($fn->xss_clean($_GET['sort']))) : 'today_codes';
     $order = (isset($_GET['order']) && !empty(trim($_GET['order']))) ? $db->escapeString(trim($fn->xss_clean($_GET['order']))) : 'DESC';
-    // $currentdate = $db->escapeString(trim($fn->xss_clean($_GET['current_date'])));
-    $currentdate = '2023-02-02';
+    $currentdate = $db->escapeString(trim($fn->xss_clean($_GET['current_date'])));
+    // $currentdate = '2023-02-02';
 
 
 
@@ -1043,7 +1043,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
     $sql = "SELECT COUNT(users.id) AS total, users.name, SUM(transactions.codes) AS today_codes,users.joined_date,users.mobile
     FROM users
     JOIN transactions ON users.id = transactions.user_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
-    GROUP BY users.id ORDER BY today_codes DESC LIMIT " . $offset . "," . $limit;
+    GROUP BY users.id";
     $db->sql($sql);
     $res = $db->getResult();
     $total = $db->numRows($res);
