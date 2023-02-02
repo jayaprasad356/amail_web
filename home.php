@@ -329,17 +329,20 @@ include "header.php";
                         <div class="box-body">
 
                             <div class="table-responsive">
-                                <table class="table no-margin" id='top_seller_table' data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5,10]" data-page-size="5" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-sort-name="today_codes" data-sort-order="desc" data-toolbar="#toolbar" data-query-params="queryParams_top_seller" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
+                                <table class="table no-margin" id='top_seller_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5, 10, 20, 50, 100, 200,500]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="today_codes" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                                 "fileName": "Yellow app-withdrawals-list-<?= date('d-m-Y') ?>",
-                                "ignoreColumn": ["operate"]}'>
+                                "ignoreColumn": ["operate"] 
+                            }'>
                                     <thead>
                                         <tr>
                                             <th data-field="id" data-sortable='true'>ID</th>
                                             <th data-field="joined_date" data-sortable='true' data-visible="true">Joined Date</th>
                                             <th data-field="name" data-sortable='true' data-visible="true">Name</th>
                                             <th data-field="mobile" data-sortable='true' data-visible="true">Mobile</th>
-                                            <th data-field="today_codes" data-sortable='true' data-visible="true">Today Codes</th>
-                                            <th data-field="balance" data-sortable='true' data-visible="true">Balance</th>
+                                            <th data-field="today_codes" data-sortable='true' data-visible="true">Codes</th>
+                                            <th data-field="earn" data-sortable='true' data-visible="true">Earn</th>
+                                            <!-- <th data-field="balance" data-sortable='true' data-visible="true">Balance</th> -->
+                                            <th data-field="total_referrals" data-sortable='true' data-visible="true">Total Referals</th>
                                             <!-- <th data-field="operate">Action</th> -->
                                         </tr>
                                     </thead>
