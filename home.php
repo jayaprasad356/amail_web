@@ -329,7 +329,9 @@ include "header.php";
                         <div class="box-body">
 
                             <div class="table-responsive">
-                                <table class="table no-margin" id='top_seller_table' data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5,10]" data-page-size="5" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-sort-name="today_codes" data-sort-order="desc" data-toolbar="#toolbar" data-query-params="queryParams_top_seller">
+                                <table class="table no-margin" id='top_seller_table' data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5,10]" data-page-size="5" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-sort-name="today_codes" data-sort-order="desc" data-toolbar="#toolbar" data-query-params="queryParams_top_seller" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
+                                "fileName": "Yellow app-withdrawals-list-<?= date('d-m-Y') ?>",
+                                "ignoreColumn": ["operate"]}'>
                                     <thead>
                                         <tr>
                                             <th data-field="id" data-sortable='true'>ID</th>
@@ -390,7 +392,6 @@ include "header.php";
         function queryParams(p) {
             return {
                 "filter_order": $('#filter_order').val(),
-                "seller_id": $('#seller_id').val(),
                 limit: p.limit,
                 sort: p.sort,
                 order: p.order,
@@ -400,6 +401,7 @@ include "header.php";
         }
         function queryParams_top_seller(p) {
             return {
+                "current_date": $('#date').val(),
                 limit: p.limit,
                 sort: p.sort,
                 order: p.order,
