@@ -277,7 +277,7 @@ include "header.php";
 
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="box box-success">
                         <?php 
@@ -315,6 +315,66 @@ include "header.php";
                     </div>
 
                 </div>
+            </div> -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Top Today Coders <small>( Day: <?= date("D"); ?>)</small></h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="table-responsive">
+                                <table class="table no-margin" id='top_seller_table' data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5,10]" data-page-size="5" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-sort-name="today_codes" data-sort-order="desc" data-toolbar="#toolbar" data-query-params="queryParams_top_seller">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="id" data-sortable='true'>ID</th>
+                                            <th data-field="joined_date" data-sortable='true' data-visible="true">Joined Date</th>
+                                            <th data-field="name" data-sortable='true' data-visible="true">Name</th>
+                                            <th data-field="mobile" data-sortable='true' data-visible="true">Mobile</th>
+                                            <th data-field="today_codes" data-sortable='true' data-visible="true">Today Codes</th>
+                                            <th data-field="balance" data-sortable='true' data-visible="true">Balance</th>
+                                            <!-- <th data-field="operate">Action</th> -->
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Top Categories <small> ( Month: <?= date("M"); ?>) </small></h3>
+                            <div class="box-tools pull-right">
+                                <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                                <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="table-responsive">
+                                <table class="table no-margin" id='top_seller_table' data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_categories" data-page-list="[5,10]" data-page-size="5" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-sort-name="total_revenues" data-sort-order="desc" data-toolbar="#toolbar" data-query-params="queryParams_top_cat">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="id" data-sortable='true'>Rank</th>
+                                            <th data-field="cat_name" data-sortable='true' data-visible="true">Category</th>
+                                            <th data-field="p_name" data-sortable='true' data-visible="true">Product Name</th>
+                                            <th data-field="total_revenues" data-sortable='true'>Total Revenue(<?= $settings['currency'] ?>)</th>
+                                            <th data-field="operate">Action</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div> -->
             </div>
         </section>
     </div>
@@ -336,6 +396,23 @@ include "header.php";
                 order: p.order,
                 offset: p.offset,
                 search: p.search
+            };
+        }
+        function queryParams_top_seller(p) {
+            return {
+                limit: p.limit,
+                sort: p.sort,
+                order: p.order,
+                offset: p.offset
+            };
+        }
+
+        function queryParams_top_cat(p) {
+            return {
+                limit: p.limit,
+                sort: p.sort,
+                order: p.order,
+                offset: p.offset
             };
         }
 

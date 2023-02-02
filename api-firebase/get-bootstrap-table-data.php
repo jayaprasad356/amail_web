@@ -1025,4 +1025,49 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_reports') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+
+// data of 'Top Coders' table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
+
+    $where = '';
+    $offset = (isset($_GET['offset']) && !empty(trim($_GET['offset'])) && is_numeric($_GET['offset'])) ? $db->escapeString(trim($fn->xss_clean($_GET['offset']))) : 0;
+    $limit = (isset($_GET['limit']) && !empty(trim($_GET['limit'])) && is_numeric($_GET['limit'])) ? $db->escapeString(trim($fn->xss_clean($_GET['limit']))) : 5;
+    $sort = (isset($_GET['sort']) && !empty(trim($_GET['sort']))) ? $db->escapeString(trim($fn->xss_clean($_GET['sort']))) : 'today_codes';
+    $order = (isset($_GET['order']) && !empty(trim($_GET['order']))) ? $db->escapeString(trim($fn->xss_clean($_GET['order']))) : 'DESC';
+
+
+    $sql = "SELECT COUNT(`id`) as total FROM `users` WHERE id IS NOT NULL" . $where;
+
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = $db->numRows($res);
+
+    $currentdate = date('Y-m-d');
+    $sql = "SELECT users.id, users.name, SUM(transactions.codes) AS today_codes,users.joined_date,users.balance,users.mobile
+    FROM users
+    JOIN transactions ON users.id = transactions.user_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
+    GROUP BY users.id ORDER BY today_codes DESC LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    $i = 1;
+    foreach ($res as $row) {
+
+        // $operate = '<a href="users.php"><i class="fa fa-eye"></i>View </a>';
+        $tempRow['id'] = $i;
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['today_codes'] = $row['today_codes'];
+        $tempRow['balance'] = $row['balance'];
+        $tempRow['joined_date'] = $row['joined_date'];
+        // $tempRow['operate'] = $operate;
+        $i++;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();
