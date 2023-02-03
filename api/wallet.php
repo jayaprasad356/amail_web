@@ -24,6 +24,8 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 
+
+
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $datetime = date('Y-m-d H:i:s');
