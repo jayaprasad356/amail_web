@@ -37,6 +37,7 @@ $code_generate = $set[0]['code_generate'];
 if($code_generate == 1){
     if($codes != 0){
         $amount = $codes * COST_PER_CODE;
+
         $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
         $db->sql($sql);
         $res = $db->getResult();
@@ -45,9 +46,27 @@ if($code_generate == 1){
         $db->sql($sql);
     }
     
-    $sql = "SELECT today_codes,total_codes,balance,code_generate,status  FROM users WHERE id = $user_id ";
+    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
+    $referred_by = $res[0]['referred_by'];
+
+    if(!empty($referred_by)){
+        $referamtcode = $codes * REFER_COST_PER_CODE;
+        $sql = "UPDATE `users` SET  `refer_balance` = refer_balance + $referamtcode WHERE `refer_code` = '$referred_by'";
+        $db->sql($sql);
+        $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
+        $db->sql($sql);
+        $rep= $db->getResult();
+        $refer_user_id=$rep[0]['id'];
+        $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
+        $db->sql($sql);
+        // $sql = "INSERT INTO refer_transactions (`user_id`,`refer_user_id`,`amount`,`status`)VALUES('$user_id','$refer_user_id','$referamtcode',0)";
+        // $db->sql($sql);
+
+    }
+
+
     
     $response['success'] = true;
     $response['message'] = "Code Added Successfully";

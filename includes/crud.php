@@ -7,6 +7,7 @@ define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it t
 define('COST_PER_CODE', 0.17);
 define('VALID_DAYS', 50);
 define('REFER_BONUS_CODES', 1000);
+define('REFER_COST_PER_CODE', 0.01);
 define('MAIN_REFER', 'YMS');
 class Database
 {
