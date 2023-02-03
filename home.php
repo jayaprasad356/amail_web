@@ -329,7 +329,7 @@ include "header.php";
                         <div class="box-body">
 
                             <div class="table-responsive">
-                                <table class="table no-margin" id='top_seller_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5, 10, 20, 50, 100, 200,500]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="today_codes" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
+                                <table class="table no-margin" id='top_seller_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=top_coders" data-page-list="[5, 10, 20, 50, 100, 200,500]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams_top_seller" data-sort-name="today_codes" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                                 "fileName": "Yellow app-withdrawals-list-<?= date('d-m-Y') ?>",
                                 "ignoreColumn": ["operate"] 
                             }'>
