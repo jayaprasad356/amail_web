@@ -23,11 +23,13 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT id,name,refer_code FROM users WHERE id = '$user_id'";
+$sql = "SELECT id,name,refer_code,sync_refer_wallet,refer_income FROM users WHERE id = '$user_id'";
 $db->sql($sql);
 $result = $db->getResult();
 $refer_code=$result[0]['refer_code'];
-$sql = "SELECT id,name,mobile,refer_code,balance FROM users WHERE referred_by = '$refer_code'";
+$sync_refer_wallet=$result[0]['sync_refer_wallet'];
+$refer_income=$result[0]['refer_income'];
+$sql = "SELECT id,name,mobile,refer_code,balance,sync_refer_wallet,refer_income FROM users WHERE referred_by = '$refer_code'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -43,11 +45,14 @@ if ($num >= 1) {
         $temp['name'] = $row['name'];
         $temp['mobile'] = $masked_mobile;
         $temp['refer_code'] = $row['refer_code'];
-        $temp['balance'] = $row['balance'];
+        // $temp['balance'] = $row['balance'];
         $rows[] = $temp;
         
     }
     $response['success'] = true;
+    $response['message'] = "Referals Listed Successfully";
+    $response['refer_income'] =$refer_income;
+    $response['sync_refer_wallet'] =$sync_refer_wallet;
     $response['message'] = "Referals Listed Successfully";
     $response['data'] = $rows;
     print_r(json_encode($response));
