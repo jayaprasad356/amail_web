@@ -163,6 +163,12 @@ $fn = new custom_functions;
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="reports.php">
+                    <i class="fa fa-clipboard"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
 
                 <li class="treeview">
                     <a href="users.php">
@@ -170,6 +176,7 @@ $fn = new custom_functions;
                         <span>Users</span>
                     </a>
                 </li>
+                
            
                 
                 <li class="treeview">
@@ -302,6 +309,12 @@ $fn = new custom_functions;
                     <a href="champions.php">
                         <i class="fa fa-trophy"></i>
                         <span>Task Champion Users</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="faq.php">
+                        <i class="fa fa-info"></i>
+                         <span>FAQs</span>
                     </a>
                 </li>
                 <?php
