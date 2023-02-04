@@ -60,6 +60,8 @@ if ($num >= 1) {
 else{
     $response['success'] = false;
     $response['message'] = "No Data Found";
+    $response['refer_income'] =$refer_income;
+    $response['sync_refer_wallet'] =$sync_refer_wallet;
     print_r(json_encode($response));
 }
 
