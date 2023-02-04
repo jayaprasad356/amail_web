@@ -251,17 +251,20 @@ $fn = new custom_functions;
                     <span>Multiple Admin</span>
                     </a>
                 </li> -->
+              
                 <li class="treeview">
-                    <a href="settings.php">
+                    <a href="#">
                         <i class="fa fa-gear"></i>
-                        <span>Settings</span>  
+                        <span>Settings</span>
+                        <i class="fa fa-angle-right pull-right"></i>
                     </a>
-                </li>
-                <li class="treeview">
-                    <a href="reward_settings.php">
-                        <i class="fa fa-gear"></i>
-                        <span>Reward Settings</span>  
-                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="settings.php"><i class="fa fa-gear"></i>Settings</a></li>
+                        <li><a href="reward_settings.php"><i class="fa fa-gear"></i>Reward Settings</a></li>
+                        <li><a href="champion_settings.php"><i class="fa fa-trophy"></i>Champion Settings</a></li>
+                        <li><a href="info_settings.php"><i class="fa fa-info"></i>Info Settings</a></li>
+
+                    </ul>
                 </li>
                 <li class="treeview">
                     <a href="payments.php">
@@ -294,16 +297,16 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="urls.php">
+                    <a href="#">
                         <i class="fa fa-tag"></i>
-                        <span>Manage URL</span>
+                        <span>URL's</span>
+                        <i class="fa fa-angle-right pull-right"></i>
                     </a>
-                </li>
-                <li class="treeview">
-                    <a href="valid_urls.php">
-                        <i class="fa fa-tag"></i>
-                        <span>Manage Valid URL's</span>
-                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="urls.php"><i class="fa fa-tag"></i>Manage URL</a></li>
+                        <li><a href="valid_urls.php"><i class="fa fa-tag"></i>Manage Valid URL's</a></li>
+
+                    </ul>
                 </li>
                 <li class="treeview">
                     <a href="champions.php">

@@ -28,8 +28,11 @@ if (empty($_POST['amount'])) {
 }
 $user_id = $db->escapeString($_POST['user_id']);
 $amount = $db->escapeString($_POST['amount']);
-
-if($amount>=500){
+$sql = "SELECT min_sync_refer_wallet FROM settings WHERE id='1'";
+$db->sql($sql);
+$result = $db->getResult();
+$min_sync_refer_wallet = $result[0]['min_sync_refer_wallet'];
+if($amount>=$min_sync_refer_wallet){
          $sql = "SELECT sync_refer_wallet FROM users WHERE id='$user_id'";
          $db->sql($sql);
          $res = $db->getResult();
@@ -53,7 +56,7 @@ if($amount>=500){
 }
 else{
     $response['success'] = false;
-    $response['message'] = "Minimum Transfered Amount is 500";
+    $response['message'] = "Minimum Transfered Amount is $min_sync_refer_wallet";
     print_r(json_encode($response));
 
 }

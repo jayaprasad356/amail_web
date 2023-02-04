@@ -12,24 +12,18 @@ if (isset($_POST['btnUpdate'])) {
     $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
     $sync_time = $db->escapeString(($_POST['sync_time']));
     $duration = $db->escapeString(($_POST['duration']));
-    $payment_link = $db->escapeString(($_POST['payment_link']));
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
-    $job_details_link = $db->escapeString(($_POST['job_details_link']));
-    $whatsapp = $db->escapeString(($_POST['whatsapp']));
     $chat_support = $db->escapeString(($_POST['chat_support']));
     $reward = $db->escapeString(($_POST['reward']));
     $ad_show_time = $db->escapeString(($_POST['ad_show_time']));
     $ad_status = $db->escapeString(($_POST['ad_status']));
     $ad_type = (isset($_POST['ad_type']) && !empty($_POST['ad_type'])) ? $db->escapeString($fn->xss_clean($_POST['ad_type'])) : "0";   
-    $champion_task = $db->escapeString(($_POST['champion_task']));
     $fetch_time = $db->escapeString(($_POST['fetch_time']));
     $sync_codes = $db->escapeString(($_POST['sync_codes']));
-    $champion_codes = $db->escapeString(($_POST['champion_codes']));
-    $champion_search_count = $db->escapeString(($_POST['champion_search_count']));
-    $champion_demo_link = $db->escapeString(($_POST['champion_demo_link']));
     $num_sync_times = $db->escapeString(($_POST['num_sync_times']));
+    $min_sync_refer_wallet = $db->escapeString(($_POST['min_sync_refer_wallet']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',payment_link = '$payment_link',min_withdrawal = $min_withdrawal,job_details_link = '$job_details_link',whatsapp = '$whatsapp',chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',champion_task=$champion_task,fetch_time = $fetch_time,sync_codes = $sync_codes,champion_codes = $champion_codes,champion_demo_link = '$champion_demo_link',champion_search_count = $champion_search_count,num_sync_times='$num_sync_times' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -64,7 +58,7 @@ $res = $db->getResult();
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
            
             <!-- general form elements -->
             <div class="box box-primary">
@@ -84,9 +78,6 @@ $res = $db->getResult();
                                     </div>
 
                                 </div>
-                            </div>
-                           <br>
-                           <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Withdrawal Status</label><br>
@@ -94,9 +85,6 @@ $res = $db->getResult();
                                         <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Chat Support</label><br>
@@ -104,9 +92,6 @@ $res = $db->getResult();
                                         <input type="hidden" id="chat_support" name="chat_support" value="<?= isset($res[0]['chat_support']) && $res[0]['chat_support'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Ad Status</label><br>
@@ -114,7 +99,10 @@ $res = $db->getResult();
                                         <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                            </div>
+                           <br>
+                            <div class="row">
+                                <div class="col-md-4">
                                    <div class="form-group" id="status" style="<?php echo isset($res[0]['ad_status']) == 1 ? '' : 'display:none;' ?>">
                                         <label class="control-label">Ad Type</label> <i class="text-danger asterik">*</i><br>
                                         <div  class="btn-group">
@@ -127,19 +115,6 @@ $res = $db->getResult();
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Champion Task</label><br>
-                                        <input type="checkbox" id="task_button" class="js-switch" <?= isset($res[0]['champion_task']) && $res[0]['champion_task'] == 1 ? 'checked' : '' ?>>
-                                        <input type="hidden" id="champion_task" name="champion_task" value="<?= isset($res[0]['champion_task']) && $res[0]['champion_task'] == 1 ? 1 : 0 ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="">Sync Time(min)</label><br>
@@ -163,15 +138,6 @@ $res = $db->getResult();
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="">Whatsapp number</label><br>
-                                        <input type="number"class="form-control" name="whatsapp" value="<?= $res[0]['whatsapp'] ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
                                         <label for="">Code Rewards</label><br>
                                         <input type="number"class="form-control" name="reward" value="<?= $res[0]['reward'] ?>">
                                     </div>
@@ -185,34 +151,19 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Fetch Time(sec)</label><br>
                                         <input type="number"class="form-control" name="fetch_time" value="<?= $res[0]['fetch_time'] ?>">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Sync Codes</label><br>
                                         <input type="number"class="form-control" name="sync_codes" value="<?= $res[0]['sync_codes'] ?>">
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Champion Codes</label><br>
-                                        <input type="number"class="form-control" name="champion_codes" value="<?= $res[0]['champion_codes'] ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="">Champion Search Count</label><br>
-                                        <input type="number"class="form-control" name="champion_search_count" value="<?= $res[0]['champion_search_count'] ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Number of Sync Times</label><br>
                                         <input type="number"class="form-control" name="num_sync_times" value="<?= $res[0]['num_sync_times'] ?>">
@@ -221,32 +172,13 @@ $res = $db->getResult();
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="">Payment Link</label><br>
-                                        <input type="link"class="form-control" name="payment_link" value="<?= $res[0]['payment_link'] ?>">
+                                        <label for="">Minimum Sync Refer Wallet</label><br>
+                                        <input type="number"class="form-control" name="min_sync_refer_wallet" value="<?= $res[0]['min_sync_refer_wallet'] ?>">
                                     </div>
                                 </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Job Details Link</label><br>
-                                        <input type="link"class="form-control" name="job_details_link" value="<?= $res[0]['job_details_link'] ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Champion Demo Link</label><br>
-                                        <input type="link"class="form-control" name="champion_demo_link" value="<?= $res[0]['champion_demo_link'] ?>">
-                                    </div>
-                                </div>
-                            </div>
-                           
+                            </div>                           
                     </div>
                   
                     <!-- /.box-body -->
@@ -315,17 +247,6 @@ $res = $db->getResult();
         } else {
             $('#ad_status').val(0);
             $('#status').hide();
-        }
-    };
-</script>
-<script>
-    var changeCheckbox = document.querySelector('#task_button');
-    var init = new Switchery(changeCheckbox);
-    changeCheckbox.onchange = function() {
-        if ($(this).is(':checked')) {
-            $('#champion_task').val(1);
-        } else {
-            $('#champion_task').val(0);
         }
     };
 </script>
