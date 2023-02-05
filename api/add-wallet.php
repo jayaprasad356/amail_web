@@ -32,6 +32,7 @@ $sql = "SELECT min_sync_refer_wallet FROM settings WHERE id='1'";
 $db->sql($sql);
 $result = $db->getResult();
 $min_sync_refer_wallet = $result[0]['min_sync_refer_wallet'];
+$datetime = date('Y-m-d H:i:s');
 if($amount>=$min_sync_refer_wallet){
          $sql = "SELECT sync_refer_wallet FROM users WHERE id='$user_id'";
          $db->sql($sql);
