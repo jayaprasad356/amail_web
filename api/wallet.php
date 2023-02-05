@@ -29,6 +29,7 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $datetime = date('Y-m-d H:i:s');
+
 $type = 'generate';
 $sql = "SELECT code_generate FROM settings";
 $db->sql($sql);
@@ -37,15 +38,32 @@ $code_generate = $set[0]['code_generate'];
 if($code_generate == 1){
     if($codes != 0){
         $amount = $codes * COST_PER_CODE;
+
         $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
         $db->sql($sql);
         $res = $db->getResult();
     
         $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
         $db->sql($sql);
+
+        $sql = "SELECT referred_by  FROM users WHERE id = $user_id ";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $referred_by = $res[0]['referred_by'];
+    
+        if(!empty($referred_by)){
+            $referamtcode = $codes * REFER_COST_PER_CODE;
+            $mentiondate = '2023-02-05';
+            $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
+            $db->sql($sql);
+            $rep= $db->getResult();
+            $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'  AND `joined_date` >= '$mentiondate'";
+            $db->sql($sql);
+    
+        }
     }
     
-    $sql = "SELECT today_codes,total_codes,balance,code_generate,status  FROM users WHERE id = $user_id ";
+    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     

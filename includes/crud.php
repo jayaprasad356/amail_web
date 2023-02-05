@@ -7,6 +7,7 @@ define('JWT_SECRET_KEY', '12345678'); /* chnage to your secret key here set it t
 define('COST_PER_CODE', 0.17);
 define('VALID_DAYS', 50);
 define('REFER_BONUS_CODES', 1000);
+define('REFER_COST_PER_CODE', 0.01);
 define('MAIN_REFER', 'YMS');
 class Database
 {
@@ -17,17 +18,17 @@ class Database
      * Database class
      */
 
-    // private $db_host = "localhost";
-    // private $db_user = "u743445510_abcd";
-    // private $db_pass = "Abcd@2022"; 
-    // private $db_name = "u743445510_abcd"; 
+    private $db_host = "localhost";
+    private $db_user = "u743445510_abcd";
+    private $db_pass = "Abcd@2022"; 
+    private $db_name = "u743445510_abcd"; 
 
 
     //LIve
-    private $db_host = "localhost";
-    private $db_user = "u117947056_abcd";
-    private $db_pass = "Abcd@2022"; 
-    private $db_name = "u117947056_abcd"; 
+    // private $db_host = "localhost";
+    // private $db_user = "u117947056_abcd";
+    // private $db_pass = "Abcd@2022"; 
+    // private $db_name = "u117947056_abcd"; 
 
 
     // private $db_host = "localhost";
