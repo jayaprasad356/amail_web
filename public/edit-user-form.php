@@ -45,7 +45,6 @@ if (isset($_POST['btnEdit'])) {
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
             $ad_status = $db->escapeString(($_POST['ad_status']));
-            $category = $db->escapeString(($_POST['category']));
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -61,8 +60,8 @@ if (isset($_POST['btnEdit'])) {
             $num = $db->numRows($res);
             if ($num == 1){
                 $user_id = $res[0]['id'];
-                $ref_cat = $res[0]['category'];
-                if($ref_cat == 1){
+                $code_generate = $res[0]['code_generate'];
+                if($code_generate == 1){
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
@@ -70,8 +69,7 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                 $db->sql($sql_query);
-                $code_generate = $res[0]['code_generate'];
-                if($code_generate == 1 && $ref_cat == 1){
+                if($code_generate == 1){
                     $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND code_generate = 1";
                     $db->sql($sql_query);
                     $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
@@ -98,7 +96,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',category='$category',security='$security' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -311,17 +309,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                             <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
                                         </div>
                                  </div>
-                                 <div class="form-group">
-                                    <label class="control-label">Category</label><i class="text-danger asterik">*</i><br>
-                                    <div id="category" class="btn-group">
-                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="category" value="0" <?= ($res[0]['category'] == 0) ? 'checked' : ''; ?>> Refer Only
-                                        </label>
-                                        <label class="btn btn-info" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="category" value="1" <?= ($res[0]['category'] == 1) ? 'checked' : ''; ?>> Both Refer & Codes
-                                        </label>
-                                    </div>
-                            </div>
                         </div>
                         <br>
                         <div class="row">
