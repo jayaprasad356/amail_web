@@ -26,6 +26,7 @@ if (isset($_POST['btnEdit'])) {
             $city = $db->escapeString(($_POST['city']));
             $status = $db->escapeString(($_POST['status']));
             $refer_code = $db->escapeString(($_POST['refer_code']));
+            $security = $db->escapeString(($_POST['security']));
             $joined_date = (isset($_POST['joined_date']) && !empty($_POST['joined_date'])) ? $db->escapeString($_POST['joined_date']) : $date;
             $code_generate_time = $db->escapeString(($_POST['code_generate_time']));
             $withdrawal_status = $db->escapeString(($_POST['withdrawal_status']));
@@ -44,6 +45,7 @@ if (isset($_POST['btnEdit'])) {
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
             $ad_status = $db->escapeString(($_POST['ad_status']));
+            $category = $db->escapeString(($_POST['category']));
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -51,33 +53,32 @@ if (isset($_POST['btnEdit'])) {
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
             $code_bonus = $refer_bonus_codes * COST_PER_CODE;
-            $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
-            $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus WHERE refer_code =  '$referred_by' AND status = 1";
+            $referral_bonus = 250;
+            
+            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
             $db->sql($sql_query);
             $res = $db->getResult();
-            if (empty($res)) {
-
-                $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
-                $db->sql($sql_query);
-                $res = $db->getResult();
-
-                $num = $db->numRows($res);
-                if ($num == 1){
-                    $user_id = $res[0]['id'];
-                    $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
-                    $db->sql($sql_query);
-                    $code_generate = $res[0]['code_generate'];
-                    if($code_generate == 1){
-                        $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND code_generate = 1";
-                        $db->sql($sql_query);
-                        $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
-                        $db->sql($sql_query);
-                    }
-                    $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
-                    $db->sql($sql_query);
+            $num = $db->numRows($res);
+            if ($num == 1){
+                $user_id = $res[0]['id'];
+                $ref_cat = $res[0]['category'];
+                if($ref_cat == 1){
+                    $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
-
+                $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus WHERE id =  $user_id AND status = 1";
+                $db->sql($sql_query);
+                $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
+                $db->sql($sql_query);
+                $code_generate = $res[0]['code_generate'];
+                if($code_generate == 1 && $ref_cat == 1){
+                    $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND code_generate = 1";
+                    $db->sql($sql_query);
+                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
+                    $db->sql($sql_query);
+                }
+                $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
+                $db->sql($sql_query);
 
             }
 
@@ -97,7 +98,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',category='$category',security='$security' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -116,28 +117,7 @@ if (isset($_POST['btnEdit'])) {
 
     }
 }
-if (isset($_POST['btnEdit2'])) {
-    $security = $db->escapeString(($_POST['security']));
-    $error = array();
 
-$sql_query = "UPDATE users SET security='$security' WHERE id =  $ID";
-$db->sql($sql_query);
-$update_result = $db->getResult();
-if (!empty($update_result)) {
-    $update_result = 0;
-} else {
-    $update_result = 1;
-}
-
-// check update result
-if ($update_result == 1) {
-    $error['update_users'] = " <section class='content-header'><span class='label label-success'>Users updated Successfully</span></section>";
-} else {
-    $error['update_users'] = " <span class='label label-danger'>Failed update users</span>";
-}
-
-
-}
 
 
 // create array variable to store previous data
@@ -331,6 +311,31 @@ if (isset($_POST['btnCancel'])) { ?>
                                             <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
                                         </div>
                                  </div>
+                                 <div class="form-group">
+                                    <label class="control-label">Category</label><i class="text-danger asterik">*</i><br>
+                                    <div id="category" class="btn-group">
+                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="category" value="0" <?= ($res[0]['category'] == 0) ? 'checked' : ''; ?>> Refer Only
+                                        </label>
+                                        <label class="btn btn-info" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="category" value="1" <?= ($res[0]['category'] == 1) ? 'checked' : ''; ?>> Both Refer & Codes
+                                        </label>
+                                    </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Security</label><br>
+                                    <input type="checkbox" id="security_button" class="js-switch" <?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="security" name="security" value="<?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 1 : 0 ?>">
+                                </div>
+                                
+                            </div>
+
+                        
+
                         </div>
                         <br>
                         <div class="row">
@@ -354,40 +359,6 @@ if (isset($_POST['btnCancel'])) { ?>
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
-
-                    </div>
-                </form>
-            </div><!-- /.box -->
-        </div>
-    </div>
-</section>
-
-<section class="content">
-    <!-- Main row -->
-
-    <div class="row">
-        <div class="col-md-10">
-            <div class="box box-primary">
-                <form id="edit_user_form" method="post" enctype="multipart/form-data">
-                    <input type="hidden" class="form-control" name="refer_bonus_sent" value="<?php echo $res[0]['refer_bonus_sent']; ?>">
-                    <input type="hidden" class="form-control" name="register_bonus_sent" value="<?php echo $res[0]['register_bonus_sent']; ?>">
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Security</label><br>
-                                    <input type="checkbox" id="security_button" class="js-switch" <?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="security" name="security" value="<?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 1 : 0 ?>">
-                                </div>
-                            </div>
-                        
-
-                        </div>
-                        
-                    </div><!-- /.box-body -->
-
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" name="btnEdit2">Update</button>
 
                     </div>
                 </form>
