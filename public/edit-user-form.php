@@ -116,6 +116,28 @@ if (isset($_POST['btnEdit'])) {
 
     }
 }
+if (isset($_POST['btnEdit2'])) {
+    $security = $db->escapeString(($_POST['security']));
+    $error = array();
+
+$sql_query = "UPDATE users SET security='$security' WHERE id =  $ID";
+$db->sql($sql_query);
+$update_result = $db->getResult();
+if (!empty($update_result)) {
+    $update_result = 0;
+} else {
+    $update_result = 1;
+}
+
+// check update result
+if ($update_result == 1) {
+    $error['update_users'] = " <section class='content-header'><span class='label label-success'>Users updated Successfully</span></section>";
+} else {
+    $error['update_users'] = " <span class='label label-danger'>Failed update users</span>";
+}
+
+
+}
 
 
 // create array variable to store previous data
@@ -142,8 +164,6 @@ if (isset($_POST['btnCancel'])) { ?>
 
     <div class="row">
         <div class="col-md-10">
-
-            <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
                 <div class="form-group col-md-3">
@@ -342,6 +362,40 @@ if (isset($_POST['btnCancel'])) { ?>
     </div>
 </section>
 
+<section class="content">
+    <!-- Main row -->
+
+    <div class="row">
+        <div class="col-md-10">
+            <div class="box box-primary">
+                <form id="edit_user_form" method="post" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" name="refer_bonus_sent" value="<?php echo $res[0]['refer_bonus_sent']; ?>">
+                    <input type="hidden" class="form-control" name="register_bonus_sent" value="<?php echo $res[0]['register_bonus_sent']; ?>">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="">Security</label><br>
+                                    <input type="checkbox" id="security_button" class="js-switch" <?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="security" name="security" value="<?= isset($res[0]['security']) && $res[0]['security'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
+                        
+
+                        </div>
+                        
+                    </div><!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary" name="btnEdit2">Update</button>
+
+                    </div>
+                </form>
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+
 <div class="separator"> </div>
 <?php $db->disconnect(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
@@ -368,6 +422,19 @@ if (isset($_POST['btnCancel'])) { ?>
 
         } else {
             $('#withdrawal_status').val(0);
+        }
+    };
+</script>
+
+<script>
+    var changeCheckbox = document.querySelector('#security_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#security').val(1);
+
+        } else {
+            $('#security').val(0);
         }
     };
 </script>

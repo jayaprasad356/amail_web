@@ -37,12 +37,17 @@ if($amount>=$min_sync_refer_wallet){
          $db->sql($sql);
          $res = $db->getResult();
          $sync_refer_wallet=$res[0]['sync_refer_wallet'];
+         $refer_income=$res[0]['refer_income'];
          if($amount<= $sync_refer_wallet){
-                    $sql = "UPDATE `users` SET `sync_refer_wallet` = sync_refer_wallet - $amount,`earn`=earn + $amount,`refer_balance`=refer_balance + $amount,`refer_income`= refer_income + $amount WHERE id = '$user_id'";
-                    $db->sql($sql);
-                    $response['success'] = true;
-                    $response['message'] = "Successfully Transfered";
-                    print_r(json_encode($response));
+            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','0','$amount','$datetime','refer_bonus')";
+            $db->sql($sql);
+            $sql = "UPDATE `users` SET `sync_refer_wallet` = sync_refer_wallet - $amount,`earn`=earn + $amount,`refer_balance`=refer_balance + $amount,`refer_income`= refer_income + $amount WHERE id = '$user_id'";
+            $db->sql($sql);
+            $response['success'] = true;
+            $response['message'] = "Successfully Transfered";
+            $response['refer_income'] =$refer_income;
+            $response['sync_refer_wallet'] =$sync_refer_wallet;
+            print_r(json_encode($response));
 
          }
          else{
