@@ -1065,7 +1065,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['today_codes'] = $row['today_codes'];
-        // $tempRow['balance'] = $row['balance'];
+        $tempRow['task_type'] = $row['task_type'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['joined_date'] = $row['joined_date'];
         $tempRow['total_referrals'] = $row['total_referrals'];
