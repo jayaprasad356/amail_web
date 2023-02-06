@@ -336,11 +336,12 @@ include "header.php";
                                     <thead>
                                         <tr>
                                             <th data-field="id" data-sortable='true'>ID</th>
-                                            <th data-field="joined_date" data-sortable='true' data-visible="true">Joined Date</th>
-                                            <th data-field="name" data-sortable='true' data-visible="true">Name</th>
-                                            <th data-field="mobile" data-sortable='true' data-visible="true">Mobile</th>
-                                            <th data-field="today_codes" data-sortable='true' data-visible="true">Codes</th>
-                                            <th data-field="earn" data-sortable='true' data-visible="true">Earn</th>
+                                            <!-- <th data-field="joined_date" data-visible="true">Joined Date</th> -->
+                                            <th data-field="name">Name</th>
+                                            <th data-field="mobile">Mobile</th>
+                                            <th data-field="today_codes">Codes</th>
+                                            <th data-field="earn" >Earn</th>
+                                            <th data-field="task_type" >Task Type</th>
                                             <!-- <th data-field="balance" data-sortable='true' data-visible="true">Balance</th> -->
                                             <th data-field="total_referrals" data-sortable='true' data-visible="true">Total Referals</th>
                                             <!-- <th data-field="operate">Action</th> -->
