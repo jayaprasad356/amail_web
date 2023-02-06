@@ -451,7 +451,7 @@ include "header.php";
 
 
             var data = google.visualization.arrayToDataTable([
-                ['Hour', 'Total - <?= $stu_total2[0]['total'] ?>'],
+                ['Hour', 'Total - <?= $stu_total2[0]['total'] .'\n₹'.$stu_total2[0]['total'] * COST_PER_CODE ?>'],
                 <?php foreach ($result_order2 as $row) {
                     //$date = date('d-M', strtotime($row['order_date']));
                     echo "['" . $row['time'] . "'," . $row['codes'] . "],";
