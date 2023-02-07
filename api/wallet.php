@@ -45,19 +45,20 @@ if($code_generate == 1){
     
         $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
         $db->sql($sql);
+        $mentiondate = '2023-02-05';
 
-        $sql = "SELECT referred_by  FROM users WHERE id = $user_id ";
+        $sql = "SELECT referred_by  FROM users WHERE id = $user_id AND `joined_date` >= '$mentiondate'";
         $db->sql($sql);
         $res = $db->getResult();
         $referred_by = $res[0]['referred_by'];
     
         if(!empty($referred_by)){
             $referamtcode = $codes * REFER_COST_PER_CODE;
-            $mentiondate = '2023-02-05';
+            
             $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
             $db->sql($sql);
             $rep= $db->getResult();
-            $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'  AND `joined_date` >= '$mentiondate'";
+            $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
             $db->sql($sql);
     
         }
