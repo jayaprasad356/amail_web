@@ -19,7 +19,7 @@ $currentdate = date('Y-m-d');
 $sql = "UPDATE users SET mcg_timer=40 WHERE task_type = 'champion' ";
 $db->sql($sql);
 
-$sql = "UPDATE users SET mcg_timer=45 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 ";
+$sql = "UPDATE users SET mcg_timer=45 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 30 ";
 $db->sql($sql);
 
 $sql = "UPDATE users SET mcg_timer=15 WHERE task_type = 'regular'";
