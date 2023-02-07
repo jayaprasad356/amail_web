@@ -163,12 +163,12 @@ $fn = new custom_functions;
                         <i class="fa fa-home" class="active"></i> <span>Home</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="reports.php">
                     <i class="fa fa-clipboard"></i>
                         <span>Reports</span>
                     </a>
-                </li>
+                </li> -->
 
                 <li class="treeview">
                     <a href="users.php">

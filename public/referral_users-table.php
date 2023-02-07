@@ -53,7 +53,7 @@
                                     <th data-field="code_generate" data-sortable="true">Code Generate</th>
                                     <th data-field="withdrawal_status" data-sortable="true">Withdrawal Status</th>
                                     <th data-field="today_codes" data-sortable="true">Today Codes</th>
-                                    <th data-field="total_codes" data-sortable="true">Total Codes</th>sync_refer_wallet
+                                    <th data-field="total_codes" data-sortable="true">Total Codes</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
                                     
