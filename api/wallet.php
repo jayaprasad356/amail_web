@@ -47,7 +47,7 @@ if($code_generate == 1){
         $db->sql($sql);
         $mentiondate = '2023-02-05';
 
-        $sql = "SELECT referred_by  FROM users WHERE id = $user_id AND `joined_date` <= '$mentiondate'";
+        $sql = "SELECT referred_by  FROM users WHERE id = $user_id AND `joined_date` >= '$mentiondate'";
         $db->sql($sql);
         $res = $db->getResult();
         $referred_by = $res[0]['referred_by'];
