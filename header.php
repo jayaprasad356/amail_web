@@ -176,6 +176,13 @@ $fn = new custom_functions;
                         <span>Users</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="referral_users.php">
+                    <i class="fa fa-users"></i>
+                        <span>Users Referral Income</span>
+                    </a>
+                </li>
+                
                 
            
                 
