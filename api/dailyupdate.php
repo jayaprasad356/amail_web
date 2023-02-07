@@ -16,52 +16,28 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 
-
-$sql = "SELECT *,DATEDIFF( '$currentdate',joined_date) AS history FROM users";
+$sql = "UPDATE users SET mcg_timer=40 WHERE task_type = 'champion' ";
 $db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
-if ($num >= 1) {
-     foreach($res as $row){
-        if($row['task_type']=='champion'){
-            $sql = "UPDATE users SET mcg_timer=40 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['task_type']=='champion'  && $row['history']>=30 ){
-            $sql = "UPDATE users SET mcg_timer=45 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['task_type']=='regular'){
-            $sql = "UPDATE users SET mcg_timer=15 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['task_type']=='regular'  && $row['history']>=30 ){
-            $sql = "UPDATE users SET mcg_timer=20 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['task_type']=='regular' && $row['history']>=15 && $row['total_referrals']==0){
-            $sql = "UPDATE users SET mcg_timer=20 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['task_type']=='champion' && $row['history']>=15 && $row['total_referrals']==0){
-            $sql = "UPDATE users SET mcg_timer=45 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        if($row['total_codes']>=60000){
-            $sql = "UPDATE users SET code_generate=0 WHERE id=".$row['id'];
-            $db->sql($sql);
-        }
-        $result = $db->getResult();
-     }
-   
-    $response['success'] = true;
-    $response['message'] = "Successfully Updated";
-    print_r(json_encode($response));
-}
-else{
-    $response['success'] = false;
-    $response['message'] = "No Users Found";
-    print_r(json_encode($response));
-}
+
+$sql = "UPDATE users SET mcg_timer=45 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 ";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=15 WHERE task_type = 'regular'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=20 WHERE task_type = 'regular' AND DATEDIFF( '$currentdate',joined_date) >= 30";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=20 WHERE task_type = 'regular' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=45 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
+$db->sql($sql);
+
+
+$sql = "UPDATE users SET code_generate=0 WHERE total_codes >= 60000";
+$db->sql($sql);
+
+
 
 ?>
