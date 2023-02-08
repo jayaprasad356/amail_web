@@ -66,14 +66,6 @@ if($user_id != ''){
         $db->sql($sql);
 
     }
-
-
-    $days = $res[0]['days'];
-    if($days != 0){
-        $sql = "UPDATE `users` SET  `today_codes` = 0,`last_updated` = '$datetime' WHERE `id` = $user_id";
-        $db->sql($sql);
-
-    }
 }
 $sql = "SELECT * FROM app_settings";
 $db->sql($sql);
