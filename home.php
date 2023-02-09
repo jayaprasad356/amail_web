@@ -244,7 +244,7 @@ include "header.php";
                             $res = $db->getResult();
                             $balance = $res[0]['balance'];
                            
-                            echo "Rs.". number_format($balance);
+                            echo "Rs.". $balance;
                              ?></h3>
                             <p>Expect Withdrawals</p>
                         </div>
