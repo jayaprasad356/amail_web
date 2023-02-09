@@ -74,11 +74,11 @@ include "header.php";
                         <h3><?php
                             $currentdate = date('Y-m-d');
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE status=1 AND today_codes != 0 AND total_codes != 0  AND DATE(last_updated) = '$currentdate' ";
+                                $join = "WHERE status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
+                                $join = "WHERE status=1 AND code_generate = 1 AND refer_code REGEXP '^$refer_code' AND today_codes != 0 ";
                             }
                             $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
@@ -139,11 +139,11 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE id IS NOT NULL AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
