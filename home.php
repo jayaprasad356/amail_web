@@ -212,6 +212,46 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=0";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $totalamount = $res[0]['amount'];
+                            $currentdate = date('Y-m-d');
+                            $sql = "SELECT id FROM users WHERE joined_date= '$currentdate'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                            $today_reg = $num * 3000;
+                            $tvalue = $today_reg - $totalamount;
+                            echo "Rs.". $tvalue;
+                             ?></h3>
+                            <p>Profit</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-dark">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(balance) + SUM(refer_balance) + SUM(sync_refer_wallet) AS balance FROM users WHERE status=0 AND today_codes != 0";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $balance = $res[0]['balance'];
+                           
+                            echo "Rs.". $balance;
+                             ?></h3>
+                            <p>Expect Withdrawals</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
                 <?php    
                 }
                 ?>
