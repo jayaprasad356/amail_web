@@ -239,12 +239,12 @@ include "header.php";
                     <div class="small-box bg-dark">
                         <div class="inner">
                         <h3><?php
-                            $sql = "SELECT SUM(balance) + SUM(refer_balance) + SUM(sync_refer_wallet) AS balance FROM users WHERE status=0 AND today_codes != 0";
+                            $sql = "SELECT SUM(balance) + SUM(refer_balance) + SUM(sync_refer_wallet) AS balance FROM users WHERE status=1 AND today_codes != 0";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $balance = $res[0]['balance'];
                            
-                            echo "Rs.". $balance;
+                            echo "Rs.". number_format($balance);
                              ?></h3>
                             <p>Expect Withdrawals</p>
                         </div>
