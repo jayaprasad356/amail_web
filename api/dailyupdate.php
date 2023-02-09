@@ -15,6 +15,15 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
+$sql = "UPDATE users SET code_generate_time = 3";
+$db->sql($sql);
+
+
+$sql = "UPDATE users SET code_generate_time = 6 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 8 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 AND total_referrals = 0";
+$db->sql($sql);
 
 
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 30 DAY) AND status = 1 AND champion_task_eligible = 0";
@@ -30,6 +39,12 @@ $sql = "UPDATE users SET mcg_timer=45 WHERE task_type = 'champion' AND DATEDIFF(
 $db->sql($sql);
 
 $sql = "UPDATE users SET mcg_timer=15 WHERE task_type = 'regular'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=60 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 30 AND total_referrals = 0";
+$db->sql($sql);
+
+$sql = "UPDATE users SET mcg_timer=50 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
 $db->sql($sql);
 
 $sql = "UPDATE users SET mcg_timer=20 WHERE task_type = 'regular' AND DATEDIFF( '$currentdate',joined_date) >= 30";

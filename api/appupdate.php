@@ -33,8 +33,10 @@ if($user_id != ''){
     $device_id = $res[0]['device_id'];
     $today_codes = $res[0]['today_codes'];
     $task_type = $res[0]['task_type'];
-    $champion_task = $set[0]['champion_task'];
+    $code_generate_time = $res[0]['code_generate_time'];
 
+    $champion_task = $set[0]['champion_task'];
+    
 
     $sql = "UPDATE `users` SET  `app_version` = $app_version WHERE `id` = $user_id";
     $db->sql($sql);
@@ -57,12 +59,8 @@ if($user_id != ''){
         $db->sql($sql);
 
     }
-    if($task_type == 'champion' || ($history_days >= 7 && $today_codes > 500)){
+    if(($task_type == 'champion' && $code_generate_time <= 5)  || ($history_days >= 7 && $today_codes > 500 && $code_generate_time <= 5)){
         $sql = "UPDATE `users` SET  `code_generate_time` = 5 WHERE `id` = $user_id";
-        $db->sql($sql);
-
-    }else{
-        $sql = "UPDATE `users` SET  `code_generate_time` = 3 WHERE `id` = $user_id";
         $db->sql($sql);
 
     }
