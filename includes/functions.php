@@ -288,9 +288,20 @@ class functions
         $this->db->sql($sql);
     }
     //getting all tokens to send push to all devices
-    public function getAllTokens($table = 'users')
+    public function getAllTokens($send_to)
     {
-        $sql = "SELECT `fcm_id` FROM `$table`";
+        $table = 'users';
+        if($send_to == 1){
+            $sql = "SELECT `fcm_id` FROM `$table` WHERE status = 0";
+
+        }else if($send_to == 2){
+            $sql = "SELECT `fcm_id` FROM `$table` WHERE status = 1";
+
+        }
+        else{
+            $sql = "SELECT `fcm_id` FROM `$table`";
+        }
+        
         $this->db->sql($sql);
         /* $result = $stmt->get_result();
         $tokens = array(); 

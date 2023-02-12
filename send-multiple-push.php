@@ -27,6 +27,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$title = $db_con->escapeString($fn->xss_clean($_POST['title']));
 		$message = $db_con->escapeString($fn->xss_clean($_POST['description']));
 		$link = $db_con->escapeString($fn->xss_clean($_POST['link']));
+		$send_to = $db_con->escapeString($fn->xss_clean($_POST['send_to']));
 		$datetime = date('Y-m-d H:i:s');
 		$id = "0";
 		$type = "default";
@@ -37,7 +38,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$server_url = dirname($url).'/';
 		
 		$push = null;
-		$sql = "INSERT INTO notifications (title,description,datetime,link)VALUES('$title','$message','$datetime','$link')";
+		$sql = "INSERT INTO notifications (title,description,datetime,link,send_to)VALUES('$title','$message','$datetime','$link',$send_to)";
 		$db_con->sql($sql);
 		$db_con->getResult();
 		//first check if the push has an image with it
@@ -53,7 +54,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		$mPushNotification = $push->getPush();
 		
 		//getting the token from database object 
-        $devicetoken = $fnc->getAllTokens();
+        $devicetoken = $fnc->getAllTokens($send_to);
         //$devicetoken1 = $fnc->getAllTokens("devices");
         //$final_tokens = array_merge($devicetoken,$devicetoken1);
         $f_tokens = array_unique($devicetoken);
