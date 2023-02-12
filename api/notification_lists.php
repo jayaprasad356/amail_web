@@ -14,9 +14,30 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 $fn->monitorApi('notification_lists');
-$sql = "SELECT * FROM `notifications` ORDER BY id DESC LIMIT 20 ";
+if (empty($_POST['user_id'])) {
+    $response['success'] = false;
+    $response['message'] = "User Id is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+$user_id = $db->escapeString($_POST['user_id']);
+$sql = "SELECT status FROM `users` WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
+$status = $res[0]['status'];
+if($status == 0){
+    $sql = "SELECT * FROM `notifications` WHERE send_to = 0 OR send_to = 1 ORDER BY id DESC LIMIT 20 ";
+
+}
+else{
+    $sql = "SELECT * FROM `notifications` WHERE send_to = 0 OR send_to = 2 ORDER BY id DESC LIMIT 20 ";
+
+
+}
+
+$db->sql($sql);
+$res = $db->getResult();
+
 $num = $db->numRows($res);
 if ($num >= 1) {
     $response['success'] = true;

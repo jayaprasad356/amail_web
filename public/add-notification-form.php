@@ -89,9 +89,19 @@ if (isset($_POST['btnd'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Link</label> <i class="text-danger asterik">*</i><?php echo isset($error['link']) ? $error['link'] : ''; ?>
+                                    <label for="exampleInputEmail1">Link</label> 
                                     <input type="text" class="form-control" name="link">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                             <div class="col-md-3">
+                            <h4 class="box-title">Send to</h4>
+                            <select id='send_to' name="send_to" class='form-control'>
+                                    <option value="0">All</option>
+                                    <option value="1">Enquiries Users</option>
+                                    <option value="2">Joined Users</option>
+                            </select>
                             </div>
                         </div>
                     </div>

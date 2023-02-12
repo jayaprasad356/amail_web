@@ -111,12 +111,17 @@ else{
     $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
     $db->sql($sql_query);
 
+    $sql = "SELECT * FROM settings";
+    $db->sql($sql);
+    $setres = $db->getResult();
+
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
     $response['message'] = "Successfully Registered";
     $response['data'] = $res;
+    $response['settings'] = $setres;
     print_r(json_encode($response));
 
 
