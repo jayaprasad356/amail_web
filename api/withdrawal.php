@@ -116,7 +116,7 @@ if($withdrawal_status == 1 &&  $main_ws == 1 ){
     }
 }else{
     $response['success'] = false;
-    $response['message'] = "Withdrawal Timings Mon - Sat 10 AM to 7 PM";
+    $response['message'] = "Withdrawal Disabled Right Now,Please Try Again";
     print_r(json_encode($response));    
 }
 
