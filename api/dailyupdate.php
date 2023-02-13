@@ -18,13 +18,26 @@ $currentdate = date('Y-m-d');
 $sql = "UPDATE users SET code_generate_time = 3";
 $db->sql($sql);
 
-
-$sql = "UPDATE users SET code_generate_time = 6 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
+$sql = "UPDATE users SET mcg_timer=40 WHERE task_type = 'champion' ";
 $db->sql($sql);
 
-$sql = "UPDATE users SET code_generate_time = 8 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 AND total_referrals = 0";
+$sql = "UPDATE users SET mcg_timer=15 WHERE task_type = 'regular'";
 $db->sql($sql);
 
+$sql = "UPDATE users SET code_generate=0 WHERE total_codes >= 60000";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 8,mcg_timer = 25 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 AND task_type = 'regular'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 25 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0 AND task_type = 'regular'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 8,mcg_timer = 70 WHERE DATEDIFF( '$currentdate',joined_date) >= 30 AND task_type = 'champion'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 60 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0 AND task_type = 'champion'";
+$db->sql($sql);
 
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 30 DAY) AND status = 1 AND champion_task_eligible = 0";
 $db->sql($sql);
@@ -32,33 +45,16 @@ $db->sql($sql);
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0";
 $db->sql($sql);
 
-$sql = "UPDATE users SET mcg_timer=40 WHERE task_type = 'champion' ";
+$sql = "UPDATE users SET withdrawal_status = 0  WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 34 DAY) AND joined_date > DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
 $db->sql($sql);
 
-$sql = "UPDATE users SET mcg_timer=45 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 30 ";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=15 WHERE task_type = 'regular'";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=60 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 30 AND total_referrals = 0";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=50 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=20 WHERE task_type = 'regular' AND DATEDIFF( '$currentdate',joined_date) >= 30";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=20 WHERE task_type = 'regular' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
-$db->sql($sql);
-
-$sql = "UPDATE users SET mcg_timer=45 WHERE task_type = 'champion' AND DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0";
+$sql = "UPDATE users SET withdrawal_status = 1  WHERE joined_date <= DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
 $db->sql($sql);
 
 
-$sql = "UPDATE users SET code_generate=0 WHERE total_codes >= 60000";
-$db->sql($sql);
+
+
+
 
 
 
