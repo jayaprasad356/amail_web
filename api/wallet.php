@@ -72,6 +72,7 @@ if($code_generate == 1){
             $rep= $db->getResult();
             $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
             $db->sql($sql);
+            $response['sync'] = "Code Synced Successfully";
     
         }
     }
