@@ -61,10 +61,13 @@ if($code_generate == 1){
         $sql = "SELECT referred_by  FROM users WHERE id = $user_id AND `joined_date` >= '$mentiondate'";
         $db->sql($sql);
         $res = $db->getResult();
+        $num = $db->numRows($res);
         
     
-        if(!empty($referred_by)){
+        if($num == 1){
             $referred_by = $res[0]['referred_by'];
+        
+            
             $referamtcode = $codes * REFER_COST_PER_CODE;
             
             $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
@@ -72,7 +75,7 @@ if($code_generate == 1){
             $rep= $db->getResult();
             $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
             $db->sql($sql);
-            $response['sync'] = "Code Synced Successfully";
+            $response['sync'] = "Code Sync Successfully";
     
         }
     }
