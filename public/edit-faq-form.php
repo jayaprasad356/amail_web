@@ -20,7 +20,7 @@ if (isset($_POST['btnEdit'])) {
             $answer = $db->escapeString(($_POST['answer']));
             $error = array();
 
-     if (!empty($question) && !empty($answer)) {}
+     if (!empty($question) && !empty($answer)) {
     
         $sql_query = "UPDATE faq SET question='$question', answer='$answer' WHERE id =  $ID";
         $db->sql($sql_query);
@@ -40,6 +40,7 @@ if (isset($_POST['btnEdit'])) {
 
 
     }
+}
 
 
 // create array variable to store previous data
