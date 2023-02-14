@@ -64,7 +64,7 @@ if($code_generate == 1){
         $num = $db->numRows($res);
         
     
-        if($num != 1){
+        if($num == 10){
             $referred_by = $res[0]['referred_by'];
         
             
