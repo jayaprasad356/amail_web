@@ -39,6 +39,12 @@ $db->sql($sql);
 $sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 60 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0 AND task_type = 'champion'";
 $db->sql($sql);
 
+$sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 25 WHERE referred_by LIKE '%rejoin%' AND task_type = 'regular'";
+$db->sql($sql);
+
+$sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 60 WHERE referred_by LIKE '%rejoin%' AND task_type = 'champion'";
+$db->sql($sql);
+
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 30 DAY) AND status = 1 AND champion_task_eligible = 0";
 $db->sql($sql);
 
