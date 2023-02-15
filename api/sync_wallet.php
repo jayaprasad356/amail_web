@@ -17,7 +17,8 @@ $fn = new functions;
 $fn->monitorApi('updateuser');
 
 
-
+$sql = "UPDATE users SET sync_refer_wallet = 0";
+$db->sql($sql);
 $sql = "SELECT referred_by,total_codes FROM users WHERE joined_date>='2023-02-05' AND status=1 AND referred_by != ''";
 $db->sql($sql);
 $res = $db->getResult();
