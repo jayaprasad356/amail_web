@@ -382,6 +382,7 @@ include "header.php";
                                             <th data-field="today_codes">Codes</th>
                                             <th data-field="earn" >Earn</th>
                                             <th data-field="task_type" >Task Type</th>
+                                            <th data-field="total_earn" >Total Earn</th>
                                             <!-- <th data-field="balance" data-sortable='true' data-visible="true">Balance</th> -->
                                             <th data-field="total_referrals" data-sortable='true' data-visible="true">Total Referals</th>
                                             <!-- <th data-field="operate">Action</th> -->
