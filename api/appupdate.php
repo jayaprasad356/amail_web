@@ -64,6 +64,14 @@ if($user_id != ''){
         $db->sql($sql);
 
     }
+    if($user_id == 13406){
+        $sql = "SELECT *,1000 AS champion_search_count FROM settings";
+        $db->sql($sql);
+        $set = $db->getResult();
+
+    }
+
+
 }
 $sql = "SELECT * FROM app_settings";
 $db->sql($sql);
