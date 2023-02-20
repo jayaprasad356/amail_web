@@ -41,6 +41,7 @@ if (empty($_POST['description'])) {
 $title = $db->escapeString($_POST['title']);
 $description = $db->escapeString($_POST['description']);
 $mobile = $db->escapeString($_POST['mobile']);
+$type = (isset($_POST['type']) && !empty($_POST['type'])) ? $db->escapeString($_POST['type']) : "chat";
 $sql = "SELECT * FROM users WHERE mobile ='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -53,7 +54,6 @@ if ($num >= 1) {
     
     $push = null;
     $id = "0";
-    $type = "chat";
     $devicetoken = $fnc->getTokenByMobile($mobile);
     $push = new Push(
         $title,
