@@ -74,11 +74,11 @@ include "header.php";
                         <h3><?php
                             $currentdate = date('Y-m-d');
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE status=1 AND today_codes != 0 AND total_codes != 0  AND DATE(last_updated) = '$currentdate' ";
+                                $join = "WHERE status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE status=1 AND refer_code REGEXP '^$refer_code' AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
+                                $join = "WHERE status=1 AND code_generate = 1 AND refer_code REGEXP '^$refer_code' AND today_codes != 0 ";
                             }
                             $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
@@ -139,11 +139,11 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                             if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE id IS NOT NULL AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             else{
                                 $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND today_codes != 0 AND DATE(last_updated) = '$currentdate'";
+                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
                             $sql = "SELECT id FROM users $join";
                             $db->sql($sql);
@@ -212,6 +212,46 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <!-- <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=0";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $totalamount = $res[0]['amount'];
+                            $currentdate = date('Y-m-d');
+                            $sql = "SELECT id FROM users WHERE joined_date= '$currentdate'";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $num = $db->numRows($res);
+                            $today_reg = $num * 3000;
+                            $tvalue = $today_reg - $totalamount;
+                            echo "Rs.". $tvalue;
+                             ?></h3>
+                            <p>Profit</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-dark">
+                        <div class="inner">
+                        <h3><?php
+                            $sql = "SELECT SUM(balance) + SUM(refer_balance) + SUM(sync_refer_wallet) AS balance FROM users WHERE status=1 AND today_codes != 0";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $balance = $res[0]['balance'];
+                           
+                            echo "Rs.". round($balance);
+                             ?></h3>
+                            <p>Expect Withdrawals</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div> -->
                 <?php    
                 }
                 ?>
@@ -336,11 +376,13 @@ include "header.php";
                                     <thead>
                                         <tr>
                                             <th data-field="id" data-sortable='true'>ID</th>
-                                            <th data-field="joined_date" data-sortable='true' data-visible="true">Joined Date</th>
-                                            <th data-field="name" data-sortable='true' data-visible="true">Name</th>
-                                            <th data-field="mobile" data-sortable='true' data-visible="true">Mobile</th>
-                                            <th data-field="today_codes" data-sortable='true' data-visible="true">Codes</th>
-                                            <th data-field="earn" data-sortable='true' data-visible="true">Earn</th>
+                                            <!-- <th data-field="joined_date" data-visible="true">Joined Date</th> -->
+                                            <th data-field="name">Name</th>
+                                            <th data-field="mobile">Mobile</th>
+                                            <th data-field="today_codes">Codes</th>
+                                            <th data-field="earn" >Earn</th>
+                                            <th data-field="task_type" >Task Type</th>
+                                            <th data-field="total_earn" >Total Earn</th>
                                             <!-- <th data-field="balance" data-sortable='true' data-visible="true">Balance</th> -->
                                             <th data-field="total_referrals" data-sortable='true' data-visible="true">Total Referals</th>
                                             <!-- <th data-field="operate">Action</th> -->
@@ -450,7 +492,7 @@ include "header.php";
 
 
             var data = google.visualization.arrayToDataTable([
-                ['Hour', 'Total - <?= $stu_total2[0]['total'] ?>'],
+                ['Hour', 'Total - <?= $stu_total2[0]['total'] .'\n₹'.$stu_total2[0]['total'] * COST_PER_CODE ?>'],
                 <?php foreach ($result_order2 as $row) {
                     //$date = date('d-M', strtotime($row['order_date']));
                     echo "['" . $row['time'] . "'," . $row['codes'] . "],";

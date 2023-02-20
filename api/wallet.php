@@ -31,28 +31,43 @@ $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($
 $datetime = date('Y-m-d H:i:s');
 
 $type = 'generate';
-$sql = "SELECT code_generate FROM settings";
+$sql = "SELECT code_generate,num_sync_times FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
 $code_generate = $set[0]['code_generate'];
 if($code_generate == 1){
     if($codes != 0){
+        $currentdate = date('Y-m-d');
         $amount = $codes * COST_PER_CODE;
+        $sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate'";
+        $db->sql($sql);
+        $tres = $db->getResult();
+        $t_count = $tres[0]['count'];
+        if ($t_count > $set[0]['num_sync_times']) {
+            $response['success'] = false;
+            $response['message'] = "You Reached Daily Sync Limit";
+            print_r(json_encode($response));
+            return false;
+        }
 
         $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
         $db->sql($sql);
         $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $user_id";
+        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount,`last_updated` = '$datetime' WHERE `id` = $user_id";
         $db->sql($sql);
         $mentiondate = '2023-02-05';
 
         $sql = "SELECT referred_by  FROM users WHERE id = $user_id AND `joined_date` >= '$mentiondate'";
         $db->sql($sql);
         $res = $db->getResult();
-        $referred_by = $res[0]['referred_by'];
+        $num = $db->numRows($res);
+        
     
-        if(!empty($referred_by)){
+        if($num == 1){
+            $referred_by = $res[0]['referred_by'];
+        
+            
             $referamtcode = $codes * REFER_COST_PER_CODE;
             
             $sql = "SELECT id,mobile FROM users WHERE `refer_code` = '$referred_by' ";
@@ -60,6 +75,7 @@ if($code_generate == 1){
             $rep= $db->getResult();
             $sql = "UPDATE `users` SET  `sync_refer_wallet` = sync_refer_wallet + $referamtcode WHERE `refer_code` = '$referred_by'";
             $db->sql($sql);
+            $response['sync'] = "Code Sync Successfully";
     
         }
     }
