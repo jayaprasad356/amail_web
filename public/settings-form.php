@@ -22,8 +22,9 @@ if (isset($_POST['btnUpdate'])) {
     $sync_codes = $db->escapeString(($_POST['sync_codes']));
     $num_sync_times = $db->escapeString(($_POST['num_sync_times']));
     $min_sync_refer_wallet = $db->escapeString(($_POST['min_sync_refer_wallet']));
+    $main_content = $db->escapeString(($_POST['main_content']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -178,7 +179,16 @@ $res = $db->getResult();
                                         <input type="number"class="form-control" name="min_sync_refer_wallet" value="<?= $res[0]['min_sync_refer_wallet'] ?>">
                                     </div>
                                 </div>
-                            </div>                           
+                            </div>  
+                            <br>   
+                            <div class="form-group">
+                                    <label for="main_content">Main Content :</label> <i class="text-danger asterik">*</i><?php echo isset($error['main_content']) ? $error['main_content'] : ''; ?>
+                                    <textarea name="main_content" id="main_content" class="form-control" rows="8"><?php echo $res[0]['main_content']; ?></textarea>
+                                    <script type="text/javascript" src="css/js/ckeditor/ckeditor.js"></script>
+                                    <script type="text/javascript">
+                                        CKEDITOR.replace('main_content');
+                                    </script>
+                                </div>              
                     </div>
                   
                     <!-- /.box-body -->
@@ -197,6 +207,19 @@ $res = $db->getResult();
 <div class="separator"> </div>
 
 <?php $db->disconnect(); ?>
+<script>
+    $('#delivery_charge').validate({
+        rules: {
+            main_content: {
+                required: function(textarea) {
+                    CKEDITOR.instances[textarea.id].updateElement();
+                    var editorcontent = textarea.value.replace(/<[^>]*>/gi, '');
+                    return editorcontent.length === 0;
+                }
+            }
+        }
+    });
+</script>
 
 <script>
     var changeCheckbox = document.querySelector('#code_generate_button');
