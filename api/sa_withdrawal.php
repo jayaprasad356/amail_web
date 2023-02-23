@@ -45,6 +45,23 @@ if($user_num >= 1 ){
                     $db->sql($sql);
                     $sql = "INSERT INTO salary_advance_trans (`user_id`,`refer_user_id`,`amount`,`datetime`,`type`)VALUES('','$user_id','$amount','$datetime','debit')";
                     $db->sql($sql);
+
+                    // Calculate EMI due dates
+                    $emi_count = ceil($amount / 500);
+                    $due_dates = array();
+                    for ($i = 1; $i <= $emi_count; $i++) {
+                        $due_date = date('Y-m-d', strtotime("+$i week", strtotime($datetime)));
+                        array_push($due_dates, $due_date);
+                    }
+                    //calculate Due Amount
+                    $due_amount = $amount / $emi_count;
+
+                    // Add due dates to the database
+                    foreach ($due_dates as $due_date) {
+                        $sql = "INSERT INTO repayments (`user_id`, amount, `due_date`, `status`) VALUES ('$user_id', '$due_amount', '$due_date', 0)";
+                        $db->sql($sql);
+                    }
+
                     $sql = "SELECT salary_advance_balance,ongoing_sa_balance,refer_balance FROM users WHERE id = $user_id ";
                     $db->sql($sql);
                     $res = $db->getResult();
