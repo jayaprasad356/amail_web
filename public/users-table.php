@@ -1,10 +1,11 @@
 <section class="content-header">
     <h1>Users /<small><a href="home.php"><i class="fa fa-home"></i> Home</a></small></h1>
-
-    <ol class="breadcrumb">
-        <a class="btn btn-block btn-default" href="add-user.php"><i class="fa fa-plus-square"></i> Add New User</a>
-    </ol>
-
+    <?php
+         if($_SESSION['role'] == 'Super Admin'){?>
+            <ol class="breadcrumb">
+                <a class="btn btn-block btn-default" href="add-user.php"><i class="fa fa-plus-square"></i> Add New User</a>
+            </ol>
+    <?php } ?>
 </section>
     <!-- Main content -->
     <section class="content">
@@ -39,7 +40,10 @@
                         }'>
                             <thead>
                                 <tr>
+                                    <?php 
+                                if($_SESSION['role'] == 'Super Admin'){?>
                                    <th data-field="operate">Action</th>
+                                   <?php } ?>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Phone Number</th>
@@ -54,8 +58,6 @@
                                     <th data-field="total_codes" data-sortable="true">Total Codes</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
-                                    
-                                    
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>
