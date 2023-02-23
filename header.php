@@ -175,7 +175,7 @@ $fn = new custom_functions;
                     <i class="fa fa-users"></i>
                         <span>Users</span>
                     </a>
-                </li>
+                <!-- </li>
                 <li class="treeview">
                     <a href="referral_users.php">
                     <i class="fa fa-users"></i>
@@ -197,11 +197,11 @@ $fn = new custom_functions;
                     <i class="fa fa-money"></i>
                        <span> Manage Referal Codes</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="treeview">
-                    <a href="referal_bonus.php">
-                    <i class="fa fa-refresh"></i>
-                        <span> Referal Bonus</span>
+                    <a href="withdrawals.php">
+                    <i class="fa fa-money"></i>
+                        <span>Withdrawals</span>
                     </a>
                 </li>
 
