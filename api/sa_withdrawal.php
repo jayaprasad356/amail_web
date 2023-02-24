@@ -40,8 +40,10 @@ $res = $db->getResult();
 $user_num=$db->numRows($res);
 $salary_advance_balance = $res[0]['salary_advance_balance'];
 $sa_refer_count = $res[0]['sa_refer_count'];
+$ongoing_sa_balance = $res[0]['ongoing_sa_balance'];
 if($user_num >= 1 ){
         if($amount <= $salary_advance_balance){
+              if($ongoing_sa_balance == 0){
                     if($amount==2000){
                         $sql="UPDATE `users` SET `sa_refer_count` = sa_refer_count - 10 WHERE `id` = $user_id";
                         $db->sql($sql);
@@ -55,6 +57,8 @@ if($user_num >= 1 ){
                         $db->sql($sql);
                     }
                     $sql = "UPDATE `users` SET `salary_advance_balance` = salary_advance_balance - $amount,`ongoing_sa_balance` = ongoing_sa_balance + $amount,`refer_balance`=refer_balance + $amount WHERE `id` = $user_id";
+                    $db->sql($sql);
+                    $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`)VALUES('$user_id','$amount','$datetime','sa_withdrawal')";
                     $db->sql($sql);
                     $sql = "INSERT INTO salary_advance_trans (`user_id`,`refer_user_id`,`amount`,`datetime`,`type`)VALUES('','$user_id','$amount','$datetime','debit')";
                     $db->sql($sql);
@@ -91,7 +95,13 @@ if($user_num >= 1 ){
                     $response['sa_refer_count'] = $sa_refer_count;
                     $response['message'] = "Withdrawal requested successfully";
                     print_r(json_encode($response));
-            
+                }
+                else{
+                    $response['success'] = false;
+                    $response['message'] = "Please complete your ongoing salary balance";
+                    print_r(json_encode($response));
+                }
+             
         }
         else{
             $response['success'] = false;
