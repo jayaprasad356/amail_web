@@ -79,13 +79,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
 
     
-    if($_SESSION['role'] == 'Super Admin'){
-        $join = "WHERE id IS NOT NULL";
-    }
-    else{
-        $refer_code = $_SESSION['refer_code'];
-        $join = "WHERE refer_code REGEXP '^$refer_code'";
-    }
+    $join = "WHERE id IS NOT NULL";
     $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
     $db->sql($sql);
     $res = $db->getResult();
@@ -1284,6 +1278,137 @@ if (isset($_GET['table']) && $_GET['table'] == 'employees') {
         else
             $tempRow['status']="<label class='label label-danger'>Inactive</label>";
         $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//salary advance Transactions table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'salary_advance_transactions') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    // if (isset($_GET['type']) && !empty($_GET['type'])){
+    //     $type = $db->escapeString($fn->xss_clean($_GET['type']));
+    //     $where .= "AND t.type = '$type' ";
+    // }
+      
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND u.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR t.id like '%" . $search . "%'  OR t.type like '%" . $search . "%' OR u.mobile like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $join = "LEFT JOIN `users` u ON t.refer_user_id = u.id WHERE t.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(t.id) as total FROM `salary_advance_trans` t $join " . $where . "";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile FROM `salary_advance_trans` t $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['amount'] = $row['amount'];
+        $tempRow['datetime'] = $row['datetime'];
+        $tempRow['type'] = $row['type'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+//repayments table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    // if (isset($_GET['type']) && !empty($_GET['type'])){
+    //     $type = $db->escapeString($fn->xss_clean($_GET['type']));
+    //     $where .= "AND t.type = '$type' ";
+    // }
+      
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND u.name like '%" . $search . "%' OR r.amount like '%" . $search . "%' OR r.id like '%" . $search . "%'  OR r.due_date like '%" . $search . "%' OR u.mobile like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $join = "LEFT JOIN `users` u ON r.user_id = u.id WHERE r.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(r.id) as total FROM `repayments` r $join " . $where . "";
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT r.id AS id,r.*,u.name,u.mobile,r.status AS status FROM `repayments` r $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['amount'] = $row['amount'];
+        $tempRow['due_date'] = $row['due_date'];
+        if($row['status']==1)
+              $tempRow['status']="<p class='text text-success'>Paid</p>";        
+       else
+             $tempRow['status']="<p class='text text-danger'>Unpaid</p>";
+
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

@@ -176,32 +176,11 @@ $fn = new custom_functions;
                         <span>Users</span>
                     </a>
                 </li>
+               
                 <li class="treeview">
-                    <a href="referral_users.php">
-                    <i class="fa fa-users"></i>
-                        <span>Users Referral Income</span>
-                    </a>
-                </li>
-                
-                
-           
-                
-                <li class="treeview">
-                    <a href="champion_users.php">
-                    <i class="fa fa-trophy"></i>
-                        <span>Champion Users</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="referal_codes.php">
+                    <a href="withdrawals.php">
                     <i class="fa fa-money"></i>
-                       <span> Manage Referal Codes</span>
-                    </a>
-                </li>
-                <li class="treeview">
-                    <a href="referal_bonus.php">
-                    <i class="fa fa-refresh"></i>
-                        <span> Referal Bonus</span>
+                        <span>Withdrawals</span>
                     </a>
                 </li>
 
@@ -272,6 +251,18 @@ $fn = new custom_functions;
                         <li><a href="info_settings.php"><i class="fa fa-info"></i>Info Settings</a></li>
 
                     </ul>
+                </li>
+                <li class="treeview">
+                    <a href="sa_transactions.php">
+                    <i class="fa fa-arrow-right"></i>
+                        <span>Salary Advance Transactions</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="repayments.php">
+                    <i class="fa fa-money"></i>
+                        <span>Repayments</span>
+                    </a>
                 </li>
                 <li class="treeview">
                     <a href="payments.php">
