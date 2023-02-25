@@ -40,6 +40,12 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                 $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
                 $db->sql($sql);
 
+            }else if($withdrawal_type == 'sa_withdrawal'){
+                $sql = "UPDATE users SET ongoing_sa_balance= ongoing_sa_balance - $amount,salary_advance_balance = salary_advance_balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
+                $db->sql($sql);
+                $sql = "DELETE FROM repayments WHERE user_id = $user_id AND expiry = 0";
+                $db->sql($sql);
+
             }else{
                 $sql = "UPDATE users SET refer_balance= refer_balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
                 $db->sql($sql);
@@ -124,16 +130,18 @@ if (isset($_POST['export_all'])) {
                         <!-- /.box-header -->
                         <div class="box-body table-responsive">
                                 <div class="row">
-                                    <div class="text-left col-md-2">
-                                        <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
-                                    </div> 
-                                    <div class="col-md-3">
-                                            <button type="submit" class="btn btn-primary" name="btnUnpaid">Unpaid</button>
-                                            <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>
-                                            <button type="submit" class="btn btn-danger" name="btnCancel">Cancelled</button>
-                                            
-                                    </div>
-
+                                    <?php 
+                                    if($_SESSION['role'] == 'Super Admin'){?>
+                                        <div class="text-left col-md-2">
+                                            <input type="checkbox" onchange="checkAll(this)" name="chk[]" > Select All</input>
+                                        </div> 
+                                        <div class="col-md-3">
+                                                <button type="submit" class="btn btn-primary" name="btnUnpaid">Unpaid</button>
+                                                <button type="submit" class="btn btn-success" name="btnPaid">Paid</button>
+                                                <button type="submit" class="btn btn-danger" name="btnCancel">Cancelled</button>
+                                                
+                                        </div>
+                                    <?php } ?>
                                 </div>
                             <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=withdrawals" data-page-list="[5, 10, 20, 50, 100, 200,500,700,1000]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="w.id" data-show-footer="true" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                                 "fileName": "Yellow app-withdrawals-list-<?= date('d-m-Y') ?>",
