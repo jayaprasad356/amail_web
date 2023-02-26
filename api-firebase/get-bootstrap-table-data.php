@@ -114,6 +114,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_codes'] = $row['total_codes'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
+        $tempRow['ongoing_sa_balance'] = $row['ongoing_sa_balance'];
+        $tempRow['salary_advance_balance'] = $row['salary_advance_balance'];
+        $tempRow['sa_refer_count'] = $row['sa_refer_count'];
         $tempRow['withdrawal'] = $row['withdrawal'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
