@@ -22,7 +22,7 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT * FROM repayments WHERE user_id = '$user_id'";
+$sql = "SELECT * FROM repayments WHERE user_id = '$user_id' AND expiry=0";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

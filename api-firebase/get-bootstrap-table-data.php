@@ -114,6 +114,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['total_codes'] = $row['total_codes'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['history'] = $row['history'];
+        $tempRow['ongoing_sa_balance'] = $row['ongoing_sa_balance'];
+        $tempRow['salary_advance_balance'] = $row['salary_advance_balance'];
+        $tempRow['sa_refer_count'] = $row['sa_refer_count'];
         $tempRow['withdrawal'] = $row['withdrawal'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
@@ -1355,10 +1358,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
-    // if (isset($_GET['type']) && !empty($_GET['type'])){
-    //     $type = $db->escapeString($fn->xss_clean($_GET['type']));
-    //     $where .= "AND t.type = '$type' ";
-    // }
+    if ((isset($_GET['user_id']) && $_GET['user_id'] != '')) {
+        $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
+        $where .= "AND r.user_id = '$user_id'";
+    }
       
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -1398,7 +1401,12 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        
+        if($row['status']==0){
+            $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
+        }
+        else{
+            $checkbox = '';
+        }
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
@@ -1408,7 +1416,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
               $tempRow['status']="<p class='text text-success'>Paid</p>";        
        else
              $tempRow['status']="<p class='text text-danger'>Unpaid</p>";
-
+        $tempRow['column'] = $checkbox;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

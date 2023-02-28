@@ -40,6 +40,12 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
                 $sql = "UPDATE users SET balance= balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
                 $db->sql($sql);
 
+            }else if($withdrawal_type == 'sa_withdrawal'){
+                $sql = "UPDATE users SET ongoing_sa_balance= ongoing_sa_balance - $amount,salary_advance_balance = salary_advance_balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
+                $db->sql($sql);
+                $sql = "DELETE FROM repayments WHERE user_id = $user_id AND expiry = 0";
+                $db->sql($sql);
+
             }else{
                 $sql = "UPDATE users SET refer_balance= refer_balance + $amount,withdrawal = withdrawal - $amount WHERE id = $user_id";
                 $db->sql($sql);
