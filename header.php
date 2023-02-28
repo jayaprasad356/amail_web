@@ -184,9 +184,17 @@ $fn = new custom_functions;
                     </a>
                 </li>
 
+                
+
 
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
+                <li class="treeview">
+                    <a href="referal_bonus.php">
+                    <i class="fa fa-refresh"></i>
+                        <span> Referal Bonus</span>
+                    </a>
+                </li>
                 <li class="treeview">
                     <a href="bulk-upload-user.php">
                     <i class="fa fa-folder-open"></i>
@@ -200,12 +208,7 @@ $fn = new custom_functions;
                         <span>Bank Details</span>
                     </a>
                 </li>
-                <li class="treeview">
-                    <a href="withdrawals.php">
-                    <i class="fa fa-money"></i>
-                        <span>Withdrawals</span>
-                    </a>
-                </li>
+
                 <li class="treeview">
                     <a href="search_withdrawals.php">
                     <i class="fa fa-search"></i>
