@@ -190,9 +190,9 @@ $fn = new custom_functions;
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
-                    <a href="referal_bonus.php">
-                    <i class="fa fa-refresh"></i>
-                        <span> Referal Bonus</span>
+                    <a href="referral_users.php">
+                    <i class="fa fa-users"></i>
+                        <span>Users Referral Income</span>
                     </a>
                 </li>
                 <li class="treeview">
