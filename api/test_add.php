@@ -21,6 +21,12 @@ if (empty($_POST['data'])) {
 }
 $datetime = date('Y-m-d H:i:s');
 foreach ($_POST['data'] as $data) {
+    if (empty($data['id'])) {
+        $response['success'] = false;
+        $response['message'] = "User Id is Empty";
+        print_r(json_encode($response));
+        return false;
+    }
     if (empty($data['name'])) {
         $response['success'] = false;
         $response['message'] = "Name is Empty";
@@ -33,13 +39,26 @@ foreach ($_POST['data'] as $data) {
         print_r(json_encode($response));
         return false;
     }
+    $user_id = $db->escapeString($data['id']);
     $name = $db->escapeString($data['name']);
     $email = $db->escapeString($data['email']);
-    $sql = "INSERT INTO `test_users` (name,email,datetime) VALUES ('$name','$email','$datetime')";
+    $sql = "SELECT * FROM `test_users` WHERE user_id = $user_id";
     $db->sql($sql);
+    $res = $db->getResult();
+    $num = $db->numRows($res);
+    if ($num >= 1) {
+        $sql = "UPDATE `test_users` SET name = '$name', email = '$email', datetime = '$datetime' WHERE user_id = $user_id";
+        $db->sql($sql);
+
+    }else{
+        $sql = "INSERT INTO `test_users` (user_id,name,email,datetime) VALUES ($user_id,'$name','$email','$datetime')";
+        $db->sql($sql);
+        }
+
 }
 
 $response['success'] = true;
 $response['message'] = "Data Inserted Successfully";
+$response['data'] = $_POST['data'];
 print_r(json_encode($response));
 ?>
