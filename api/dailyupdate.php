@@ -54,7 +54,7 @@ $db->sql($sql);
 $sql = "UPDATE users SET withdrawal_status = 0  WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 34 DAY) AND joined_date > DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
 $db->sql($sql);
 
-$sql = "UPDATE users SET withdrawal_status = 1,status = 0  WHERE joined_date <= DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
+$sql = "UPDATE users SET withdrawal_status = 1,code_generate=0  WHERE joined_date <= DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
 $db->sql($sql);
 
 
