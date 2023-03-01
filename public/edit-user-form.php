@@ -53,7 +53,7 @@ if (isset($_POST['btnEdit'])) {
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
             $code_bonus = $refer_bonus_codes * COST_PER_CODE;
             $referral_bonus = 250;
-            $sql_query = "SELECT * FROM users WHERE refer_code =  '$referred_by'";
+            $sql_query = "SELECT *,datediff('$date', joined_date) AS history_days FROM users WHERE refer_code =  '$referred_by'";
             $db->sql($sql_query);
             $res = $db->getResult();
             $num = $db->numRows($res);
@@ -61,7 +61,8 @@ if (isset($_POST['btnEdit'])) {
                 $user_id = $res[0]['id'];
                 $code_generate = $res[0]['code_generate'];
                 $ref_user_status = $res[0]['status'];
-                if($ref_user_status == 1){
+                $ref_user_history_days = $res[0]['history_days'];
+                if($ref_user_status == 1 && $ref_user_history_days <= 57){
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
@@ -75,7 +76,7 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$salary_advance_balance','$datetime','credit')";
                 $db->sql($sql_query);
-                if($ref_user_status == 1){
+                if($ref_user_status == 1 && $ref_user_history_days <= 57){
                     $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
                     $db->sql($sql_query);
                     $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
