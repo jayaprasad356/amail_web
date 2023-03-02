@@ -14,9 +14,40 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     for ($i = 0; $i < count($_POST['enable']); $i++) {
     
         $enable = $db->escapeString($fn->xss_clean($_POST['enable'][$i]));
-        $sql = "UPDATE withdrawals SET status=1 WHERE id = $enable";
+        $sql = "SELECT * FROM `withdrawals` WHERE id = $enable";
         $db->sql($sql);
-        $result = $db->getResult();
+        $res = $db->getResult();
+        $withdrawal_type = $res[0]['withdrawal_type'];
+        $amount = $res[0]['amount'];
+        $datetime = date('Y-m-d H:i:s');
+        $user_id=$res[0]['user_id'];
+        if($withdrawal_type=='sa_withdrawal'){
+            $sql = "UPDATE withdrawals SET status=1 WHERE id = $enable";
+            $db->sql($sql);
+            
+            // Calculate EMI due dates
+            $emi_count = ceil($amount / 500);
+            $due_dates = array();
+            for ($i = 1; $i <= $emi_count; $i++) {
+                $due_date = date('Y-m-d', strtotime("+$i week", strtotime($datetime)));
+                array_push($due_dates, $due_date);
+            }
+            //calculate Due Amount
+            $due_amount = $amount / $emi_count;
+    
+            // Add due dates to the database
+            foreach ($due_dates as $due_date) {
+                $sql = "INSERT INTO repayments (`user_id`, amount, `due_date`,`status`) VALUES ('$user_id', '$due_amount', '$due_date',0)";
+                $db->sql($sql);
+            }
+            $result = $db->getResult();
+        }
+        else{
+            $sql = "UPDATE withdrawals SET status=1 WHERE id = $enable";
+            $db->sql($sql);
+            $result = $db->getResult();
+        }
+       
     }
 }
 if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
