@@ -83,7 +83,7 @@ else{
 
     
     $datetime = date('Y-m-d H:i:s');
-    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`last_updated`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$datetime')";
+    $sql = "INSERT INTO users (`name`,`mobile`,`email`,`password`,`city`,`dob`,`referred_by`,`device_id`,`last_updated`,`registered_date`)VALUES('$name','$mobile','$email','$password','$city','$dob','$referred_by','$device_id','$datetime','$datetime')";
     $db->sql($sql);
     $sql = "SELECT * FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);

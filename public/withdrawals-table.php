@@ -47,6 +47,46 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
             $db->sql($sql);
             $result = $db->getResult();
         }
+
+        //send notification 
+        $sql = "SELECT * FROM `users` WHERE id = $user_id";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $num = $db->numRows($res);
+        $mobile=$res[0]['mobile'];
+        $title = "Withdrawal Request";
+        $description = "Your request is accepted and Paid Successfully";
+        $type = (isset($_POST['type']) && !empty($_POST['type'])) ? $db->escapeString($_POST['type']) : "chat";
+        if ($num >= 1) {
+            $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+            $url .= $_SERVER['SERVER_NAME'];
+            $url .= $_SERVER['REQUEST_URI'];
+            $server_url = dirname($url).'/';
+            
+            $push = null;
+            $id = "0";
+            $devicetoken = $fnc->getTokenByMobile($mobile);
+            $push = new Push(
+                $title,
+                $description,
+                null,
+                $type,
+                $id
+            );
+            $mPushNotification = $push->getPush();
+        
+        
+            $f_tokens = array_unique($devicetoken);
+            $devicetoken_chunks = array_chunk($f_tokens,1000);
+            foreach($devicetoken_chunks as $devicetokens){
+                //creating firebase class object 
+                $firebase = new Firebase(); 
+        
+                //sending push notification and displaying result 
+                $response['token'] = $devicetokens;
+                $firebase->send($devicetokens, $mPushNotification);
+            }
+        }
        
     }
 }
