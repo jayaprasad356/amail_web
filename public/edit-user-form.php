@@ -66,6 +66,10 @@ if (isset($_POST['btnEdit'])) {
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
+                if($ref_user_status == 1 && $ref_user_history_days > 57){
+                    $referral_bonus = 500;
+
+                }
 
                 $sa_refer_count=$res[0]['sa_refer_count'];
                 $salary_advance_balance=200;
