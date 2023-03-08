@@ -224,6 +224,7 @@ if (isset($_POST['export_all'])) {
                                         <th data-field="id" data-sortable="true">ID</th>
                                         <th data-field="name" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Name</th>
                                         <th data-field="amount" data-sortable="true" data-visible="true" data-footer-formatter="priceFormatter">Amount</th>
+                                        <th data-field="total_refund" data-sortable="true">Total Refund</th>
                                         <th data-field="status" data-sortable="true">Status</th>
                                         <th data-field="balance" data-sortable="true">Balance</th>
                                         <th data-field="withdrawal_type" data-sortable="true">Withdrawal Type</th>

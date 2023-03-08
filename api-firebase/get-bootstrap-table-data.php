@@ -68,7 +68,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR registered_date like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -99,6 +99,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
+        $tempRow['registered_date'] = $row['registered_date'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['password'] = $row['password'];
@@ -465,6 +466,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row) {
         // $operate = ' <a class="text text-danger" href="delete-withdrawal.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         // $operate .= ' <a href="edit-withdrawal.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $refer_refund=$row['total_referrals'] *250;
+        $code_refund=($row['total_codes']/3000)*100;
+        $total_refund= $refer_refund +  $code_refund;
+        $total_refund = number_format($total_refund, 2);
         $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
@@ -484,6 +489,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['history'] = $row['history'];
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['column'] = $checkbox;
+        $tempRow['total_refund'] = $total_refund;
         if($row['status']==1)
             $tempRow['status'] ="<p class='text text-success'>Paid</p>";
         elseif($row['status']==0)
