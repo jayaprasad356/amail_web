@@ -73,13 +73,13 @@ if (isset($_POST['btnEdit'])) {
                 }
 
                 $sa_refer_count=$res[0]['sa_refer_count'];
-                $salary_advance_balance=200;
+                $refer_sa_balance=200;
               
-                $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$salary_advance_balance,`sa_refer_count`=sa_refer_count + 1 WHERE id =  $user_id";
+                $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$refer_sa_balance,`sa_refer_count`=sa_refer_count + 1 WHERE id =  $user_id";
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                 $db->sql($sql_query);
-                $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$salary_advance_balance','$datetime','credit')";
+                $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
                 $db->sql($sql_query);
                 if($ref_user_status == 1 && $ref_user_history_days <= 57){
                     $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
@@ -99,6 +99,7 @@ if (isset($_POST['btnEdit'])) {
             $register_bonus = $join_codes * COST_PER_CODE;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
+            $salary_advance_balance = $salary_advance_balance + 200;
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
