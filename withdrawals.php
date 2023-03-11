@@ -5,6 +5,22 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+
+
+include_once('includes/crud.php');
+require_once 'includes/functions.php';
+require_once('includes/firebase.php');
+require_once ('includes/push.php');
+
+$fnc = new functions;
+
+include_once('includes/custom-functions.php');
+    
+$fn = new custom_functions;
+$fnc->monitorApi('sendnotify');
+$db = new Database();
+$db->connect();
+
 // start session
 
 // set time for session timeout

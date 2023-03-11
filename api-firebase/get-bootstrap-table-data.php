@@ -68,7 +68,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR registered_date like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -99,6 +99,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
+        $tempRow['registered_date'] = $row['registered_date'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['password'] = $row['password'];
@@ -465,6 +466,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     foreach ($res as $row) {
         // $operate = ' <a class="text text-danger" href="delete-withdrawal.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         // $operate .= ' <a href="edit-withdrawal.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
+        $refer_refund=$row['total_referrals'] *250;
+        $code_refund=($row['total_codes']/3000)*100;
+        $total_refund= $refer_refund +  $code_refund;
+        $total_refund = number_format($total_refund, 2);
         $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
@@ -484,6 +489,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
         $tempRow['history'] = $row['history'];
         $tempRow['ifsc'] = $row['ifsc'];
         $tempRow['column'] = $checkbox;
+        $tempRow['total_refund'] = $total_refund;
         if($row['status']==1)
             $tempRow['status'] ="<p class='text text-success'>Paid</p>";
         elseif($row['status']==0)
@@ -1417,6 +1423,70 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
        else
              $tempRow['status']="<p class='text text-danger'>Unpaid</p>";
         $tempRow['column'] = $checkbox;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+//leaves table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE id like '%" . $search . "%' OR reason like '%" . $search . "%' OR status like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `leaves`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM leaves " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $operate = '<a href="edit-leave.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-leave.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['date'] = $row['date'];
+        $tempRow['reason'] = $row['reason'];
+        if($row['status']==0){
+            $tempRow['status']="<p class='text text-primary'>Pending</p>";        
+        }
+        elseif($row['status']==1){
+            $tempRow['status']="<p class='text text-success'>Approved</p>";        
+        }
+        else{
+            $tempRow['status']="<p class='text text-danger'>Not-Approved</p>";        
+        }
+        $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
