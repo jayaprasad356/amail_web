@@ -316,6 +316,12 @@ $fn = new custom_functions;
                     </ul>
                 </li>
                 <li class="treeview">
+                    <a href="leaves.php">
+                        <i class="fa fa-calendar"></i>
+                        <span>Leaves</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="champions.php">
                         <i class="fa fa-trophy"></i>
                         <span>Task Champion Users</span>
