@@ -51,10 +51,10 @@ $db->sql($sql);
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0";
 $db->sql($sql);
 
-$sql = "UPDATE users SET withdrawal_status = 0  WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 34 DAY) AND joined_date > DATE_SUB( '$currentdate', INTERVAL 57 DAY)";
+$sql = "UPDATE users SET code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 36 DAY)";
 $db->sql($sql);
 
-$sql = "UPDATE users SET withdrawal_status = 1,code_generate=0  WHERE joined_date <= DATE_SUB( '$currentdate', INTERVAL 58 DAY)";
+$sql = "UPDATE users SET withdrawal_status = 1,code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 59 DAY)";
 $db->sql($sql);
 
 
