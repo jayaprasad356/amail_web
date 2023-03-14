@@ -13,20 +13,34 @@ $res = $db->getResult();
 if (isset($_POST['btnAdd'])) {
 
         $date = $db->escapeString(($_POST['date']));
+        $type = $db->escapeString(($_POST['type']));
+        $user_id = (isset($_POST['user_id']) && !empty($_POST['user_id'])) ? trim($db->escapeString($fn->xss_clean($_POST['user_id']))) : "";
         $reason = $db->escapeString(($_POST['reason']));
         $error = array();
        
         if (empty($date)) {
             $error['date'] = " <span class='label label-danger'>Required!</span>";
         }
+        if (empty($type)) {
+            $error['type'] = " <span class='label label-danger'>Required!</span>";
+        }
+        if (empty($user_id)) {
+            $error['user_id'] = " <span class='label label-danger'>Required!</span>";
+        }
         if (empty($reason)) {
             $error['reason'] = " <span class='label label-danger'>Required!</span>";
         }
        
-       if (!empty($date) && !empty($reason) ) 
+       if (!empty($date) && !empty($reason) && !empty($type)) 
        {
-            $sql_query = "INSERT INTO leaves (date,reason,status)VALUES('$date','$reason',0)";
-            $db->sql($sql_query);
+            if($type=='user_leave'){
+                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','$user_id','$date','$reason',1)";
+                $db->sql($sql_query);
+            }
+            elseif($type=='common_leave'){
+                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','','$date','$reason',1)";
+                $db->sql($sql_query);
+            }
             $result = $db->getResult();
             if (!empty($result)) {
                 $result = 0;
@@ -78,6 +92,36 @@ if (isset($_POST['btnAdd'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
+                                <label for="exampleInputEmail1">Leave Type</label><i class="text-danger asterik">*</i><br>
+                                    <input class="form-check-input" type="radio" name="type" value="user_leave" checked>
+                                    <label  for="exampleRadios1">User Leave</label><br>
+                                    <input class="form-check-input" type="radio" name="type" value="common_leave">
+                                    <label  for="exampleRadios2">Common Leave</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                   <label for="exampleInputEmail1">User</label> <i class="text-danger asterik">*</i>
+                                    <select id='user_id' name="user_id" class='form-control'>
+                                        <option value=''>All</option>
+                                        
+                                                <?php
+                                                $sql = "SELECT id,name FROM `users`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                    </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-12'>
                                     <label for="exampleInputEmail1">Reason</label> <i class="text-danger asterik">*</i>
                                     <textarea type="text" rows="3" class="form-control" name="reason" required></textarea>
                                 </div>
@@ -117,6 +161,20 @@ if (isset($_POST['btnAdd'])) {
             CKEDITOR.instances[instance].setData('');
         }
     });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#user_id').select2({
+        width: 'element',
+        placeholder: 'Type in name to search',
+
+    });
+    });
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+
 </script>
 
 <!--code for page clear-->

@@ -15,15 +15,23 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
            
-            $date = $db->escapeString(($_POST['date']));
+            $type = $db->escapeString(($_POST['type']));
+            $user_id = (isset($_POST['user_id']) && !empty($_POST['user_id'])) ? trim($db->escapeString($fn->xss_clean($_POST['user_id']))) : "";            $date = $db->escapeString(($_POST['date']));
             $reason = $db->escapeString(($_POST['reason']));
             $status = $db->escapeString(($_POST['status']));
             $error = array();
 
-     if (!empty($date) && !empty($date)) {
+     if (!empty($date) && !empty($type) && !empty($reason)) {
     
-        $sql_query = "UPDATE leaves SET date='$date', reason='$reason',status='$status' WHERE id =  $ID";
-        $db->sql($sql_query);
+
+        if($type=='user_leave'){
+            $sql_query = "UPDATE leaves SET type='$type',user_id='$user_id',date='$date', reason='$reason',status='$status' WHERE id =  $ID";
+            $db->sql($sql_query);
+        }
+        elseif($type=='common_leave'){
+            $sql_query = "UPDATE leaves SET type='$type',user_id='',date='$date', reason='$reason',status='$status' WHERE id =  $ID";
+            $db->sql($sql_query);
+        }
         $update_result = $db->getResult();
         if (!empty($update_result)) {
             $update_result = 0;
@@ -80,6 +88,33 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="form-group">
+                               <label class="control-label">Leave Type</label> <i class="text-danger asterik">*</i><br>
+                                <label class="form-check-input">
+                                    <input type="radio" name="type" value="user_leave" <?= ($res[0]['type'] == "user_leave") ? 'checked' : ''; ?>> User Leave
+                                </label>
+                                <br>
+                                <label class="form-check-input">
+                                    <input type="radio" name="type" value="common_leave" <?= ($res[0]['type'] == "common_leave") ? 'checked' : ''; ?>>Common Leave
+                                </label>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                                <label for="exampleInputEmail1">User</label> <i class="text-danger asterik">*</i>
+                                <select id='user_id' name="user_id" class='form-control'>
+                                    <option value=''>All</option>
+                                    
+                                            <?php
+                                            $sql = "SELECT id,name FROM `users`";
+                                            $db->sql($sql);
+                                            $result = $db->getResult();
+                                            foreach ($result as $value) {
+                                            ?>
+											 <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['user_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                        <?php } ?>
+                                </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
                                 <label for="exampleInputEmail1">Reason</label><i class="text-danger asterik">*</i>
                                 <textarea type="text" rows="3" class="form-control" name="reason"><?php echo $res[0]['reason']; ?></textarea>
                         </div>
@@ -111,5 +146,19 @@ if (isset($_POST['btnCancel'])) { ?>
 </section>
 
 <div class="separator"> </div>
+<script>
+    $(document).ready(function () {
+        $('#user_id').select2({
+        width: 'element',
+        placeholder: 'Type in name to search',
+
+    });
+    });
+
+    if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+
+</script>
 <?php $db->disconnect(); ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
