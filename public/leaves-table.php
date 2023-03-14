@@ -24,6 +24,9 @@
                                 <tr>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="date" data-sortable="true">Date</th>
+                                    <th data-field="type" data-sortable="true">Leave Type</th>
+                                    <th data-field="name" data-sortable="true">User</th>
+                                    <th data-field="mobile" data-sortable="true">Mobile Number</th>
                                     <th data-field="reason" data-sortable="true">Reason</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="operate">Action</th>

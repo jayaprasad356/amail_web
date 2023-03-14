@@ -1429,7 +1429,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
     print_r(json_encode($bulkData));
 }
 
-
 //leaves table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     $offset = 0;
@@ -1437,6 +1436,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    // if ((isset($_GET['user_id']) && $_GET['user_id'] != '')) {
+    //     $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
+    //     $where .= "AND r.user_id = '$user_id'";
+    // }
+      
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1449,7 +1453,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE id like '%" . $search . "%' OR reason like '%" . $search . "%' OR status like '%" . $search . "%'";
+        $where .= "AND u.name like '%" . $search . "%' OR l.reason like '%" . $search . "%' OR l.id like '%" . $search . "%'  OR l.date like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR l.type like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1457,14 +1461,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `leaves`" . $where;
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(l.id) as total FROM `leaves` l $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM leaves " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
-    $db->sql($sql);
+    $sql = "SELECT l.id AS id,l.*,u.name,u.mobile,l.status AS status FROM `leaves` l $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
     $res = $db->getResult();
 
     $bulkData = array();
@@ -1472,10 +1479,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+
         $operate = '<a href="edit-leave.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-leave.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['date'] = $row['date'];
+        $tempRow['type'] = $row['type'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['reason'] = $row['reason'];
         if($row['status']==0){
             $tempRow['status']="<p class='text text-primary'>Pending</p>";        
