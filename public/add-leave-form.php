@@ -33,12 +33,12 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($date) && !empty($reason) && !empty($type)) 
        {
-            if($type=='User_leave'){
-                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','$user_id','$date','$reason',0)";
+            if($type=='user_leave'){
+                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','$user_id','$date','$reason',1)";
                 $db->sql($sql_query);
             }
-            elseif($type=='Common_leave'){
-                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','','$date','$reason',0)";
+            elseif($type=='common_leave'){
+                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('$type','','$date','$reason',1)";
                 $db->sql($sql_query);
             }
             $result = $db->getResult();
@@ -93,9 +93,9 @@ if (isset($_POST['btnAdd'])) {
                             <div class="form-group">
                                 <div class='col-md-12'>
                                 <label for="exampleInputEmail1">Leave Type</label><i class="text-danger asterik">*</i><br>
-                                    <input class="form-check-input" type="radio" name="type" value="User_leave" checked>
+                                    <input class="form-check-input" type="radio" name="type" value="user_leave" checked>
                                     <label  for="exampleRadios1">User Leave</label><br>
-                                    <input class="form-check-input" type="radio" name="type" value="Common_leave">
+                                    <input class="form-check-input" type="radio" name="type" value="common_leave">
                                     <label  for="exampleRadios2">Common Leave</label>
                                 </div>
                             </div>

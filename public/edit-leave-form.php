@@ -24,11 +24,11 @@ if (isset($_POST['btnEdit'])) {
      if (!empty($date) && !empty($type) && !empty($reason)) {
     
 
-        if($type=='User_leave'){
+        if($type=='user_leave'){
             $sql_query = "UPDATE leaves SET type='$type',user_id='$user_id',date='$date', reason='$reason',status='$status' WHERE id =  $ID";
             $db->sql($sql_query);
         }
-        elseif($type=='Common_leave'){
+        elseif($type=='common_leave'){
             $sql_query = "UPDATE leaves SET type='$type',user_id='',date='$date', reason='$reason',status='$status' WHERE id =  $ID";
             $db->sql($sql_query);
         }
@@ -90,11 +90,11 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="form-group">
                                <label class="control-label">Leave Type</label> <i class="text-danger asterik">*</i><br>
                                 <label class="form-check-input">
-                                    <input type="radio" name="type" value="User_leave" <?= ($res[0]['type'] == "User_leave") ? 'checked' : ''; ?>> User Leave
+                                    <input type="radio" name="type" value="user_leave" <?= ($res[0]['type'] == "user_leave") ? 'checked' : ''; ?>> User Leave
                                 </label>
                                 <br>
                                 <label class="form-check-input">
-                                    <input type="radio" name="type" value="Common_leave" <?= ($res[0]['type'] == "Common_leave") ? 'checked' : ''; ?>>Common Leave
+                                    <input type="radio" name="type" value="common_leave" <?= ($res[0]['type'] == "common_leave") ? 'checked' : ''; ?>>Common Leave
                                 </label>
                         </div>
                         <br>
