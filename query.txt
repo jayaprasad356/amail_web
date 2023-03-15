@@ -1,10 +1,1 @@
-UPDATE `users` SET `code_generate_time` = '4' WHERE DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) >= 15 AND DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) < 30 AND total_referrals = 0;
-
-
-UPDATE `users` SET `code_generate_time` = 5 WHERE DATEDIFF(CURDATE(),STR_TO_DATE(joined_date, '%Y-%m-%d')) >= 30 AND total_referrals = 0 ;
-
-
-
-UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB(NOW(), INTERVAL 30 DAY) AND status = 1 AND champion_task_eligible = 0
-
-UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB(NOW(), INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0
+SELECT SUM(withdrawals.amount) FROM `users`,`withdrawals` WHERE users.id = withdrawals.user_id AND users.joined_date < DATE_SUB( '2023-03-15', INTERVAL 58 DAY) AND withdrawals.status = 0 AND DATE(withdrawals.datetime) = '2023-03-15'
