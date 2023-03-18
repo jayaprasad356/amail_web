@@ -4,9 +4,9 @@ $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
+// $sql = "SELECT id, name FROM categories ORDER BY id ASC";
+// $db->sql($sql);
+// $res = $db->getResult();
 
 ?>
 <?php
@@ -60,9 +60,10 @@ if (isset($_POST['btnAdd'])) {
 <?php
 if (isset($_POST['btnView'])) {
     $mobile = $db->escapeString(($_POST['mobile']));
-    $sql = "SELECT name,mobile FROM users WHERE mobile = '$mobile'";
+    $sql = "SELECT id,name,mobile FROM users WHERE mobile = '$mobile'";
     $db->sql($sql);
     $ures = $db->getResult();
+    $id = $ures[0]['id'];
     $name = $ures[0]['name'];
     $mobile = $ures[0]['mobile'];
 
@@ -79,7 +80,7 @@ if (isset($_POST['btnView'])) {
     <hr />
 </section>
 <section class="content">
-<div class="row">
+   <div class="row">
         <div class="col-md-6">
            
             <!-- general form elements -->
@@ -127,12 +128,13 @@ if (isset($_POST['btnView'])) {
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form url="add_leave_form" method="post" enctype="multipart/form-data">
+                   <input type="hidden" class="form-control" name="user_id" value="<?php echo isset($id) ? $id : "" ;?>">
                     <div class="box-body">
-                    <div class="row">
+                        <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="username" value="<?php echo isset($name) ? $name : "" ;?>" required readonly>
+                                    <input type="text" class="form-control" name="username" value="<?php echo isset($name) ? $name : "" ;?>" readonly>
                                 </div>
 
                             </div>
@@ -142,7 +144,7 @@ if (isset($_POST['btnView'])) {
                             <div class="form-group">
                                 <div class='col-md-12'>
                                     <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="usermobile" value="<?php echo isset($mobile) ? $mobile : "" ;?>" required readonly>
+                                    <input type="text" class="form-control" name="usermobile" value="<?php echo isset($mobile) ? $mobile : "" ;?>"  readonly>
                                 </div>
 
                             </div>
