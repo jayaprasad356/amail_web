@@ -41,7 +41,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $sql = "SELECT id FROM leaves WHERE user_id = $user_id AND date = '$leave_date'";
+    $sql = "SELECT id FROM leaves WHERE user_id = $user_id";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -52,24 +52,36 @@ if ($num == 1) {
 
     }
     else{
-        $sql = "SELECT id FROM leaves WHERE type = 'common_leave' AND date = '$leave_date'";
+        $sql = "SELECT id FROM leaves WHERE user_id = $user_id AND date = '$leave_date'";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
-        if ($num >= 1) {
+        if ($num == 1) {
             $response['success'] = false;
-            $response['message'] = "That Day Common Leave For All";
+            $response['message'] = "Already Applied on that day";
             print_r(json_encode($response));
-
+    
+        }else{
+            $sql = "SELECT id FROM leaves WHERE type = 'common_leave' AND date = '$leave_date'";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1) {
+                $response['success'] = false;
+                $response['message'] = "That Day Common Leave For All";
+                print_r(json_encode($response));
+    
+            }
+            else{
+                $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('user_leave','$user_id','$leave_date','$reason',1)";
+                $db->sql($sql_query);
+                $response['success'] = true;
+                $response['message'] = "Leave Requested Successfully";
+                print_r(json_encode($response));
+    
+            }
         }
-        else{
-            $sql_query = "INSERT INTO leaves (type,user_id,date,reason,status)VALUES('user_leave','$user_id','$leave_date','$reason',1)";
-            $db->sql($sql_query);
-            $response['success'] = true;
-            $response['message'] = "Leave Requested Successfully";
-            print_r(json_encode($response));
 
-        }
 
     }
 

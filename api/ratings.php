@@ -57,13 +57,20 @@ if($_POST['rate_type'] == 'add'){
         print_r(json_encode($response));
         return false;
     }
+    if (empty($_POST['ticket_id'])) {
+        $response['success'] = false;
+        $response['message'] = "Ticket Id is Empty";
+        print_r(json_encode($response));
+        return false;
+    }
     $user_id = $db->escapeString($_POST['user_id']);
     $description = $db->escapeString($_POST['description']);
     $ratings = $db->escapeString($_POST['ratings']);
+    $ticket_id = $db->escapeString($_POST['ticket_id']);
     
     
     
-    $sql = "INSERT INTO ratings (`user_id`,`description`,`ratings`) VALUES ('$user_id','$description','$ratings')";
+    $sql = "INSERT INTO ratings (`user_id`,`description`,`ratings`,`ticket_id`) VALUES ('$user_id','$description','$ratings','$ticket_id')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
