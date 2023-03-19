@@ -297,7 +297,7 @@ class functions
         if (!empty($res) && isset($res[0]['joined_date'])) {
             $joined_date = $res[0]['joined_date'];
             $history_days = $res[0]['history_days'];
-            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE (date > '$joined_date' AND user_id = $id) OR (type = 'common_leave' AND date > '$joined_date')";
+            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE ((date BETWEEN '$joined_date' AND '$date') AND user_id = $id) OR (type = 'common_leave' AND (date BETWEEN '$joined_date' AND '$date'))";
             $this->db->sql($sql);
             $res = $this->db->getResult();
             $leaves = $res[0]['leaves'];
