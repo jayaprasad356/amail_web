@@ -1438,7 +1438,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     $offset = 0;
     $limit = 10;
     $where = '';
-    $sort = 'id';
+    $sort = 'date';
     $order = 'DESC';
     // if ((isset($_GET['user_id']) && $_GET['user_id'] != '')) {
     //     $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
