@@ -287,6 +287,26 @@ class functions
         $sql = "INSERT INTO `montior` (`api`, `datetime`) VALUES ('$api_name', '$datetime')";
         $this->db->sql($sql);
     }
+    public function get_leave($id)
+    {
+        $date = date('Y-m-d');
+        $sql = "SELECT joined_date,datediff('$date', joined_date) AS history_days FROM users WHERE id=" . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        
+        if (!empty($res) && isset($res[0]['joined_date'])) {
+            $joined_date = $res[0]['joined_date'];
+            $history_days = $res[0]['history_days'];
+            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE date >=" . $joined_date;
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            $leaves = $res[0]['leaves'];
+            $total_leaves = ($history_days - $leaves);
+            return $total_leaves;
+        } else {
+            return 0;
+        }
+    }
     //getting all tokens to send push to all devices
     public function getAllTokens($send_to)
     {

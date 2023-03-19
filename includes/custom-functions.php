@@ -159,6 +159,8 @@ class custom_functions
             return 0;
         }
     }
+
+
     public function get_permissions($id)
     {
         $sql = "SELECT permissions FROM admin WHERE id=" . $id;
