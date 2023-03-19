@@ -29,12 +29,13 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $sql = "SELECT id FROM leaves WHERE user_id = $user_id";
+    $sql = "SELECT * FROM leaves WHERE user_id = $user_id";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
     $response['success'] = true;
     $response['total_leaves'] = 4 - $num;
+    $response['data'] = $res;
     $response['message'] = "Leave Retrived Successfully";
     print_r(json_encode($response));
 
