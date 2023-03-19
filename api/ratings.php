@@ -51,9 +51,9 @@ if($_POST['rate_type'] == 'add'){
         print_r(json_encode($response));
         return false;
     }
-    if (empty($_POST['employee_id'])) {
+    if (empty($_POST['employee_name'])) {
         $response['success'] = false;
-        $response['message'] = "Employee Id is Empty";
+        $response['message'] = "Employee Name is Empty";
         print_r(json_encode($response));
         return false;
     }
@@ -70,12 +70,13 @@ if($_POST['rate_type'] == 'add'){
         return false;
     }
     $user_id = $db->escapeString($_POST['user_id']);
-    $employee_id = $db->escapeString($_POST['employee_id']);
+    $employee_name = $db->escapeString($_POST['employee_name']);
     $description = $db->escapeString($_POST['description']);
     $ratings = $db->escapeString($_POST['ratings']);
     
     
-    $sql = "INSERT INTO ratings (`user_id`,`employee_id`,`description`,`ratings`) VALUES ('$user_id','$employee_id','$description','$ratings')";
+    
+    $sql = "INSERT INTO ratings (`user_id`,`employee_name`,`description`,`ratings`) VALUES ('$user_id','$employee_name','$description','$ratings')";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
