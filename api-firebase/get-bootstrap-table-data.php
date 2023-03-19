@@ -33,6 +33,8 @@ include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
 include_once('../includes/crud.php');
 include_once('../includes/variables.php');
+include_once('../includes/functions.php');
+$fnc = new functions;
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
@@ -97,7 +99,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $tempRow = array();
     foreach ($res as $row) {
         $user_id = $row['id'];
-        $history_days = $fn->get_leave($user_id);
+        $history_days = $fnc->get_leave($user_id);
         $row['history'] = $history_days;
         $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
