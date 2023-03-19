@@ -45,7 +45,7 @@ if ($num == 1) {
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
-    if ($num == 4) {
+    if ($num >= 4) {
         $response['success'] = false;
         $response['message'] = "Exceeded Leave Limit";
         print_r(json_encode($response));
