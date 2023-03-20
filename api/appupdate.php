@@ -58,11 +58,6 @@ if($user_id != ''){
 
     }
 
-    if($history_days > $set[0]['duration']){
-        $sql = "UPDATE `users` SET  `code_generate` = 0 WHERE `id` = $user_id";
-        $db->sql($sql);
-
-    }
     if(($task_type == 'champion' && $code_generate_time <= 5)  || ($history_days >= 7 && $today_codes > 500 && $code_generate_time <= 5)){
         $sql = "UPDATE `users` SET  `code_generate_time` = 5 WHERE `id` = $user_id";
         $db->sql($sql);
