@@ -42,7 +42,7 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
 
-    $sql = "SELECT id FROM `users` WHERE joined_date >= '2023-02-06'";
+    $sql = "SELECT id FROM `users` WHERE joined_date >= '2023-02-06' AND id = $user_id";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
