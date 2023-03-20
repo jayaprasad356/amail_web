@@ -35,6 +35,9 @@ if($user_id != ''){
     $today_codes = $res[0]['today_codes'];
     $task_type = $res[0]['task_type'];
     $code_generate_time = $res[0]['code_generate_time'];
+    $res[0]['joined_date'] = $fn->get_joined_date($user_id);;
+
+    
 
     $champion_task = $set[0]['champion_task'];
     

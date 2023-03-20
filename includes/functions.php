@@ -307,6 +307,33 @@ class functions
             return 0;
         }
     }
+    public function get_joined_date($id)
+    {
+        $date = date('Y-m-d');
+        $sql = "SELECT joined_date,datediff('$date', joined_date) AS history_days FROM users WHERE id=" . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        
+        if (!empty($res) && isset($res[0]['joined_date'])) {
+            $joined_date = $res[0]['joined_date'];
+            $sql = "SELECT count(*) AS leaves FROM `leaves` WHERE ((date BETWEEN '$joined_date' AND '$date') AND user_id = $id) OR (type = 'common_leave' AND (date BETWEEN '$joined_date' AND '$date'))";
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            $leaves = $res[0]['leaves'];
+
+            // Create a DateTime object from the joined date string
+            $date = new DateTime($joined_date);
+
+            // Subtract the specified number of days
+            $date->sub(new DateInterval('P'.$leaves.'D'));
+
+            // Format the updated date as a string
+            $updated_date = $date->format('Y-m-d');
+            return $updated_date;
+        } else {
+            return NULL;
+        }
+    }
     //getting all tokens to send push to all devices
     public function getAllTokens($send_to)
     {
