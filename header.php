@@ -328,6 +328,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="ratings.php">
+                        <i class="fa fa-star"></i>
+                        <span>Ratings</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="faq.php">
                         <i class="fa fa-info"></i>
                          <span>FAQs</span>
