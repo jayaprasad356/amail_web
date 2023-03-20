@@ -325,7 +325,7 @@ class functions
             $date = new DateTime($joined_date);
 
             // Subtract the specified number of days
-            $date->sub(new DateInterval('P'.$leaves.'D'));
+            $date->add(new DateInterval('P'.$leaves.'D'));
 
             // Format the updated date as a string
             $updated_date = $date->format('Y-m-d');
