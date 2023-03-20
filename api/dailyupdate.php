@@ -14,6 +14,9 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+
+include_once('../includes/functions.php');
+$fn = new functions;
 $currentdate = date('Y-m-d');
 $sql = "UPDATE users SET code_generate_time = 3";
 $db->sql($sql);
@@ -51,12 +54,11 @@ $db->sql($sql);
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0";
 $db->sql($sql);
 
-$sql = "UPDATE users SET code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 36 DAY)";
+$sql = "UPDATE users SET code_generate = 0  WHERE worked_days >= 30";
 $db->sql($sql);
 
 $sql = "UPDATE users SET withdrawal_status = 1,code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 59 DAY)";
 $db->sql($sql);
-
 
 
 

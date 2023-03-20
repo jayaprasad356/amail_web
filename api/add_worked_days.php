@@ -13,7 +13,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $date = date('Y-m-d');
-$sql = "SELECT id,joined_date FROM users WHERE joined_date>='2023-02-06' AND status=1";
+$sql = "SELECT id,joined_date FROM users WHERE joined_date>='2023-02-06' AND status=1 AND worked_days < 30";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
