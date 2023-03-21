@@ -44,8 +44,16 @@ if($user_id != ''){
     $champion_task = $set[0]['champion_task'];
     
 
-    $sql = "UPDATE `users` SET app_version = $app_version,latitude = '$latitude',longtitude = '$longtitude' WHERE `id` = $user_id";
+    $sql = "UPDATE `users` SET app_version = $app_version WHERE `id` = $user_id";
     $db->sql($sql);
+
+    if($latitude != ''){
+        $sql = "UPDATE `users` SET latitude = '$latitude',longtitude = '$longtitude' WHERE `id` = $user_id";
+        $db->sql($sql);
+
+    }
+
+
     
 
 
