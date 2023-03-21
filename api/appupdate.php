@@ -20,6 +20,8 @@ $datetime = date('Y-m-d H:i:s');
 $old_device_id = (isset($_POST['device_id']) && $_POST['device_id'] != "") ? $db->escapeString($_POST['device_id']) : "";
 $user_id = (isset($_POST['user_id']) && $_POST['user_id'] != "") ? $db->escapeString($_POST['user_id']) : "";
 $fcm_id = (isset($_POST['fcm_id']) && $_POST['fcm_id'] != "") ? $db->escapeString($_POST['fcm_id']) : "";
+$latitude = (isset($_POST['latitude']) && $_POST['latitude'] != "") ? $db->escapeString($_POST['latitude']) : "";
+$longtitude = (isset($_POST['longtitude']) && $_POST['longtitude'] != "") ? $db->escapeString($_POST['longtitude']) : "";
 $app_version = (isset($_POST['app_version']) && $_POST['app_version'] != "") ? $db->escapeString($_POST['app_version']) : 0;
 $sql = "SELECT * FROM settings";
 $db->sql($sql);
@@ -42,7 +44,7 @@ if($user_id != ''){
     $champion_task = $set[0]['champion_task'];
     
 
-    $sql = "UPDATE `users` SET  `app_version` = $app_version WHERE `id` = $user_id";
+    $sql = "UPDATE `users` SET app_version = $app_version,latitude = '$latitude',longtitude = '$longtitude' WHERE `id` = $user_id";
     $db->sql($sql);
     
 
