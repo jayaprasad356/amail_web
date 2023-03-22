@@ -54,7 +54,7 @@ $db->sql($sql);
 $sql = "UPDATE users SET champion_task_eligible = 1 WHERE joined_date < DATE_SUB( '$currentdate', INTERVAL 15 DAY) AND status = 1 AND champion_task_eligible = 0 AND total_referrals = 0";
 $db->sql($sql);
 
-$sql = "UPDATE users SET code_generate = 0  WHERE worked_days >= 30";
+$sql = "UPDATE users SET code_generate = 0  WHERE worked_days = duration";
 $db->sql($sql);
 
 $sql = "UPDATE users SET withdrawal_status = 1,code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 59 DAY)";

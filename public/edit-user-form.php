@@ -349,7 +349,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Worked Days</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
+                                    <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>" readonly>
                                 </div>
                             </div>
                         </div>
