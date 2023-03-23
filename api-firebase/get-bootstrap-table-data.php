@@ -390,7 +390,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'bank_details') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT b.id AS id,b.*,u.name FROM `bank_details` b $join 
+    $sql = "SELECT b.id AS id,b.*,u.name,u.mobile FROM `bank_details` b $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -404,6 +404,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'bank_details') {
         $operate .= ' <a class="text text-danger" href="delete-bank_detail.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['account_num'] = $row['account_num'];
         $tempRow['holder_name'] = $row['holder_name'];
         $tempRow['bank'] = $row['bank'];

@@ -22,6 +22,7 @@
                                 <tr>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="name" data-sortable="true">Name</th>
+                                    <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="account_num" data-sortable="true">Account Number</th>
                                     <th data-field="holder_name" data-sortable="true">Holder Name</th>
                                     <th data-field="bank" data-sortable="true">Bank Name</th>
