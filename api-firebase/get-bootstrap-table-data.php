@@ -453,8 +453,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
+    if($_SESSION['role'] == 'Super Admin'){
+        $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id ";
 
+    }
+    else{
+        $refer_code = $_SESSION['refer_code'];
+        $join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND u.refer_code REGEXP '^$refer_code'";
+    }
+    
     // Calculate the date 7 days ago
     $seven_days_ago = date('Y-m-d', strtotime('-7 days'));
     $where .= " AND w.datetime >= '$seven_days_ago' ";
