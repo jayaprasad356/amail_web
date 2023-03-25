@@ -81,7 +81,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
 
     
-    $join = "WHERE id IS NOT NULL";
+    
+    if($_SESSION['role'] == 'Super Admin'){
+        $join = "WHERE id IS NOT NULL";
+    }
+    else{
+        $refer_code = $_SESSION['refer_code'];
+        $join = "WHERE refer_code REGEXP '^$refer_code'";
+    }
     $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
     $db->sql($sql);
     $res = $db->getResult();
