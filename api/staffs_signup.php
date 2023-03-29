@@ -25,47 +25,47 @@ if (empty($_POST['name'])) {
 }
 if (empty($_POST['email'])) {
     $response['success'] = false;
-    $response['message'] = "email is Empty";
+    $response['message'] = "Email is Empty";
     print_r(json_encode($response));
     return false;
 }
 if (empty($_POST['password'])) {
     $response['success'] = false;
-    $response['message'] = "password is Empty";
+    $response['message'] = "Password is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Mobile'])) {
+if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Mobile is Empty";
+    $response['message'] = "Mobile Number is Empty";
     print_r(json_encode($response));
     return false;
 }
 if (empty($_POST['address'])) {
     $response['success'] = false;
-    $response['message'] = "address is Empty";
+    $response['message'] = "Address is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Bank_Account_Number'])) {
+if (empty($_POST['bank_account_number'])) {
     $response['success'] = false;
-    $response['message'] = "Bank_Account_Number is Empty";
+    $response['message'] = "Bank Account Number is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['IFSC_code'])) {
+if (empty($_POST['ifsc_code'])) {
     $response['success'] = false;
-    $response['message'] = "IFSC_code is Empty";
+    $response['message'] = "IFSC Code is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Bank_name'])) {
+if (empty($_POST['bank_name'])) {
     $response['success'] = false;
-    $response['message'] = "Bank_name is Empty";
+    $response['message'] = "Bank Name is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Branch'])) {
+if (empty($_POST['branch'])) {
     $response['success'] = false;
     $response['message'] = "Branch is Empty";
     print_r(json_encode($response));
@@ -93,9 +93,9 @@ if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
     return false;
 }
 
-if (!isset($_FILES['Education_Certificate']) || empty($_FILES['Education_Certificate']['name'])) {
+if (!isset($_FILES['education_certificate']) || empty($_FILES['education_certificate']['name'])) {
     $response['success'] = false;
-    $response['message'] = "Please upload an Education_Certificate ";
+    $response['message'] = "Please upload an education_certificate ";
     print_r(json_encode($response));
     return false;
 }
@@ -103,52 +103,53 @@ if (!isset($_FILES['Education_Certificate']) || empty($_FILES['Education_Certifi
 $name = $db->escapeString($_POST['name']);
 $email = $db->escapeString($_POST['email']);
 $password = $db->escapeString($_POST['password']);
-$Mobile = $db->escapeString($_POST['Mobile']);
+$mobile = $db->escapeString($_POST['mobile']);
 $address = $db->escapeString($_POST['address']);
-$Bank_Account_Number= $db->escapeString($_POST['Bank_Account_Number']);
-$IFSC_code = $db->escapeString($_POST['IFSC_code']);
-$Bank_name = $db->escapeString($_POST['Bank_name']);
-$Branch = $db->escapeString($_POST['Branch']);
+$bank_account_number= $db->escapeString($_POST['bank_account_number']);
+$ifsc_code = $db->escapeString($_POST['ifsc_code']);
+$bank_name = $db->escapeString($_POST['bank_name']);
+$branch = $db->escapeString($_POST['branch']);
 
-$aadhar_card = "";
-if (isset($_FILES['aadhar_card']) && $_FILES['aadhar_card']['error'] == UPLOAD_ERR_OK) {
-$uploadDir = '/upload/aadhar_card';
-   if (!is_dir($uploadDir)) {
-   mkdir($uploadDir, 0777, true);
-}
-$fileName = $_FILES['aadhar_card']['name'];
-$aadhar_card = $uploadDir . '/' . $fileName;
-$extension = pathinfo($aadhar_card, PATHINFO_EXTENSION);
-if (strtolower($extension) !== 'pdf') {
-   $response["success"] = false;
-   $response["message"] = "Aadhar card file type must be pdf!";
-   print_r(json_encode($response));
-   return false;
-}
-   move_uploaded_file($_FILES['aadhar_card']['tmp_name'], $aadhar_card);
-}
 
-$resume = "";
-if (isset($_FILES['resume']) && $_FILES['resume']['error'] == UPLOAD_ERR_OK) {
-$uploadDir = '/upload/resume';
+if (isset($_FILES['aadhar_card']) && !empty($_FILES['aadhar_card']) && $_FILES['aadhar_card']['error'] == 0 && $_FILES['aadhar_card']['size'] > 0) {
+    $uploadDir = '../upload/aadhar_card';
     if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
+        mkdir($uploadDir, 0777, true);
+    }
+    $fileName = $_FILES['aadhar_card']['name'];
+    $aadhar_card = $uploadDir . '/' . $fileName;
+    $extension = pathinfo($aadhar_card, PATHINFO_EXTENSION);
+    if (strtolower($extension) !== 'pdf') {
+        $response["success"] = false;
+        $response["message"] = "Aadhar Card file type must be pdf!";
+        print_r(json_encode($response));
+        return false;
+    }
+    $upload_image = 'upload/aadhar_card/' . $fileName;
+    move_uploaded_file($_FILES['aadhar_card']['tmp_name'], $aadhar_card);
 }
-$fileName = $_FILES['resume']['name'];
-$resume = $uploadDir . '/' . $fileName;
-$extension = pathinfo($resume, PATHINFO_EXTENSION);
-if (strtolower($extension) !== 'pdf') {
-    $response["success"] = false;
-    $response["message"] = "Resume file type must be pdf!";
-    print_r(json_encode($response));
-    return false;
-}
+
+if (isset($_FILES['resume']) && !empty($_FILES['resume']) && $_FILES['resume']['error'] == 0 && $_FILES['resume']['size'] > 0) {
+    $uploadDir = '../upload/resume';
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    $fileName = $_FILES['resume']['name'];
+    $resume = $uploadDir . '/' . $fileName;
+    $extension = pathinfo($resume, PATHINFO_EXTENSION);
+    if (strtolower($extension) !== 'pdf') {
+        $response["success"] = false;
+        $response["message"] = "Resume file type must be pdf!";
+        print_r(json_encode($response));
+        return false;
+    }
+    $upload_image1 = 'upload/resume/' . $fileName;
     move_uploaded_file($_FILES['resume']['tmp_name'], $resume);
 }
 
 if (isset($_FILES['photo']) && !empty($_FILES['photo']) && $_FILES['photo']['error'] == 0 && $_FILES['photo']['size'] > 0) {
-    if (!is_dir('/upload/photo/')) {
-        mkdir('/upload/photo/', 0777, true);
+    if (!is_dir('../upload/photo/')) {
+        mkdir('..//upload/photo/', 0777, true);
     }
     $photo = $db->escapeString($fn->xss_clean($_FILES['photo']['name']));
     $extension = pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
@@ -160,7 +161,8 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']) && $_FILES['photo']['err
         return false;
     }
     $photo_name = microtime(true) . '.' . strtolower($extension);
-    $full_path = '/upload/photo/' . $photo_name;
+    $full_path = '../upload/photo/' . $photo_name;
+    $upload_image2 = 'upload/photo/' . $photo_name;
     if (!move_uploaded_file($_FILES["photo"]["tmp_name"], $full_path)) {
         $response["success"] = false;
         $response["message"] = "Invalid directory to upload image!";
@@ -169,22 +171,23 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']) && $_FILES['photo']['err
     }
 }
 
-$Education_Certificate = "";
-if (isset($_FILES['Education_Certificate']) && $_FILES['Education_Certificate']['error'] == UPLOAD_ERR_OK) {
-$uploadDir = '/upload/Education_Certificate';
-    if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0777, true);
-}
-$fileName = $_FILES['Education_Certificate']['name'];
-$Education_Certificate = $uploadDir . '/' . $fileName;
-$extension = pathinfo($Education_Certificate, PATHINFO_EXTENSION);
-if (strtolower($extension) !== 'pdf') {
-    $response["success"] = false;
-    $response["message"] = "Education certificate file type must be pdf!";
-    print_r(json_encode($response));
-    return false;
-}
-    move_uploaded_file($_FILES['Education_Certificate']['tmp_name'], $Education_Certificate);
+if (isset($_FILES['education_certificate']) && !empty($_FILES['education_certificate']) && $_FILES['education_certificate']['error'] == 0 && $_FILES['education_certificate']['size'] > 0) 
+{
+        $uploadDir = '../upload/education_certificate';
+        if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0777, true);
+    }
+    $fileName = $_FILES['education_certificate']['name'];
+    $education_certificate = $uploadDir . '/' . $fileName;
+    $extension = pathinfo($education_certificate, PATHINFO_EXTENSION);
+    if (strtolower($extension) !== 'pdf') {
+        $response["success"] = false;
+        $response["message"] = "Education certificate file type must be pdf!";
+        print_r(json_encode($response));
+        return false;
+    }
+    $upload_image3 = 'upload/education_certificate/' . $fileName;
+    move_uploaded_file($_FILES['education_certificate']['tmp_name'], $education_certificate);
 }
     
 $sql = "SELECT * FROM staffs WHERE email = '$email'";
@@ -196,8 +199,9 @@ if ($num >= 1) {
     $response['success'] = false;
     $response['message'] = "You are already registered";
     print_r(json_encode($response));
-} else {
-    $sql = "INSERT INTO staffs (name, email, password, Mobile, address,Bank_Account_Number, ifsc_code, bank_name, branch, aadhar_card, resume, photo, education_certificate) VALUES ('$name', '$email', '$password', '$Mobile', '$address', '$Bank_Account_Number', '$IFSC_code', '$Bank_name', '$Branch', '$aadhar_card', '$resume', '$photo', '$Education_Certificate')";
+}
+else {
+    $sql = "INSERT INTO staffs (name, email, password, mobile, address,bank_account_number, ifsc_code, bank_name, branch, aadhar_card, resume, photo, education_certificate) VALUES ('$name', '$email', '$password', '$mobile', '$address', '$bank_account_number', '$ifsc_code', '$bank_name', '$branch', '$upload_image', '$upload_image1', '$upload_image2', '$upload_image3')";
     $db->sql($sql);
     $sql = "SELECT * FROM staffs WHERE email = '$email'";
     $db->sql($sql);

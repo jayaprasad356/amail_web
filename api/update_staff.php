@@ -35,7 +35,7 @@ if (empty($_POST['email'])) {
 }
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "Mobilenumber is Empty";
+    $response['message'] = "Mobile Number is Empty";
     print_r(json_encode($response));
     return false;
 }

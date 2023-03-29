@@ -15,7 +15,7 @@ $db->connect();
 
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
-    $response['message'] = "mobile is empty";
+    $response['message'] = "Mobile Number is empty";
     print_r(json_encode($response));
     return false;
 }
@@ -36,20 +36,38 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num == 1) {
-    $user = $res[0];
-    if ($user['password'] == $password) {
-        $response['success'] = true;
-        $response['message'] = "login succesfully";
-        $response['data'] = $user;
-        print_r(json_encode($response));
-    } else {
-        $response['success'] = false;
-        $response['message'] = "invalid password";
-        print_r(json_encode($response));
-    }
-} else {
+       $row=$res[0];
+        if($row['password']== $password){
+            $temp['id'] = $row['id'];
+            $temp['name'] = $row['name'];
+            $temp['email'] = $row['email'];
+            $temp['mobile'] = $row['mobile'];
+            $temp['password'] = $row['password'];
+            $temp['address'] = $row['address'];
+            $temp['bank_account_number'] = $row['bank_account_number'];
+            $temp['ifsc_code'] = $row['ifsc_code'];
+            $temp['bank_name'] = $row['bank_name'];
+            $temp['branch'] = $row['branch'];
+            $temp['aadhar_card'] = DOMAIN_URL . $row['aadhar_card'];
+            $temp['photo'] = DOMAIN_URL . $row['photo'];
+            $temp['resume'] = DOMAIN_URL . $row['resume'];
+            $temp['education_certificate'] = DOMAIN_URL . $row['education_certificate'];
+            $rows[] = $temp;
+
+            $response['success'] = true;
+            $response['message'] = "Logged In Successfully";
+            $response['data'] = $rows;
+            print_r(json_encode($response));
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = "Invalid Password";
+            print_r(json_encode($response));
+        }
+}
+else {
     $response['success'] = false;
-    $response['message'] = "invalid mobile";
+    $response['message'] = "Staff Not Found";
     print_r(json_encode($response));
 }
 ?>

@@ -15,52 +15,52 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 
-if (empty($_POST['staffs_id'])) {
+if (empty($_POST['staff_id'])) {
     $response['success'] = false;
     $response['message'] = "staffs Id is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Bank_Account_Number'])) {
+if (empty($_POST['bank_account_number'])) {
     $response['success'] = false;
-    $response['message'] = "Bank_Account_Number is Empty";
+    $response['message'] = "Bank Account Number is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['IFSC_code'])) {
+if (empty($_POST['ifsc_code'])) {
     $response['success'] = false;
-    $response['message'] = "IFSC_code is Empty";
+    $response['message'] = "ifsc_code is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Bank_name'])) {
+if (empty($_POST['bank_name'])) {
     $response['success'] = false;
-    $response['message'] = "Bank_name is Empty";
+    $response['message'] = "Bank Name is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['Branch'])) {
+if (empty($_POST['branch'])) {
     $response['success'] = false;
     $response['message'] = "Branch is Empty";
     print_r(json_encode($response));
     return false;
 }
 
-$staffs_id = $db->escapeString($_POST['staffs_id']);
-$Bank_Account_Number = $db->escapeString($_POST['Bank_Account_Number']);
-$IFSC_code = $db->escapeString($_POST['IFSC_code']);
-$Bank_name = $db->escapeString($_POST['Bank_name']);
-$Branch = $db->escapeString($_POST['Branch']);
+$staff_id = $db->escapeString($_POST['staff_id']);
+$bank_account_number = $db->escapeString($_POST['bank_account_number']);
+$ifsc_code = $db->escapeString($_POST['ifsc_code']);
+$bank_name = $db->escapeString($_POST['bank_name']);
+$branch = $db->escapeString($_POST['branch']);
 
 
-$sql = "SELECT * FROM staffs WHERE id=" . $staffs_id;
+$sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET Bank_Account_Number='$Bank_Account_Number',IFSC_code='$IFSC_code',Bank_name='$Bank_name',Branch='$Branch' WHERE id=" . $staffs_id;
+    $sql = "UPDATE staffs SET bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',bank_name='$bank_name',branch='$branch' WHERE id=" . $staff_id;
     $db->sql($sql);
-    $sql = "SELECT * FROM staffs WHERE id=" . $staffs_id;
+    $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
@@ -72,7 +72,7 @@ if ($num >= 1) {
 else{
     
     $response['success'] = false;
-    $response['message'] ="Not Found";
+    $response['message'] ="Staff Not Found";
     print_r(json_encode($response));
     return false;
 

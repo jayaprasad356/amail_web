@@ -40,20 +40,11 @@ $num = $db->numRows($res);
 
 if($num == 1){
     $staff = $res[0];
-    $has_bank_details = (!empty($staff['Bank_name']) && !empty($staff['Bank_Account_Number']));
-
-    if(!empty($staff['updated_at']) && strtotime($staff['updated_at']) > strtotime($staff['created_at'])) {
-        $response['success'] = false;
-        $response['message'] = "Bank details have been updated. Please validate again.";
-        echo json_encode($response); 
-        exit;
-    }
-
+    $has_bank_details = (!empty($staff['bank_name']) && !empty($staff['bank_account_number']));
     if($has_bank_details){
         
         $sql = "INSERT INTO staff_withdrawal_request (staff_id, amount) VALUES ('$staff_id', '$amount')";
         $db->sql($sql);
-
         $response['success'] = true;
         $response['message'] = "Withdrawal request submitted successfully.";
         echo json_encode($response); 
