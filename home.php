@@ -45,6 +45,34 @@ include "header.php";
         </section>
         <section class="content">
             <div class="row">
+                <div class="col-md-12">
+                    <form id='employee_form' method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-4'>
+                                        <select id='support_id' name="support_id" class='form-control'>
+                                                <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT id,name FROM `employees`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                        </select>                    
+                                </div>
+                                <div class='col-md-6'>
+                                    <button type="submit" class="btn btn-primary" name="btnSubmit">Submit</button>
+                        
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <div class="row">
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-aqua">
                         <div class="inner">
@@ -56,7 +84,13 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code'";
                             }
-                            $sql = "SELECT id FROM users $join";
+                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                            if ($support_id != '') {
+                                $join1="AND support_id='$support_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT id FROM users $join $join1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -80,7 +114,13 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE status=1 AND code_generate = 1 AND refer_code REGEXP '^$refer_code' AND today_codes != 0 ";
                             }
-                            $sql = "SELECT id FROM users $join";
+                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                            if ($support_id != '') {
+                                $join1="AND support_id='$support_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT id FROM users $join $join1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -94,22 +134,22 @@ include "header.php";
                 </div>
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
-                <div class="col-lg-4 col-xs-6">
-                    <div class="small-box bg-teal">
-                        <div class="inner">
-                            <h3><?php
-                                $currentdate = date('Y-m-d');
-                                $sql = "SELECT SUM(codes) AS today_codes FROM transactions WHERE DATE(datetime) = '$currentdate'";
-                                $db->sql($sql);
-                                $res = $db->getResult();
-                                echo $res[0]['today_codes'];
-                                ?></h3>
-                                <p>Users Today Codes</p>
+                    <div class="col-lg-4 col-xs-6">
+                        <div class="small-box bg-teal">
+                            <div class="inner">
+                                <h3><?php
+                                    $currentdate = date('Y-m-d');
+                                    $sql = "SELECT SUM(codes) AS today_codes FROM transactions WHERE DATE(datetime) = '$currentdate'";
+                                    $db->sql($sql);
+                                    $res = $db->getResult();
+                                    echo $res[0]['today_codes'];
+                                    ?></h3>
+                                    <p>Users Today Codes</p>
+                            </div>
+                            
+                            <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        
-                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
                 <?php } ?>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-purple">
@@ -122,7 +162,13 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion'";
                             }
-                            $sql = "SELECT id FROM users $join";
+                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                            if ($support_id != '') {
+                                $join1="AND support_id='$support_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT id FROM users $join $join1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -145,7 +191,13 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
-                            $sql = "SELECT id FROM users $join";
+                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                            if ($support_id != '') {
+                                $join1="AND support_id='$support_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT id FROM users $join $join1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
@@ -165,10 +217,16 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
+                                $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                                if ($support_id != '') {
+                                    $join1="AND users.support_id='$support_id'";
+                                } else {
+                                    $join1="";
+                                }
                                 $sql = "SELECT SUM(codes) AS today_codes
                                 FROM transactions
                                 JOIN users ON transactions.user_id = users.id
-                                WHERE DATE(transactions.datetime) = '$currentdate' AND users.task_type = 'champion'";
+                                WHERE DATE(transactions.datetime) = '$currentdate' AND users.task_type = 'champion' $join1";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 echo $res[0]['today_codes'];
@@ -184,7 +242,13 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
-                                $sql = "SELECT id FROM users WHERE joined_date= '$currentdate'";
+                                $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                                if ($support_id != '') {
+                                    $join1="AND support_id='$support_id'";
+                                } else {
+                                    $join1="";
+                                }
+                                $sql = "SELECT id FROM users WHERE joined_date= '$currentdate' $join1";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 $num = $db->numRows($res);
@@ -200,7 +264,13 @@ include "header.php";
                     <div class="small-box bg-orange">
                         <div class="inner">
                         <h3><?php
-                            $sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE status=0";
+                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
+                            if ($support_id != '') {
+                                $join1="AND users.support_id='$support_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT SUM(withdrawals.amount) AS amount,withdrawals.user_id,users.id FROM withdrawals,users WHERE withdrawals.user_id=users.id AND withdrawals.status=0 $join1";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $totalamount = $res[0]['amount'];
@@ -258,23 +328,23 @@ include "header.php";
 
             </div>
             <div class="row">
-            <div class="col-md-12">
-            <form id='notification_form' method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="form-group">
-                        <div class='col-md-3'>
-                            <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d') ?>"></input>       
-                
-                        </div>
-                        <div class='col-md-6'>
-                            <button type="submit" class="btn btn-primary" name="btnSubmit">Submit</button>
-                 
+                <div class="col-md-12">
+                <form id='notification_form' method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class='col-md-3'>
+                                <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d') ?>"></input>       
+                    
+                            </div>
+                            <div class='col-md-6'>
+                                <button type="submit" class="btn btn-primary" name="btnSubmit">Submit</button>
+                    
+                            </div>
                         </div>
                     </div>
+                    
+                </form>
                 </div>
-                   
-            </form>
-            </div>
             </div>
             <br>
             <div class="row">
