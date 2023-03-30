@@ -57,7 +57,7 @@ $db->sql($sql);
 $sql = "UPDATE users SET code_generate = 0  WHERE worked_days = duration";
 $db->sql($sql);
 
-$sql = "UPDATE users SET withdrawal_status = 1,code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 59 DAY)";
+$sql = "UPDATE users SET withdrawal_status = 1,code_generate = 0  WHERE joined_date = DATE_SUB( '$currentdate', INTERVAL 62 DAY)";
 $db->sql($sql);
 
 
