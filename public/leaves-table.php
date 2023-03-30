@@ -13,6 +13,19 @@
             <!-- Left col -->
             <div class="col-xs-12">
                 <div class="box">
+                    <div class="box-header">
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                        <h4 class="box-title">Filter by Type </h4>
+                                        <select id='type' name="type" class='form-control'>
+                                                <option value="">--select--</option>
+                                                <option value="user_leave">User Leave</option>
+                                                <option value="common_leave">Common Leave</option>
+                                        </select>
+                                </div>
+                            </div>
+                    </div>
+               
                     
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
@@ -22,7 +35,7 @@
                         }'>
                             <thead>
                                 <tr>
-                                    <th data-field="id" data-sortable="true">ID</th>
+                                   <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="date" data-sortable="true">Date</th>
                                     <th data-field="type" data-sortable="true">Leave Type</th>
                                     <th data-field="name" data-sortable="true">User</th>
@@ -42,19 +55,19 @@
         </div>
         <!-- /.row (main row) -->
     </section>
-
     <script>
-    $('#seller_id').on('change', function() {
-        $('#products_table').bootstrapTable('refresh');
-    });
-    $('#community').on('change', function() {
+    // $('#seller_id').on('change', function() {
+    //     $('#products_table').bootstrapTable('refresh');
+    // });
+    $('#type').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
 
     function queryParams(p) {
         return {
-            "seller_id": $('#seller_id').val(),
-            "community": $('#community').val(),
+            "type": $('#type').val(),
+            // "seller_id": $('#seller_id').val(),
+            // "community": $('#community').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

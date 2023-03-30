@@ -1461,10 +1461,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     $where = '';
     $sort = 'date';
     $order = 'DESC';
-    // if ((isset($_GET['user_id']) && $_GET['user_id'] != '')) {
-    //     $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
-    //     $where .= "AND r.user_id = '$user_id'";
-    // }
+    if ((isset($_GET['type']) && $_GET['type'] != '')) {
+        $type = $db->escapeString($fn->xss_clean($_GET['type']));
+        $where .= "AND l.type = '$type'";
+    }
       
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
