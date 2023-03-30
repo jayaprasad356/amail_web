@@ -48,6 +48,8 @@ if (isset($_POST['btnEdit'])) {
             $salary_advance_balance = $db->escapeString(($_POST['salary_advance_balance']));
             $duration = $db->escapeString(($_POST['duration']));
             $worked_days = $db->escapeString(($_POST['worked_days']));
+            $lead_id = $db->escapeString(($_POST['lead_id']));
+            $support_id = $db->escapeString(($_POST['support_id']));
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -111,7 +113,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -355,21 +357,56 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-									<div class="form-group col-md-12">
-										<label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
-										<div id="status" class="btn-group">
-											<label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-												<input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
-											</label>
-											<label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-												<input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
-											</label>
-                                            <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-												<input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
-											</label>
-										</div>
-									</div>
-							</div>
+                            <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Lead</label> <i class="text-danger asterik">*</i>
+                                    <select id='lead_id' name="lead_id" class='form-control'>
+                                    <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `employees`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Support</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_id' name="support_id" class='form-control'>
+                                    <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `employees`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
+                                    <div id="status" class="btn-group">
+                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
+                                        </label>
+                                        <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
+                                        </label>
+                                        <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
 
                     </div><!-- /.box-body -->
 
