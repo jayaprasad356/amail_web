@@ -223,6 +223,18 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
+                    <a href="leaves.php">
+                        <i class="fa fa-calendar"></i>
+                        <span>Leaves</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="Branches.php">
+                    <i class="fa fa-adn"></i>
+                    <span>Branches</span>
+                    </a>
+                </li>
+                <li class="treeview">
                     <a href="transactions.php">
                     <i class="fa fa-arrow-right"></i>
                        <span>Transactions</span>
