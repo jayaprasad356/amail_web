@@ -1163,7 +1163,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
-
+    if (isset($_GET['month']) && !empty($_GET['month'] != '')){
+        $month = $db->escapeString($fn->xss_clean($_GET['month']));
+        $where .= "AND MONTH(u.joined_date) = '$month' ";  
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1183,6 +1186,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $db->sql($sql);
     $res = $db->getResult();
     $total = '10';
+
+    $join = "WHERE u.id IS NOT NULL ";
 
     $sql = "SELECT joined_date FROM `users` GROUP BY joined_date ORDER BY joined_date DESC LIMIT 31";
     $db->sql($sql);
