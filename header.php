@@ -241,12 +241,12 @@ $fn = new custom_functions;
                        <span>Notifications</span>
                     </a>
                 </li>
-                <!-- <li class="treeview">
+                <li class="treeview">
                     <a href="admins.php">
                     <i class="fa fa-adn"></i>
                     <span>Multiple Admin</span>
                     </a>
-                </li> -->
+                </li>
               
                 <li class="treeview">
                     <a href="#">
@@ -304,12 +304,12 @@ $fn = new custom_functions;
                         <span>Employees</span>
                     </a>
                 </li>
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="multiple-admins.php">
                         <i class="fa fa-bullseye"></i>
                         <span>Multiple Admins</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-tag"></i>
