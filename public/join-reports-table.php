@@ -59,16 +59,11 @@
         id = $('#month').val();
         $('#users_table').bootstrapTable('refresh');
     });
-    //     $('#activeusers').on('change', function() {
-    //         idf = $('#activeusers').val();
-    //         $('#users_table').bootstrapTable('refresh');
-    //     });
    
 
     function queryParams(p) {
         return {
             "month": $('#month').val(),
-            // "activeusers": $('#activeusers').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

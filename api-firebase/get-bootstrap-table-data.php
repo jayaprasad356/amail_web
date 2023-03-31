@@ -1165,7 +1165,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $order = 'DESC';
     if (isset($_GET['month']) && !empty($_GET['month'] != '')){
         $month = $db->escapeString($fn->xss_clean($_GET['month']));
-        $where .= "AND MONTH(u.joined_date) = '$month' ";  
+        $where .= "AND MONTH(joined_date) = '$month' ";  
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -1181,15 +1181,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "AND u.joined_date like '%" . $search . "%'";
     }
+    $join = "WHERE id IS NOT NULL ";
 
-    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
+    $sql = "SELECT COUNT(`id`) as total FROM `users` u LIMIT 31 $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     $total = '10';
 
-    $join = "WHERE u.id IS NOT NULL ";
+    $sql = "SELECT joined_date FROM `users` $join $where GROUP BY joined_date ORDER BY $sort $order LIMIT " . intval($offset) . ", " . intval($limit);
 
-    $sql = "SELECT joined_date FROM `users` GROUP BY joined_date ORDER BY joined_date DESC LIMIT 31";
     $db->sql($sql);
     $res = $db->getResult();
 
