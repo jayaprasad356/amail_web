@@ -184,6 +184,13 @@ $fn = new custom_functions;
                     </a>
                 </li>
 
+                <li class="treeview">
+                    <a href="join_reports.php">
+                    <i class="fa fa-clipboard"></i>
+                        <span>Join Reports</span>
+                    </a>
+                </li>
+
                 
 
 

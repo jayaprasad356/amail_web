@@ -1154,6 +1154,62 @@ if (isset($_GET['table']) && $_GET['table'] == 'user_reports') {
     print_r(json_encode($bulkData));
 }
 
+
+//Join reports table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND u.joined_date like '%" . $search . "%'";
+    }
+
+    $sql = "SELECT COUNT(u.id) as total FROM `users` u " . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = $res[0]['total'];
+
+    $sql = "SELECT 
+    DATE(u.joined_date) as registration_date, 
+    COUNT(DISTINCT u.id) as total_registrations, 
+    SUM(DISTINCT CASE WHEN w.status = 1 AND DATE(w.datetime) = DATE(u.joined_date) THEN w.amount ELSE 0 END) as paid_withdrawals 
+FROM `users` u,`withdrawals` w
+GROUP BY registration_date 
+ORDER BY registration_date DESC;
+    ";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    foreach ($res as $row) {
+        $tempRow['total_registrations'] = $row['total_registrations'];
+        $tempRow['paid_withdrawals'] = $row['paid_withdrawals'];
+        $tempRow['date'] = $row['registration_date'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+
+
 // data of 'Top Coders' table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
 
