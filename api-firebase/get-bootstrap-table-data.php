@@ -1179,19 +1179,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
         $where .= "AND u.joined_date like '%" . $search . "%'";
     }
 
-    $sql = "SELECT COUNT(u.id) as total FROM `users` u " . $where;
+    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
     $db->sql($sql);
     $res = $db->getResult();
-    $total = $res[0]['total'];
+    $total = '10';
 
-    $sql = "SELECT 
-    DATE(u.joined_date) as registration_date, 
-    COUNT(DISTINCT u.id) as total_registrations, 
-    SUM(DISTINCT CASE WHEN w.status = 1 AND DATE(w.datetime) = DATE(u.joined_date) THEN w.amount ELSE 0 END) as paid_withdrawals 
-FROM `users` u,`withdrawals` w
-GROUP BY registration_date 
-ORDER BY registration_date DESC;
-    ";
+    $sql = "SELECT joined_date FROM `users` GROUP BY joined_date 
+ORDER BY joined_date DESC LIMIT 31";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -1199,9 +1193,17 @@ ORDER BY registration_date DESC;
     $bulkData['total'] = $total;
     $rows = array();
     foreach ($res as $row) {
-        $tempRow['total_registrations'] = $row['total_registrations'];
-        $tempRow['paid_withdrawals'] = $row['paid_withdrawals'];
-        $tempRow['date'] = $row['registration_date'];
+        
+        $joindate = $row['joined_date'];
+        $sql = "SELECT COUNT(joined_date) AS join_count FROM `users`WHERE joined_date = '$joindate'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['total_registrations'] = $res[0]['join_count'];
+        $sql = "SELECT SUM(id) AS total_with FROM `withdrawals`WHERE DATE(datetime) = '$joindate' AND status = 1";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['paid_withdrawals'] = $res[0]['total_with'];
+        $tempRow['date'] = $row['joined_date'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;
