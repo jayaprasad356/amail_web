@@ -1184,8 +1184,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $res = $db->getResult();
     $total = '10';
 
-    $sql = "SELECT joined_date FROM `users` GROUP BY joined_date 
-ORDER BY joined_date DESC LIMIT 31";
+    $sql = "SELECT joined_date FROM `users` GROUP BY joined_date ORDER BY joined_date DESC LIMIT 31";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -1210,6 +1209,54 @@ ORDER BY joined_date DESC LIMIT 31";
     print_r(json_encode($bulkData));
 }
 
+//Month Join reports table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'month_join_reports') {
+    if (isset($_GET['offset']))
+         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND MONTH(u.joined_date) = '" . $search . "'";
+    }
+
+    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = '10';
+
+    $sql = "SELECT MONTH(joined_date) as month, YEAR(joined_date) as year FROM `users` GROUP BY YEAR(joined_date), MONTH(joined_date) ORDER BY joined_date DESC LIMIT 31";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    foreach ($res as $row) {
+        
+        $month = $row['month'];
+        $year = $row['year'];
+        $sql = "SELECT COUNT(joined_date) AS join_count FROM `users` WHERE MONTH(joined_date) = '$month' AND YEAR(joined_date) = '$year'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['total_registrations'] = $res[0]['join_count'];
+        $sql = "SELECT SUM(amount) AS total_with FROM `withdrawals` WHERE MONTH(datetime) = '$month' AND YEAR(datetime) = '$year' AND status = 1";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['paid_withdrawals'] = $res[0]['total_with'];
+        $tempRow['date'] = date("F Y", strtotime("$year-$month-01"));
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+
+}
 
 
 

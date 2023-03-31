@@ -190,6 +190,12 @@ $fn = new custom_functions;
                         <span>Join Reports</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="month_join_reports.php">
+                    <i class="fa fa-clipboard"></i>
+                        <span>Monthwise Join Reports</span>
+                    </a>
+                </li>
 
                 
 
