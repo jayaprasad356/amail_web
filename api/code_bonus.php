@@ -43,6 +43,6 @@ if ($num >= 1) {
 
 
 $response['success'] = true;
-$response['message'] = "Codes Added";
+$response['message'] = "Codes Subtracted";
 print_r(json_encode($response));
 ?>
