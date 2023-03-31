@@ -27,11 +27,14 @@ if ($num >= 1) {
         $datetime = date('Y-m-d H:i:s');
         $type = 'code_bonus';
         $amount = $codes * COST_PER_CODE;
-        $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
+        $sql = "DELETE FROM transactions WHERE user_id = $ID AND type = 'code_bonus' ORDER BY datetime DESC LIMIT 1";
         $db->sql($sql);
         $res = $db->getResult();
+        // $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
+        // $db->sql($sql);
+        // $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+        $sql = "UPDATE `users` SET  `today_codes` = today_codes - $codes,`total_codes` = total_codes - $codes,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
         $db->sql($sql);
 
     }
