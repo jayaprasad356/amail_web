@@ -3,14 +3,17 @@ include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
-
-$sql = "SELECT id,name,short_code FROM branches ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
-
 ?>
 <?php
-if (isset($_POST['btnUpdate'])) {
+
+if (isset($_GET['id'])) {
+    $ID = $db->escapeString($_GET['id']);
+} else {
+    // $ID = "";
+    return false;
+    exit(0);
+}
+if (isset($_POST['btnEdit'])) {
 
     $error = array();
     $name = $db->escapeString($_POST['name']);
@@ -18,34 +21,46 @@ if (isset($_POST['btnUpdate'])) {
 
 
 
-    if (empty($error)) {
-        // Sanitize input data
-        $name = $db->escapeString($_POST['name']);
-        $short_code = $db->escapeString($_POST['short_code']);
-        $id = $db->escapeString($_POST['id']);
+    if (!empty($name) && !empty($short_code)) 
+		{
 
-        // Update data in the database
-        $sql_query = "UPDATE branches SET name='$name', short_code='$short_code' WHERE id='$id'";
+        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code' WHERE id =  $ID";
         $db->sql($sql_query);
-        $result = $db->getResult();
-        if (!empty($result)) {
-            $error['update_branches'] = "<section class='content-header'>
-                                    <span class='label label-success'>BraUpdated Successfully</span></section>";
+        $update_result = $db->getResult();
+        if (!empty($update_result)) {
+            $update_result = 0;
         } else {
-            $error['update_branches'] = "<span class='label label-danger'>Failed</span>";
+            $update_result = 1;
+        }
+
+        // check update result
+        if ($update_result == 1) {
+            $error['update_banch'] = " <section class='content-header'><span class='label label-success'>Branch updated Successfully</span></section>";
+        } else {
+            $error['update_banch'] = " <span class='label label-danger'>Failed update</span>";
         }
     }
 }
-?>
-    
-?>
-<section class="content-header">
-    <h1>Update branches <small><a href='branches.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to branches</a></small></h1>
 
+// create array variable to store previous data
+$data = array();
+
+$sql_query = "SELECT * FROM branches WHERE id =" . $ID;
+$db->sql($sql_query);
+$res = $db->getResult();
+
+if (isset($_POST['btnCancel'])) { ?>
+    <script>
+        window.location.href = "branches.php";
+    </script>
+<?php } ?>
+<section class="content-header">
+    <h1>
+        Edit Branch<small><a href='branches.php'><i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Branches</a></small></h1>
+    <small><?php echo isset($error['update_banch']) ? $error['update_banch'] : ''; ?></small>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
-    <hr />
 </section>
 <section class="content">
     <div class="row">
@@ -62,25 +77,27 @@ if (isset($_POST['btnUpdate'])) {
                     <div class="box-body">
                        <div class="row">
                             <div class="form-group">
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>" required>
+                                <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">short_code</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="short_code" value="<?php echo $res[0]['short_code']; ?>" required>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Short Code</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="short_code" value="<?php echo $res[0]['short_code']; ?>">
                                 </div> 
-
                             </div>
                         </div>
                         
                     </div>
                   
                     <!-- /.box-body -->
-                    <input type="hidden" name="id" value="<?php echo $res[0]['id']; ?>">
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" name="btnUpdate">Update</button>
-                        <input type="reset" onClick="refreshPage()" class="btn-warning btn" value="Clear" />
+                        <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
                     </div>
 
                 </form>
@@ -91,27 +108,5 @@ if (isset($_POST['btnUpdate'])) {
 </section>
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
-<script>
-    $('#add_url_form').validate({
-
-        ignore: [],
-        debug: false,
-        rules: {
-            url: "required",
-        }
-    });
-    $('#btnClear').on('click', function() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].setData('');
-        }
-    });
-</script>
-
-<!--code for page clear-->
-<script>
-    function refreshPage(){
-    window.location.reload();
-} 
-</script>
 
 <?php $db->disconnect(); ?>

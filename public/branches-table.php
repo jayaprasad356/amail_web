@@ -20,9 +20,9 @@
                         }'>
                             <thead>
                                 <tr>
-                                   <th data-field="id" data-sortable="true">id</th>
-                                    <th data-field="name" data-sortable="true">name</th>
-                                    <th data-field="short_code" data-sortable="true">Short_Code</th>
+                                   <th data-field="id" data-sortable="true">ID</th>
+                                    <th data-field="name" data-sortable="true">Name</th>
+                                    <th data-field="short_code" data-sortable="true">Short Code</th>
                                     <th data-field="operate">Action</th>
                                 </tr>
                             </thead>

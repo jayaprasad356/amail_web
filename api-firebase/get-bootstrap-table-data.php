@@ -1698,7 +1698,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
     $tempRow = array();
     foreach ($res as $row) {
         
-        $operate = ' <a class="text text-danger" href="edit-branches.php?id=' .$row['id'] . '"><i class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+         $operate = '<a href="edit-branches.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-branches.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];

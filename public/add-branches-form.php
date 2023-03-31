@@ -12,33 +12,44 @@ $res = $db->getResult();
 <?php
 if (isset($_POST['btnAdd'])) {
 
+
+    $name = $db->escapeString(($_POST['name']));
+    $short_code = $db->escapeString(($_POST['short_code']));
     $error = array();
-
-    // Validate input fields here
-
-    if (empty($error)) {
-        // Sanitize input data
-        $name = $db->escapeString($_POST['name']);
-        $short_code = $db->escapeString($_POST['short_code']);
-
-        // Insert data into the database
-        $sql_query = "INSERT INTO branches (name, short_code) VALUES ('$name', '$short_code')";
-        $db->sql($sql_query);
-        $result = $db->getResult();
-        if (!empty($result)) {
-            $error['add_branches'] = "<section class='content-header'>
-                                    <span class='label label-success'>Added Successfully</span></section>";
-        } else {
-            $error['add_branches'] = "<span class='label label-danger'>Failed</span>";
-        }
+   
+    if (empty($name)) {
+        $error['name'] = " <span class='label label-danger'>Required!</span>";
     }
+    if (empty($short_code)) {
+        $error['short_code'] = " <span class='label label-danger'>Required!</span>";
+    }
+   
+    if (!empty($name) && !empty($short_code)) 
+    {
+           
+            $sql_query = "INSERT INTO branches (name,short_code)VALUES('$name','$short_code')";
+            $db->sql($sql_query);
+            $result = $db->getResult();
+            if (!empty($result)) {
+                $result = 0;
+            } else {
+                $result = 1;
+            }
+            if ($result == 1) {
+                
+                $error['add_branches'] = "<section class='content-header'>
+                                                <span class='label label-success'>Branch Added Successfully</span> </section>";
+            } else {
+                $error['add_branches'] = " <span class='label label-danger'>Failed</span>";
+        }
+        }
 }
 ?>
     
-?>
 <section class="content-header">
-    <h1>Add New branches <small><a href='branches.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to branches</a></small></h1>
+    <h1>Add New Leave <small><a href='branches.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Branches</a></small></h1>
 
+    <?php echo isset($error['add_branches']) ? $error['add_branches'] : ''; ?>
     <ol class="breadcrumb">
         <li><a href="home.php"><i class="fa fa-home"></i> Home</a></li>
     </ol>
@@ -59,15 +70,19 @@ if (isset($_POST['btnAdd'])) {
                     <div class="box-body">
                        <div class="row">
                             <div class="form-group">
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">name</label> <i class="text-danger asterik">*</i>
+                                <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                     <input type="text" class="form-control" name="name" required>
                                 </div>
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">short_code</label> <i class="text-danger asterik">*</i>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                               <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Short Code</label> <i class="text-danger asterik">*</i><?php echo isset($error['short_code']) ? $error['short_code'] : ''; ?>
                                     <input type="text" class="form-control" name="short_code" required>
                                 </div>
-
                             </div>
                         </div>
                         
@@ -90,12 +105,14 @@ if (isset($_POST['btnAdd'])) {
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script>
-    $('#add_url_form').validate({
+    $('#add_branches_form').validate({
 
         ignore: [],
         debug: false,
         rules: {
-            url: "required",
+            name: "required",
+            short_code: "required",
+
         }
     });
     $('#btnClear').on('click', function() {
