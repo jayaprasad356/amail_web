@@ -1199,7 +1199,7 @@ ORDER BY joined_date DESC LIMIT 31";
         $db->sql($sql);
         $res = $db->getResult();
         $tempRow['total_registrations'] = $res[0]['join_count'];
-        $sql = "SELECT SUM(id) AS total_with FROM `withdrawals`WHERE DATE(datetime) = '$joindate' AND status = 1";
+        $sql = "SELECT SUM(amount) AS total_with FROM `withdrawals`WHERE DATE(datetime) = '$joindate' AND status = 1";
         $db->sql($sql);
         $res = $db->getResult();
         $tempRow['paid_withdrawals'] = $res[0]['total_with'];
