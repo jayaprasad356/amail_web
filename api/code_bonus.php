@@ -13,7 +13,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $date = date('Y-m-d');
-$sql = "SELECT u.id AS id,u.mobile
+$sql = "SELECT u.id AS id,u.mobile,tu.codes AS codes
 FROM users u
 JOIN mytable tu ON u.mobile = tu.mobile";
 $db->sql($sql);
@@ -22,19 +22,16 @@ $num = $db->numRows($res);
 if ($num >= 1) {
     foreach($res as $row){
         $ID = $row['id'];
-        $codes = 1000;
-    
+        $codes = $row['codes'];
+       
         $datetime = date('Y-m-d H:i:s');
         $type = 'code_bonus';
         $amount = $codes * COST_PER_CODE;
-        $sql = "DELETE FROM transactions WHERE user_id = $ID AND type = 'code_bonus' ORDER BY datetime DESC LIMIT 1";
+        $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
         $db->sql($sql);
         $res = $db->getResult();
-        // $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
-        // $db->sql($sql);
-        // $res = $db->getResult();
     
-        $sql = "UPDATE `users` SET  `today_codes` = today_codes - $codes,`total_codes` = total_codes - $codes,`earn` = earn - $amount,`balance` = balance - $amount WHERE `id` = $ID";
+        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
         $db->sql($sql);
 
     }
@@ -43,6 +40,6 @@ if ($num >= 1) {
 
 
 $response['success'] = true;
-$response['message'] = "Codes Subtracted";
+$response['message'] = "Codes Added";
 print_r(json_encode($response));
 ?>
