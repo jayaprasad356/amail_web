@@ -54,7 +54,21 @@ if (isset($_POST['btnEdit'])) {
 
             $error = array();
 
-     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
+            if (empty($lead_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Lead Required!</span>";
+            }
+            if (empty($support_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Support Required!</span>";
+            }
+            if (empty($branch_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Branch Required!</span>";
+            }
+
+     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && 
+     !empty($code_generate_time) && 
+     !empty($lead_id)  && 
+     !empty($support_id) && 
+     !empty($branch_id)) {
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
