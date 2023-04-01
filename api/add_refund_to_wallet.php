@@ -35,15 +35,28 @@ $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
     if($amount >= 50){
-        $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet - $amount,`balance`=balance + $amount,`earn`=earn + $amount WHERE `id` = $user_id";
-        $db->sql($sql);
-        $sql = "SELECT refund_wallet,balance,earn FROM users WHERE id = '$user_id'";
+        $sql = "SELECT refund_wallet FROM users WHERE id = '$user_id'";
         $db->sql($sql);
         $result = $db->getResult();
-        $response['success'] = true;
-        $response['message'] = "Amount Added to Wallet Successfully";
-        $response['data'] = $result;
-        print_r(json_encode($response));
+        $refund_wallet = $result[0]['refund_wallet'];
+        if($amount <= $refund_wallet){
+            $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet - $amount,`balance`=balance + $amount,`earn`=earn + $amount WHERE `id` = $user_id";
+            $db->sql($sql);
+            $sql = "SELECT refund_wallet,balance,earn FROM users WHERE id = '$user_id'";
+            $db->sql($sql);
+            $result = $db->getResult();
+            $response['success'] = true;
+            $response['message'] = "Amount Added to Wallet Successfully";
+            $response['data'] = $result;
+            print_r(json_encode($response));
+
+        }
+        else{
+            $response['success'] = false;
+            $response['message'] = "Refund is Low";
+            print_r(json_encode($response));
+        }
+
 
     }
     else{
