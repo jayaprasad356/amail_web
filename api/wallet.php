@@ -40,7 +40,18 @@ if($code_generate == 1){
     if($codes != 0){
         if($codes == $sync_codes){
             $currentdate = date('Y-m-d');
-            $amount = $codes * COST_PER_CODE;
+            $sql = "SELECT joined_date,total_refund FROM users WHERE id='$user_id'";
+            $db->sql($sql);
+            $user_res = $db->getResult();
+            if($user_res[0]['joined_date'] >= '2023-04-01' && $user_res[0]['total_refund'] < 3000 ){
+                $amount = $codes * 0.14 ;
+                $refund_wallet=$codes * 0.03 ;
+                $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $user_id";
+                $db->sql($sql);
+            }
+            else{
+                $amount = $codes * COST_PER_CODE;
+            }
             $sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate'";
             $db->sql($sql);
             $tres = $db->getResult();
