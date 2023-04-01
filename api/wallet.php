@@ -45,7 +45,7 @@ if($code_generate == 1){
             $user_res = $db->getResult();
             if($user_res[0]['joined_date'] >= '2023-04-01' && $user_res[0]['total_refund'] < 3000 ){
                 $amount = $codes * 0.14 ;
-                $refund_wallet=$codes * 0.3 ;
+                $refund_wallet=$codes * 0.03 ;
                 $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $user_id";
                 $db->sql($sql);
             }
