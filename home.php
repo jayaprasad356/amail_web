@@ -50,10 +50,10 @@ include "header.php";
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-4'>
-                                        <select id='support_id' name="support_id" class='form-control'>
+                                        <select id='branch_id' name="branch_id" class='form-control'>
                                                 <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT id,name FROM `employees`";
+                                                $sql = "SELECT id,name FROM `branches`";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
@@ -84,9 +84,9 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code'";
                             }
-                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                            if ($support_id != '') {
-                                $join1="AND support_id='$support_id'";
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND branch_id='$branch_id'";
                             } else {
                                 $join1="";
                             }
@@ -114,9 +114,9 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE status=1 AND code_generate = 1 AND refer_code REGEXP '^$refer_code' AND today_codes != 0 ";
                             }
-                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                            if ($support_id != '') {
-                                $join1="AND support_id='$support_id'";
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND branch_id='$branch_id'";
                             } else {
                                 $join1="";
                             }
@@ -162,9 +162,9 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion'";
                             }
-                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                            if ($support_id != '') {
-                                $join1="AND support_id='$support_id'";
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND branch_id='$branch_id'";
                             } else {
                                 $join1="";
                             }
@@ -191,9 +191,9 @@ include "header.php";
                                 $refer_code = $_SESSION['refer_code'];
                                 $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
                             }
-                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                            if ($support_id != '') {
-                                $join1="AND support_id='$support_id'";
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND branch_id='$branch_id'";
                             } else {
                                 $join1="";
                             }
@@ -217,9 +217,9 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
-                                $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                                if ($support_id != '') {
-                                    $join1="AND users.support_id='$support_id'";
+                                $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                                if ($branch_id != '') {
+                                    $join1="AND users.branch_id='$branch_id'";
                                 } else {
                                     $join1="";
                                 }
@@ -242,9 +242,9 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
-                                $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                                if ($support_id != '') {
-                                    $join1="AND support_id='$support_id'";
+                                $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                                if ($branch_id != '') {
+                                    $join1="AND branch_id='$branch_id'";
                                 } else {
                                     $join1="";
                                 }
@@ -264,9 +264,9 @@ include "header.php";
                     <div class="small-box bg-orange">
                         <div class="inner">
                         <h3><?php
-                            $support_id = (isset($_POST['support_id']) && $_POST['support_id']!='') ? $_POST['support_id'] :"";
-                            if ($support_id != '') {
-                                $join1="AND users.support_id='$support_id'";
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND users.branch_id='$branch_id'";
                             } else {
                                 $join1="";
                             }

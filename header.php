@@ -190,6 +190,12 @@ $fn = new custom_functions;
                         <span>Join Reports</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="month_join_reports.php">
+                    <i class="fa fa-clipboard"></i>
+                        <span>Monthwise Join Reports</span>
+                    </a>
+                </li>
 
                 
 
@@ -220,6 +226,18 @@ $fn = new custom_functions;
                     <a href="search_withdrawals.php">
                     <i class="fa fa-search"></i>
                         <span>Search Withdrawals</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="leaves.php">
+                        <i class="fa fa-calendar"></i>
+                        <span>Leaves</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="Branches.php">
+                    <i class="fa fa-adn"></i>
+                    <span>Branches</span>
                     </a>
                 </li>
                 <li class="treeview">

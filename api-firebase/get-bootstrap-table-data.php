@@ -1163,7 +1163,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
-
+    if (isset($_GET['month']) && !empty($_GET['month'] != '')){
+        $month = $db->escapeString($fn->xss_clean($_GET['month']));
+        $where .= "AND MONTH(joined_date) = '$month' ";  
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1178,14 +1181,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "AND u.joined_date like '%" . $search . "%'";
     }
+    $join = "WHERE id IS NOT NULL ";
 
-    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
+    $sql = "SELECT COUNT(`id`) as total FROM `users` u LIMIT 31 $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     $total = '10';
 
-    $sql = "SELECT joined_date FROM `users` GROUP BY joined_date 
-ORDER BY joined_date DESC LIMIT 31";
+    $sql = "SELECT joined_date FROM `users` $join $where GROUP BY joined_date ORDER BY $sort $order LIMIT " . intval($offset) . ", " . intval($limit);
+
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -1210,6 +1214,54 @@ ORDER BY joined_date DESC LIMIT 31";
     print_r(json_encode($bulkData));
 }
 
+//Month Join reports table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'month_join_reports') {
+    if (isset($_GET['offset']))
+         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND MONTH(u.joined_date) = '" . $search . "'";
+    }
+
+    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = '10';
+
+    $sql = "SELECT MONTH(joined_date) as month, YEAR(joined_date) as year FROM `users` GROUP BY YEAR(joined_date), MONTH(joined_date) ORDER BY joined_date DESC LIMIT 31";
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    foreach ($res as $row) {
+        
+        $month = $row['month'];
+        $year = $row['year'];
+        $sql = "SELECT COUNT(joined_date) AS join_count FROM `users` WHERE MONTH(joined_date) = '$month' AND YEAR(joined_date) = '$year'";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['total_registrations'] = $res[0]['join_count'];
+        $sql = "SELECT SUM(amount) AS total_with FROM `withdrawals` WHERE MONTH(datetime) = '$month' AND YEAR(datetime) = '$year' AND status = 1";
+        $db->sql($sql);
+        $res = $db->getResult();
+        $tempRow['paid_withdrawals'] = $res[0]['total_with'];
+        $tempRow['date'] = date("F Y", strtotime("$year-$month-01"));
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+
+}
 
 
 
@@ -1654,4 +1706,62 @@ if (isset($_GET['table']) && $_GET['table'] == 'ratings') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+
+//branches table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'branches') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "WHERE name like '%" . $search . "%' OR short_code like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    $sql = "SELECT COUNT(`id`) as total FROM `branches`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM branches " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        
+         $operate = '<a href="edit-branches.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-branches.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['short_code'] = $row['short_code'];
+        $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+
+
+
 $db->disconnect();
