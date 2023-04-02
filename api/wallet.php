@@ -96,7 +96,7 @@ if($code_generate == 1){
         }
      
     
-    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by  FROM users WHERE id = $user_id ";
+    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by,refund_wallet,total_refund  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     
@@ -108,6 +108,8 @@ if($code_generate == 1){
     $response['total_codes'] = $res[0]['total_codes'];
     $response['code_generate'] = $res[0]['code_generate'];
     $response['status'] = $res[0]['status'];
+    $response['refund_wallet'] = $res[0]['refund_wallet'];
+    $response['total_refund'] = $res[0]['total_refund'];
     print_r(json_encode($response));
 }
 else{
