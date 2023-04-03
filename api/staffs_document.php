@@ -23,7 +23,7 @@ if (empty($_POST['staff_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['salery_date'])) {
+if (empty($_POST['salary_date'])) {
     $response['success'] = false;
     $response['message'] = "Please enter a salery date";
     print_r(json_encode($response));
@@ -60,7 +60,7 @@ if (!isset($_FILES['education_certificate']) || empty($_FILES['education_certifi
 
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$salery_date = $db->escapeString($_POST['salery_date']);
+$salary_date = $db->escapeString($_POST['salary_date']);
 
 
 if (isset($_FILES['aadhar_card']) && !empty($_FILES['aadhar_card']) && $_FILES['aadhar_card']['error'] == 0 && $_FILES['aadhar_card']['size'] > 0) {
@@ -147,7 +147,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image2',salery_date='$salery_date' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image2',salary_date='$salary_date' WHERE id=" . $staff_id;
     $db->sql($sql);
  
     $response['success'] = true;
