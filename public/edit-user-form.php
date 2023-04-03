@@ -48,7 +48,10 @@ if (isset($_POST['btnEdit'])) {
             $salary_advance_balance = $db->escapeString(($_POST['salary_advance_balance']));
             $duration = $db->escapeString(($_POST['duration']));
             $worked_days = $db->escapeString(($_POST['worked_days']));
-            $employee_id = $db->escapeString(($_POST['employee_id']));
+            $lead_id = $db->escapeString(($_POST['lead_id']));
+            $support_id = $db->escapeString(($_POST['support_id']));
+            $branch_id = $db->escapeString(($_POST['branch_id']));
+
             $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
@@ -63,12 +66,21 @@ if (isset($_POST['btnEdit'])) {
             $num = $db->numRows($res);
             if ($num == 1){
                 $user_id = $res[0]['id'];
-                $code_generate = $res[0]['code_generate'];
+                $ref_code_generate = $res[0]['code_generate'];
                 $ref_user_status = $res[0]['status'];
                 $ref_user_history_days = $res[0]['history_days'];
+                $ref_total_refund = $res[0]['total_refund'];
                 if($ref_user_status == 1 && $ref_user_history_days <= 57){
-                    $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
-
+                    if($ref_total_refund < 3000){
+                        $referral_bonus_settings = $function->getSettingsVal('refer_bonus_amount');
+                        $refund_amount=200;
+                        $referral_bonus= $referral_bonus_settings-$refund_amount;
+                        $sql_query = "UPDATE users SET `total_refund`=total_refund + $refund_amount,`refund_wallet`=refund_wallet +$refund_amount WHERE id =  $user_id";
+                        $db->sql($sql_query);
+                    }
+                    else{
+                        $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
+                    }
                 }
                 if($ref_user_status == 1 && $ref_user_history_days > 57){
                     $referral_bonus = 500;
@@ -84,7 +96,7 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
                 $db->sql($sql_query);
-                if($ref_user_status == 1 && $ref_user_history_days <= 57){
+                if($ref_code_generate == 1 && $ref_user_status == 1 && $ref_user_history_days <= 57){
                     $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
                     $db->sql($sql_query);
                     $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
@@ -112,7 +124,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',employee_id='$employee_id' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -350,40 +362,80 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Worked Days</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>">
+                                    <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>" readonly>
                                 </div>
                             </div>
                         </div>
                         <br>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
-                                <div id="status" class="btn-group">
-                                    <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
-                                    </label>
-                                    <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
-                                    </label>
-                                    <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                        <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
-                                    </label>
+                                    <label for="exampleInputEmail1">Select Lead</label> <i class="text-danger asterik">*</i>
+                                    <select id='lead_id' name="lead_id" class='form-control'>
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `employees`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Support</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_id' name="support_id" class='form-control'>
+                                             <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `employees`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                    <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
+                                    <select id='branch_id' name="branch_id" class='form-control'>
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `branches`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
+                                    <div id="status" class="btn-group">
+                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Not-verified
+                                        </label>
+                                        <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Verified
+                                        </label>
+                                        <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='form-group col-md-4'>
-                                <label for="exampleInputEmail1"> Select Employee</label> <i class="text-danger asterik">*</i>
-                                <select id='employee_id' name="employee_id" class='form-control' >
-                                    <option value="">--Select Employee--</option>
-                                        <?php
-                                        $sql = "SELECT id,name FROM `employees`";
-                                        $db->sql($sql);
-                                        $result = $db->getResult();
-                                        foreach ($result as $value) {
-                                        ?>
-                                                <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['employee_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                    <?php } ?>
-                                </select>
-                            </div>
                         </div>
 
                     </div><!-- /.box-body -->
