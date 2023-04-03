@@ -48,10 +48,10 @@ if ($num == 1) {
             $temp['ifsc_code'] = $row['ifsc_code'];
             $temp['bank_name'] = $row['bank_name'];
             $temp['branch'] = $row['branch'];
-            $temp['aadhar_card'] = DOMAIN_URL . $row['aadhar_card'];
-            $temp['photo'] = DOMAIN_URL . $row['photo'];
-            $temp['resume'] = DOMAIN_URL . $row['resume'];
-            $temp['education_certificate'] = DOMAIN_URL . $row['education_certificate'];
+            // $temp['aadhar_card'] = DOMAIN_URL . $row['aadhar_card'];
+            // $temp['photo'] = DOMAIN_URL . $row['photo'];
+            // $temp['resume'] = DOMAIN_URL . $row['resume'];
+            // $temp['education_certificate'] = DOMAIN_URL . $row['education_certificate'];
             $rows[] = $temp;
 
             $response['success'] = true;

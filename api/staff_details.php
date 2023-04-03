@@ -43,6 +43,7 @@ if ($num >= 1) {
         $temp['photo'] = DOMAIN_URL . $row['photo'];
         $temp['resume'] = DOMAIN_URL . $row['resume'];
         $temp['education_certificate'] = DOMAIN_URL . $row['education_certificate'];
+        $temp['salary_date'] = $row['salary_date'];
         $rows[] = $temp;
 
     }
