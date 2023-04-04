@@ -21,12 +21,7 @@ if (empty($_POST['staff_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['address'])) {
-    $response['success'] = false;
-    $response['message'] = "address is Empty";
-    print_r(json_encode($response));
-    return false;
-}
+
 if (empty($_POST['bank_account_number'])) {
     $response['success'] = false;
     $response['message'] = "Bank Account Number is Empty";
@@ -53,7 +48,6 @@ if (empty($_POST['branch'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$address = $db->escapeString($_POST['address']);
 $bank_account_number = $db->escapeString($_POST['bank_account_number']);
 $ifsc_code = $db->escapeString($_POST['ifsc_code']);
 $bank_name = $db->escapeString($_POST['bank_name']);
@@ -65,7 +59,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET address='$address',bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',bank_name='$bank_name',branch='$branch' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',bank_name='$bank_name',branch='$branch' WHERE id=" . $staff_id;
     $db->sql($sql);
     $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
     $db->sql($sql);

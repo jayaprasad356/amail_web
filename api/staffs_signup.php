@@ -17,9 +17,9 @@ include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
 $fn = new custom_functions;
 
-if (empty($_POST['name'])) {
+if (empty($_POST['first_name'])) {
     $response['success'] = false;
-    $response['message'] = "Name is Empty";
+    $response['message'] = "First Name is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -42,7 +42,8 @@ if (empty($_POST['mobile'])) {
     return false;
 }
 
-$name = $db->escapeString($_POST['name']);
+$first_name = $db->escapeString($_POST['first_name']);
+$last_name = (isset($_POST['last_name']) && !empty($_POST['last_name'])) ? $db->escapeString($_POST['last_name']) : "";
 $email = $db->escapeString($_POST['email']);
 $password = $db->escapeString($_POST['password']);
 $mobile = $db->escapeString($_POST['mobile']);
@@ -58,9 +59,9 @@ if ($num >= 1) {
     print_r(json_encode($response));
 }
 else {
-    $sql = "INSERT INTO staffs (name, email, password, mobile) VALUES ('$name', '$email', '$password', '$mobile')";
+    $sql = "INSERT INTO staffs (first_name,last_name, email, password, mobile) VALUES ('$first_name','$last_name', '$email', '$password', '$mobile')";
     $db->sql($sql);
-    $sql = "SELECT name,email,mobile,password FROM staffs WHERE email = '$email'";
+    $sql = "SELECT first_name,last_name,email,mobile,password FROM staffs WHERE email = '$email'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

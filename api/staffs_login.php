@@ -39,7 +39,8 @@ if ($num == 1) {
        $row=$res[0];
         if($row['password']== $password){
             $temp['id'] = $row['id'];
-            $temp['name'] = $row['name'];
+            $temp['first_name'] = $row['first_name'];
+            $temp['last_name'] = $row['last_name'];
             $temp['email'] = $row['email'];
             $temp['mobile'] = $row['mobile'];
             $temp['password'] = $row['password'];

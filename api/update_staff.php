@@ -21,9 +21,9 @@ if (empty($_POST['staff_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['name'])) {
+if (empty($_POST['first_name'])) {
     $response['success'] = false;
-    $response['message'] = "Name is Empty";
+    $response['message'] = "First Name is Empty";
     print_r(json_encode($response));
     return false;
 }
@@ -47,7 +47,8 @@ if (empty($_POST['password'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$name = $db->escapeString($_POST['name']);
+$first_name = $db->escapeString($_POST['first_name']);
+$last_name = (isset($_POST['last_name']) && !empty($_POST['last_name'])) ? $db->escapeString($_POST['last_name']) : "";
 $email = $db->escapeString($_POST['email']);
 $mobile = $db->escapeString($_POST['mobile']);
 $password = $db->escapeString($_POST['password']);
@@ -58,13 +59,13 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num == 1) {
-    $sql = "UPDATE staffs SET name='$name',email='$email',mobile='$mobile',password='$password' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET first_name='$first_name',last_name='$last_name',email='$email',mobile='$mobile',password='$password' WHERE id=" . $staff_id;
     $db->sql($sql);
-    $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
+    $sql = "SELECT first_name,last_name,email,mobile,password FROM staffs WHERE id=" . $staff_id;
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
-    $response['message'] = "staff Updated Successfully";
+    $response['message'] = "Staff Details Updated Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
     return false;

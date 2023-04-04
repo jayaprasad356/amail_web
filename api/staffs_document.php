@@ -64,7 +64,7 @@ $salary_date = $db->escapeString($_POST['salary_date']);
 
 
 if (isset($_FILES['aadhar_card']) && !empty($_FILES['aadhar_card']) && $_FILES['aadhar_card']['error'] == 0 && $_FILES['aadhar_card']['size'] > 0) {
-    $uploadDir = '/upload/aadhar_card';
+    $uploadDir = '../upload/aadhar_card';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
@@ -82,7 +82,7 @@ if (isset($_FILES['aadhar_card']) && !empty($_FILES['aadhar_card']) && $_FILES['
 }
 
 if (isset($_FILES['resume']) && !empty($_FILES['resume']) && $_FILES['resume']['error'] == 0 && $_FILES['resume']['size'] > 0) {
-    $uploadDir = '/upload/resume';
+    $uploadDir = '../upload/resume';
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
@@ -100,8 +100,8 @@ if (isset($_FILES['resume']) && !empty($_FILES['resume']) && $_FILES['resume']['
 }
 
 if (isset($_FILES['photo']) && !empty($_FILES['photo']) && $_FILES['photo']['error'] == 0 && $_FILES['photo']['size'] > 0) {
-    if (!is_dir('/upload/photo/')) {
-        mkdir('//upload/photo/', 0777, true);
+    if (!is_dir('../upload/photo/')) {
+        mkdir('../upload/photo/', 0777, true);
     }
     $photo = $db->escapeString($fn->xss_clean($_FILES['photo']['name']));
     $extension = pathinfo($_FILES["photo"]["name"], PATHINFO_EXTENSION);
@@ -125,7 +125,7 @@ if (isset($_FILES['photo']) && !empty($_FILES['photo']) && $_FILES['photo']['err
 
 if (isset($_FILES['education_certificate']) && !empty($_FILES['education_certificate']) && $_FILES['education_certificate']['error'] == 0 && $_FILES['education_certificate']['size'] > 0) 
 {
-        $uploadDir = '/upload/education_certificate';
+        $uploadDir = '../upload/education_certificate';
         if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
