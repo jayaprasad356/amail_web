@@ -15,6 +15,7 @@ if (isset($_POST['btnAdd'])) {
 
     $name = $db->escapeString(($_POST['name']));
     $short_code = $db->escapeString(($_POST['short_code']));
+    $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
     $error = array();
    
     if (empty($name)) {
@@ -23,11 +24,15 @@ if (isset($_POST['btnAdd'])) {
     if (empty($short_code)) {
         $error['short_code'] = " <span class='label label-danger'>Required!</span>";
     }
+    if (empty($min_withdrawal)) {
+        $error['min_withdrawal'] = " <span class='label label-danger'>Required!</span>";
+    }
    
-    if (!empty($name) && !empty($short_code)) 
+   
+    if (!empty($name) && !empty($short_code) && !empty($min_withdrawal)) 
     {
            
-            $sql_query = "INSERT INTO branches (name,short_code)VALUES('$name','$short_code')";
+            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal)VALUES('$name','$short_code','$min_withdrawal')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -82,6 +87,15 @@ if (isset($_POST['btnAdd'])) {
                                <div class='col-md-10'>
                                     <label for="exampleInputEmail1">Short Code</label> <i class="text-danger asterik">*</i><?php echo isset($error['short_code']) ? $error['short_code'] : ''; ?>
                                     <input type="text" class="form-control" name="short_code" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                               <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Minimum Withdrawal</label> <i class="text-danger asterik">*</i><?php echo isset($error['min_withdrawal']) ? $error['min_withdrawal'] : ''; ?>
+                                    <input type="text" class="form-control" name="min_withdrawal" required>
                                 </div>
                             </div>
                         </div>

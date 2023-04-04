@@ -53,10 +53,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $order = 'DESC';
     if ((isset($_GET['date'])  && $_GET['date'] != '')) {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
-        $where .= "AND joined_date='$date' ";
+        $where .= "AND u.joined_date='$date' ";
     }
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
-        $where .= "AND status=1 AND today_codes != 0 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
+        $where .= "AND u.status=1 AND u.today_codes != 0 AND u.total_codes != 0 AND DATE(u.last_updated) = '$currentdate' ";
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -70,7 +70,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR registered_date like '%" . $search . "%'";
+        $where .= "AND u.name like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR u.city like '%" . $search . "%' OR u.email like '%" . $search . "%' OR u.refer_code like '%" . $search . "%' OR u.registered_date like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -83,20 +83,22 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     
     
     if($_SESSION['role'] == 'Super Admin'){
-        $join = "WHERE id IS NOT NULL";
+        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `employees` e ON u.lead_id = e.id LEFT JOIN `employees` s ON u.support_id = s.id WHERE u.id IS NOT NULL";
     }
     else{
         $refer_code = $_SESSION['refer_code'];
-        $join = "WHERE refer_code REGEXP '^$refer_code'";
+        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `employees` e ON u.lead_id = e.id LEFT JOIN `employees` s ON u.support_id = s.id WHERE u.refer_code REGEXP '^$refer_code' ";
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `users` $join " . $where;
+    $sql = "SELECT COUNT(u.id) as total FROM `users` u $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
         
-    $sql = "SELECT *,DATEDIFF( '$currentdate',joined_date) AS history FROM `users` $join " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+        
+    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
+                $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -131,6 +133,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['salary_advance_balance'] = $row['salary_advance_balance'];
         $tempRow['sa_refer_count'] = $row['sa_refer_count'];
         $tempRow['withdrawal'] = $row['withdrawal'];
+        $tempRow['support'] = $row['support_name'];
+        $tempRow['lead'] = $row['lead_name'];
+        $tempRow['branch'] = $row['branch_name'];
+        $tempRow['refund_wallet'] = $row['refund_wallet'];
+        $tempRow['total_refund'] = $row['total_refund'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
@@ -1726,7 +1733,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR short_code like '%" . $search . "%'";
+        $where .= "WHERE name like '%" . $search . "%' OR short_code like '%" . $search . "%' OR min_withdrawal like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1755,6 +1762,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['short_code'] = $row['short_code'];
+        $tempRow['min_withdrawal'] = $row['min_withdrawal'];
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }

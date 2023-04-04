@@ -51,7 +51,8 @@ if (isset($_POST['btnEdit'])) {
             $lead_id = $db->escapeString(($_POST['lead_id']));
             $support_id = $db->escapeString(($_POST['support_id']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-
+            $total_refund = $db->escapeString(($_POST['total_refund']));
+            $refund_wallet = $db->escapeString(($_POST['refund_wallet']));
             $error = array();
 
             if (empty($lead_id)) {
@@ -138,7 +139,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',refund_wallet='$refund_wallet',total_refund='$total_refund' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -377,6 +378,19 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Worked Days</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="worked_days" value="<?php echo $res[0]['worked_days']; ?>" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                               <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Refund Wallet</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Total Refund</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_refund" value="<?php echo $res[0]['total_refund']; ?>">
                                 </div>
                             </div>
                         </div>

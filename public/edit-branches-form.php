@@ -18,13 +18,14 @@ if (isset($_POST['btnEdit'])) {
     $error = array();
     $name = $db->escapeString($_POST['name']);
     $short_code = $db->escapeString($_POST['short_code']);
+    $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
 
 
 
     if (!empty($name) && !empty($short_code)) 
 		{
 
-        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code' WHERE id =  $ID";
+        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -92,7 +93,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div> 
                             </div>
                         </div>
-                        
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Minimum Withdrawal</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="min_withdrawal" value="<?php echo $res[0]['min_withdrawal']; ?>">
+                                </div> 
+                            </div>
+                        </div>
                     </div>
                   
                     <!-- /.box-body -->

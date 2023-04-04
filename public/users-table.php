@@ -62,6 +62,11 @@
                                     <th data-field="salary_advance_balance" data-sortable="true">Salary Advance Balance</th>
                                     <th data-field="ongoing_sa_balance" data-sortable="true">Ongoing SA Balance</th>
                                     <th data-field="sa_refer_count" data-sortable="true">SA Refer Count</th>
+                                    <th data-field="support" data-sortable="true">Support</th>
+                                    <th data-field="lead" data-sortable="true">Lead</th>
+                                    <th data-field="branch" data-sortable="true">Branch</th>
+                                    <th data-field="refund_wallet" data-sortable="true">Refund Wallet</th>
+                                    <th data-field="total_refund" data-sortable="true">Total Refund</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>
