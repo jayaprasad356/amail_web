@@ -184,6 +184,12 @@ $fn = new custom_functions;
                     </a>
                 </li>
 
+
+                
+
+
+                <?php
+                if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
                     <a href="join_reports.php">
                     <i class="fa fa-clipboard"></i>
@@ -197,11 +203,6 @@ $fn = new custom_functions;
                     </a>
                 </li>
 
-                
-
-
-                <?php
-                if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
                     <a href="referral_users.php">
                     <i class="fa fa-users"></i>
