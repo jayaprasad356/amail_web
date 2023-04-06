@@ -298,10 +298,15 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="staffs.php">
-                    <i class="fa fa-user"></i>
+                    <a href="#">
+                        <i class="fa fa-bullseye"></i>
                         <span>Staffs</span>
+                        <i class="fa fa-angle-right pull-right"></i>
                     </a>
+                    <ul class="treeview-menu">
+                        <li><a href="staffs.php"><i class="fa fa-user"></i>Staffs</a></li>
+                        <li><a href="staff_leaves.php"><i class="fa fa-calendar"></i>Leaves</a></li>
+                    </ul>
                 </li>
                 <li class="treeview">
                     <a href="multiple-admins.php">

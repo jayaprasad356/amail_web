@@ -44,12 +44,12 @@ if (!isset($_FILES['resume']) || empty($_FILES['resume']['name'])) {
     return false;
 }
 
-if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
-    $response['success'] = false;
-    $response['message'] = "Please upload an photo";
-    print_r(json_encode($response));
-    return false;
-}
+// if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
+//     $response['success'] = false;
+//     $response['message'] = "Please upload an photo";
+//     print_r(json_encode($response));
+//     return false;
+// }
 
 if (!isset($_FILES['education_certificate']) || empty($_FILES['education_certificate']['name'])) {
     $response['success'] = false;
