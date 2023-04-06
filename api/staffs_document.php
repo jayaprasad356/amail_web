@@ -147,7 +147,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image2',salary_date='$salary_date' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image3',salary_date='$salary_date' WHERE id=" . $staff_id;
     $db->sql($sql);
  
     $response['success'] = true;
