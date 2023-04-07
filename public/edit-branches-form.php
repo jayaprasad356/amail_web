@@ -19,13 +19,15 @@ if (isset($_POST['btnEdit'])) {
     $name = $db->escapeString($_POST['name']);
     $short_code = $db->escapeString($_POST['short_code']);
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
+    $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
+
 
 
 
     if (!empty($name) && !empty($short_code)) 
 		{
 
-        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal' WHERE id =  $ID";
+        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal',trial_earnings='$trial_earnings' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -102,6 +104,16 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div> 
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Trial Earnings</label><br>
+                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="trial_earnings" name="trial_earnings" value="<?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 1 : 0 ?>">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                   
                     <!-- /.box-body -->
@@ -119,3 +131,15 @@ if (isset($_POST['btnCancel'])) { ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 
 <?php $db->disconnect(); ?>
+<script>
+    var changeCheckbox = document.querySelector('#trial_earning_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#trial_earnings').val(1);
+
+        } else {
+            $('#trial_earnings').val(0);
+        }
+    };
+</script>

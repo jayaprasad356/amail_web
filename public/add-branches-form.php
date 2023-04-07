@@ -16,6 +16,7 @@ if (isset($_POST['btnAdd'])) {
     $name = $db->escapeString(($_POST['name']));
     $short_code = $db->escapeString(($_POST['short_code']));
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
+    $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
     $error = array();
    
     if (empty($name)) {
@@ -32,7 +33,7 @@ if (isset($_POST['btnAdd'])) {
     if (!empty($name) && !empty($short_code) && !empty($min_withdrawal)) 
     {
            
-            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal)VALUES('$name','$short_code','$min_withdrawal')";
+            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal,trial_earnings)VALUES('$name','$short_code','$min_withdrawal','$trial_earnings')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -99,6 +100,16 @@ if (isset($_POST['btnAdd'])) {
                                 </div>
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="">Trial Earnings</label><br>
+                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 'checked' : '' ?>>
+                                    <input type="hidden" id="trial_earnings" name="trial_earnings" >
+                                </div>
+                            </div>
+                        </div>
                         
                     </div>
                   
@@ -134,6 +145,18 @@ if (isset($_POST['btnAdd'])) {
             CKEDITOR.instances[instance].setData('');
         }
     });
+</script>
+<script>
+    var changeCheckbox = document.querySelector('#trial_earning_button');
+    var init = new Switchery(changeCheckbox);
+    changeCheckbox.onchange = function() {
+        if ($(this).is(':checked')) {
+            $('#trial_earnings').val(1);
+
+        } else {
+            $('#trial_earnings').val(0);
+        }
+    };
 </script>
 
 <!--code for page clear-->

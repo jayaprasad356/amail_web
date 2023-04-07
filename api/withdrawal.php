@@ -37,13 +37,23 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $mres = $db->getResult();
 $main_ws = $mres[0]['withdrawal_status'];
-$min_withdrawal = $mres[0]['min_withdrawal'];
-$sql = "SELECT balance,refer_balance,withdrawal_status FROM users WHERE id = $user_id ";
+$sql = "SELECT balance,refer_balance,withdrawal_status,branch_id FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $balance = $res[0]['balance'];
 $refer_balance = $res[0]['refer_balance'];
 $withdrawal_status = $res[0]['withdrawal_status'];
+$branch_id = $res[0]['branch_id'];
+if(!empty($branch_id)){
+    $sql = "SELECT min_withdrawal FROM branches WHERE id = $branch_id";
+    $db->sql($sql);
+    $result = $db->getResult();
+    $min_withdrawal = $result[0]['min_withdrawal'];
+}
+else{
+    $min_withdrawal = $mres[0]['min_withdrawal'];
+}
+
 $datetime = date('Y-m-d H:i:s');
 $sql = "SELECT id FROM bank_details WHERE user_id = $user_id ";
 $db->sql($sql);
