@@ -67,6 +67,7 @@
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="refund_wallet" data-sortable="true">Refund Wallet</th>
                                     <th data-field="total_refund" data-sortable="true">Total Refund</th>
+                                    <th data-field="trial_wallet" data-sortable="true">Trial Wallet</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="city" data-sortable="true">City</th>
                                     <th data-field="device_id" data-sortable="true">Device Id</th>

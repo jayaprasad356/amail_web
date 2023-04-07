@@ -26,6 +26,7 @@
                                     <th data-field="mobile" data-sortable="true">Mobile Number</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="password" data-sortable="true">Password</th>
+                                    <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="operate">Action</th>
                                 </tr>

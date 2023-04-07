@@ -20,12 +20,13 @@ if (isset($_POST['btnEdit'])) {
                 $email = $db->escapeString(($_POST['email']));
                 $password = $db->escapeString(($_POST['password']));
                 $status = $db->escapeString(($_POST['status']));
+                $branch_id = $db->escapeString(($_POST['branch_id']));
                 $error = array();
 
      if (!empty($name) && !empty($mobile) && !empty($email) ) 
        {
     
-        $sql_query = "UPDATE employees SET name='$name', mobile='$mobile',email='$email',password='$password',status='$status' WHERE id =  $ID";
+        $sql_query = "UPDATE employees SET name='$name', mobile='$mobile',email='$email',password='$password',status='$status',branch_id='$branch_id' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -68,7 +69,7 @@ if (isset($_POST['btnCancel'])) { ?>
     <!-- Main row -->
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
 
             <!-- general form elements -->
             <div class="box box-primary">
@@ -76,39 +77,66 @@ if (isset($_POST['btnCancel'])) { ?>
                 </div>
                 <form id="edit_employee_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
-                                <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Mobile Number</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
+                                </div>
+                            </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Mobile Number</label><i class="text-danger asterik">*</i>
-                                <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i>
+                                    <input type="email" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>">
+                                </div>
+                            </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i>
-                                <input type="email" class="form-control" name="email" value="<?php echo $res[0]['email']; ?>">
-                        </div>
-                        <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>
-                                <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>">
-                        </div>
-                        <br>
-                        <div class="form-group">
-                            <label>Status</label><i class="text-danger asterik">*</i><br>
-                            <div id="status" class="btn-group">
-                                <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Active
-                                </label>
-                                <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                    <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Inactive
-                                </label>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
+                                    <select id='branch_id' name="branch_id" class='form-control'>
+                                             <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `branches`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    
+                                                <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                        <label>Status</label><i class="text-danger asterik">*</i><br>
+                                        <div id="status" class="btn-group">
+                                            <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="status" value="1" <?= ($res[0]['status'] == 1) ? 'checked' : ''; ?>> Active
+                                            </label>
+                                            <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                                <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Inactive
+                                            </label>
+                                        </div>
+                                </div>
                             </div>
                         </div>
 
-                    </div><!-- /.box-body -->
+                    </div>
+                    <!-- /.box-body -->
 
                     <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>

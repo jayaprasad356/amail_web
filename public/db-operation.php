@@ -402,3 +402,22 @@ if (isset($_POST['update_system_user']) && $_POST['update_system_user'] == 1) {
         echo '<label class="alert alert-danger">Some Error Occrred! please try again.</label>';
     }
 }
+
+
+if (isset($_POST['change_support'])) {
+    if ($_POST['support_id'] == '') {
+        $sql = "SELECT b.* FROM branches b LEFT JOIN employees e ON b.id = e.branch_id";
+    } else {
+        $support_id = $db->escapeString($fn->xss_clean($_POST['support_id']));
+        $sql = "SELECT b.* FROM branches b LEFT JOIN employees e ON e.branch_id = b.id WHERE e.id=" . $support_id;
+    }
+    $db->sql($sql);
+    $res = $db->getResult();
+    if (!empty($res)) {
+        foreach ($res as $row) {
+            echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
+        }
+    } else {
+        echo "<option value=''>--No Branch Assigned--</option>";
+    }
+}

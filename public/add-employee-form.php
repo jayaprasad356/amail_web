@@ -16,6 +16,7 @@ if (isset($_POST['btnAdd'])) {
         $mobile = $db->escapeString(($_POST['mobile']));
         $email = $db->escapeString(($_POST['email']));
         $password = $db->escapeString(($_POST['password']));
+        $branch_id = $db->escapeString(($_POST['branch_id']));
         $error = array();
        
         if (empty($name)) {
@@ -31,7 +32,7 @@ if (isset($_POST['btnAdd'])) {
        
        if (!empty($name) && !empty($mobile) && !empty($email) ) 
        {
-            $sql_query = "INSERT INTO employees (name,mobile,email,password,status)VALUES('$name','$mobile','$email','$password',1)";
+            $sql_query = "INSERT INTO employees (name,mobile,email,password,branch_id,status)VALUES('$name','$mobile','$email','$password','$branch_id',1)";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -60,7 +61,7 @@ if (isset($_POST['btnAdd'])) {
 </section>
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-10">
            
             <!-- general form elements -->
             <div class="box box-primary">
@@ -68,29 +69,53 @@ if (isset($_POST['btnAdd'])) {
                 </div>
                 <form url="add_employee_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
-                                <input type="text" class="form-control" name="name" required>
-
-                        </div>
-                            <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
-                                <input type="number" class="form-control" name="mobile" required>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i><?php echo isset($error['email']) ? $error['email'] : ''; ?>
-                                <input type="email" class="form-control" name="email" required>
-
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Mobile Number</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
+                                    <input type="number" class="form-control" name="mobile" required>
+                                </div>
+                            </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">Password</label> <i class="text-danger asterik">*</i><?php echo isset($error['password']) ? $error['password'] : ''; ?>
-                                <input type="text" class="form-control" name="password" required>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                        <label for="exampleInputEmail1">Email</label> <i class="text-danger asterik">*</i><?php echo isset($error['email']) ? $error['email'] : ''; ?>
+                                        <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                        <label for="exampleInputEmail1">Password</label> <i class="text-danger asterik">*</i><?php echo isset($error['password']) ? $error['password'] : ''; ?>
+                                        <input type="text" class="form-control" name="password" required>
+                                </div>
+                            </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputEmail1">Select Branch</label> <i class="text-danger asterik">*</i>
+                                    <select id='branch_id' name="branch_id" class='form-control'>
+                                                <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT * FROM `branches`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                                <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    
                     </div>
-                  
                     <!-- /.box-body -->
 
                     <div class="box-footer">

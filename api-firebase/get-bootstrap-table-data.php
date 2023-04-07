@@ -138,6 +138,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['branch'] = $row['branch_name'];
         $tempRow['refund_wallet'] = $row['refund_wallet'];
         $tempRow['total_refund'] = $row['total_refund'];
+        $tempRow['trial_wallet'] = $row['trial_wallet'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not Verify</label>";
         elseif($row['status']==1)
@@ -1377,13 +1378,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'faq') {
     print_r(json_encode($bulkData));
 }
 
-//urls table goes here
+//employees table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'employees') {
     $offset = 0;
     $limit = 10;
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    // if (isset($_GET['type']) && !empty($_GET['type'])){
+    //     $type = $db->escapeString($fn->xss_clean($_GET['type']));
+    //     $where .= "AND t.type = '$type' ";
+    // }
+      
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1396,7 +1402,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'employees') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "WHERE name like '%" . $search . "%' OR id like '%" . $search . "%' OR mobile like '%" . $search . "%' OR email like '%" . $search . "%'";
+        $where .= "AND e.name like '%" . $search . "%' OR e.mobile like '%" . $search . "%' OR e.password like '%" . $search . "%'  OR e.email like '%" . $search . "%' OR b.name like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1404,14 +1410,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'employees') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $sql = "SELECT COUNT(`id`) as total FROM `employees`" . $where;
+    $join = "LEFT JOIN `branches` b ON e.branch_id = b.id WHERE e.id IS NOT NULL ";
+
+    $sql = "SELECT COUNT(e.id) as total FROM `employees` e $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT * FROM employees " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
-    $db->sql($sql);
+    $sql = "SELECT e.id AS id,e.*,b.name AS branch_name FROM `employees` e $join 
+    $where ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
     $res = $db->getResult();
 
     $bulkData = array();
@@ -1419,13 +1428,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'employees') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
-        $operate = '<a href="edit-employee.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+                $operate = '<a href="edit-employee.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['email'] = $row['email'];
-        $tempRow['password'] =$row['password'];
-        if($row['status']==1)
+        $tempRow['password'] = $row['password'];
+        $tempRow['branch'] = $row['branch_name'];
+ if($row['status']==1)
             $tempRow['status']="<label class='label label-success'>Active</label>";        
         else
             $tempRow['status']="<label class='label label-danger'>Inactive</label>";
