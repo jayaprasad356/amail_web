@@ -373,13 +373,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='lead_id' name="lead_id" class='form-control'>
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `employees`";
+                                                $sql = "SELECT * FROM `staffs`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['first_name'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>
@@ -389,13 +389,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='support_id' name="support_id" class='form-control'>
                                              <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `employees`";
+                                                $sql = "SELECT * FROM `staffs`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['first_name'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>

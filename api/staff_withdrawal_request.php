@@ -32,6 +32,7 @@ if (empty($_POST['amount'])) {
 
 $staff_id = $db->escapeString($_POST['staff_id']);
 $amount = $db->escapeString($_POST['amount']);
+$datetime = date('Y-m-d');
 
 $sql = "SELECT * FROM staffs WHERE id = $staff_id";
 $db->sql($sql);
@@ -42,19 +43,26 @@ if($num == 1){
     $staff = $res[0];
     $has_bank_details = (!empty($staff['bank_name']) && !empty($staff['bank_account_number']));
     if($has_bank_details){
-        
-        $sql = "INSERT INTO staff_withdrawal_request (staff_id, amount) VALUES ('$staff_id', '$amount')";
-        $db->sql($sql);
-        $response['success'] = true;
-        $response['message'] = "Withdrawal request submitted successfully.";
-        echo json_encode($response); 
-    }else{
+        if($amount>$staff['balance']){
+            $response['success'] = false;
+            $response['message'] = "Your Wallet Balance is Low";
+            print_r(json_encode($response)); 
+        }
+        else{
+            $sql = "INSERT INTO staff_withdrawals (staff_id, amount,date) VALUES ('$staff_id', '$amount','$datetime')";
+            $db->sql($sql);
+            $response['success'] = true;
+            $response['message'] = "Withdrawal request submitted successfully.";
+            print_r(json_encode($response));
+        }
+    }
+    else{
         $response['success'] = false;
         $response['message'] = "Staff does not have bank details. Please update your bank details.";
-        echo json_encode($response); 
+        print_r(json_encode($response)); 
     }
 }else{
     $response['success'] = false;
     $response['message'] = "Staff not found.";
-    echo json_encode($response); 
+    print_r(json_encode($response));
 }

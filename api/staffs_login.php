@@ -38,26 +38,16 @@ $num = $db->numRows($res);
 if ($num == 1) {
        $row=$res[0];
         if($row['password']== $password){
-            $temp['id'] = $row['id'];
-            $temp['first_name'] = $row['first_name'];
-            $temp['last_name'] = $row['last_name'];
-            $temp['email'] = $row['email'];
-            $temp['mobile'] = $row['mobile'];
-            $temp['password'] = $row['password'];
-            $temp['address'] = $row['address'];
-            $temp['bank_account_number'] = $row['bank_account_number'];
-            $temp['ifsc_code'] = $row['ifsc_code'];
-            $temp['bank_name'] = $row['bank_name'];
-            $temp['branch'] = $row['branch'];
-            // $temp['aadhar_card'] = DOMAIN_URL . $row['aadhar_card'];
-            // $temp['photo'] = DOMAIN_URL . $row['photo'];
-            // $temp['resume'] = DOMAIN_URL . $row['resume'];
-            // $temp['education_certificate'] = DOMAIN_URL . $row['education_certificate'];
-            $rows[] = $temp;
-
+            
             $response['success'] = true;
             $response['message'] = "Logged In Successfully";
-            $response['data'] = $rows;
+            $response['data'] = $res;
+            if(!empty($row['resume']) && !empty($row['aadhar_card']) && !empty($row['education_certificate']) && !empty($row['photo'])){
+                $response['document_upload'] = 1;
+            }
+            else{
+                $response['document_upload'] = 0;
+            }
             print_r(json_encode($response));
         }
         else{
