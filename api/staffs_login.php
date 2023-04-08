@@ -41,13 +41,13 @@ if ($num == 1) {
             
             $response['success'] = true;
             $response['message'] = "Logged In Successfully";
-            $response['data'] = $res;
             if(!empty($row['resume']) && !empty($row['aadhar_card']) && !empty($row['education_certificate']) && !empty($row['photo'])){
                 $response['document_upload'] = 1;
             }
             else{
                 $response['document_upload'] = 0;
             }
+            $response['data'] = $res;
             print_r(json_encode($response));
         }
         else{
