@@ -68,6 +68,17 @@ $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ?
 $dob = $db->escapeString($_POST['dob']);
 $device_id = $db->escapeString($_POST['device_id']);
 
+$sql = "SELECT id FROM users WHERE device_id='$device_id'";
+$db->sql($sql);
+$res = $db->getResult();
+$num = $db->numRows($res);
+if ($num >= 1) {
+    $response['success'] = false;
+    $response['message'] ="User Already Registered with this device kindly register with new device";
+    print_r(json_encode($response));
+    return false;
+}
+
 $sql = "SELECT * FROM users WHERE mobile='$mobile'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -118,8 +129,7 @@ else{
             
         }
         // $admincode = substr($referred_by, 0, -5);
-        // $sql = "SELECT refer_code FROM admin WHERE refer_code='$admincode'";
-        // $db->sql($sql);
+
         // $result = $db->getResult();
         // $num = $db->numRows($result);
         // if($num>=1){
@@ -129,9 +139,22 @@ else{
         //     $refer_code = MAIN_REFER . $user_id;
         // }
     }
-    $sql_query = "UPDATE users SET refer_code='$refer_code' WHERE id =  $user_id";
-    $db->sql($sql_query);
 
+    $short_code = substr($refer_code, 0, 3);
+    $sql = "SELECT short_code,id FROM branches WHERE short_code = '$short_code'";
+    $db->sql($sql);
+    $sres = $db->getResult();
+    $num = $db->numRows($sres);
+    if ($num >= 1) {
+        $branch_id = $sres[0]['id'];
+
+    }else{
+        $branch_id = '1';
+    }
+
+    $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id WHERE id =  $user_id";
+    $db->sql($sql_query);
+    
     $sql = "SELECT * FROM settings";
     $db->sql($sql);
     $setres = $db->getResult();
