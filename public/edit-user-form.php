@@ -87,16 +87,16 @@ if (isset($_POST['btnEdit'])) {
                 $ref_user_history_days = $res[0]['history_days'];
                 $ref_total_refund = $res[0]['total_refund'];
                 if($ref_user_status == 1 && $ref_user_history_days <= 57){
-                    if($ref_total_refund < 3000){
-                        $referral_bonus_settings = $function->getSettingsVal('refer_bonus_amount');
-                        $refund_amount=200;
-                        $referral_bonus= $referral_bonus_settings-$refund_amount;
-                        $sql_query = "UPDATE users SET `total_refund`=total_refund + $refund_amount,`refund_wallet`=refund_wallet +$refund_amount WHERE id =  $user_id";
-                        $db->sql($sql_query);
-                    }
-                    else{
-                        $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
-                    }
+                    $referral_bonus_settings = $function->getSettingsVal('refer_bonus_amount');
+                    // if($ref_total_refund < 3000){
+                    //     $refund_amount=200;
+                    //     $referral_bonus= $referral_bonus_settings-$refund_amount;
+                    //     $sql_query = "UPDATE users SET `total_refund`=total_refund + $refund_amount,`refund_wallet`=refund_wallet +$refund_amount WHERE id =  $user_id";
+                    //     $db->sql($sql_query);
+                    // }
+                    // else{
+                    //     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
+                    // }
                 }
                 if($ref_user_status == 1 && $ref_user_history_days > 57){
                     $referral_bonus = 500;
