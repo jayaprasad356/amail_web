@@ -512,7 +512,7 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
-<script>
+<!-- <script>
        $(document).on('change', '#support_id', function() {
         $.ajax({
             url: "public/db-operation.php",
@@ -523,7 +523,7 @@ if (isset($_POST['btnCancel'])) { ?>
             }
         });
     });
-</script>
+</script> -->
 
 <script>
     var changeCheckbox = document.querySelector('#security_button');
