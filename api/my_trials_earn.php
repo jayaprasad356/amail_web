@@ -61,10 +61,15 @@ if ($num >= 1) {
     $sql = "SELECT trial_wallet,refer_code FROM users WHERE id = $user_id";
     $db->sql($sql);
     $ures = $db->getResult();
-    $trial_wallet = $ures[0]['trial_wallet'];
+    $sql = "SELECT SUM(amount) AS amount FROM transactions WHERE user_id = $user_id AND type = 'trial_bonus'";
+    $db->sql($sql);
+    $tres = $db->getResult();
+    $amount = $tres[0]['amount'];
+    
     $response['success'] = true;
     $response['message'] = "Users listed Successfully";
     $response['trial_wallet'] = $trial_wallet;
+    $response['total_earnings'] = $amount;
     $response['data'] = $rows;
     print_r(json_encode($response));
 
