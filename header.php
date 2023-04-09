@@ -236,7 +236,7 @@ $fn = new custom_functions;
                     </a>
                 </li>
                 <li class="treeview">
-                    <a href="Branches.php">
+                    <a href="branches.php">
                     <i class="fa fa-adn"></i>
                     <span>Branches</span>
                     </a>
