@@ -13,7 +13,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-$sql = "SELECT * FROM users WHERE joined_date = '2023-04-06' GROUP BY referred_by HAVING COUNT(*) = 1";
+$sql = "SELECT * FROM users WHERE joined_date = '2023-04-07' GROUP BY referred_by HAVING COUNT(*) = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
