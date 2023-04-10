@@ -53,7 +53,7 @@ if (isset($_POST['btnAdd'])) {
 ?>
     
 <section class="content-header">
-    <h1>Add New Leave <small><a href='branches.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Branches</a></small></h1>
+    <h1>Add New branches <small><a href='branches.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Branches</a></small></h1>
 
     <?php echo isset($error['add_branches']) ? $error['add_branches'] : ''; ?>
     <ol class="breadcrumb">
@@ -105,7 +105,7 @@ if (isset($_POST['btnAdd'])) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Trial Earnings</label><br>
-                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings'] == 1 ? 'checked' : '' ?>>
+                                    <input type="checkbox" id="trial_earning_button" class="js-switch" <?= isset($res[0]['trial_earnings']) && $res[0]['trial_earnings']  ? 'checked' : '' ?>>
                                     <input type="hidden" id="trial_earnings" name="trial_earnings" >
                                 </div>
                             </div>

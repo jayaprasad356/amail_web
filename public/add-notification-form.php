@@ -2,10 +2,7 @@
 include_once('includes/functions.php');
 $function = new functions;
 include_once('includes/custom-functions.php');
-$fn = new custom_functions;
-$sql = "SELECT id, name FROM categories ORDER BY id ASC";
-$db->sql($sql);
-$res = $db->getResult();
+
 
 ?>
 <?php
@@ -58,11 +55,9 @@ if (isset($_POST['btnd'])) {
 <section class="content">
     <div class="row">
         <div class="col-md-10">
-           
             <!-- general form elements -->
             <div class="box box-primary">
                 <div class="box-header with-border">
-
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
@@ -81,7 +76,7 @@ if (isset($_POST['btnd'])) {
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Description</label><i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                    <textarea  rows="3" type="number" class="form-control" name="description" required></textarea>
+                                    <textarea rows="3" type="number" class="form-control" name="description" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -89,19 +84,34 @@ if (isset($_POST['btnd'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Link</label> 
+                                    <label for="exampleInputEmail1">Link</label>
                                     <input type="text" class="form-control" name="link">
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                             <div class="col-md-3">
-                            <h4 class="box-title">Send to</h4>
-                            <select id='send_to' name="send_to" class='form-control'>
+                            <div class="col-md-3">
+                                <h4 class="box-title">Send to</h4>
+                                <select id='send_to' name="send_to" class='form-control'>
                                     <option value="0">All</option>
                                     <option value="1">Enquiries Users</option>
                                     <option value="2">Joined Users</option>
-                            </select>
+                                </select>
+                            </div>
+                            <br>
+                            <div class='col-md-4'>
+                            <h4 class="box-title">branch</h4>
+                                <select id='branch_id' name="branch_id" class='form-control'>
+                                    <option value="">--Select--</option>
+                                    <?php
+                                    $sql = "SELECT id,name FROM `branches`";
+                                    $db->sql($sql);
+                                    $result = $db->getResult();
+                                    foreach ($result as $value) {
+                                    ?>
+                                        <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                    <?php } ?>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -114,11 +124,12 @@ if (isset($_POST['btnd'])) {
 
                 </form>
                 <div id="result"></div>
-
-            </div><!-- /.box -->
+            </div>
         </div>
     </div>
 </section>
+
+     
 
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>

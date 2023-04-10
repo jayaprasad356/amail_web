@@ -24,6 +24,7 @@
                                     <th data-field="title" data-sortable="true">Title</th>
                                     <th data-field="description" data-sortable="true">Description</th>
                                     <th data-field="datetime" data-sortable="true">Date Time</th>
+                                    <th data-field="branch_id" data-sortable="true">Branch_id</th>
                                     <th data-field="operate">Action</th>
                                 </tr>
                             </thead>

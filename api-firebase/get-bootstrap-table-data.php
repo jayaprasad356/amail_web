@@ -1594,7 +1594,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
         $type = $db->escapeString($fn->xss_clean($_GET['type']));
         $where .= "AND l.type = '$type'";
     }
-      
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= " AND l.date = '$date'";
+    }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
     if (isset($_GET['limit']))
@@ -1615,18 +1618,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'leaves') {
     if (isset($_GET['order'])) {
         $order = $db->escapeString($_GET['order']);
     }
-    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL ";
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
 
-    $sql = "SELECT COUNT(l.id) as total FROM `leaves` l $join " . $where . "";
+    $sql = "SELECT COUNT(l.id) AS total FROM `leaves` l " . $join;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
-
-    $sql = "SELECT l.id AS id,l.*,u.name,u.mobile,l.status AS status FROM `leaves` l $join 
-    $where ORDER BY $sort $order LIMIT $offset, $limit";
+   
+     $sql = "SELECT l.id AS id,l.*,u.name,u.mobile,l.status AS status FROM `leaves` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
-    $res = $db->getResult();
+     $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
@@ -1774,6 +1776,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
         $tempRow['name'] = $row['name'];
         $tempRow['short_code'] = $row['short_code'];
         $tempRow['min_withdrawal'] = $row['min_withdrawal'];
+        if($row['trial_earnings']==1)
+        $tempRow['trial_earnings'] ="<p class='text text-success'>enabled</p>";
+        else
+        $tempRow['trial_earnings']="<p class='text text-danger'>disabled</p>";
         $tempRow['operate'] = $operate;
         $rows[] = $tempRow;
     }
