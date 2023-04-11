@@ -53,7 +53,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $order = 'DESC';
     if ((isset($_GET['date'])  && $_GET['date'] != '')) {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
-        $where .= "AND u.joined_date='$date' ";
+        $where .= "AND u.joined_date='$date' AND u.status=1 ";
     }
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
         $where .= "AND u.status=1 AND u.today_codes != 0 AND u.total_codes != 0 AND DATE(u.last_updated) = '$currentdate' ";

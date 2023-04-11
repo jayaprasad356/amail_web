@@ -248,7 +248,7 @@ include "header.php";
                                 } else {
                                     $join1="";
                                 }
-                                $sql = "SELECT id FROM users WHERE joined_date= '$currentdate' $join1";
+                                $sql = "SELECT id FROM users WHERE joined_date= '$currentdate' AND status=1 $join1";
                                 $db->sql($sql);
                                 $res = $db->getResult();
                                 $num = $db->numRows($res);
