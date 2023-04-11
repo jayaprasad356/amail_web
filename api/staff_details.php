@@ -32,7 +32,7 @@ if ($num >= 1) {
     $result = $db->getResult();
     $salary=$result[0]['salary_amount'];
     
-    $sql = "SELECT SUM(amount) AS incentive_amount FROM staff_transactions WHERE type='incentive' AND staff_id=" . $staff_id;
+    $sql = "SELECT SUM(amount) AS incentive_amount FROM staff_transactions WHERE type!='salary' AND staff_id=" . $staff_id;
     $db->sql($sql);
     $result1 = $db->getResult();
     $incentive=$result1[0]['incentive_amount'];

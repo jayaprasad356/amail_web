@@ -35,10 +35,11 @@
                                     <th data-field="operate">Action</th>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="first_name" data-sortable="true">First Name</th>
-                                    <th data-field="last_name" data-sortable="true">Lats Name</th>
+                                    <th data-field="last_name" data-sortable="true">Last Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="status" data-sortable="true">Status</th>
+                                    <th data-field="balance" data-sortable="true">Balance</th>
                                     <th data-field="role" data-sortable="true">Role</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="join_date" data-sortable="true">Join Date</th>

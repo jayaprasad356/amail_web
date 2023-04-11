@@ -18,6 +18,8 @@ if (isset($_POST['btnEdit'])) {
             $join_date = $db->escapeString(($_POST['join_date']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
             $role = $db->escapeString(($_POST['role']));
+            $balance = $db->escapeString(($_POST['balance']));
+            $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $error = array();
         if($status==1){
             $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
@@ -45,7 +47,7 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
             }
         }
-        $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date' WHERE id =  $ID";
+        $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -140,6 +142,23 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Date of Birth</label><i class="text-danger asterik">*</i>
+                                    <input type="number" class="form-control" name="dob" value="<?php echo $res[0]['dob']; ?>" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Family Mobile</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="family1" value="<?php echo $res[0]['family1']; ?>" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Family Mobile Number</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="family2" value="<?php echo $res[0]['family2']; ?>" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Bank Name</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="bank_name" value="<?php echo $res[0]['bank_name']; ?>" readonly>
@@ -226,6 +245,19 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="col-md-4">
                                 <label for="exampleInputEmail1">Join Date</label><i class="text-danger asterik">*</i>
                                 <input type="date" class="form-control" name="join_date" value="<?php echo $res[0]['join_date']; ?>">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-4'>
+                                    <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>" readonly>
+                                </div>
+                                <div class='col-md-4'>
+                                    <label for="exampleInputEmail1">Salary Advance Balance</label>
+                                    <input type="text" class="form-control" name="sa_balance" value="<?php echo $res[0]['sa_balance']; ?>" readonly>
+                                </div>
                             </div>
                         </div>
                         <br>

@@ -51,8 +51,15 @@ if($num == 1){
         else{
             $sql = "INSERT INTO staff_withdrawals (staff_id, amount,date) VALUES ('$staff_id', '$amount','$datetime')";
             $db->sql($sql);
+            $sql = "UPDATE staffs balance=balance - $amount  WHERE id='$staff_id'";
+            $db->sql($sql);
+            $sql = "SELECT balance FROM staffs WHERE id = $staff_id ";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $balance = $res[0]['balance'];
             $response['success'] = true;
             $response['message'] = "Withdrawal request submitted successfully.";
+            $response['balance'] = $balance;
             print_r(json_encode($response));
         }
     }

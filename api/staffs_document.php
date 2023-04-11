@@ -29,7 +29,12 @@ if (empty($_POST['salary_date'])) {
     print_r(json_encode($response));
     return false;
 }
-
+if (empty($_POST['dob'])) {
+    $response['success'] = false;
+    $response['message'] = "Date Of Birth is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 if (!isset($_FILES['aadhar_card']) || empty($_FILES['aadhar_card']['name'])) {
     $response['success'] = false;
     $response['message'] = "Please upload an Aadhar Card Document";
@@ -44,12 +49,12 @@ if (!isset($_FILES['resume']) || empty($_FILES['resume']['name'])) {
     return false;
 }
 
-// if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
-//     $response['success'] = false;
-//     $response['message'] = "Please upload an photo";
-//     print_r(json_encode($response));
-//     return false;
-// }
+if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
+    $response['success'] = false;
+    $response['message'] = "Please upload an photo";
+    print_r(json_encode($response));
+    return false;
+}
 
 if (!isset($_FILES['education_certificate']) || empty($_FILES['education_certificate']['name'])) {
     $response['success'] = false;
@@ -61,7 +66,7 @@ if (!isset($_FILES['education_certificate']) || empty($_FILES['education_certifi
 
 $staff_id = $db->escapeString($_POST['staff_id']);
 $salary_date = $db->escapeString($_POST['salary_date']);
-
+$dob = $db->escapeString($_POST['dob']);
 
 if (isset($_FILES['aadhar_card']) && !empty($_FILES['aadhar_card']) && $_FILES['aadhar_card']['error'] == 0 && $_FILES['aadhar_card']['size'] > 0) {
     $uploadDir = '../upload/aadhar_card';
@@ -147,12 +152,11 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image3',salary_date='$salary_date' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET aadhar_card='$upload_image',resume='$upload_image1',photo='$upload_image2',education_certificate='$upload_image3',salary_date='$salary_date',dob='$dob' WHERE id=" . $staff_id;
     $db->sql($sql);
  
     $response['success'] = true;
     $response['message'] = "staffs documents added Successfully";
-  
     print_r(json_encode($response));
     return false;
 }

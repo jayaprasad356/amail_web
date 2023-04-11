@@ -47,19 +47,21 @@ if (empty($_POST['branch'])) {
     return false;
 }
 
+
 $staff_id = $db->escapeString($_POST['staff_id']);
 $bank_account_number = $db->escapeString($_POST['bank_account_number']);
 $ifsc_code = $db->escapeString($_POST['ifsc_code']);
 $bank_name = $db->escapeString($_POST['bank_name']);
 $branch = $db->escapeString($_POST['branch']);
-
+$family1 = $db->escapeString($_POST['family1']);
+$family2 = $db->escapeString($_POST['family2']);
 
 $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $sql = "UPDATE staffs SET bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',bank_name='$bank_name',branch='$branch' WHERE id=" . $staff_id;
+    $sql = "UPDATE staffs SET bank_account_number='$bank_account_number',ifsc_code='$ifsc_code',bank_name='$bank_name',branch='$branch',family1='$family1',family2='$family2' WHERE id=" . $staff_id;
     $db->sql($sql);
     $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
     $db->sql($sql);

@@ -51,6 +51,8 @@ if (isset($_POST['btnEdit'])) {
             $lead_id = $db->escapeString(($_POST['lead_id']));
             $support_id = $db->escapeString(($_POST['support_id']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
+            $lead_incentive_sent = (isset($_POST['lead_incentive_sent']) && !empty($_POST['lead_incentive_sent'])) ? $db->escapeString($_POST['lead_incentive_sent']) : 0;
+            $support_incentive_sent = (isset($_POST['support_incentive_sent']) && !empty($_POST['support_incentive_sent'])) ? $db->escapeString($_POST['support_incentive_sent']) : 0;
 
             $error = array();
 
@@ -122,6 +124,28 @@ if (isset($_POST['btnEdit'])) {
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
             
+        }
+        $sql_query = "SELECT * FROM settings";
+        $db->sql($sql_query);
+        $set = $db->getResult();
+        $lead_incentive=$set[0]['lead_incentive'];
+        $support_incentive=$set[0]['support_incentive'];
+
+        if($status == 1 && !empty($support_id) && $support_incentive_sent != 1){
+            $sql_query = "UPDATE users SET support_incentive_sent = 1 WHERE id =  $ID";
+            $db->sql($sql_query);
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,date,type)VALUES($support_id,$support_incentive,'$date','support_incentive')";
+            $db->sql($sql_query);
+            $sql_query = "UPDATE staffs SET balance = balance + $support_incentive WHERE id =  $support_id";
+            $db->sql($sql_query);
+        }
+        if($status == 1 && !empty($lead_id) && $lead_incentive_sent != 1){
+            $sql_query = "UPDATE users SET lead_incentive_sent = 1 WHERE id =  $ID";
+            $db->sql($sql_query);
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,date,type)VALUES($lead_id,$lead_incentive,'$date','lead_incentive')";
+            $db->sql($sql_query);
+            $sql_query = "UPDATE staffs SET balance = balance + $lead_incentive WHERE id = $lead_id";
+            $db->sql($sql_query);
         }
     
         $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id =  $ID";
