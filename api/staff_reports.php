@@ -11,6 +11,8 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+date_default_timezone_set('Asia/Kolkata');
+$date = date('Y-m-d');
 
 if (empty($_POST['staff_id'])) {
     $response['success'] = false;
@@ -22,7 +24,7 @@ if (empty($_POST['staff_id'])) {
 $staff_id = $db->escapeString($_POST['staff_id']);
 $level = isset($_POST['level']) ? $db->escapeString($_POST['level']) : null; // Modified here
 
-$sql = "SELECT id,name,mobile,joined_date,level FROM users WHERE support_id = $staff_id ORDER BY id DESC";
+$sql = "SELECT id,name,mobile,joined_date,level,datediff('$date', joined_date) AS history_days FROM users WHERE support_id = $staff_id ORDER BY id DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
