@@ -24,7 +24,15 @@ if (empty($_POST['staff_id'])) {
 $staff_id = $db->escapeString($_POST['staff_id']);
 $user_id = $db->escapeString($_POST['user_id']);
 $level = isset($_POST['level']) ? $db->escapeString($_POST['level']) : null; // Modified here
-
+if($level == 1){
+    $level = 2;
+}
+else if($level == 2){
+    $level = 3;
+}
+else if($level == 3){
+    $level = 4;
+}
 $sql = "SELECT id,name,mobile,joined_date,level,datediff('$date', joined_date) AS history_days FROM users WHERE support_id = $staff_id ORDER BY id DESC";
 $db->sql($sql);
 $res = $db->getResult();
