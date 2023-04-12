@@ -56,36 +56,36 @@ if($type == 'champion'){
         $sql = "UPDATE users SET champion_trial = 1  WHERE id = '$user_id' AND  trial_count = 10";
         $db->sql($sql);
         if($count == 1 && $trial_earnings == '1'  && !empty($referred_by)){
-            $sql = "UPDATE users SET valid = 1 WHERE id = '$user_id' AND  champion_trial = 1 AND regular_trial = 1";
-            $db->sql($sql);
-            $sql = "SELECT valid,trial_bonus FROM  users WHERE id='$user_id'";
-            $db->sql($sql);
-            $res = $db->getResult();
-            $num = $db->numRows($res);
-            if ($num == 1) {
-                $valid = $res[0]['valid'];
-                $trial_bonus = $res[0]['trial_bonus'];
-                if($valid == 1 && $trial_bonus == 0){
-                    $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
-                    $db->sql($sql);
-                    $res = $db->getResult();
-                    $num = $db->numRows($res);
-                    if ($num == 1) {
-                        $ref_user_id = $res[0]['id'];
-                        $sql = "UPDATE `users` SET  `earn` = earn + 10,trial_wallet = trial_wallet + 10 WHERE `id` = $ref_user_id";
-                        $db->sql($sql);
-                        $sql = "UPDATE users SET trial_bonus = 1 WHERE id = '$user_id'";
-                        $db->sql($sql);
-                        $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($ref_user_id,10,'$datetime','trial_bonus')";
-                        $db->sql($sql_query);
+            // $sql = "UPDATE users SET valid = 1 WHERE id = '$user_id' AND  champion_trial = 1 AND regular_trial = 1";
+            // $db->sql($sql);
+            // $sql = "SELECT valid,trial_bonus FROM  users WHERE id='$user_id'";
+            // $db->sql($sql);
+            // $res = $db->getResult();
+            // $num = $db->numRows($res);
+            // if ($num == 1) {
+            //     $valid = $res[0]['valid'];
+            //     $trial_bonus = $res[0]['trial_bonus'];
+            //     if($valid == 1 && $trial_bonus == 0){
+            //         $sql = "SELECT id FROM users WHERE refer_code = '$referred_by'";
+            //         $db->sql($sql);
+            //         $res = $db->getResult();
+            //         $num = $db->numRows($res);
+            //         if ($num == 1) {
+            //             $ref_user_id = $res[0]['id'];
+            //             $sql = "UPDATE `users` SET  `earn` = earn + 10,trial_wallet = trial_wallet + 10 WHERE `id` = $ref_user_id";
+            //             $db->sql($sql);
+            //             $sql = "UPDATE users SET trial_bonus = 1 WHERE id = '$user_id'";
+            //             $db->sql($sql);
+            //             $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($ref_user_id,10,'$datetime','trial_bonus')";
+            //             $db->sql($sql_query);
                 
-                    }
+            //         }
     
     
-                }
+            //     }
     
     
-            }
+            // }
         }
         $response['success'] = true;
         $response['message'] = "Trial Added Successfully";
@@ -129,7 +129,7 @@ else{
     $db->sql($sql);
     if($count == 1 && $trial_earnings == '1' && !empty($referred_by)){
            
-        $sql = "UPDATE users SET valid = 1  WHERE id = '$user_id' AND  champion_trial = 1 AND regular_trial = 1";
+        $sql = "UPDATE users SET valid = 1  WHERE id = '$user_id' AND  regular_trial = 1";
         $db->sql($sql);
         $sql = "SELECT valid,trial_bonus FROM  users WHERE id='$user_id'";
         $db->sql($sql);
