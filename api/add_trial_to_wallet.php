@@ -24,15 +24,15 @@ $datetime = date('Y-m-d H:i:s');
 $user_id = $db->escapeString($_POST['user_id']);
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
 $db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
+$ures = $db->getResult();
+$num = $db->numRows($ures);
 if ($num >= 1) {
     $sql = "SELECT id FROM bank_details WHERE user_id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
     if ($num >= 1) {
-        $amount = $res[0]['trial_wallet'];
+        $amount = $ures[0]['trial_wallet'];
         if($amount >= 100){
             $sql = "SELECT trial_wallet FROM users WHERE id = '$user_id'";
             $db->sql($sql);
