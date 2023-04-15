@@ -21,13 +21,13 @@ $currentdate = date('Y-m-d');
 // $sql = "UPDATE users SET mcg_timer=40,code_generate_time = 5 WHERE task_type = 'champion' ";
 // $db->sql($sql);
 
-$sql = "UPDATE users SET mcg_timer=16,code_generate_time = 3";
+$sql = "UPDATE users SET mcg_timer=18,code_generate_time = 3";
 $db->sql($sql);
 
 $sql = "UPDATE users SET code_generate=0 WHERE total_codes >= 60000";
 $db->sql($sql);
 
-$sql = "UPDATE users SET code_generate_time = 4,mcg_timer = 22 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0 ";
+$sql = "UPDATE users SET code_generate_time = 4,mcg_timer = 22 WHERE DATEDIFF( '$currentdate',joined_date) >= 20 AND total_referrals = 0 ";
 $db->sql($sql);
 
 // $sql = "UPDATE users SET code_generate_time = 6,mcg_timer = 60 WHERE DATEDIFF( '$currentdate',joined_date) >= 15 AND total_referrals = 0 AND task_type = 'champion'";
