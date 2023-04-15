@@ -12,8 +12,9 @@ if (isset($_POST['btnUpdate'])) {
     $champion_codes = $db->escapeString(($_POST['champion_codes']));
     $champion_search_count = $db->escapeString(($_POST['champion_search_count']));
     $champion_demo_link = $db->escapeString(($_POST['champion_demo_link']));
+    $regular_demo_link = $db->escapeString(($_POST['regular_demo_link']));
     $error = array();
-    $sql_query = "UPDATE settings SET champion_task=$champion_task,champion_codes = $champion_codes,champion_demo_link = '$champion_demo_link',champion_search_count = $champion_search_count WHERE id=1";
+    $sql_query = "UPDATE settings SET champion_task=$champion_task,champion_codes = $champion_codes,champion_demo_link = '$champion_demo_link',champion_search_count = $champion_search_count,regular_demo_link = '$regular_demo_link' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -90,6 +91,15 @@ $res = $db->getResult();
                                     <div class="form-group">
                                         <label for="">Champion Demo Link</label><br>
                                         <input type="link"class="form-control" name="champion_demo_link" value="<?= $res[0]['champion_demo_link'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Regular Demo Link</label><br>
+                                        <input type="link"class="form-control" name="regular_demo_link" value="<?= $res[0]['regular_demo_link'] ?>">
                                     </div>
                                 </div>
                             </div>
