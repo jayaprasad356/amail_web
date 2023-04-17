@@ -53,6 +53,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         $where .= "AND joined_date='$date' ";
     }
+    if ((isset($_GET['support']) && $_GET['support'] != '')) {
+        $user_id = $db->escapeString($fn->xss_clean($_GET['support']));
+        $where .= "AND support_id = '$support'";
+    }
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
         $where .= "AND status=1 AND today_codes != 0 AND total_codes != 0 AND DATE(last_updated) = '$currentdate' ";
     }
@@ -1854,6 +1858,66 @@ if (isset($_GET['table']) && $_GET['table'] == 'job_details') {
         $tempRow['id'] = $row['id'];
         $tempRow['language'] = $row['language'];
         $tempRow['link'] = $row['link'];
+        $tempRow['operate'] = $operate;
+
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+if (isset($_GET['table']) && $_GET['table'] == 'expenses') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'id';
+    $order = 'DESC';
+    if ((isset($_GET['date'])  && $_GET['date'] != '')) {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= "AND joined_date='$date' ";
+    }
+
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR registered_date like '%" . $search . "%'";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+    
+    $sql = "SELECT COUNT(`id`) as total FROM `expenses`" . $where;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+
+    $sql = "SELECT * FROM expenses " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
+    $db->sql($sql);
+    $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+        $operate = '<a href="edit-expenses.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-expenses.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['date'] = $row['date'];
+        $tempRow['amount'] = $row['amount'];
+        $tempRow['remarks'] = $row['remarks'];
         $tempRow['operate'] = $operate;
 
         $rows[] = $tempRow;

@@ -189,12 +189,20 @@ $fn = new custom_functions;
                         <span>job details</span>
                     </a>
                 </li>
+                
+                
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
                     <a href="referral_users.php">
                     <i class="fa fa-users"></i>
                         <span>Users Referral Income</span>
+                    </a>
+                </li>
+                <li class="treeview">
+                    <a href="expenses.php">
+                        <i class="fa fa-info"></i>
+                        <span>Expenses</span>
                     </a>
                 </li>
                 <li class="treeview">
