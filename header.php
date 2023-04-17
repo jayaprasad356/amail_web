@@ -183,7 +183,12 @@ $fn = new custom_functions;
                         <span>Withdrawals</span>
                     </a>
                 </li>
-
+                <li class="treeview">
+                    <a href="job_details.php">
+                    <i class="fa fa-info"></i>
+                        <span>job details</span>
+                    </a>
+                </li>
                 
 
 

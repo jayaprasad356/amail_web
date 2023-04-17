@@ -31,18 +31,18 @@ class Database
     // private $db_name = "u117947056_abcd"; 
 
     //DEMO
-    private $db_host = "localhost";
-    private $db_user = "u743445510_abcd";
-    private $db_pass = "Abcd@2022"; 
-    private $db_name = "u743445510_abcd"; 
+    //private $db_host = "localhost";
+   // private $db_user = "u743445510_abcd";
+    //private $db_pass = "Abcd@2022"; 
+   // private $db_name = "u743445510_abcd"; 
 
 
 
 
-    //  private $db_host = "localhost";
-    //  private $db_user = "root";
-    //  private $db_pass = ""; 
-    //  private $db_name = "abcd"; 
+      private $db_host = "localhost";
+      private $db_user = "root";
+      private $db_pass = ""; 
+      private $db_name = "abcd_web"; 
 
 
     /*
