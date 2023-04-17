@@ -68,7 +68,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR registered_date like '%" . $search . "%'";
+        $where .= "AND name like '%" . $search . "%' OR mobile like '%" . $search . "%' OR city like '%" . $search . "%' OR email like '%" . $search . "%' OR refer_code like '%" . $search . "%' OR referred_by like '%"  . $search . "%' OR registered_date like '%" . $search . "%'";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1172,7 +1172,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         $tempRow['earn'] = $row['earn'];
         $tempRow['total_earn'] = $row['total_earn'];
         $tempRow['joined_date'] = $row['joined_date'];
-
+        $tempRow['refer_code'] = $row['refer_code'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         // $tempRow['operate'] = $operate;
         $i++;
@@ -1278,6 +1278,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'employees') {
     $tempRow = array();
     foreach ($res as $row) {
         $operate = '<a href="edit-employee.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+        $operate .= ' <a class="text text-danger" href="delete-employee.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];

@@ -189,9 +189,6 @@ $fn = new custom_functions;
                         <span>job details</span>
                     </a>
                 </li>
-                
-
-
                 <?php
                 if($_SESSION['role'] == 'Super Admin'){?>
                 <li class="treeview">
