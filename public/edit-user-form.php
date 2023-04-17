@@ -51,12 +51,26 @@ if (isset($_POST['btnEdit'])) {
             $lead_id = $db->escapeString(($_POST['lead_id']));
             $support_id = $db->escapeString(($_POST['support_id']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-            $lead_incentive_sent = (isset($_POST['lead_incentive_sent']) && !empty($_POST['lead_incentive_sent'])) ? $db->escapeString($_POST['lead_incentive_sent']) : 0;
-            $support_incentive_sent = (isset($_POST['support_incentive_sent']) && !empty($_POST['support_incentive_sent'])) ? $db->escapeString($_POST['support_incentive_sent']) : 0;
-
+            $total_refund = $db->escapeString(($_POST['total_refund']));
+            $refund_wallet = $db->escapeString(($_POST['refund_wallet']));
+            $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
             $error = array();
 
-     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && !empty($code_generate_time)) {
+            if (empty($lead_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Lead Required!</span>";
+            }
+            if (empty($support_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Support Required!</span>";
+            }
+            if (empty($branch_id)) {
+                $error['update_users'] = " <span class='label label-danger'> Branch Required!</span>";
+            }
+
+     if (!empty($name) && !empty($mobile) && !empty($password)&& !empty($dob) && !empty($email)&& !empty($city) && 
+     !empty($code_generate_time) && 
+     !empty($lead_id)  && 
+     !empty($support_id) && 
+     !empty($branch_id)) {
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
@@ -72,20 +86,8 @@ if (isset($_POST['btnEdit'])) {
                 $ref_user_status = $res[0]['status'];
                 $ref_user_history_days = $res[0]['history_days'];
                 $ref_total_refund = $res[0]['total_refund'];
-                if($ref_user_status == 1 && $ref_user_history_days <= 57){
-                    if($ref_total_refund < 3000){
-                        $referral_bonus_settings = $function->getSettingsVal('refer_bonus_amount');
-                        $refund_amount=200;
-                        $referral_bonus= $referral_bonus_settings-$refund_amount;
-                        $sql_query = "UPDATE users SET `total_refund`=total_refund + $refund_amount,`refund_wallet`=refund_wallet +$refund_amount WHERE id =  $user_id";
-                        $db->sql($sql_query);
-                    }
-                    else{
-                        $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
-                    }
-                }
-                if($ref_user_status == 1 && $ref_user_history_days > 57){
-                    $referral_bonus = 500;
+                if($ref_user_status == 1){
+                    $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
 
@@ -99,9 +101,21 @@ if (isset($_POST['btnEdit'])) {
                 $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
                 $db->sql($sql_query);
                 if($ref_code_generate == 1 && $ref_user_status == 1 && $ref_user_history_days <= 57){
-                    $sql_query = "UPDATE users SET `earn` = earn + $code_bonus,`balance` = balance + $code_bonus,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
+
+                    if($ref_total_refund < 1800){
+                        $amount = $refer_bonus_codes  * 0.14;
+                        $org_amount =  $refer_bonus_codes * COST_PER_CODE;
+                        $refund_wallet=$refer_bonus_codes * 0.03 ;
+                        $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $user_id";
+                        $db->sql($sql);
+                    }
+                    else{
+                        $amount = $refer_bonus_codes  * 0.14;
+                        $org_amount = $refer_bonus_codes  * 0.14;
+                    }
+                    $sql_query = "UPDATE users SET `earn` = earn + $amount,`balance` = balance + $amount,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
                     $db->sql($sql_query);
-                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$code_bonus,$refer_bonus_codes,'$datetime','code_bonus')";
+                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$org_amount,$refer_bonus_codes,'$datetime','code_bonus')";
                     $db->sql($sql_query);
                 }
                 $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
@@ -113,7 +127,18 @@ if (isset($_POST['btnEdit'])) {
         }
         if($status == 1 && $register_bonus_sent != 1){
             $join_codes = $function->getSettingsVal('join_codes');
-            $register_bonus = $join_codes * COST_PER_CODE;
+            if($total_refund  < 1800 ){
+                $amount = $join_codes  * 0.14;
+                $org_amount =  $join_codes * COST_PER_CODE;
+                $refund_wallet=$join_codes * 0.03 ;
+                $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $ID";
+                $db->sql($sql);
+            }
+            else{
+                $amount = $codes  * 0.14;
+                $org_amount = $codes  * 0.14;
+            }
+            $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
             $salary_advance_balance = $salary_advance_balance + 200;
@@ -121,34 +146,12 @@ if (isset($_POST['btnEdit'])) {
             $balance = $balance + $register_bonus;
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
-            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$register_bonus,$join_codes,'$datetime','register_bonus')";
+            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$org_amount,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
             
         }
-        $sql_query = "SELECT * FROM settings";
-        $db->sql($sql_query);
-        $set = $db->getResult();
-        $lead_incentive=$set[0]['lead_incentive'];
-        $support_incentive=$set[0]['support_incentive'];
-
-        if($status == 1 && !empty($support_id) && $support_incentive_sent != 1){
-            $sql_query = "UPDATE users SET support_incentive_sent = 1 WHERE id =  $ID";
-            $db->sql($sql_query);
-            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,date,type)VALUES($support_id,$support_incentive,'$date','support_incentive')";
-            $db->sql($sql_query);
-            $sql_query = "UPDATE staffs SET balance = balance + $support_incentive WHERE id =  $support_id";
-            $db->sql($sql_query);
-        }
-        if($status == 1 && !empty($lead_id) && $lead_incentive_sent != 1){
-            $sql_query = "UPDATE users SET lead_incentive_sent = 1 WHERE id =  $ID";
-            $db->sql($sql_query);
-            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,date,type)VALUES($lead_id,$lead_incentive,'$date','lead_incentive')";
-            $db->sql($sql_query);
-            $sql_query = "UPDATE staffs SET balance = balance + $lead_incentive WHERE id = $lead_id";
-            $db->sql($sql_query);
-        }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',refer_balance = $refer_balance,task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',refund_wallet='$refund_wallet',total_refund='$total_refund',trial_wallet='$trial_wallet' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -392,18 +395,31 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
+                            <div class="form-group">
+                               <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Refund Wallet</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Total Refund</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="total_refund" value="<?php echo $res[0]['total_refund']; ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
                             <div class="form-group col-md-6">
                                     <label for="exampleInputEmail1">Select Lead</label> <i class="text-danger asterik">*</i>
                                     <select id='lead_id' name="lead_id" class='form-control'>
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `staffs`";
+                                                $sql = "SELECT * FROM `employees`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['first_name'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['lead_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>
@@ -413,13 +429,13 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='support_id' name="support_id" class='form-control'>
                                              <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `staffs`";
+                                                $sql = "SELECT * FROM `employees`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['first_name'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['support_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>
@@ -442,6 +458,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                                     
                                                 <?php } ?>
                                     </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="exampleInputEmail1">Trial Wallet</label><i class="text-danger asterik">*</i>
+                                <input type="text" class="form-control" name="trial_wallet" value="<?php echo $res[0]['trial_wallet']; ?>">
                             </div>
                         </div>
                         <br>
@@ -503,6 +523,18 @@ if (isset($_POST['btnCancel'])) { ?>
         }
     };
 </script>
+<!-- <script>
+       $(document).on('change', '#support_id', function() {
+        $.ajax({
+            url: "public/db-operation.php",
+            data: "support_id=" + $('#support_id').val() + "&change_support=1",
+            method: "POST",
+            success: function(data) {
+                $('#branch_id').html("<option value=''>---Select Branch---</option>" + data);
+            }
+        });
+    });
+</script> -->
 
 <script>
     var changeCheckbox = document.querySelector('#security_button');
