@@ -30,6 +30,22 @@
                                     <option value="1"<?php echo (isset($_GET['activeusers'])) ? 'selected' : "" ?>>Active Users</option>
                             </select>
                     </div>
+                    <div class="col-md-3">
+                    <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
+                                    <select id='support_id' name="support_id" class='form-control'>
+                                        <option value=''>All</option>
+                                        
+                                                <?php
+                                                $sql = "SELECT name FROM `employees`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                    </select>
+                    </div>
+
                     </div>
                     
                     <!-- /.box-header -->
@@ -99,11 +115,16 @@
             idf = $('#activeusers').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#support_id').on('change', function() {
+            idf = $('#support_id').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
    
 
     function queryParams(p) {
         return {
             "date": $('#date').val(),
+            "support_id": $('#support_id').val(),
             "activeusers": $('#activeusers').val(),
             limit: p.limit,
             sort: p.sort,

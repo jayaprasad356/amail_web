@@ -9,48 +9,46 @@ header("Pragma: no-cache");
 
 
 include_once('../includes/crud.php');
-
 $db = new Database();
 $db->connect();
 
 
-if (empty($_POST['user_id'])) {
+if (empty($_POST['staff_id'])) {
     $response['success'] = false;
-    $response['message'] = "User Id is Empty";
+    $response['message'] = "Staff Id is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['employee_id'])) {
+if (empty($_POST['from_date'])) {
     $response['success'] = false;
-    $response['message'] = "Employee Id is Empty";
+    $response['message'] = "From Date is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['description'])) {
+if (empty($_POST['to_date'])) {
     $response['success'] = false;
-    $response['message'] = "Description is Empty";
+    $response['message'] = "To Date is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['ratings'])) {
+if (empty($_POST['reason'])) {
     $response['success'] = false;
-    $response['message'] = "ratings is Empty";
+    $response['message'] = "Reason is Empty";
     print_r(json_encode($response));
     return false;
 }
-$user_id = $db->escapeString($_POST['user_id']);
-$employee_id = $db->escapeString($_POST['employee_id']);
-$description = $db->escapeString($_POST['description']);
-$ratings = $db->escapeString($_POST['ratings']);
+
+$staff_id = $db->escapeString($_POST['staff_id']);
+$from_date = $db->escapeString($_POST['from_date']);
+$to_date = $db->escapeString($_POST['to_date']);
+$reason = $db->escapeString($_POST['reason']);
 
 
-$sql = "INSERT INTO ratings (`user_id`,`employee_id`,`description`,`ratings`) VALUES ('$user_id','$employee_id','$description','$ratings')";
+$sql = "INSERT INTO staff_leaves (`staff_id`,`from_date`,`to_date`,`reason`)VALUES('$staff_id','$from_date','$to_date','$reason')";
 $db->sql($sql);
 $res = $db->getResult();
 $response['success'] = true;
-$response['message'] = "Ratings Submitted Successfully";
+$response['message'] = "Leave Applied Successfully";
 print_r(json_encode($response));
-
-
 
 ?>

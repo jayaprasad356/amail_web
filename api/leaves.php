@@ -40,8 +40,8 @@ if ($num >= 1) {
 
 
 }else{
-    // $sql = "UPDATE `users` SET `worked_days` = worked_days + 1 WHERE `code_generate` = 1 AND status = 1";
-    // $db->sql($sql);
+    $sql = "UPDATE `users` SET `worked_days` = worked_days + 1 WHERE `code_generate` = 1 AND status = 1";
+    $db->sql($sql);
 
     $sql = "SELECT * FROM leaves WHERE date='$date' AND status = 1 AND type = 'user_leave' ORDER BY date";
     $db->sql($sql);
@@ -53,10 +53,8 @@ if ($num >= 1) {
             $user_id = $row['user_id'];
             $leave_date = $row['date'];
             $next_date = date('Y-m-d', strtotime($leave_date . ' +1 day'));
-            $sql = "UPDATE users SET code_enable_date = '$next_date',code_generate=0,withdrawal_status = 0  WHERE id = $user_id";
+            $sql = "UPDATE users SET `worked_days` = worked_days - 1,code_enable_date = '$next_date',code_generate=0,withdrawal_status = 0  WHERE id = $user_id";
             $db->sql($sql);
-            // $sql = "UPDATE users SET `worked_days` = worked_days - 1,code_enable_date = '$next_date',code_generate=0,withdrawal_status = 0  WHERE id = $user_id";
-            // $db->sql($sql);
         }
 
         $response['success'] = true;

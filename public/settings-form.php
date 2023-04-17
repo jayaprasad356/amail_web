@@ -23,8 +23,11 @@ if (isset($_POST['btnUpdate'])) {
     $num_sync_times = $db->escapeString(($_POST['num_sync_times']));
     $min_sync_refer_wallet = $db->escapeString(($_POST['min_sync_refer_wallet']));
     $main_content = $db->escapeString(($_POST['main_content']));
+    $lead_incentive = $db->escapeString(($_POST['lead_incentive']));
+    $support_incentive = $db->escapeString(($_POST['support_incentive']));
+    $staff_salary_advance = $db->escapeString(($_POST['staff_salary_advance']));
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content',lead_incentive='$lead_incentive',support_incentive='$support_incentive',staff_salary_advance='$staff_salary_advance' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -182,13 +185,38 @@ $res = $db->getResult();
                             </div>  
                             <br>   
                             <div class="form-group">
-                                    <label for="main_content">Main Content :</label> <i class="text-danger asterik">*</i><?php echo isset($error['main_content']) ? $error['main_content'] : ''; ?>
-                                    <textarea name="main_content" id="main_content" class="form-control" rows="8"><?php echo $res[0]['main_content']; ?></textarea>
-                                    <script type="text/javascript" src="css/js/ckeditor/ckeditor.js"></script>
-                                    <script type="text/javascript">
-                                        CKEDITOR.replace('main_content');
-                                    </script>
-                                </div>              
+                                <label for="main_content">Main Content :</label> <i class="text-danger asterik">*</i><?php echo isset($error['main_content']) ? $error['main_content'] : ''; ?>
+                                <textarea name="main_content" id="main_content" class="form-control" rows="8"><?php echo $res[0]['main_content']; ?></textarea>
+                                <script type="text/javascript" src="css/js/ckeditor/ckeditor.js"></script>
+                                <script type="text/javascript">
+                                    CKEDITOR.replace('main_content');
+                                </script>
+                            </div>   
+                            <br>
+                            <h4 style="color:Blue;">Staff Section:</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Staff Lead Incentive</label><br>
+                                        <input type="number"class="form-control" name="lead_incentive" value="<?= $res[0]['lead_incentive'] ?>">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Staff Direct Joining Incentive</label><br>
+                                        <input type="number"class="form-control" name="support_incentive" value="<?= $res[0]['support_incentive'] ?>">
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="">Staff Salary Advance</label><br>
+                                        <input type="number"class="form-control" name="staff_salary_advance" value="<?= $res[0]['staff_salary_advance'] ?>">
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                   
                     <!-- /.box-body -->

@@ -5,6 +5,9 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
+include_once('includes/crud.php');
+$db = new Database();
+$db->connect();
 // start session
 
 // set time for session timeout
@@ -26,20 +29,52 @@ if ($currentTime > $_SESSION['timeout']) {
 unset($_SESSION['timeout']);
 $_SESSION['timeout'] = $currentTime + $expired;
 
+
+if (isset($_POST['btnDelete'])) {
+		
+	if (isset($_GET['id'])) {
+		$ID = $db->escapeString($_GET['id']);
+	} else {
+		// $ID = "";
+		return false;
+		exit(0);
+	}
+
+	// delete data from menu table
+	$sql_query = "DELETE FROM job_details WHERE id =" . $ID;
+	$db->sql($sql_query);
+	$delete_result = $db->getResult();
+	header("location: users.php");
+}
+
+if (isset($_POST['btnNo'])) {
+header("location: users.php");
+}
+if (isset($_POST['btncancel'])) {
+header("location: users.php");
+}
 ?>
 
 <?php include "header.php"; ?>
 <html>
 
 <head>
-    <title>Ratings | - Dashboard</title>
+    <title>Delete jobs | - Dashboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 
 <body>
+	
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <?php include('public/ratings-table.php'); ?>
+	    <h1>Confirm Action</h1>
+		<hr />
+		<form method="post">
+			<p>Are you sure want to delete this User?</p>
+			<input type="submit" class="btn btn-primary" value="Delete" name="btnDelete" />
+			<input type="submit" class="btn btn-danger" value="Cancel" name="btnNo" />
+			<input type="submit" class="btn btn-warning" value="Back" name="btncancel" />
+		</form>
     </div><!-- /.content-wrapper -->
 </body>
 

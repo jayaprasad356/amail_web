@@ -78,7 +78,6 @@ if ($num == 1) {
             $res = $db->getResult();
             $num = $db->numRows($res);
             if ($num == 1) {
-                $res[0]['joined_date'] = $fn->get_joined_date($user_id);;
                 $response['success'] = true;
                 $response['user_verify'] = true;
                 $response['device_verify'] = true;

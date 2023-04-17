@@ -7,30 +7,31 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
-
 include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
 
-$sql = "SELECT mobile,latitude,longtitude FROM `users` WHERE latitude != ''";
+$sql = "SELECT * FROM job_details";
 $db->sql($sql);
-$res = $db->getResult();
+$res= $db->getResult();
 $num = $db->numRows($res);
-if ($num >= 1) {
+
+if ($num >= 1){
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['language'] = $row['language'];
+        $temp['link'] = $row['link'];
+        $rows[] = $temp;
+    }
     $response['success'] = true;
-    $response['message'] = "USERS LISTED Listed Successfully";
-    $response['data'] = $res;
+    $response['message'] = "job_details Listed Successfully";
+    $response['data'] = $rows;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] = "No Data Found";
+    $response['message'] = "job_details Not found";
     print_r(json_encode($response));
+
 }
-
-
-
-
-
-?>

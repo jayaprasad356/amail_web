@@ -4,9 +4,9 @@ $function = new functions;
 include_once('includes/custom-functions.php');
 $fn = new custom_functions;
 
-// $sql = "SELECT id, name FROM categories ORDER BY id ASC";
-// $db->sql($sql);
-// $res = $db->getResult();
+$sql = "SELECT id, name FROM categories ORDER BY id ASC";
+$db->sql($sql);
+$res = $db->getResult();
 
 ?>
 <?php
@@ -57,19 +57,6 @@ if (isset($_POST['btnAdd'])) {
         }
         }
 ?>
-<?php
-if (isset($_POST['btnView'])) {
-    $mobile = $db->escapeString(($_POST['mobile']));
-    $sql = "SELECT id,name,mobile FROM users WHERE mobile = '$mobile'";
-    $db->sql($sql);
-    $ures = $db->getResult();
-    $id = $ures[0]['id'];
-    $name = $ures[0]['name'];
-    $mobile = $ures[0]['mobile'];
-
-
-    }
-?>
 <section class="content-header">
     <h1>Add New Leave <small><a href='leaves.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Leaves</a></small></h1>
 
@@ -80,43 +67,6 @@ if (isset($_POST['btnView'])) {
     <hr />
 </section>
 <section class="content">
-   <div class="row">
-        <div class="col-md-6">
-           
-            <!-- general form elements -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form url="add_leave_form" method="post" enctype="multipart/form-data">
-                    <div class="box-body">
-                       <div class="row">
-                            <div class="form-group">
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="mobile" required>
-                                </div>
-
-                            </div>
-                        </div>
-
-
-                    </div>
-                  
-                    <!-- /.box-body -->
-
-                    <div class="box-footer">
-                        <button type="submit" class="btn btn-primary" name="btnView">View</button>
-                        
-                    </div>
-
-                </form>
-
-            </div><!-- /.box -->
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-6">
            
@@ -128,28 +78,7 @@ if (isset($_POST['btnView'])) {
                 <!-- /.box-header -->
                 <!-- form start -->
                 <form url="add_leave_form" method="post" enctype="multipart/form-data">
-                   <input type="hidden" class="form-control" name="user_id" value="<?php echo isset($id) ? $id : "" ;?>">
                     <div class="box-body">
-                        <div class="row">
-                            <div class="form-group">
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="username" value="<?php echo isset($name) ? $name : "" ;?>" readonly>
-                                </div>
-
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="usermobile" value="<?php echo isset($mobile) ? $mobile : "" ;?>"  readonly>
-                                </div>
-
-                            </div>
-                        </div>
-                        <br>
                        <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
@@ -169,6 +98,24 @@ if (isset($_POST['btnView'])) {
                                     <input class="form-check-input" type="radio" name="type" value="common_leave">
                                     <label  for="exampleRadios2">Common Leave</label>
                                 </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                   <label for="exampleInputEmail1">User</label> <i class="text-danger asterik">*</i>
+                                    <select id='user_id' name="user_id" class='form-control'>
+                                        <option value=''>All</option>
+                                        
+                                                <?php
+                                                $sql = "SELECT id,name FROM `users`";
+                                                $db->sql($sql);
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                            <?php } ?>
+                                    </select>
                             </div>
                         </div>
                         <br>

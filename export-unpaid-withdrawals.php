@@ -6,12 +6,10 @@ date_default_timezone_set('Asia/Kolkata');
 $currentdate = date('Y-m-d');
 
 	$join = "WHERE w.user_id = u.id AND w.user_id = b.user_id AND w.status= 0";
-	$sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,
-	DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,CONCAT(',' , `account_num`, ',') AS account_num,
-	b.ifsc,b.holder_name,FORMAT(((total_referrals * 250) + ((total_codes /3000)*100)), 2) AS total_refund  FROM `withdrawals` w,`users` u,`bank_details` b $join";
+	$sql = "SELECT w.id AS id,w.*,u.name,u.total_codes,u.total_referrals,u.balance,u.mobile,u.referred_by,u.refer_code,DATEDIFF( '$currentdate',u.joined_date) AS history,b.branch,b.bank,CONCAT(',' , `account_num`, ',') AS account_num,b.ifsc,b.holder_name FROM `withdrawals` w,`users` u,`bank_details` b $join";
 	$db->sql($sql);
 	$developer_records = $db->getResult();
-
+	
 	$filename = "unpaid-withdrawals-data".date('Ymd') . ".xls";			
 	header("Content-Type: application/vnd.ms-excel");
 	header("Content-Disposition: attachment; filename=\"$filename\"");	
