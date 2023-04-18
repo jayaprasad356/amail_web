@@ -29,7 +29,7 @@ $email = $db->escapeString($_POST['email']);
 $password = $db->escapeString($_POST['password']);
 
 
-$sql = "SELECT * FROM employees WHERE email ='$email' AND password ='$password'";
+$sql = "SELECT * FROM staffs WHERE email ='$email' AND password ='$password'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

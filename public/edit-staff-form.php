@@ -21,47 +21,54 @@ if (isset($_POST['btnEdit'])) {
             $balance = $db->escapeString(($_POST['balance']));
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $error = array();
-        if($status==1){
-            $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
-            $db->sql($sql_query);
-            $res = $db->getResult();
-            if(empty($res[0]['staff_id'])){
-                $branch_id = $_POST['branch_id']; // Replace with the actual POST parameter name
-                $sql = "SELECT short_code FROM `branches` WHERE id = $branch_id";
-                $db->sql($sql);
-                $result = $db->getResult();
-                $short_code = $result[0]['short_code'];
 
-                // Load the last used staff ID for the selected branch
-                $sql = "SELECT MAX(id) as max_id FROM `staffs` WHERE branch_id = $branch_id";
-                $db->sql($sql);
-                $result = $db->getResult();
-                $last_id = $result[0]['max_id'];
-
-                // Increment the last used ID to generate the new ID
-                $new_id = sprintf('%04d', $last_id + 1);
-
-                // Combine the short code and the new ID to form the final ID
-                $staff_id = $short_code . "-" . $new_id;
-                $sql_query = "UPDATE staffs SET staff_id='$staff_id' WHERE id =  $ID";
+            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance)) {
+                if($status==1){
+                    $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
+                    $db->sql($sql_query);
+                    $res = $db->getResult();
+                    if(empty($res[0]['staff_id'])){
+                        $branch_id = $_POST['branch_id']; // Replace with the actual POST parameter name
+                        $sql = "SELECT short_code FROM `branches` WHERE id = $branch_id";
+                        $db->sql($sql);
+                        $result = $db->getResult();
+                        $short_code = $result[0]['short_code'];
+        
+                        // Load the last used staff ID for the selected branch
+                        $sql = "SELECT MAX(id) as max_id FROM `staffs` WHERE branch_id = $branch_id";
+                        $db->sql($sql);
+                        $result = $db->getResult();
+                        $last_id = $result[0]['max_id'];
+        
+                        // Increment the last used ID to generate the new ID
+                        $new_id = sprintf('%04d', $last_id + 1);
+        
+                        // Combine the short code and the new ID to form the final ID
+                        $staff_id = $short_code . "-" . $new_id;
+                        $sql_query = "UPDATE staffs SET staff_id='$staff_id' WHERE id =  $ID";
+                        $db->sql($sql_query);
+                    }
+                }
+                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance' WHERE id =  $ID";
                 $db->sql($sql_query);
-            }
-        }
-        $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance' WHERE id =  $ID";
-        $db->sql($sql_query);
-        $update_result = $db->getResult();
-        if (!empty($update_result)) {
-            $update_result = 0;
-        } else {
-            $update_result = 1;
-        }
+                $update_result = $db->getResult();
+                if (!empty($update_result)) {
+                    $update_result = 0;
+                } else {
+                    $update_result = 1;
+                }
+        
+                // check update result
+                if ($update_result == 1) {
+                    $error['update_staff'] = " <section class='content-header'><span class='label label-success'>Users updated Successfully</span></section>";
+                } else {
+                    $error['update_staff'] = " <span class='label label-danger'>Failed update users</span>";
+                }
 
-        // check update result
-        if ($update_result == 1) {
-            $error['update_staff'] = " <section class='content-header'><span class='label label-success'>Users updated Successfully</span></section>";
-        } else {
-            $error['update_staff'] = " <span class='label label-danger'>Failed update users</span>";
-        }
+            }else{
+                $error['update_staff'] = " <span class='label label-danger'> All Fields Required!</span>";
+            }
+
 }
 
 
@@ -109,12 +116,8 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-4'>
-                                    <label for="exampleInputEmail1">First Name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="first_name" value="<?php echo $res[0]['first_name']; ?>" readonly>
-                                </div>
-                                <div class='col-md-4'>
-                                    <label for="exampleInputEmail1">Last Name</label>
-                                    <input type="text" class="form-control" name="last_name" value="<?php echo $res[0]['last_name']; ?>" readonly>
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">E-mail</label><i class="text-danger asterik">*</i>

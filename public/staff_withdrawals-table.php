@@ -133,7 +133,7 @@ if (isset($_POST['export_all'])) {
                                     <tr>
                                         <th data-field="column"> All</th>
                                         <th data-field="id" data-sortable="true">ID</th>
-                                        <th data-field="first_name" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Name</th>
+                                        <th data-field="name" data-sortable="true" data-visible="true" data-footer-formatter="totalFormatter">Name</th>
                                         <th data-field="amount" data-sortable="true" data-visible="true" data-footer-formatter="priceFormatter">Amount</th>
                                         <th data-field="balance" data-sortable="true">Balance</th>
                                         <th data-field="status" data-sortable="true">Status</th>
