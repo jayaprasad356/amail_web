@@ -17,12 +17,13 @@ if (isset($_POST['btnEdit'])) {
 
             $language = $db->escapeString(($_POST['language']));
             $link = $db->escapeString(($_POST['link']));
+            $type = $db->escapeString(($_POST['type']));
             $error = array();
 
      if (!empty($language) && !empty($link)) 
 		{
 
-        $sql_query = "UPDATE job_details SET language='$language', link='$link' WHERE id =  $ID";
+        $sql_query = "UPDATE job_details SET language='$language', link='$link',type='$type' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -78,8 +79,8 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">language</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="language" value="<?php echo $res[0]['language']; ?>">
+                                    <label for="exampleInputEmail1">title</label> <i class="text-danger asterik">*</i>
+                                    <input type="title" class="form-control" name="title" value="<?php echo $res[0]['title']; ?>">
                                 </div>
                             </div>
                             
@@ -92,6 +93,18 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="link" value="<?php echo $res[0]['link']; ?>">
                                 </div>
                                 
+                             
+                                </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                                <div class="col-md-6">
+                                    <label for="exampleInputtype">type</label> <i class="text-danger asterik">*</i>
+                                 <select id='type' name="type" class='form-control'>
+                                 <option value="job"<?= $res[0]['type'] == 'job' ? ' selected="selected"' : '' ?>>job</option>
+                                <option value="info"<?= $res[0]['type'] == 'info' ? ' selected="selected"' : '' ?>>info</option>
+                            </select>
+                                </div>
                         </div>
                         
 

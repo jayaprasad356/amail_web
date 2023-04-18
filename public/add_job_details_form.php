@@ -10,22 +10,26 @@ $fn = new custom_functions;
 <?php
 if (isset($_POST['btnAdd'])) {
 
-        $language = $db->escapeString(($_POST['language']));
+        $title = $db->escapeString(($_POST['title']));
         $link = $db->escapeString(($_POST['link']));
+        $type = $db->escapeString(($_POST['type']));
         $error = array();
        
-        if (empty($language)) {
-            $error['language'] = " <span class='label label-danger'>Required!</span>";
+        if (empty($title)) {
+            $error['title'] = " <span class='label label-danger'>Required!</span>";
         }
         if (empty($link)) {
             $error['link'] = " <span class='label label-danger'>Required!</span>";
         }
+        if (empty($type)) {
+            $error['type'] = " <span class='label label-danger'>Required!</span>";
+        }
        
    
            
-       if (!empty($language) && !empty($link)) 
+       if (!empty($title) && !empty($link) && !empty($type) ) 
        {
-        $sql_query = "SELECT * FROM job_details WHERE language = '$language'";
+        $sql_query = "SELECT * FROM job_details WHERE title = '$title'";
         $db->sql($sql_query);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -33,14 +37,9 @@ if (isset($_POST['btnAdd'])) {
             $error['add_job_details'] = " <span class='label label-danger'>Admin Already Added</span>";
             
         }else{
-            $sql_query = "INSERT INTO job_details (language,link)VALUES('$language','$link')";
+            $sql_query = "INSERT INTO job_details (title,link,type)VALUES('$title','$link','$type')";
             $db->sql($sql_query);
             $result = $db->getResult();
-            if (!empty($result)) {
-                $result = 0;
-            } else {
-                $result = 1;
-            }
 
             if ($result == 1) {
                 echo $num;
@@ -82,8 +81,8 @@ if (isset($_POST['btnAdd'])) {
                        <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
-                                    <label for="exampleInputEmail1">language</label> <i class="text-danger asterik">*</i>
-                                    <input type="language" class="form-control" name="language" required>
+                                    <label for="exampleInputtitle">title</label> <i class="text-danger asterik">*</i>
+                                    <input type="title" class="form-control" name="title" required>
                                 </div>
 
                             </div>
@@ -95,10 +94,19 @@ if (isset($_POST['btnAdd'])) {
                                     <label for="exampleInputEmail1">link</label> <i class="text-danger asterik">*</i>
                                     <textarea type="text" rows="3" class="form-control" name="link" required></textarea>
                                 </div>
-
+                                
+                                 <br>
+                                <div class='col-md-12'>
+                                <label for="exampleInputtype">type</label> <i class="text-danger asterik">*</i>
+                                 <select id='type' name="type"  class='form-control'>
+                                    <option value="job">job</option>
+                                    <option value="info">info</option>
+                            </select>
+                            </div>
                             </div>
                         </div>
                     </div>
+                
                   
                     <!-- /.box-body -->
 

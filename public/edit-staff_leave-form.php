@@ -101,12 +101,8 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">From Date</label> <i class="text-danger asterik">*</i>
-                                    <input type="date" class="form-control" name="from_date" value="<?php echo $res[0]['from_date']; ?>" readonly>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="exampleInputEmail1">To Date</label> <i class="text-danger asterik">*</i>
-                                    <input type="date" class="form-control" name="to_date" value="<?php echo $res[0]['to_date']; ?>" readonly>
+                                    <label for="exampleInputEmail1"> Date</label> <i class="text-danger asterik">*</i>
+                                    <input type="date"  class="form-control" name="date" value="<?php echo $res[0]['date']; ?>" readonly>
                                 </div>
                             </div>
                         </div>

@@ -44,14 +44,14 @@ if (isset($_POST['btnDelete'])) {
 	$sql_query = "DELETE FROM job_details WHERE id =" . $ID;
 	$db->sql($sql_query);
 	$delete_result = $db->getResult();
-	header("location: users.php");
+	header("location: job_details.php");
 }
 
 if (isset($_POST['btnNo'])) {
-header("location: users.php");
+header("location: job_details.php");
 }
 if (isset($_POST['btncancel'])) {
-header("location: users.php");
+header("location: job_details.php");
 }
 ?>
 
@@ -70,7 +70,7 @@ header("location: users.php");
 	    <h1>Confirm Action</h1>
 		<hr />
 		<form method="post">
-			<p>Are you sure want to delete this User?</p>
+			<p>Are you sure want to delete this?</p>
 			<input type="submit" class="btn btn-primary" value="Delete" name="btnDelete" />
 			<input type="submit" class="btn btn-danger" value="Cancel" name="btnNo" />
 			<input type="submit" class="btn btn-warning" value="Back" name="btncancel" />
