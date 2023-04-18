@@ -11,8 +11,14 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
-$sql = "SELECT * FROM job_details";
+if (empty($_POST['type'])) {
+    $response['success'] = false;
+    $response['message'] = "Type is Empty";
+    print_r(json_encode($response));
+    return false;
+}
+$type = $db->escapeString($_POST['type']);
+$sql = "SELECT * FROM job_details WHERE type = '$type'";
 $db->sql($sql);
 $res= $db->getResult();
 $num = $db->numRows($res);
@@ -20,7 +26,7 @@ $num = $db->numRows($res);
 if ($num >= 1){
     foreach ($res as $row) {
         $temp['id'] = $row['id'];
-        $temp['language'] = $row['language'];
+        $temp['title'] = $row['title'];
         $temp['link'] = $row['link'];
         $rows[] = $temp;
     }
