@@ -7,7 +7,7 @@ header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
-
+date_default_timezone_set('Asia/Kolkata');
 
 include_once('../includes/crud.php');
 
@@ -41,19 +41,12 @@ if (empty($_POST['mobile'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['join_date'])) {
-    $response['success'] = false;
-    $response['message'] = "Join Date is Empty";
-    print_r(json_encode($response));
-    return false;
-}
+
 $first_name = $db->escapeString($_POST['first_name']);
 $last_name = (isset($_POST['last_name']) && !empty($_POST['last_name'])) ? $db->escapeString($_POST['last_name']) : "";
 $email = $db->escapeString($_POST['email']);
 $password = $db->escapeString($_POST['password']);
 $mobile = $db->escapeString($_POST['mobile']);
-$join_date = $db->escapeString($_POST['join_date']);
-
 $sql = "SELECT * FROM staffs WHERE email = '$email'";
 $db->sql($sql);
 $res = $db->getResult();
@@ -65,9 +58,9 @@ if ($num >= 1) {
     print_r(json_encode($response));
 }
 else {
-    $sql = "INSERT INTO staffs (first_name,last_name, email, password, mobile,join_date) VALUES ('$first_name','$last_name', '$email', '$password', '$mobile','$join_date')";
+    $sql = "INSERT INTO staffs (first_name,last_name, email, password, mobile) VALUES ('$first_name','$last_name', '$email', '$password', '$mobile')";
     $db->sql($sql);
-    $sql = "SELECT id,first_name,last_name,email,mobile,password,join_date FROM staffs WHERE email = '$email'";
+    $sql = "SELECT id,first_name,last_name,email,mobile,password FROM staffs WHERE email = '$email'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;
