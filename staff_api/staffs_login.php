@@ -30,31 +30,16 @@ if (empty($_POST['password'])) {
 $mobile = $db->escapeString($_POST['mobile']);
 $password = $db->escapeString($_POST['password']);
 
-$sql = "SELECT * FROM staffs WHERE mobile = '$mobile'";
+$sql = "SELECT * FROM staffs WHERE mobile = '$mobile' AND password = '$password'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num == 1) {
-       $row=$res[0];
-        if($row['password']== $password){
-            
-            $response['success'] = true;
-            $response['message'] = "Logged In Successfully";
-            if(!empty($row['resume']) && !empty($row['aadhar_card']) && !empty($row['education_certificate']) && !empty($row['photo'])){
-                $response['document_upload'] = 1;
-            }
-            else{
-                $response['document_upload'] = 0;
-            }
-            $response['data'] = $res;
-            print_r(json_encode($response));
-        }
-        else{
-            $response['success'] = false;
-            $response['message'] = "Invalid Password";
-            print_r(json_encode($response));
-        }
+    $response['success'] = true;
+    $response['message'] = "Logged In Successfully";
+    $response['data'] = $res;
+    print_r(json_encode($response));
 }
 else {
     $response['success'] = false;
