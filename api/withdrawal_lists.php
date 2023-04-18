@@ -33,8 +33,17 @@ if ($num >= 1) {
         $temp['user_id'] = $row['user_id'];
         $temp['amount'] = $row['amount'];
         $temp['datetime'] = $row['datetime'];
-        $temp['status'] = $row['status'];
+        $status = $row['status'];
+        if($status == 0){
+            $temp['status'] = 'pending';
 
+        }else if($status == 1){
+            $temp['status'] = 'paid';
+
+        }else{
+            $temp['status'] = 'cancelled';
+
+        }
         
         $rows[] = $temp;
     }
