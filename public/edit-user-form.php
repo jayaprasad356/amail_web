@@ -148,6 +148,12 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$org_amount,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,100,'$datetime','support')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,100,'$datetime','lead')";
+            $db->sql($sql_query);
             
         }
     
