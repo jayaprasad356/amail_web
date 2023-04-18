@@ -59,7 +59,7 @@ if ($num >= 1) {
 else {
     $sql = "INSERT INTO staffs (name, email, password, mobile) VALUES ('$name', '$email', '$password', '$mobile')";
     $db->sql($sql);
-    $sql = "SELECT id,name,email,mobile,password FROM staffs WHERE email = '$email'";
+    $sql = "SELECT id,name,email,mobile,password FROM staffs WHERE mobile = '$mobile'";
     $db->sql($sql);
     $res = $db->getResult();
     $response['success'] = true;

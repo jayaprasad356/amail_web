@@ -20,9 +20,10 @@ if (isset($_POST['btnEdit'])) {
             $role = $db->escapeString(($_POST['role']));
             $balance = $db->escapeString(($_POST['balance']));
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
+            $salary = $db->escapeString(($_POST['salary']));
             $error = array();
 
-            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance)) {
+            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance) && !empty($salary)) {
                 if($status==1){
                     $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
                     $db->sql($sql_query);
@@ -49,7 +50,7 @@ if (isset($_POST['btnEdit'])) {
                         $db->sql($sql_query);
                     }
                 }
-                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance' WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',salary='$salary' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -139,6 +140,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Salary Date</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="salary_date" value="<?php echo $res[0]['salary_date']; ?>" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Salary</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="salary" value="<?php echo $res[0]['salary']; ?>" >
                                 </div>
                             </div>
                         </div>
