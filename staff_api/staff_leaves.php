@@ -19,18 +19,13 @@ if (empty($_POST['staff_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['from_date'])) {
+if (empty($_POST['date'])) {
     $response['success'] = false;
-    $response['message'] = "From Date is Empty";
+    $response['message'] = "Date is Empty";
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['to_date'])) {
-    $response['success'] = false;
-    $response['message'] = "To Date is Empty";
-    print_r(json_encode($response));
-    return false;
-}
+
 if (empty($_POST['reason'])) {
     $response['success'] = false;
     $response['message'] = "Reason is Empty";
@@ -39,12 +34,11 @@ if (empty($_POST['reason'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$from_date = $db->escapeString($_POST['from_date']);
-$to_date = $db->escapeString($_POST['to_date']);
+$date = $db->escapeString($_POST['date']);
 $reason = $db->escapeString($_POST['reason']);
 
 
-$sql = "INSERT INTO staff_leaves (`staff_id`,`from_date`,`to_date`,`reason`)VALUES('$staff_id','$from_date','$to_date','$reason')";
+$sql = "INSERT INTO staff_leaves (`staff_id`,`date`,`reason`)VALUES('$staff_id','$date','$reason')";
 $db->sql($sql);
 $res = $db->getResult();
 $response['success'] = true;
