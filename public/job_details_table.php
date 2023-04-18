@@ -23,8 +23,9 @@
                             <thead>
                                 <tr>
                                     <th data-field="id" data-sortable="true">ID</th>
-                                    <th data-field="language" data-sortable="true">language</th>
+                                    <th data-field="title" data-sortable="true">title</th>
                                     <th data-field="link" data-sortable="true">link</th>
+                                    <th data-field="type" data-sortable="true">type</th>
                                     <th data-field="operate">Action</th>
                                 </tr>
                             </thead>

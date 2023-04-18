@@ -27,8 +27,7 @@
                                     <th data-field="mobile" data-sortable="true">Mobile Number</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="role" data-sortable="true">Role</th>
-                                    <th data-field="from_date" data-sortable="true">From Date</th>
-                                    <th data-field="to_date" data-sortable="true">To Date</th>
+                                    <th data-field="date" data-sortable="true"> Date</th>
                                     <th data-field="reason" data-sortable="true">Reason</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="operate">Action</th>
