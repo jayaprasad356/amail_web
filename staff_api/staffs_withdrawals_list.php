@@ -29,7 +29,7 @@ if ($num >= 1) {
         $temp['id'] = $row['id'];
         $temp['staff_id'] = $row['staff_id'];
         $temp['amount'] = $row['amount'];
-        $temp['datetime'] = $row['date'];
+        $temp['datetime'] = $row['datetime'];
         $status = $row['status'];
         if($status == 0){
             $temp['status'] = 'pending';
