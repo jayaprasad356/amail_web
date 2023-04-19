@@ -21,32 +21,16 @@ if (empty($_POST['staff_id'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$sql = "SELECT * FROM staffs WHERE id= $staff_id";
+$sql = "SELECT * FROM staffs ORDER BY incentives DESC LIMIT 5";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    $branch_id = $res[0]['branch_id'];
-    $sql = "SELECT * FROM staffs WHERE branch_id= $branch_id ORDER BY (SELECT SUM(amount) FROM staff_transactions WHERE staff_id=staffs.id AND type != 'salary') DESC";
-    $db->sql($sql);
-    $result = $db->getResult();
-    foreach ($result as $staff) {
-        $staff_id = $staff['id'];
-        $sql = "SELECT SUM(amount) As total_incentive FROM staff_transactions WHERE staff_id= $staff_id AND type != 'salary'";
-        $db->sql($sql);
-        $staff_incentives = $db->getResult();
-        $temp['id'] = $staff['id'];
-        $temp['first_name'] = $staff['first_name'];
-        $temp['mobile'] = $staff['mobile'];
-        $temp['role'] = $staff['role'];
-        $temp['incentives'] = $staff_incentives[0]['total_incentive'];
-        $rows[]=$temp;
-    }
 
     $response['success'] = true;
     $response['message'] = "Incentive Details Fetched Successfully";
-    $response['data'] = $rows;
+    $response['data'] = $res;
     print_r(json_encode($response));
 
 } else {
