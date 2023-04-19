@@ -8,7 +8,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 include_once('../includes/crud.php');
-
+date_default_timezone_set('Asia/Kolkata');
 $db = new Database();
 $db->connect();
 
@@ -20,7 +20,7 @@ if (empty($_POST['staff_id'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-
+$date = date('Y-m-d');
 $sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
 $db->sql($sql);
 $res = $db->getResult();
@@ -43,6 +43,10 @@ if ($num >= 1) {
     $sql ="SELECT COUNT(id) AS total_joinings FROM users WHERE support_id='$staff_id'";
     $db->sql($sql);
     $res_count1= $db->getResult();
+
+    $sql ="SELECT COUNT(id) AS today_joinings FROM users WHERE support_id='$staff_id' AND joined_date = '$date'";
+    $db->sql($sql);
+    $res_count2= $db->getResult();
     
     $response['success'] = true;
     $response['message'] = "staff details Retrieved Successfully";
@@ -58,6 +62,7 @@ if ($num >= 1) {
     $response['total_earnings'] = $salary + $incentive;
     $response['total_leads'] = $res_count[0]['total_leads'];
     $response['total_joinings'] =$res_count1[0]['total_joinings'];
+    $response['today_joinings'] =$res_count2[0]['today_joinings'];
     $response['data'] = $res;
     print_r(json_encode($response));
 }
