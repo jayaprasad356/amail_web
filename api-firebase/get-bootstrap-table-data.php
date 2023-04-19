@@ -2072,8 +2072,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'job_details') {
         $operate = '<a href="edit_job_details.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete_job_details.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['language'] = $row['language'];
+        $tempRow['title'] = $row['title'];
         $tempRow['link'] = $row['link'];
+        $tempRow['type'] = $row['type'];
         $tempRow['operate'] = $operate;
 
         $rows[] = $tempRow;

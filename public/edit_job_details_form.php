@@ -15,15 +15,15 @@ if (isset($_GET['id'])) {
 }
 if (isset($_POST['btnEdit'])) {
 
-            $language = $db->escapeString(($_POST['language']));
+            $title = $db->escapeString(($_POST['title']));
             $link = $db->escapeString(($_POST['link']));
             $type = $db->escapeString(($_POST['type']));
             $error = array();
 
-     if (!empty($language) && !empty($link)) 
+     if (!empty($title) && !empty($link) && !empty($type)) 
 		{
 
-        $sql_query = "UPDATE job_details SET language='$language', link='$link',type='$type' WHERE id =  $ID";
+        $sql_query = "UPDATE job_details SET title='$title', link='$link',type='$type' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
