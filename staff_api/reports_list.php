@@ -22,18 +22,18 @@ if (empty($_POST['level'])) {
     echo json_encode($response);
     return false;
 }
-if (empty($_POST['support_id'])) {
+if (empty($_POST['staff_id'])) {
     $response['success'] = false;
-    $response['message'] = "support id is empty";
+    $response['message'] = "staff id is empty";
     echo json_encode($response);
     return false;
 }
 
-$support_id = $db->escapeString($_POST['support_id']);
+$staff_id = $db->escapeString($_POST['staff_id']);
 $level = $db->escapeString($_POST['level']);
 
 if ($level == 1) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 1 AND support_id='$support_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 1 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -48,7 +48,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 2) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 3 AND support_id='$support_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 3 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -63,7 +63,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 3) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 5 AND support_id='$support_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 5 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -79,7 +79,7 @@ if ($level == 1) {
     
     }
 } elseif ($level == 4) {
-        $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) >= 7 AND support_id='$support_id' AND total_referrals=0 AND status= 1";
+        $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) >= 7 AND support_id='$staff_id' AND total_referrals=0 AND status= 1";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
