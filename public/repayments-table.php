@@ -49,6 +49,14 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
                                                             <?php } ?>
                                                         </select>
                                                 </div>
+                                                <div class="form-group col-md-3">
+                                                <h4 class="box-title">Filter by Status </h4>
+                                                <select id='status' name="status" class='form-control'>
+                                                        <option value="">All</option>
+                                                        <option value="0">Unpaid</option>
+                                                        <option value="1">Paid</option>
+                                                </select>
+                                        </div>
                                         </div>
                                     </div>
                             <!-- /.box-header -->
@@ -130,6 +138,10 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
             id = $('#user_id').val();
             $('#users_table').bootstrapTable('refresh');
     });
+    $('#status').on('change', function() {
+            id = $('#status').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
     // $('#type').on('change', function() {
     //     $('#users_table').bootstrapTable('refresh');
     // });
@@ -137,6 +149,7 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     function queryParams(p) {
         return {
             // "type": $('#type').val(),
+            "status": $('#status').val(),
             "user_id": $('#user_id').val(),
             // "community": $('#community').val(),
             limit: p.limit,

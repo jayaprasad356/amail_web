@@ -1522,6 +1522,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
         $user_id = $db->escapeString($fn->xss_clean($_GET['user_id']));
         $where .= "AND r.user_id = '$user_id'";
     }
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND r.status='$status' ";
+    }
       
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -1573,9 +1577,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'repayments') {
         $tempRow['amount'] = $row['amount'];
         $tempRow['due_date'] = $row['due_date'];
         if($row['status']==1)
-              $tempRow['status']="<p class='text text-success'>Paid</p>";        
-       else
-             $tempRow['status']="<p class='text text-danger'>Unpaid</p>";
+        $tempRow['status'] ="<p class='text text-success'>Paid</p>";
+        elseif ($row['status']==0)
+        $tempRow['status']="<p class='text text-primary'>Unpaid</p>";
         $tempRow['column'] = $checkbox;
         $rows[] = $tempRow;
     }
