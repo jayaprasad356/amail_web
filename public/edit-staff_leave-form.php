@@ -44,7 +44,7 @@ if (isset($_POST['btnEdit'])) {
 // create array variable to store previous data
 $data = array();
 
-$sql_query = "SELECT l.*,l.id AS id,l.status AS status,s.first_name,s.role,s.mobile,s.branch_id,b.short_code FROM `staff_leaves` l,`branches` b,`staffs` s WHERE s.branch_id=b.id AND l.staff_id=s.id AND  l.id =" . $ID;
+$sql_query = "SELECT l.*,l.id AS id,l.status AS status,s.name,s.role,s.mobile,s.branch_id,b.short_code FROM `staff_leaves` l,`branches` b,`staffs` s WHERE s.branch_id=b.id AND l.staff_id=s.id AND  l.id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
 if (isset($_POST['btnCancel'])) { ?>
@@ -75,8 +75,8 @@ if (isset($_POST['btnCancel'])) { ?>
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                    <label for="exampleInputEmail1">First Name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="first_name" value="<?php echo $res[0]['first_name']; ?>" readonly>
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>" readonly>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="exampleInputEmail1">Mobile Number</label> <i class="text-danger asterik">*</i>

@@ -83,11 +83,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     
     
     if($_SESSION['role'] == 'Super Admin'){
-        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `employees` e ON u.lead_id = e.id LEFT JOIN `employees` s ON u.support_id = s.id WHERE u.id IS NOT NULL";
+        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `staffs` e ON u.lead_id = e.id LEFT JOIN `staffs` s ON u.support_id = s.id WHERE u.id IS NOT NULL";
     }
     else{
         $refer_code = $_SESSION['refer_code'];
-        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `employees` e ON u.lead_id = e.id LEFT JOIN `employees` s ON u.support_id = s.id WHERE u.refer_code REGEXP '^$refer_code' ";
+        $join = "LEFT JOIN `branches` b ON u.branch_id = b.id LEFT JOIN `staffs` e ON u.lead_id = e.id LEFT JOIN `staffs` s ON u.support_id = s.id WHERE u.refer_code REGEXP '^$refer_code' ";
     }
     $sql = "SELECT COUNT(u.id) as total FROM `users` u $join " . $where . "";
     $db->sql($sql);
@@ -1378,74 +1378,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'faq') {
     print_r(json_encode($bulkData));
 }
 
-//employees table goes here
-if (isset($_GET['table']) && $_GET['table'] == 'employees') {
-    $offset = 0;
-    $limit = 10;
-    $where = '';
-    $sort = 'id';
-    $order = 'DESC';
-    // if (isset($_GET['type']) && !empty($_GET['type'])){
-    //     $type = $db->escapeString($fn->xss_clean($_GET['type']));
-    //     $where .= "AND t.type = '$type' ";
-    // }
-      
-    if (isset($_GET['offset']))
-        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
-    if (isset($_GET['limit']))
-        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
-
-    if (isset($_GET['sort']))
-        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
-    if (isset($_GET['order']))
-        $order = $db->escapeString($fn->xss_clean($_GET['order']));
-
-    if (isset($_GET['search']) && !empty($_GET['search'])) {
-        $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND e.name like '%" . $search . "%' OR e.mobile like '%" . $search . "%' OR e.password like '%" . $search . "%'  OR e.email like '%" . $search . "%' OR b.name like '%" . $search . "%' ";
-    }
-    if (isset($_GET['sort'])) {
-        $sort = $db->escapeString($_GET['sort']);
-    }
-    if (isset($_GET['order'])) {
-        $order = $db->escapeString($_GET['order']);
-    }
-    $join = "LEFT JOIN `branches` b ON e.branch_id = b.id WHERE e.id IS NOT NULL ";
-
-    $sql = "SELECT COUNT(e.id) as total FROM `employees` e $join " . $where . "";
-    $db->sql($sql);
-    $res = $db->getResult();
-    foreach ($res as $row)
-        $total = $row['total'];
-
-    $sql = "SELECT e.id AS id,e.*,b.name AS branch_name FROM `employees` e $join 
-    $where ORDER BY $sort $order LIMIT $offset, $limit";
-     $db->sql($sql);
-    $res = $db->getResult();
-
-    $bulkData = array();
-    $bulkData['total'] = $total;
-    $rows = array();
-    $tempRow = array();
-    foreach ($res as $row) {
-                $operate = '<a href="edit-employee.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
-
-        $tempRow['id'] = $row['id'];
-        $tempRow['name'] = $row['name'];
-        $tempRow['mobile'] = $row['mobile'];
-        $tempRow['email'] = $row['email'];
-        $tempRow['password'] = $row['password'];
-        $tempRow['branch'] = $row['branch_name'];
- if($row['status']==1)
-            $tempRow['status']="<label class='label label-success'>Active</label>";        
-        else
-            $tempRow['status']="<label class='label label-danger'>Inactive</label>";
-        $tempRow['operate'] = $operate;
-        $rows[] = $tempRow;
-    }
-    $bulkData['rows'] = $rows;
-    print_r(json_encode($bulkData));
-}
+//staffs table goes here
 
 
 //salary advance Transactions table goes here
@@ -1813,7 +1746,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND s.first_name like '%" . $search . "%' OR s.last_name like '%" . $search . "%' OR s.mobile like '%" . $search . "%' OR s.id like '%" . $search . "%'  OR s.email like '%" . $search . "%' OR s.role like '%" . $search . "%' OR s.join_date like '%" . $search . "%' ";
+        $where .= "AND s.name like '%" . $search . "%' OR s.mobile like '%" . $search . "%' OR s.id like '%" . $search . "%'  OR s.email like '%" . $search . "%' OR s.role like '%" . $search . "%' OR s.join_date like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1843,8 +1776,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $operate = '<a href="edit-staff.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-staff.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['first_name'] = $row['first_name'];
-        $tempRow['last_name'] = $row['last_name'];
+        $tempRow['name'] = $row['name'];
+    
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
@@ -1889,7 +1822,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_leaves') {
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND s.name like '%" . $search . "%' OR l.reason like '%" . $search . "%' OR l.id like '%" . $search . "%'  OR l.from_date like '%" . $search . "%' OR s.mobile like '%" . $search . "%' OR s.to_date like '%" . $search . "%' ";
+        $where .= "AND s.name like '%" . $search . "%' OR l.reason like '%" . $search . "%' OR l.id like '%" . $search . "%'  OR l.date like '%" . $search . "%' OR s.mobile like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -1905,7 +1838,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_leaves') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT l.id AS id,l.*,s.first_name AS name,s.mobile,l.status AS status,b.short_code,s.role,s.branch_id FROM `staff_leaves` l $join 
+    $sql = "SELECT l.id AS id,l.*,s.name AS name,s.mobile,l.status AS status,b.short_code,s.role,s.branch_id FROM `staff_leaves` l $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -1919,8 +1852,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_leaves') {
         $operate = '<a href="edit-staff_leave.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-staff_leave.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
-        $tempRow['from_date'] = $row['from_date'];
-        $tempRow['to_date'] = $row['to_date'];
+        $tempRow['date'] = $row['date'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['branch'] = $row['short_code'];
@@ -1981,13 +1913,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_withdrawals') {
     foreach ($res as $row)
         $total = $row['total'];
         if (isset($_GET['search']) && !empty($_GET['search'])) {
-            $sql = "SELECT w.id AS id,w.*,s.first_name,s.mobile,s.balance,u.mobile,s.branch,s.bank_name,s.bank_account_number,s.ifsc_code,s.sa_balance FROM `staff_withdrawals` w,`staffs` s $join
+            $sql = "SELECT w.id AS id,w.*,s.name,s.mobile,s.balance,u.mobile,s.branch,s.bank_name,s.bank_account_number,s.ifsc_code,s.sa_balance FROM `staff_withdrawals` w,`staffs` s $join
                         $where ORDER BY $sort $order LIMIT $offset, $limit";
              $db->sql($sql);
         }
         else{
-            $sql = "SELECT w.id AS id,w.*,s.first_name,s.balance,s.mobile,s.branch,s.bank_name,s.bank_account_number,s.ifsc_code,s.sa_balance FROM `staff_withdrawals` w,`staffs` s $join
-                    AND w.status=0 $where ORDER BY $sort $order LIMIT $offset, $limit";
+            $sql = "SELECT w.id AS id,w.*,s.name,s.balance,s.mobile,s.branch,s.bank_name,s.bank_account_number,s.ifsc_code,s.sa_balance FROM `staff_withdrawals` w,`staffs` s $join
+                    $where ORDER BY $sort $order LIMIT $offset, $limit";
              $db->sql($sql);
         }
     $res = $db->getResult();
@@ -2001,9 +1933,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_withdrawals') {
         // $operate .= ' <a href="edit-withdrawal.php?id=' . $row['id'] . '"><i class="fa fa-edit"></i>Edit</a>';
         $checkbox = '<input type="checkbox" name="enable[]" value="'.$row['id'].'">';
         $tempRow['id'] = $row['id'];
-        $tempRow['first_name'] = $row['first_name'];
+        $tempRow['name'] = $row['name'];
         $tempRow['amount'] = $row['amount'];
-        $tempRow['date'] = $row['date'];
+        $tempRow['datetime'] = $row['datetime'];
         $tempRow['bank_account_number'] = ','.$row['bank_account_number'].',';
         $tempRow['bank_name'] = $row['bank_name'];
         $tempRow['branch'] = $row['branch'];
@@ -2042,13 +1974,16 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_transactions') {
         $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
     if (isset($_GET['order']))
         $order = $db->escapeString($fn->xss_clean($_GET['order']));
-    if (isset($_GET['type']) && !empty($_GET['type']))
+    if (isset($_GET['type']) && !empty($_GET['type'])){
         $type = $db->escapeString($fn->xss_clean($_GET['type']));
         $where .= "AND t.type = '$type' ";
 
+    }
+
+
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
-        $where .= "AND s.first_name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR t.id like '%" . $search . "%'  OR t.type like '%" . $search . "%' OR s.mobile like '%" . $search . "%' ";
+        $where .= "AND s.name like '%" . $search . "%' OR t.amount like '%" . $search . "%' OR t.id like '%" . $search . "%'  OR t.type like '%" . $search . "%' OR s.mobile like '%" . $search . "%' ";
     }
     if (isset($_GET['sort'])) {
         $sort = $db->escapeString($_GET['sort']);
@@ -2058,13 +1993,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_transactions') {
     }
     $join = "LEFT JOIN `staffs` s ON t.staff_id = s.id WHERE t.id IS NOT NULL ";
 
+    
     $sql = "SELECT COUNT(t.id) as total FROM `staff_transactions` t $join " . $where . "";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT t.id AS id,t.*,s.first_name,s.mobile FROM `staff_transactions` t $join 
+    $sql = "SELECT t.id AS id,t.*,s.name,s.mobile FROM `staff_transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
@@ -2076,10 +2012,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_transactions') {
     foreach ($res as $row) {
         
         $tempRow['id'] = $row['id'];
-        $tempRow['first_name'] = $row['first_name'];
+        $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['amount'] = $row['amount'];
-        $tempRow['date'] = $row['date'];
+        $tempRow['datetime'] = $row['datetime'];
         $tempRow['type'] = $row['type'];
         $rows[] = $tempRow;
     }

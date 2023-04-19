@@ -39,7 +39,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 $balance = $res[0]['balance'];
-$min_withdrawal = 500;
+$min_withdrawal = 250;
 if ($num >= 1) {
     if($amount >= $min_withdrawal){
         if($balance >= $amount){

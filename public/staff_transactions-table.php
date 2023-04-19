@@ -39,26 +39,7 @@ if (isset($_POST['btnDelete'])) {
                                                 <?php } ?>
                                             </select> 
                                     </div>
-                                    <!-- <form name="delete_transaction" method="post">
-                                    <div class="form-group col-md-3">
-                                            <h4 class="box-title">From Date </h4>
-                                            <input type="date" class="form-control" name="from_date" required>
-                                            </select> 
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                            <h4 class="box-title">To Date </h4>
-                                            <input type="date" class="form-control" name="to_date" required>
-                                            </select> 
-                                    </div>
-                                    <div class="form-group col-md-3">
-                                            <button style="margin-top:22px;" type='submit'  class="btn btn-danger" name="btnDelete">Delete</button>
-                                    </div>
-
-                                    </form> -->
                             </div>
-                            <!-- <form action="export-transaction.php">
-                                <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Transactions</button>
-                            </form> -->
                         </div>
 
                     <!-- /.box-header -->
@@ -70,11 +51,11 @@ if (isset($_POST['btnDelete'])) {
                             <thead>
                                 <tr>
                                     <th data-field="id" data-sortable="true">ID</th>
-                                    <th data-field="first_name" data-sortable="true">Name</th>
+                                    <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="amount" data-sortable="true">Amount</th>
                                     <th data-field="type" data-sortable="true">Type</th>
-                                    <th data-field="date" data-sortable="true">Date</th>
+                                    <th data-field="datetime" data-sortable="true">Date</th>
                                 </tr>
                             </thead>
                         </table>

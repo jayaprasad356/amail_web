@@ -386,7 +386,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <select id='employee_id' name="employee_id" class='form-control' >
                                     <option value="">--Select Employee--</option>
                                         <?php
-                                        $sql = "SELECT id,name FROM `employees`";
+                                        $sql = "SELECT id,name FROM `staffs`";
                                         $db->sql($sql);
                                         $result = $db->getResult();
                                         foreach ($result as $value) {

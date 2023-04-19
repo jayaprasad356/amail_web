@@ -36,7 +36,7 @@
                                         <option value=''>All</option>
                                         
                                                 <?php
-                                                $sql = "SELECT name FROM `employees`";
+                                                $sql = "SELECT name FROM `staffs`";
                                                 $db->sql($sql);
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {

@@ -12,15 +12,15 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['user_id'])) {
+if (empty($_POST['staff_id'])) {
     $response['success'] = false;
-    $response['message'] = "user Id is Empty";
+    $response['message'] = "staff Id is Empty";
     print_r(json_encode($response));
     return false;
 }
-$user_id = $db->escapeString($_POST['user_id']);
+$staff_id = $db->escapeString($_POST['staff_id']);
 
-$sql = "SELECT * FROM incentives LEFT JOIN users ON incentives.user_id=user_id WHERE incentives.user_id = '$user_id'";
+$sql = "SELECT * FROM incentives LEFT JOIN users ON incentives.user_id=users.id WHERE incentives.staff_id = '$staff_id'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

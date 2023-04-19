@@ -148,11 +148,28 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$org_amount,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
+            if(empty($referred_by)){
+                $incentives = 100;
+            }else{
+                $incentives = 5;
+            }
 
-            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,100,'$datetime','support')";
+            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
             $db->sql($sql_query);
 
-            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,100,'$datetime','lead')";
+            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
+            $db->sql($sql_query);
+            
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
             $db->sql($sql_query);
             
         }
@@ -419,7 +436,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='lead_id' name="lead_id" class='form-control'>
                                            <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `employees`";
+                                                $sql = "SELECT * FROM `staffs`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
@@ -435,7 +452,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <select id='support_id' name="support_id" class='form-control'>
                                              <option value="">--Select--</option>
                                                 <?php
-                                                $sql = "SELECT * FROM `employees`";
+                                                $sql = "SELECT * FROM `staffs`";
                                                 $db->sql($sql);
 
                                                 $result = $db->getResult();
