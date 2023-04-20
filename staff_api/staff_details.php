@@ -47,6 +47,31 @@ if ($num >= 1) {
     $sql ="SELECT COUNT(id) AS today_joinings FROM users WHERE support_id='$staff_id' AND joined_date = '$date'";
     $db->sql($sql);
     $res_count2= $db->getResult();
+
+    $sql ="SELECT COUNT(id) AS total_active_users FROM users WHERE support_id='$staff_id' AND status = 1 AND code_generate = 1";
+    $db->sql($sql);
+    $res_count3= $db->getResult();
+
+
+    $sql = "SELECT u.id, (SELECT COUNT(*) FROM users u2 WHERE u2.status = 1 AND u2.code_generate = 1 AND u2.joined_date = '$date' AND u2.referred_by = u.refer_code) AS total_refer FROM users u WHERE u.support_id = '$staff_id' AND u.status = 1 AND u.code_generate = 1";
+    $db->sql($sql);
+    $res_count4 = $db->getResult();
+    $num = $db->numRows($res_count4);
+            
+    $rows = array();
+    $today_refers = 0; // initialize total   
+    if($num >= 1){
+
+        foreach ($res_count4 as $row) {
+            $total_refer = $row['total_refer'];
+            $today_refers += $total_refer; // add to total
+            
+        }
+        
+
+    }
+
+
     
     $response['success'] = true;
     $response['message'] = "staff details Retrieved Successfully";
@@ -56,13 +81,22 @@ if ($num >= 1) {
     else{
         $response['document_upload'] = 0;
     }
+    $today_performance = 0;
+    if($res_count3[0]['total_active_users'] != 0){
+        $today_performance = ($today_refers / $res_count3[0]['total_active_users']) * 100;
     
+
+    }
+  
     $response['salary'] = $salary;
     $response['incentive_earn'] = $incentive;
     $response['total_earnings'] = $salary + $incentive;
     $response['total_leads'] = $res_count[0]['total_leads'];
     $response['total_joinings'] =$res_count1[0]['total_joinings'];
     $response['today_joinings'] =$res_count2[0]['today_joinings'];
+    $response['total_active_users'] =$res_count3[0]['total_active_users'];
+    $response['today_refers'] =$today_refers;
+    $response['today_performance'] =round($today_performance);
     $response['data'] = $res;
     print_r(json_encode($response));
 }
