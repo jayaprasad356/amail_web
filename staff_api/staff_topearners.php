@@ -21,7 +21,7 @@ if (empty($_POST['staff_id'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$sql = "SELECT * FROM staffs ORDER BY incentives DESC LIMIT 5";
+$sql = "SELECT *,branches.name AS branch_name FROM staffs LEFT JOIN branches ON staffs.branch_id=branches.id ORDER BY staffs.id DESC LIMIT 5";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
