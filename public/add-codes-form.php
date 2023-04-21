@@ -28,19 +28,9 @@ if (isset($_POST['btnAdd'])) {
                 $sql = "SELECT joined_date,total_refund FROM users WHERE id='$ID'";
                 $db->sql($sql);
                 $user_res = $db->getResult();
-                if($user_res[0]['total_refund'] < 3000 ){
-                    $amount = $codes  * 0.14;
-                    $org_amount =  $codes * COST_PER_CODE;
-                    $refund_wallet=$codes * 0.03 ;
-                    $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $user_id";
-                    $db->sql($sql);
-                }
-                else{
-                    $amount = $codes  * 0.14;
-                    $org_amount = $codes  * 0.14;
-                }
+                $amount = $codes  * COST_PER_CODE;
 
-                $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$org_amount','$datetime','$type')";
+                $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
                 $db->sql($sql);
                 $res = $db->getResult();
             

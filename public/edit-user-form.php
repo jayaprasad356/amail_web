@@ -102,20 +102,11 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 if($ref_code_generate == 1 && $ref_user_status == 1 && $ref_user_history_days <= 57){
 
-                    if($ref_total_refund < 1800){
-                        $amount = $refer_bonus_codes  * 0.14;
-                        $org_amount =  $refer_bonus_codes * COST_PER_CODE;
-                        $refund_wallet=$refer_bonus_codes * 0.03 ;
-                        $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $user_id";
-                        $db->sql($sql);
-                    }
-                    else{
-                        $amount = $refer_bonus_codes  * 0.14;
-                        $org_amount = $refer_bonus_codes  * 0.14;
-                    }
+
+                    $amount = $refer_bonus_codes  * COST_PER_CODE;
                     $sql_query = "UPDATE users SET `earn` = earn + $amount,`balance` = balance + $amount,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
                     $db->sql($sql_query);
-                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$org_amount,$refer_bonus_codes,'$datetime','code_bonus')";
+                    $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$amount,$refer_bonus_codes,'$datetime','code_bonus')";
                     $db->sql($sql_query);
                 }
                 $sql_query = "UPDATE users SET refer_bonus_sent = 1 WHERE id =  $ID";
@@ -127,17 +118,7 @@ if (isset($_POST['btnEdit'])) {
         }
         if($status == 1 && $register_bonus_sent != 1){
             $join_codes = $function->getSettingsVal('join_codes');
-            if($total_refund  < 1800 ){
-                $amount = $join_codes  * 0.14;
-                $org_amount =  $join_codes * COST_PER_CODE;
-                $refund_wallet=$join_codes * 0.03 ;
-                $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet + $refund_wallet,`total_refund`=total_refund + $refund_wallet WHERE `id` = $ID";
-                $db->sql($sql);
-            }
-            else{
-                $amount = $codes  * 0.14;
-                $org_amount = $codes  * 0.14;
-            }
+            $amount = $codes  * COST_PER_CODE;
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
@@ -146,7 +127,7 @@ if (isset($_POST['btnEdit'])) {
             $balance = $balance + $register_bonus;
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
-            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$org_amount,$join_codes,'$datetime','register_bonus')";
+            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
             if(empty($referred_by)){
                 $incentives = 100;
@@ -174,7 +155,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',refund_wallet='$refund_wallet',total_refund='$total_refund',trial_wallet='$trial_wallet' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
