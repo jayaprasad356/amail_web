@@ -42,7 +42,7 @@ if($amount>=$min_sync_refer_wallet){
          if($amount<= $sync_refer_wallet){
             $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','0','$amount','$datetime','refer_bonus')";
             $db->sql($sql);
-            $sql = "UPDATE `users` SET `sync_refer_wallet` = sync_refer_wallet - $amount,`earn`=earn + $amount,`refer_balance`=refer_balance + $amount,`refer_income`= refer_income + $amount WHERE id = '$user_id'";
+            $sql = "UPDATE `users` SET `sync_refer_wallet` = sync_refer_wallet - $amount,`earn`=earn + $amount,`balance`=balance + $amount,`refer_income`= refer_income + $amount WHERE id = '$user_id'";
             $db->sql($sql);
             $response['success'] = true;
             $response['message'] = "Successfully Transfered";

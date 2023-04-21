@@ -13,7 +13,7 @@ if (isset($_POST['btnAdd'])) {
         $code_bonus = $refer_bonus_codes * COST_PER_CODE;
         $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
         $datetime = date('Y-m-d H:i:s');
-        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`refer_balance` = refer_balance + $referral_bonus WHERE id =  '$user_id' AND status = 1";
+        $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus WHERE id =  '$user_id' AND status = 1";
         $db->sql($sql_query);
         $res = $db->getResult();
         if (empty($res)) {
