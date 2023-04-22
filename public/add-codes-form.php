@@ -25,11 +25,6 @@ if (isset($_POST['btnAdd'])) {
                 $type = 'code_bonus';
                 $amount = $codes * COST_PER_CODE;
 
-                $sql = "SELECT joined_date,total_refund FROM users WHERE id='$ID'";
-                $db->sql($sql);
-                $user_res = $db->getResult();
-                $amount = $codes  * COST_PER_CODE;
-
                 $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
                 $db->sql($sql);
                 $res = $db->getResult();

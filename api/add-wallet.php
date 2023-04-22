@@ -34,7 +34,7 @@ $result = $db->getResult();
 $min_sync_refer_wallet = $result[0]['min_sync_refer_wallet'];
 $datetime = date('Y-m-d H:i:s');
 if($amount>=$min_sync_refer_wallet){
-         $sql = "SELECT sync_refer_wallet FROM users WHERE id='$user_id'";
+         $sql = "SELECT sync_refer_wallet,refer_income FROM users WHERE id='$user_id'";
          $db->sql($sql);
          $res = $db->getResult();
          $sync_refer_wallet=$res[0]['sync_refer_wallet'];
@@ -53,7 +53,7 @@ if($amount>=$min_sync_refer_wallet){
          }
          else{
                     $response['success'] = false;
-                    $response['message'] = "Insufficient Balance in Sync Refer Wallet";
+                    $response['message'] = "Insufficient Balance in Sync Refer Wallet".$sync_refer_wallet;
                     print_r(json_encode($response));
 
          }

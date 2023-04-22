@@ -81,13 +81,18 @@ if (isset($_POST['btnEdit'])) {
             $res = $db->getResult();
             $num = $db->numRows($res);
             if ($num == 1){
+                $set_duration = $function->getSettingsVal('duration');
                 $user_id = $res[0]['id'];
                 $ref_code_generate = $res[0]['code_generate'];
                 $ref_user_status = $res[0]['status'];
                 $ref_user_history_days = $res[0]['history_days'];
                 $ref_total_refund = $res[0]['total_refund'];
-                if($ref_user_status == 1){
+                if($ref_user_status == 1 && $ref_code_generate == 1 ){
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
+
+                }
+                if($ref_user_status == 1 && $ref_code_generate == 0 && $ref_user_history_days >= $set_duration ){
+                    $referral_bonus = 500;
 
                 }
 
@@ -118,7 +123,7 @@ if (isset($_POST['btnEdit'])) {
         }
         if($status == 1 && $register_bonus_sent != 1){
             $join_codes = $function->getSettingsVal('join_codes');
-            $amount = $codes  * COST_PER_CODE;
+            $amount = $join_codes  * COST_PER_CODE;
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
