@@ -21,12 +21,21 @@ if (empty($_POST['user_id'])) {
     return false;
 }
 $user_id = $db->escapeString($_POST['user_id']);
-$sql = "SELECT status FROM `users` WHERE id = $user_id ";
+$sql = "SELECT status,joined_date FROM `users` WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $status = $res[0]['status'];
+$joined_date = $res[0]['joined_date'];
+$expiry_date = '2023-02-06';
+
+$joined_timestamp = strtotime($joined_date);
+$expiry_timestamp = strtotime($expiry_date);
 if($status == 0){
     $sql = "SELECT * FROM `notifications` WHERE send_to = 0 OR send_to = 1 ORDER BY id DESC LIMIT 20 ";
+
+}
+elseif($joined_timestamp >= $expiry_timestamp ||  $status == 0){
+    $sql = "SELECT * FROM `notifications` WHERE send_to = 0 OR send_to = 2 OR send_to = 3 ORDER BY id DESC LIMIT 20 ";
 
 }
 else{
