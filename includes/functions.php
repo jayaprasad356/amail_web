@@ -346,7 +346,7 @@ class functions
             $sql = "SELECT `fcm_id` FROM `$table` WHERE status = 1";
 
         }else if($send_to == 3){
-            $sql = "SELECT joined_date FROM `users` WHERE NOT (joined_date < '2023-02-06' AND status = 1)";
+            $sql = "SELECT `fcm_id` FROM `$table` WHERE NOT (joined_date < '2023-02-06' AND status = 1)";
 
         }
         else{
