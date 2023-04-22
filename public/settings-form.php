@@ -192,14 +192,6 @@ $res = $db->getResult();
                             </div>   
 
                             <br>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Staff Salary Advance</label><br>
-                                        <input type="number"class="form-control" name="staff_salary_advance" value="<?= $res[0]['staff_salary_advance'] ?>">
-                                    </div>
-                                </div>
-                            </div>
                     </div>
                   
                     <!-- /.box-body -->
