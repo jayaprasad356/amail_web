@@ -40,20 +40,22 @@ $amount = $db->escapeString($_POST['amount']);
 $type = $db->escapeString($_POST['type']);
 
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT balance FROM staffs WHERE id = $staff_id ";
+$sql = "SELECT balance,salary_balance,incentive_percentage AS ip FROM staffs WHERE id = $staff_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 $balance = $res[0]['balance'];
 $salary_balance = $res[0]['salary_balance'];
+$ip = $res[0]['ip'];
 $min_withdrawal = 250;
 if ($num >= 1) {
     if($amount >= $min_withdrawal){
         if($type == 'incentives'){
+            $in_amount = ($ip / 100) * $amount;
             if($balance >= $amount){
                 $sql = "UPDATE `staffs` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $staff_id";
                 $db->sql($sql);
-                $sql = "INSERT INTO staff_withdrawals (`staff_id`,`amount`,`datetime`,`type`)VALUES('$staff_id','$amount','$datetime','incentives')";
+                $sql = "INSERT INTO staff_withdrawals (`staff_id`,`amount`,`datetime`,`type`)VALUES('$staff_id','$in_amount','$datetime','incentives')";
                 $db->sql($sql);
                 $sql = "SELECT * FROM staffs WHERE id = $staff_id ";
                 $db->sql($sql);

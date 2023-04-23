@@ -21,6 +21,7 @@ if (isset($_POST['btnEdit'])) {
             $balance = $db->escapeString(($_POST['balance']));
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $salary = $db->escapeString(($_POST['salary']));
+            $incentive_percentage = $db->escapeString(($_POST['incentive_percentage']));
             $error = array();
 
             if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance) && !empty($salary)) {
@@ -50,7 +51,7 @@ if (isset($_POST['btnEdit'])) {
                         $db->sql($sql_query);
                     }
                 }
-                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',salary='$salary' WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -261,6 +262,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class='col-md-4'>
                                     <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>" readonly>
+                                </div>
+                                <div class='col-md-4'>
+                                    <label for="exampleInputEmail1">Incentive percentage</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="incentive_percentage" value="<?php echo $res[0]['incentive_percentage']; ?>">
                                 </div>
                                 <div class='col-md-4'>
                                     <label for="exampleInputEmail1">Salary Advance Balance</label>

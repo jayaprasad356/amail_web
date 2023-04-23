@@ -51,8 +51,7 @@ if (isset($_POST['btnEdit'])) {
             $lead_id = $db->escapeString(($_POST['lead_id']));
             $support_id = $db->escapeString(($_POST['support_id']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-            $total_refund = $db->escapeString(($_POST['total_refund']));
-            $refund_wallet = $db->escapeString(($_POST['refund_wallet']));
+          
             $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
             $error = array();
@@ -407,14 +406,6 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                               <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Refund Wallet</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="refund_wallet" value="<?php echo $res[0]['refund_wallet']; ?>">
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="exampleInputEmail1">Total Refund</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="total_refund" value="<?php echo $res[0]['total_refund']; ?>">
-                                </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Per Code Cost</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="per_code_cost" value="<?php echo $res[0]['per_code_cost']; ?>">
