@@ -159,6 +159,17 @@ class custom_functions
             return 0;
         }
     }
+    public function get_code_per_cost($id)
+    {
+        $sql = "SELECT per_code_cost FROM users WHERE id=" . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        if (!empty($res) && isset($res[0]['per_code_cost'])) {
+            return $res[0]['per_code_cost'];
+        } else {
+            return COST_PER_CODE;
+        }
+    }
     public function get_permissions($id)
     {
         $sql = "SELECT permissions FROM admin WHERE id=" . $id;

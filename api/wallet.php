@@ -14,8 +14,10 @@ $db = new Database();
 $db->connect();
 date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
-$fn = new functions;
-$fn->monitorApi('wallet');
+$function = new functions;
+include_once('../includes/custom-functions.php');
+$fn = new custom_functions;
+$function->monitorApi('wallet');
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
@@ -40,10 +42,8 @@ if($code_generate == 1){
     if($codes != 0){
         if($codes == $sync_codes){
             $currentdate = date('Y-m-d');
-            $sql = "SELECT joined_date,total_refund FROM users WHERE id='$user_id'";
-            $db->sql($sql);
-            $user_res = $db->getResult();
-            $amount = $codes  * COST_PER_CODE;
+            $per_code_cost = $fn->get_code_per_cost($user_id);
+            $amount = $codes  * $per_code_cost;
             $sql = "SELECT COUNT(id) AS count  FROM transactions WHERE user_id = $user_id AND DATE(datetime) = '$currentdate'";
             $db->sql($sql);
             $tres = $db->getResult();

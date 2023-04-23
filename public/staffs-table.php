@@ -34,7 +34,7 @@
                                 <tr>
                                     <th data-field="operate">Action</th>
                                     <th data-field="id" data-sortable="true">ID</th>
-                                    <th data-field="first_name" data-sortable="true">Name</th>
+                                    <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Mobile</th>
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="status" data-sortable="true">Status</th>

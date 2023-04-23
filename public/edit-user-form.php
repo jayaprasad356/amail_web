@@ -54,6 +54,7 @@ if (isset($_POST['btnEdit'])) {
             $total_refund = $db->escapeString(($_POST['total_refund']));
             $refund_wallet = $db->escapeString(($_POST['refund_wallet']));
             $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
+            $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
             $error = array();
 
             if (empty($lead_id)) {
@@ -74,7 +75,6 @@ if (isset($_POST['btnEdit'])) {
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
-            $code_bonus = $refer_bonus_codes * COST_PER_CODE;
             $referral_bonus = 250;
             $sql_query = "SELECT *,datediff('$date', joined_date) AS history_days FROM users WHERE refer_code =  '$referred_by'";
             $db->sql($sql_query);
@@ -107,8 +107,10 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 if($ref_code_generate == 1 && $ref_user_status == 1 && $ref_user_history_days <= 57){
 
+                    $ref_per_code_cost = $fn->get_code_per_cost($user_id);
 
-                    $amount = $refer_bonus_codes  * COST_PER_CODE;
+
+                    $amount = $refer_bonus_codes  * $ref_per_code_cost;
                     $sql_query = "UPDATE users SET `earn` = earn + $amount,`balance` = balance + $amount,`today_codes` = today_codes + $refer_bonus_codes,`total_codes` = total_codes + $refer_bonus_codes WHERE refer_code =  '$referred_by' AND status = 1";
                     $db->sql($sql_query);
                     $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($user_id,$amount,$refer_bonus_codes,'$datetime','code_bonus')";
@@ -123,7 +125,7 @@ if (isset($_POST['btnEdit'])) {
         }
         if($status == 1 && $register_bonus_sent != 1){
             $join_codes = $function->getSettingsVal('join_codes');
-            $amount = $join_codes  * COST_PER_CODE;
+            $amount = $join_codes  * $per_code_cost;
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
@@ -160,7 +162,7 @@ if (isset($_POST['btnEdit'])) {
             
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet' WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -412,6 +414,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Total Refund</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="total_refund" value="<?php echo $res[0]['total_refund']; ?>">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="exampleInputEmail1">Per Code Cost</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="per_code_cost" value="<?php echo $res[0]['per_code_cost']; ?>">
                                 </div>
                             </div>
                         </div>
