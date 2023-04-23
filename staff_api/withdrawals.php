@@ -29,9 +29,15 @@ if (empty($_POST['amount'])) {
     print_r(json_encode($response));
     return false;
 }
+if (empty($_POST['type'])) {
+    $response['success'] = false;
+    $response['message'] = "Type is Empty";
+    print_r(json_encode($response));
+    return false;
+}
 $staff_id = $db->escapeString($_POST['staff_id']);
 $amount = $db->escapeString($_POST['amount']);
-
+$type = $db->escapeString($_POST['type']);
 
 $datetime = date('Y-m-d H:i:s');
 $sql = "SELECT balance FROM staffs WHERE id = $staff_id ";
@@ -39,28 +45,53 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 $balance = $res[0]['balance'];
+$salary_balance = $res[0]['salary_balance'];
 $min_withdrawal = 250;
 if ($num >= 1) {
     if($amount >= $min_withdrawal){
-        if($balance >= $amount){
-            $sql = "UPDATE `staffs` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $staff_id";
-            $db->sql($sql);
-            $sql = "INSERT INTO staff_withdrawals (`staff_id`,`amount`,`datetime`)VALUES('$staff_id','$amount','$datetime')";
-            $db->sql($sql);
-            $sql = "SELECT * FROM staffs WHERE id = $staff_id ";
-            $db->sql($sql);
-            $res = $db->getResult();
-            $response['success'] = true;
-            $response['message'] = "Withdrawal Requested Successfully";
-            $response['data'] = $res;
-            print_r(json_encode($response));
-    
+        if($type == 'incentives'){
+            if($balance >= $amount){
+                $sql = "UPDATE `staffs` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $staff_id";
+                $db->sql($sql);
+                $sql = "INSERT INTO staff_withdrawals (`staff_id`,`amount`,`datetime`,`type`)VALUES('$staff_id','$amount','$datetime','incentives')";
+                $db->sql($sql);
+                $sql = "SELECT * FROM staffs WHERE id = $staff_id ";
+                $db->sql($sql);
+                $res = $db->getResult();
+                $response['success'] = true;
+                $response['message'] = "Withdrawal Requested Successfully";
+                $response['data'] = $res;
+                print_r(json_encode($response));
+        
+            }
+            else{
+                $response['success'] = false;
+                $response['message'] = "Insufficent Balance";
+                print_r(json_encode($response)); 
+            }
+
+        }else{
+            if($salary_balance >= $amount){
+                $sql = "UPDATE `staffs` SET `salary_balance` = salary_balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $staff_id";
+                $db->sql($sql);
+                $sql = "INSERT INTO staff_withdrawals (`staff_id`,`amount`,`datetime`,`type`)VALUES('$staff_id','$amount','$datetime','salary')";
+                $db->sql($sql);
+                $sql = "SELECT * FROM staffs WHERE id = $staff_id ";
+                $db->sql($sql);
+                $res = $db->getResult();
+                $response['success'] = true;
+                $response['message'] = "Withdrawal Requested Successfully";
+                $response['data'] = $res;
+                print_r(json_encode($response));
+        
+            }
+            else{
+                $response['success'] = false;
+                $response['message'] = "Insufficent Balance";
+                print_r(json_encode($response)); 
+            }
         }
-        else{
-            $response['success'] = false;
-            $response['message'] = "Insufficent Balance";
-            print_r(json_encode($response)); 
-        }
+
     
     }
     else{
