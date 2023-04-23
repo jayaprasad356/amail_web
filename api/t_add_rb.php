@@ -32,6 +32,10 @@ foreach ($res as $row) {
     $sql_query = "UPDATE users SET balance=balance + refer_balance WHERE id=$id";
     $db->sql($sql_query);
 
+    
+    $sql_query = "UPDATE users SET refer_balance=0 WHERE id=$id";
+    $db->sql($sql_query);
+
 
     
 }
