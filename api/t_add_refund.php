@@ -16,32 +16,29 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT id,refer_balance,balance FROM users WHERE refer_balance != 0";
+$sql = "SELECT id,refund_wallet,balance FROM users WHERE refund_wallet != 0";
 $db->sql($sql);
 $res = $db->getResult();
 $refer = array();
 foreach ($res as $row) {
-    $refer_balance = $row['refer_balance'];
+    $refund_wallet = $row['refund_wallet'];
     $balance = $row['balance'];
     $id = $row['id'];
 
     $type = 'admin_credit_balance';
-    $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`,`remarks`)VALUES('$id','$refer_balance','$datetime','$type','refer_balance added')";
+
+    $sql = "INSERT INTO transactions (`user_id`,`amount`,`datetime`,`type`,`remarks`)VALUES('$id','$refund_wallet','$datetime','$type','refund_wallet added')";
     $db->sql($sql);
 
-    $sql_query = "UPDATE users SET balance=balance + refer_balance WHERE id=$id";
-    $db->sql($sql_query);
-
-    
-    $sql_query = "UPDATE users SET refer_balance=0 WHERE id=$id";
-    $db->sql($sql_query);
+    $sql = "UPDATE `users` SET  `refund_wallet` = refund_wallet - $refund_wallet,`balance`=balance + $refund_wallet,`earn`=earn + $refund_wallet WHERE `id` = $id";
+    $db->sql($sql);
 
 
     
 }
 
 $response['success'] = true;
-$response['message'] = "Refer Balance Added Successfully";
+$response['message'] = "Refund Wallet Added Successfully";
 print_r(json_encode($response));
 
 
