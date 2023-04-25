@@ -1234,12 +1234,13 @@ if (isset($_GET['table']) && $_GET['table'] == 'month_join_reports') {
         $where .= "AND MONTH(u.joined_date) = '" . $search . "'";
     }
 
-    $sql = "SELECT COUNT(u.id) as total FROM `users` u LIMIT 31";
+    $sql = "SELECT id FROM `join_reports` WHERE YEAR(date) = 2023 GROUP BY MONTH(date)";
     $db->sql($sql);
     $res = $db->getResult();
-    $total = '10';
+    $num = $db->numRows($res);
+    $total = $num;
 
-    $sql = "SELECT MONTH(joined_date) as month, YEAR(joined_date) as year FROM `users` GROUP BY YEAR(joined_date), MONTH(joined_date) ORDER BY joined_date DESC LIMIT 31";
+    $sql = "SELECT SUM(total_users) AS total_users,Sum(total_paid) AS total_paid,MONTH(date) AS month FROM `join_reports` WHERE YEAR(date) = 2023 GROUP BY MONTH(date)";
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -1247,17 +1248,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'month_join_reports') {
     $bulkData['total'] = $total;
     $rows = array();
     foreach ($res as $row) {
-        
+    
+        $year = 2023;
         $month = $row['month'];
-        $year = $row['year'];
-        $sql = "SELECT COUNT(joined_date) AS join_count FROM `users` WHERE MONTH(joined_date) = '$month' AND YEAR(joined_date) = '$year'";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $tempRow['total_registrations'] = $res[0]['join_count'];
-        $sql = "SELECT SUM(amount) AS total_with FROM `withdrawals` WHERE MONTH(datetime) = '$month' AND YEAR(datetime) = '$year' AND status = 1";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $tempRow['paid_withdrawals'] = $res[0]['total_with'];
+        $tempRow['total_users'] = $row['total_users'];
+        $tempRow['total_paid'] = $row['total_paid'];
         $tempRow['date'] = date("F Y", strtotime("$year-$month-01"));
         $rows[] = $tempRow;
     }
