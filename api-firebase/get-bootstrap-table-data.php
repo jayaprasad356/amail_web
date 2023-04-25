@@ -1171,9 +1171,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    $where .= "WHERE id IS NOT NULL ";
     if (isset($_GET['month']) && !empty($_GET['month'] != '')){
         $month = $db->escapeString($fn->xss_clean($_GET['month']));
-        $where .= "AND MONTH(joined_date) = '$month' ";  
+        $where .= "AND MONTH(date) = $month AND YEAR(date) = 2023 ";  
     }
     if (isset($_GET['offset']))
         $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
@@ -1189,15 +1190,15 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));
         $where .= "AND u.joined_date like '%" . $search . "%'";
     }
-    $join = "WHERE id IS NOT NULL ";
+    
 
-    $sql = "SELECT COUNT(`id`) as total FROM `users` u LIMIT 31 $join " . $where . "";
+    $sql = "SELECT COUNT(`id`) as total FROM `join_reports`" . $where;
     $db->sql($sql);
     $res = $db->getResult();
-    $total = '10';
+    foreach ($res as $row)
+        $total = $row['total'];
 
-    $sql = "SELECT joined_date FROM `users` $join $where GROUP BY joined_date ORDER BY $sort $order LIMIT " . intval($offset) . ", " . intval($limit);
-
+    $sql = "SELECT * FROM `join_reports` " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
     $db->sql($sql);
     $res = $db->getResult();
 
@@ -1206,16 +1207,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'join_reports') {
     $rows = array();
     foreach ($res as $row) {
         
-        $joindate = $row['joined_date'];
-        $sql = "SELECT COUNT(joined_date) AS join_count FROM `users`WHERE joined_date = '$joindate'";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $tempRow['total_registrations'] = $res[0]['join_count'];
-        $sql = "SELECT SUM(amount) AS total_with FROM `withdrawals`WHERE DATE(datetime) = '$joindate' AND status = 1";
-        $db->sql($sql);
-        $res = $db->getResult();
-        $tempRow['paid_withdrawals'] = $res[0]['total_with'];
-        $tempRow['date'] = $row['joined_date'];
+        $tempRow['id'] = $row['id'];
+        $tempRow['date'] = $row['date'];
+        $tempRow['total_users'] = $row['total_users'];
+        $tempRow['total_paid'] = $row['total_paid'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

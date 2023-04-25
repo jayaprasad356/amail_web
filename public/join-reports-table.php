@@ -38,8 +38,8 @@
                             <tr>
                                 <!-- <th data-field="id" data-sortable="true">ID</th> -->
                                 <th data-field="date" data-sortable="true">Date</th>
-                                <th data-field="total_registrations" data-sortable="true">Total Registration</th>
-                                <th data-field="paid_withdrawals" data-sortable="true">Paid Withdrawals</th>
+                                <th data-field="total_users" data-sortable="true">Total Joined Users</th>
+                                <th data-field="total_paid" data-sortable="true">Paid Withdrawals</th>
                                 <!-- <th data-field="operate">Action</th>-->
                             </tr>
                         </thead>
