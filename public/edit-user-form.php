@@ -138,7 +138,7 @@ if (isset($_POST['btnEdit'])) {
             if(empty($referred_by)){
                 $incentives = 100;
             }else{
-                $incentives = 5;
+                $incentives = 7.5;
             }
 
             $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";

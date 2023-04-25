@@ -54,9 +54,16 @@ if (isset($_POST['btnEdit'])) {
 // create array variable to store previous data
 $data = array();
 
-$sql_query = "SELECT * FROM leaves WHERE id =" . $ID;
+$sql_query = "SELECT leaves.date AS date,leaves.type AS type,users.name AS name,users.mobile AS mobile,leaves.user_id AS user_id,leaves.reason AS reason,leaves.status AS status FROM leaves,users  WHERE leaves.user_id = users.id AND  leaves.id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
+$num = $db->numRows($res);
+if ($num == 0) {
+    $sql_query = "SELECT * FROM leaves WHERE id =" . $ID;
+    $db->sql($sql_query);
+    $res = $db->getResult();
+
+}
 if (isset($_POST['btnCancel'])) { ?>
     <script>
         window.location.href = "leaves.php";
@@ -88,32 +95,29 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="form-group">
-                               <label class="control-label">Leave Type</label> <i class="text-danger asterik">*</i><br>
-                                <label class="form-check-input">
-                                    <input type="radio" name="type" value="user_leave" <?= ($res[0]['type'] == "user_leave") ? 'checked' : ''; ?>> User Leave
-                                </label>
-                                <br>
-                                <label class="form-check-input">
-                                    <input type="radio" name="type" value="common_leave" <?= ($res[0]['type'] == "common_leave") ? 'checked' : ''; ?>>Common Leave
-                                </label>
+                        <label for="exampleInputEmail1">Type</label><i class="text-danger asterik">*</i>
+                                <input type="text" class="form-control" name="name" value="<?php echo $res[0]['type']; ?>" readonly>
+                        </div>
+
+
+                        <?php 
+                        if($res[0]['type'] == "user_leave"){?>
+                                                <div class="row">
+                        <div class="col-md-6">
+                                <label for="exampleInputEmail1">Name</label><i class="text-danger asterik">*</i>
+                                <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="exampleInputEmail1">Mobile</label><i class="text-danger asterik">*</i>
+                                <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>" readonly>
+                            </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                                <label for="exampleInputEmail1">User</label> <i class="text-danger asterik">*</i>
-                                <select id='user_id' name="user_id" class='form-control'>
-                                    <option value=''>All</option>
-                                    
-                                            <?php
-                                            $sql = "SELECT id,name FROM `users`";
-                                            $db->sql($sql);
-                                            $result = $db->getResult();
-                                            foreach ($result as $value) {
-                                            ?>
-											 <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['user_id'] ? 'selected="selected"' : '';?>><?= $value['name'] ?></option>
-                                        <?php } ?>
-                                </select>
-                        </div>
-                        <br>
+                        <?php
+
+                        }?>
+
+
                         <div class="form-group">
                                 <label for="exampleInputEmail1">Reason</label><i class="text-danger asterik">*</i>
                                 <textarea type="text" rows="3" class="form-control" name="reason"><?php echo $res[0]['reason']; ?></textarea>
