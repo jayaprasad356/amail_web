@@ -20,7 +20,7 @@ if (empty($_POST['staff_id'])) {
 }
 $staff_id = $db->escapeString($_POST['staff_id']);
 
-$sql = "SELECT DATE(datetime) AS date,staff_id,(SELECT COUNT(id) FROM users WHERE support_id = $staff_id AND joined_date = date) AS total_joins,(SELECT COUNT(id) FROM users WHERE LENGTH(referred_by) = 3 AND joined_date = date) AS direct_joins, SUM(amount) As total_earn FROM incentives GROUP BY DATE(datetime) ORDER BY datetime DESC";
+$sql = "SELECT DATE(datetime) AS date,staff_id,(SELECT COUNT(id) FROM users WHERE support_id = $staff_id AND joined_date = date) AS total_joins,(SELECT COUNT(id) FROM users WHERE LENGTH(referred_by) = 3 AND joined_date = date) AS direct_joins, SUM(amount) As total_earn FROM incentives WHERE staff_id = $staff_id GROUP BY DATE(datetime) ORDER BY datetime DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
