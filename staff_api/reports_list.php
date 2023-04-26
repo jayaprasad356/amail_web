@@ -33,7 +33,7 @@ $staff_id = $db->escapeString($_POST['staff_id']);
 $level = $db->escapeString($_POST['level']);
 
 if ($level == 1) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 1 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE worked_days = 1 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -48,7 +48,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 2) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 3 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE worked_days = 3 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -63,7 +63,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 3) {
-    $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) = 5 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE worked_days = 6 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
