@@ -14,7 +14,7 @@ $db = new Database();
 $db->connect();
 
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT support_id,lead_id,id FROM `users` WHERE joined_date = '2023-04-26' AND LENGTH(referred_by) != 3 AND status = 1 ";
+$sql = "SELECT support_id,lead_id,id FROM `users` WHERE joined_date = '2023-04-26' AND LENGTH(referred_by) = 3 AND status = 1 ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -23,7 +23,7 @@ if ($num >= 1) {
         $ID = $row['id'];
         $support_id = $row['support_id'];
         $lead_id = $row['lead_id'];
-        $incentives = 7.5;
+        $incentives = 100;
 
         $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
         $db->sql($sql_query);
@@ -45,7 +45,7 @@ if ($num >= 1) {
 
     }
     $response['success'] = true;
-    $response['message'] = "Staff Incentives added Successfully";
+    $response['message'] = "Staff 100 Incentives added Successfully";
     print_r(json_encode($response));
 
 }else{
