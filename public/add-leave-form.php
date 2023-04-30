@@ -10,6 +10,30 @@ $res = $db->getResult();
 
 ?>
 <?php
+
+if (isset($_POST['btnSearch'])) {
+
+    $mobile = $db->escapeString(($_POST['mobile']));
+    $error = array();
+   
+    if (empty($mobile)) {
+        $error['mobile'] = " <span class='label label-danger'>Required!</span>";
+    }
+   
+   if (!empty($mobile)) 
+   {
+    $sql = "SELECT id,name,refer_code FROM users WHERE mobile ='$mobile'";
+    $db->sql($sql);
+    $res = $db->getResult();
+    $num = $db->numRows($res);
+    if ($num == 1) {
+        $name = $res[0]['name'];
+        $refer_code = $res[0]['refer_code'];
+        $user_id = $res[0]['id'];
+    }
+
+    }
+    }
 if (isset($_POST['btnAdd'])) {
 
         $date = $db->escapeString(($_POST['date']));
@@ -56,6 +80,10 @@ if (isset($_POST['btnAdd'])) {
            }
         }
         }
+        $name = (isset($name)) ? $name : "";
+        $refer_code = (isset($refer_code)) ? $refer_code : "";
+        $user_id = (isset($user_id)) ? $user_id : "";
+        
 ?>
 <section class="content-header">
     <h1>Add New Leave <small><a href='leaves.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to Leaves</a></small></h1>
@@ -79,6 +107,64 @@ if (isset($_POST['btnAdd'])) {
                 <!-- form start -->
                 <form url="add_leave_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
+                    <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-6'>
+                                    <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i>
+                                    
+                                    <input type="number" class="form-control" placeholder="Enter Mobile" name="mobile" required>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                  
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary" name="btnSearch">Search</button>
+                    </div>
+
+                </form>
+
+            </div><!-- /.box -->
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-md-6">
+           
+            <!-- general form elements -->
+            <div class="box box-primary">
+                <div class="box-header with-border">
+
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form url="add_leave_form" method="post" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" name="user_id" value = "<?php echo $user_id?>">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-12'>
+                                    <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="name" value = "<?php echo $name?>" required readonly>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-12'>
+                                    <label for="exampleInputEmail1">Refer Code</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refer_code" value = "<?php echo $refer_code?>" required readonly>
+                                </div>
+
+                            </div>
+                        </div>
+                        <br>
                        <div class="row">
                             <div class="form-group">
                                 <div class='col-md-12'>
@@ -98,24 +184,6 @@ if (isset($_POST['btnAdd'])) {
                                     <input class="form-check-input" type="radio" name="type" value="common_leave">
                                     <label  for="exampleRadios2">Common Leave</label>
                                 </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                   <label for="exampleInputEmail1">User</label> <i class="text-danger asterik">*</i>
-                                    <select id='user_id' name="user_id" class='form-control'>
-                                        <option value=''>All</option>
-                                        
-                                                <?php
-                                                $sql = "SELECT id,name FROM `users`";
-                                                $db->sql($sql);
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
-                                            <?php } ?>
-                                    </select>
                             </div>
                         </div>
                         <br>

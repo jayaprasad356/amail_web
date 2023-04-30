@@ -107,13 +107,26 @@ else{
 
     }
     else{
-        if (strlen($referred_by) === 3) {
-            $refer_code = $referred_by . $user_id;
+        if (strlen($referred_by) < 3) {
+            $refer_code = MAIN_REFER . $user_id;
 
         }
         else{
-            $refer_code = substr($referred_by, 0, 3) . $user_id;
+            $refershot = substr($referred_by, 0, 3);
+            $sql = "SELECT refer_code FROM admin WHERE refer_code = '$refershot'";
+            $db->sql($sql);
+            $ares = $db->getResult();
+            $num = $db->numRows($ares);
+            if ($num >= 1) {
+                $refer_code_db = $ares[0]['refer_code'];
+                $refer_code = $refer_code_db . $user_id;
 
+            }else{
+                $refer_code = MAIN_REFER . $user_id;
+
+            }
+
+            
         }
         // $admincode = substr($referred_by, 0, -5);
 
