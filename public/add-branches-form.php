@@ -17,6 +17,7 @@ if (isset($_POST['btnAdd'])) {
     $short_code = $db->escapeString(($_POST['short_code']));
     $min_withdrawal = $db->escapeString(($_POST['min_withdrawal']));
     $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
+    $mobile = $db->escapeString(($_POST['mobile']));
     $error = array();
    
     if (empty($name)) {
@@ -28,12 +29,15 @@ if (isset($_POST['btnAdd'])) {
     if (empty($min_withdrawal)) {
         $error['min_withdrawal'] = " <span class='label label-danger'>Required!</span>";
     }
+    if (empty($mobile)) {
+        $error['mobile'] = " <span class='label label-danger'>Required!</span>";
+    }
    
    
-    if (!empty($name) && !empty($short_code) && !empty($min_withdrawal)) 
+    if (!empty($name) && !empty($short_code) && !empty($min_withdrawal)&& !empty($mobile)) 
     {
            
-            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal,trial_earnings)VALUES('$name','$short_code','$min_withdrawal','$trial_earnings')";
+            $sql_query = "INSERT INTO branches (name,short_code,min_withdrawal,trial_earnings,mobile)VALUES('$name','$short_code','$min_withdrawal','$trial_earnings','$mobile')";
             $db->sql($sql_query);
             $result = $db->getResult();
             if (!empty($result)) {
@@ -79,6 +83,15 @@ if (isset($_POST['btnAdd'])) {
                                 <div class='col-md-10'>
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i><?php echo isset($error['name']) ? $error['name'] : ''; ?>
                                     <input type="text" class="form-control" name="name" required>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                               <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i><?php echo isset($error['mobile']) ? $error['mobile'] : ''; ?>
+                                    <input type="text" class="form-control" name="mobile" required>
                                 </div>
                             </div>
                         </div>

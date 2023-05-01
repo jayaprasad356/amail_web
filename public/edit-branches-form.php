@@ -20,14 +20,15 @@ if (isset($_POST['btnEdit'])) {
     $short_code = $db->escapeString($_POST['short_code']);
     $min_withdrawal = $db->escapeString($_POST['min_withdrawal']);
     $trial_earnings = $db->escapeString(($_POST['trial_earnings']));
+    $mobile = $db->escapeString(($_POST['mobile']));
 
 
 
 
-    if (!empty($name) && !empty($short_code)) 
+    if (!empty($name) && !empty($short_code)&& !empty($mobile)) 
 		{
 
-        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal',trial_earnings='$trial_earnings' WHERE id =  $ID";
+        $sql_query = "UPDATE branches SET name='$name',short_code='$short_code',min_withdrawal='$min_withdrawal',trial_earnings='$trial_earnings',mobile='$mobile' WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -84,6 +85,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class='col-md-10'>
+                                    <label for="exampleInputEmail1">Mobile</label> <i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
+                                </div> 
                             </div>
                         </div>
                         <br>
