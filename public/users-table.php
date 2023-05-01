@@ -32,18 +32,18 @@
                     </div>
                     <div class="col-md-3">
                     <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
-                                    <select id='support_id' name="support_id" class='form-control'>
-                                        <option value=''>All</option>
-                                        
-                                                <?php
-                                                $sql = "SELECT name FROM `staffs`";
-                                                $db->sql($sql);
-                                                $result = $db->getResult();
-                                                foreach ($result as $value) {
-                                                ?>
-                                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
-                                            <?php } ?>
-                                    </select>
+                        <select id='support_id' name="support_id" class='form-control'>
+                            <option value=''>All</option>
+                            
+                                    <?php
+                                    $sql = "SELECT name FROM `staffs`";
+                                    $db->sql($sql);
+                                    $result = $db->getResult();
+                                    foreach ($result as $value) {
+                                    ?>
+                                        <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                <?php } ?>
+                        </select>
                     </div>
 
                     </div>

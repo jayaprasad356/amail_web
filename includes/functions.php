@@ -335,7 +335,7 @@ class functions
         }
     }
     //getting all tokens to send push to all devices
-    public function getAllTokens($send_to)
+    public function getAllTokens($send_to,$support_id)
     {
         $table = 'users';
         $currentdate = date('Y-m-d');
@@ -351,6 +351,10 @@ class functions
         }
         else{
             $sql = "SELECT `fcm_id` FROM `$table`";
+        }
+        if(!empty($support_id)){
+            $sql = "SELECT `fcm_id` FROM `$table` WHERE support_id = $support_id";
+
         }
         
         $this->db->sql($sql);
