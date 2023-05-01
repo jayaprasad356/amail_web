@@ -259,6 +259,7 @@ $fn = new custom_functions;
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="settings.php"><i class="fa fa-gear"></i>Settings</a></li>
+                        <li><a href="notifications.php"><i class="fa fa-bell"></i>Notifications</a></li>
                         <li><a href="reward_settings.php"><i class="fa fa-gear"></i>Reward Settings</a></li>
                         <li><a href="champion_settings.php"><i class="fa fa-trophy"></i>Champion Settings</a></li>
                         <li><a href="info_settings.php"><i class="fa fa-info"></i>Info Settings</a></li>
@@ -277,7 +278,7 @@ $fn = new custom_functions;
                         <li><a href="leaves.php"><i class="fa fa-calender"></i>Leaves</a></li>
                         <li><a href="app-update.php"><i class="fa fa-bullseye"></i>App Update</a></li>
                         <li><a href="ratings.php"><i class="fa fa-star"></i>Ratings</a></li>
-                        <li><a href="notifications.php"><i class="fa fa-bell"></i>Notifications</a></li>
+                        
                         <li><a href="job_details.php"><i class="fa fa-info"></i>Job Details</a></li>
 
                     </ul>
