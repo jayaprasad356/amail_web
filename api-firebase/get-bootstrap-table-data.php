@@ -55,6 +55,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         $where .= "AND u.joined_date='$date' AND u.status=1 ";
     }
+    if ((isset($_GET['support_id'])  && $_GET['support_id'] != '')) {
+        $support_id = $db->escapeString($fn->xss_clean($_GET['support_id']));
+        $where .= "AND u.support_id='$support_id'";
+    }
+    
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
         $where .= "AND u.status=1 AND u.today_codes != 0 AND u.total_codes != 0 AND DATE(u.last_updated) = '$currentdate' ";
     }
@@ -95,9 +100,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row)
         $total = $row['total'];
 
-        
-        
-    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
+    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
                 $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -133,7 +136,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['salary_advance_balance'] = $row['salary_advance_balance'];
         $tempRow['sa_refer_count'] = $row['sa_refer_count'];
         $tempRow['withdrawal'] = $row['withdrawal'];
-        $tempRow['support'] = $row['support_name'];
+        $tempRow['support_id'] = $row['support_name'];
         $tempRow['lead'] = $row['lead_name'];
         $tempRow['branch'] = $row['branch_name'];
         $tempRow['refund_wallet'] = $row['refund_wallet'];
@@ -1701,6 +1704,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'branches') {
         $operate .= ' <a class="text text-danger" href="delete-branches.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['short_code'] = $row['short_code'];
         $tempRow['min_withdrawal'] = $row['min_withdrawal'];
         if($row['trial_earnings']==1)
