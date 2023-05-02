@@ -48,8 +48,8 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
             $result = $db->getResult();
         }
 
-        $title = "Withdrawal Request";
-        $description = "Your request is Accepted and Paid Successfully";
+        $title = "Your Recent Withdrawal Request Is Paid";
+        $description = "Hi, Your recent withdrawal request is processed for payment. You should be receiving in your bank account within 24hrs. DO NOT WAIT FOR SMS. Do check your bank account for credit details. Thank you";
         $type = "default";
         $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
         $url .= $_SERVER['SERVER_NAME'];
@@ -115,8 +115,8 @@ if (isset($_POST['btnCancel'])  && isset($_POST['enable'])) {
             $sql = "INSERT INTO transactions (user_id,amount,datetime,type) VALUES ('$user_id','$amount','$datetime','cancelled')";
             $db->sql($sql);
 
-            $title = "Withdrawal Request";
-            $description = "Your request is rejected and cancelled";
+            $title = "Your Recent Withdrawal Request Is Cancelled";
+            $description = "Hi, Your recent withdrawal request is been cancelled due to incorrect bank details. Please update correct bank details and withdraw again. Or Change new bank details and withdraw. Thank you.";
             $type = "default";
             $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
             $url .= $_SERVER['SERVER_NAME'];
