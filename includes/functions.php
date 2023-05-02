@@ -393,6 +393,17 @@ class functions
         }
         return $tokens;
     }
+    public function getTokenById($id)
+    {
+        $sql = "SELECT fcm_id FROM users WHERE id = '" . $id . "'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        $tokens = array();
+        foreach ($res as $row) {
+            array_push($tokens, $row['fcm_id']);
+        }
+        return $tokens;
+    }
     public function getAdminToken($id)
     {
         $sql = "SELECT fcm_id FROM admin WHERE id = '" . $id . "'";

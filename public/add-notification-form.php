@@ -109,7 +109,7 @@ if (isset($_POST['btnd'])) {
                         <div class="col-md-3">
                             <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
                                 <select id='support_id' name="support_id" class='form-control'>
-                                    <option value=''>All</option>
+                                    <option value='0'>All</option>
                                     
                                             <?php
                                             $sql = "SELECT id,name FROM `staffs`";
