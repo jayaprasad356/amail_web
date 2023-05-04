@@ -53,7 +53,7 @@ if ($num >= 1) {
     $res_count3= $db->getResult();
 
 
-    $sql = "SELECT id FROM `users` u,`transactions` t WHERE u.id = t.user_id AND DATE(t.datetime) = '$date' AND t.type = 'refer_bonus' AND u.support_id = $staff_id";
+    $sql = "SELECT u.id FROM `users` u,`transactions` t WHERE u.id = t.user_id AND DATE(t.datetime) = '$date' AND t.type = 'refer_bonus' AND u.support_id = $staff_id";
     $db->sql($sql);
     $res_count4 = $db->getResult();
     $today_refers = $db->numRows($res_count4);
