@@ -177,10 +177,11 @@ $fn = new custom_functions;
                     </a>
                     <ul class="treeview-menu">
                     <li><a href="users.php"><i class="fa fa-users"></i>users</a></li>
-                        <li><a href="referral_users.php"><i class="fa fa-users"></i>Users Referral Income</a></li>
-                        <li><a href="bulk-upload-user.php"><i class="fa fa-folder-open"></i>User Bulk upload</a></li>
+                    <li><a href="referral_users.php"><i class="fa fa-users"></i>6% Referral Income</a></li>
+                    <li><a href="manage-devices.php"><i class="fa fa-laptop"></i>Manage Devices</a></li>
+                        <!-- <li><a href="bulk-upload-user.php"><i class="fa fa-folder-open"></i>User Bulk upload</a></li>
                         <li><a href="user_reports.php"><i class="fa fa-clipboard"></i>Users Reports</a></li>
-                        <li><a href="champions.php"><i class="fa fa-trophy"></i>Task Champion Users</a></li>
+                        <li><a href="champions.php"><i class="fa fa-trophy"></i>Task Champion Users</a></li> -->
                     </ul>
                 </li>
                 <li class="treeview">
@@ -192,6 +193,7 @@ $fn = new custom_functions;
                     <ul class="treeview-menu">
                         <li><a href="withdrawals.php"><i class="fa fa-money"></i>Withdrawals</a></li>
                         <li><a href="search_withdrawals.php"><i class="fa fa-search"></i>Search Withdrawals</a></li>
+                        <li><a href="bank_details.php"><i class="fa fa-bank"></i>Bank Details</a></li>
                     </ul>
                 </li>
                 <?php
@@ -215,6 +217,7 @@ $fn = new custom_functions;
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="staffs.php"><i class="fa fa-user"></i>Staffs</a></li>
+                        <li><a href="branches.php"><i class="fa fa-adn"></i>Branches</a></li>
                         <li><a href="staff_leaves.php"><i class="fa fa-calendar"></i>Leaves</a></li>
                         <li><a href="staff_withdrawals.php"><i class="fa fa-money"></i>Staff Withdrawals</a></li>
                         <li><a href="staff_transactions.php"><i class="fa fa-arrow-right"></i>Staff Transactions</a></li>
@@ -222,35 +225,17 @@ $fn = new custom_functions;
                 </li>
                 <li class="treeview">
                     <a href="#">
-                        <i class="fa fa-bank"></i>
-                        <span>Bank</span>
-                        <i class="fa fa-angle-right pull-right"></i>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="bank_details.php"><i class="fa fa-bank"></i>Bank Details</a></li>
-                        <li><a href="branches.php"><i class="fa fa-adn"></i>Branches</a></li>
-                        <li><a href="transactions.php"><i class="fa fa-adn"></i>Transactions</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#">
                         <i class="fa fa-credit-card"></i>
-                        <span>Payments</span>
+                        <span>Transactions</span>
                         <i class="fa fa-angle-right pull-right"></i>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="payments.php"><i class="fa fa-credit-card"></i>Payments</a></li>
+                    <li><a href="transactions.php"><i class="fa fa-adn"></i>Transactions</a></li>
+                        
                         <li><a href="repayments.php"><i class="fa fa-money"></i>Repayments</a></li>
                         <li><a href="sa_transactions.php"><i class="fa fa-arrow-right"></i>Salary Advance Transactions</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="admins.php">
-                    <i class="fa fa-adn"></i>
-                    <span>Multiple Admin</span>
-                    </a>
-                </li>
-              
                 <li class="treeview">
                     <a href="#">
                         <i class="fa fa-gear"></i>
@@ -263,11 +248,22 @@ $fn = new custom_functions;
                         <li><a href="reward_settings.php"><i class="fa fa-gear"></i>Reward Settings</a></li>
                         <li><a href="champion_settings.php"><i class="fa fa-trophy"></i>Champion Settings</a></li>
                         <li><a href="info_settings.php"><i class="fa fa-info"></i>Info Settings</a></li>
-                        <li><a href="manage-devices.php"><i class="fa fa-laptop"></i>Manage Devices</a></li>
+                        <li><a href="job_details.php"><i class="fa fa-info"></i>Job Details</a></li>
+                        <li><a href="payments.php"><i class="fa fa-credit-card"></i>Payments</a></li>
+                        <li><a href="app-update.php"><i class="fa fa-bullseye"></i>App Update</a></li>
+                        <li><a href="ratings.php"><i class="fa fa-star"></i>Ratings</a></li>
 
                     </ul>
                 </li>
                 <li class="treeview">
+                    <a href="admins.php">
+                    <i class="fa fa-adn"></i>
+                    <span>Multiple Admin</span>
+                    </a>
+                </li>
+              
+
+                <!-- <li class="treeview">
                     <a href="#">
                         <i class="fa fa-user"></i>
                         <span>Employees</span>
@@ -276,13 +272,12 @@ $fn = new custom_functions;
                     <ul class="treeview-menu">
                         <li><a href="employees.php"><i class="fa fa-user"></i>Employees</a></li>
                         <li><a href="leaves.php"><i class="fa fa-calender"></i>Leaves</a></li>
-                        <li><a href="app-update.php"><i class="fa fa-bullseye"></i>App Update</a></li>
-                        <li><a href="ratings.php"><i class="fa fa-star"></i>Ratings</a></li>
+
                         
-                        <li><a href="job_details.php"><i class="fa fa-info"></i>Job Details</a></li>
+                        
 
                     </ul>
-                </li>
+                </li> -->
                 <!-- <li class="treeview">
                     <a href="bulk-update-user.php">
                     <i class="fa fa-folder-open"></i>
@@ -295,7 +290,7 @@ $fn = new custom_functions;
                         <span>Multiple Admins</span>
                     </a>
                 </li> -->
-                <li class="treeview">
+                <!-- <li class="treeview">
                     <a href="#">
                         <i class="fa fa-tag"></i>
                         <span>URL's</span>
@@ -306,7 +301,7 @@ $fn = new custom_functions;
                         <li><a href="valid_urls.php"><i class="fa fa-tag"></i>Manage Valid URL's</a></li>
                         <li><a href="faq.php"><i class="fa fa-info"></i>FAQs</a></li>
                     </ul>
-                </li>
+                </li> -->
                 <?php
 
                 }
