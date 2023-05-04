@@ -56,20 +56,7 @@ if ($num >= 1) {
     $sql = "SELECT id FROM `users` u,`transactions` t WHERE u.id = t.user_id AND DATE(t.datetime) = '$date' AND t.type = 'refer_bonus' AND u.support_id = $staff_id";
     $db->sql($sql);
     $res_count4 = $db->getResult();
-    $num = $db->numRows($res_count4);
-            
-    $rows = array();
-    $today_refers = 0; // initialize total   
-    if($num >= 1){
-
-        foreach ($res_count4 as $row) {
-            $total_refer = $row['total_refer'];
-            $today_refers += $total_refer; // add to total
-            
-        }
-        
-
-    }
+    $today_refers = $db->numRows($res_count4);
 
 
     
