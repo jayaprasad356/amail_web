@@ -48,12 +48,12 @@ if ($num >= 1) {
     $db->sql($sql);
     $res_count2= $db->getResult();
 
-    $sql ="SELECT COUNT(id) AS total_active_users FROM users WHERE support_id='$staff_id' AND status = 1 AND code_generate = 1";
+    $sql ="SELECT COUNT(id) AS total_active_users FROM users WHERE support_id='$staff_id' AND status = 1 AND code_generate = 1 AND joined_date = '$date' ";
     $db->sql($sql);
     $res_count3= $db->getResult();
 
 
-    $sql = "SELECT u.id, (SELECT COUNT(*) FROM users u2 WHERE u2.status = 1 AND u2.code_generate = 1 AND u2.joined_date = '$date' AND u2.referred_by = u.refer_code) AS total_refer FROM users u WHERE u.support_id = '$staff_id' AND u.status = 1 AND u.code_generate = 1";
+    $sql = "SELECT id FROM `users` u,`transactions` t WHERE u.id = t.user_id AND DATE(t.datetime) = '$date' AND t.type = 'refer_bonus' AND u.support_id = $staff_id";
     $db->sql($sql);
     $res_count4 = $db->getResult();
     $num = $db->numRows($res_count4);
