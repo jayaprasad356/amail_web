@@ -43,6 +43,7 @@
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="join_date" data-sortable="true">Join Date</th>
                                     <th data-field="salary_date" data-sortable="true">Salary Date</th>
+                                    <th data-field="weekly_target" data-sortable="true">Weekly Target</th>
                                 </tr>
                             </thead>
                         </table>

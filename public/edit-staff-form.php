@@ -22,9 +22,10 @@ if (isset($_POST['btnEdit'])) {
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $salary = $db->escapeString(($_POST['salary']));
             $incentive_percentage = $db->escapeString(($_POST['incentive_percentage']));
+            $weekly_target = $db->escapeString(($_POST['weekly_target']));
             $error = array();
 
-            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance) && !empty($salary)) {
+            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance) && !empty($salary)&& !empty($weekly_target)) {
                 if($status==1){
                     $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
                     $db->sql($sql_query);
@@ -51,7 +52,7 @@ if (isset($_POST['btnEdit'])) {
                         $db->sql($sql_query);
                     }
                 }
-                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -62,7 +63,7 @@ if (isset($_POST['btnEdit'])) {
         
                 // check update result
                 if ($update_result == 1) {
-                    $error['update_staff'] = " <section class='content-header'><span class='label label-success'>Users updated Successfully</span></section>";
+                    $error['update_staff'] = " <section class='content-header'><span class='label label-success'>staff updated Successfully</span></section>";
                 } else {
                     $error['update_staff'] = " <span class='label label-danger'>Failed update users</span>";
                 }
@@ -259,20 +260,24 @@ if (isset($_POST['btnCancel'])) { ?>
                         <br>
                         <div class="row">
                             <div class="form-group">
-                                <div class='col-md-4'>
+                                <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Balance</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="balance" value="<?php echo $res[0]['balance']; ?>" readonly>
                                 </div>
-                                <div class='col-md-4'>
+                                <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Incentive percentage</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="incentive_percentage" value="<?php echo $res[0]['incentive_percentage']; ?>">
                                 </div>
-                                <div class='col-md-4'>
+                                <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Salary Advance Balance</label>
                                     <input type="text" class="form-control" name="sa_balance" value="<?php echo $res[0]['sa_balance']; ?>" readonly>
                                 </div>
-                            </div>
+                                <div class='col-md-3'>
+                                    <label for="exampleInputEmail1">Weekly Target</label>
+                                    <input type="number" class="form-control" name="weekly_target" value="<?php echo $res[0]['weekly_target']; ?>">
+                                </div>
                         </div>
+                            </div>
                         <br>
                         <div class="row">
                                 <div class="form-group col-md-12">

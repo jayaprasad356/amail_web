@@ -40,17 +40,23 @@ $amount = $db->escapeString($_POST['amount']);
 $type = $db->escapeString($_POST['type']);
 
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT balance,salary_balance,incentive_percentage AS ip FROM staffs WHERE id = $staff_id ";
+$sql = "SELECT balance,salary_balance,incentive_percentage AS ip,weekly_target FROM staffs WHERE id = $staff_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 $balance = $res[0]['balance'];
 $salary_balance = $res[0]['salary_balance'];
 $ip = $res[0]['ip'];
+$weekly_target = $res[0]['weekly_target'];
 $min_withdrawal = 250;
-if ($num >= 1) {
+if ($num >= 1){
+   $sql = "SELECT SUM(amount) AS week_incentives FROM `incentives` WHERE staff_id = $staff_id";
+   $db->sql($sql);
+   $res = $db->getResult();
+   $week_incentives = $res[0]['week_incentives'];
     if($amount >= $min_withdrawal){
-        if($type == 'incentives'){
+    if($type == 'incentives'){
+        if($week_incentives >= $weekly_target){
             $in_amount = ($ip / 100) * $amount;
             if($balance >= $amount){
                 $sql = "UPDATE `staffs` SET `balance` = balance - $amount,`withdrawal` = withdrawal + $amount WHERE `id` = $staff_id";
@@ -93,9 +99,15 @@ if ($num >= 1) {
                 print_r(json_encode($response)); 
             }
         }
-
+        } 
+        else{
+         $response['success'] = false;
+         $response['message'] = "you are not eligible for withdrawal";
+         print_r(json_encode($response)); 
+        }
     
     }
+
     else{
         $response['success'] = false;
         $response['message'] = "Required Minimum Amount to Withdrawal is ".$min_withdrawal;

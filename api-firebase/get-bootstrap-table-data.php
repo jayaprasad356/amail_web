@@ -1779,6 +1779,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['branch'] = $row['branch'];
         $tempRow['join_date'] = $row['join_date'];
         $tempRow['salary_date'] = $row['salary_date'];
+        $tempRow['weekly_target'] = $row['weekly_target'];
         if($row['status']==0)
             $tempRow['status'] ="<label class='label label-default'>Not-Verify</label>";
         elseif($row['status']==1)
