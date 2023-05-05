@@ -48,7 +48,7 @@ if ($num >= 1) {
     $db->sql($sql);
     $res_count2= $db->getResult();
 
-    $sql ="SELECT COUNT(id) AS total_active_users FROM users WHERE support_id='$staff_id' AND status = 1 AND code_generate = 1 AND joined_date = '$date' ";
+    $sql ="SELECT COUNT(id) AS total_active_users FROM users WHERE support_id='$staff_id' AND status = 1 AND code_generate = 1 AND today_codes != 0";
     $db->sql($sql);
     $res_count3= $db->getResult();
 
@@ -81,7 +81,7 @@ if ($num >= 1) {
     $response['total_leads'] = $res_count[0]['total_leads'];
     $response['total_joinings'] =$res_count1[0]['total_joinings'];
     $response['today_joinings'] =$res_count2[0]['today_joinings'];
-    $response['total_active_users'] =$res_count2[0]['today_joinings'];
+    $response['total_active_users'] = $res_count3[0]['total_active_users'];
     $response['today_refers'] =$today_refers;
     $response['today_performance'] =round($today_performance);
     $response['data'] = $res;
