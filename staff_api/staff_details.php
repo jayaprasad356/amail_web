@@ -44,7 +44,7 @@ if ($num >= 1) {
     $db->sql($sql);
     $res_count1= $db->getResult();
 
-    $sql ="SELECT COUNT(id) AS today_joinings FROM users WHERE support_id='$staff_id' AND joined_date = '$date'";
+    $sql ="SELECT COUNT(id) AS today_joinings FROM users WHERE support_id='$staff_id' AND joined_date = '$date'  AND status = 1";
     $db->sql($sql);
     $res_count2= $db->getResult();
 
