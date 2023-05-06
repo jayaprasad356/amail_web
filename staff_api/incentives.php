@@ -20,7 +20,7 @@ if (empty($_POST['staff_id'])) {
 }
 $staff_id = $db->escapeString($_POST['staff_id']);
 
-$sql = "SELECT * FROM incentives LEFT JOIN users ON incentives.user_id=users.id WHERE incentives.staff_id = '$staff_id'";
+$sql = "SELECT * FROM incentives LEFT JOIN users ON incentives.user_id=users.id WHERE incentives.staff_id = '$staff_id' ORDER BY datetime DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
