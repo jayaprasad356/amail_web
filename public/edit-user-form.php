@@ -41,6 +41,7 @@ if (isset($_POST['btnEdit'])) {
             
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
+            $rejoin = (isset($_POST['rejoin']) && !empty($_POST['rejoin'])) ? $db->escapeString($_POST['rejoin']) : 0;
             $task_type = $db->escapeString(($_POST['task_type']));
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
@@ -159,6 +160,10 @@ if (isset($_POST['btnEdit'])) {
             $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
             $db->sql($sql_query);
             
+        }
+        if($status == 1 && $rejoin == 1){
+            // $sql_query = "UPDATE users SET referred_by = 'rejoin',earn = 0,withdrawal = 0,total_referrals = 0,today_codes = 0,total_codes = 0,balance = 0,refer_income = 0 WHERE id =  $ID";
+            // $db->sql($sql_query);
         }
     
         $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost WHERE id =  $ID";
@@ -484,6 +489,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                         <label class="btn btn-danger" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
                                             <input type="radio" name="status" value="2" <?= ($res[0]['status'] == 2) ? 'checked' : ''; ?>> Blocked
                                         </label>
+                                    </div>
+                                </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                                <div class="form-group col-md-12">
+                                    
+                                    <div id="rejoin" class="btn-group">
+                                    <input type="checkbox" name="rejoin" value="1"> Rejoin
                                     </div>
                                 </div>
                         </div>
