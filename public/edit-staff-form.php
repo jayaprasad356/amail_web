@@ -215,7 +215,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                                 $result = $db->getResult();
                                                 foreach ($result as $value) {
                                                 ?>
-                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['role'] ?></option>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['staff_role_id'] ? 'selected="selected"' : '';?>><?= $value['role'] ?></option>
                                                     
                                                 <?php } ?>
                                     </select>
