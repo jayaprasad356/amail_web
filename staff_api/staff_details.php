@@ -30,7 +30,7 @@ if ($num >= 1) {
     $db->sql($sql);
     $wres = $db->getResult();
     $week_joins = $db->numRows($wres);
-    $res[0]['staff_id'] = 'Weekly Target '.$week_joins.'/'.$weekly_target;
+    $res[0]['staff_id'] = 'Weekly Target '.$week_joins.'/'.$res[0]['weekly_target'];
 
     $sql = "SELECT SUM(amount) AS salary_amount FROM staff_transactions WHERE type='salary' AND staff_id=" . $staff_id;
     $db->sql($sql);
