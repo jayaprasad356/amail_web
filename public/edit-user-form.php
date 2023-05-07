@@ -136,7 +136,7 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
             $db->sql($sql_query);
-            if(empty($referred_by)){
+            if(strlen($referred_by) == 3){
                 $incentives = 100;
             }else{
                 $incentives = 7.5;

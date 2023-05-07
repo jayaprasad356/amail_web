@@ -1775,7 +1775,6 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['balance'] = $row['balance'];
         $tempRow['email'] = $row['email'];
-        $tempRow['role'] = $row['role'];
         $tempRow['branch'] = $row['branch'];
         $tempRow['join_date'] = $row['join_date'];
         $tempRow['salary_date'] = $row['salary_date'];

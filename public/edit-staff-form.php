@@ -24,36 +24,11 @@ if (isset($_POST['btnEdit'])) {
             $incentive_percentage = $db->escapeString(($_POST['incentive_percentage']));
             $weekly_target = $db->escapeString(($_POST['weekly_target']));
             $staff_role_id = $db->escapeString(($_POST['staff_role_id']));
+            $mobile = $db->escapeString(($_POST['mobile']));
             $error = array();
 
-            if (!empty($status) && !empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
-                if($status==1){
-                    $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
-                    $db->sql($sql_query);
-                    $res = $db->getResult();
-                    if(empty($res[0]['staff_id'])){
-                        $branch_id = $_POST['branch_id']; // Replace with the actual POST parameter name
-                        $sql = "SELECT short_code FROM `branches` WHERE id = $branch_id";
-                        $db->sql($sql);
-                        $result = $db->getResult();
-                        $short_code = $result[0]['short_code'];
-        
-                        // Load the last used staff ID for the selected branch
-                        $sql = "SELECT MAX(id) as max_id FROM `staffs` WHERE branch_id = $branch_id";
-                        $db->sql($sql);
-                        $result = $db->getResult();
-                        $last_id = $result[0]['max_id'];
-        
-                        // Increment the last used ID to generate the new ID
-                        $new_id = sprintf('%04d', $last_id + 1);
-        
-                        // Combine the short code and the new ID to form the final ID
-                        $staff_id = $short_code . "-" . $new_id;
-                        $sql_query = "UPDATE staffs SET staff_id='$staff_id' WHERE id =  $ID";
-                        $db->sql($sql_query);
-                    }
-                }
-                $sql_query = "UPDATE staffs SET staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
+            if (!empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
+                $sql_query = "UPDATE staffs SET staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -108,15 +83,6 @@ if (isset($_POST['btnCancel'])) { ?>
                 <!-- form start -->
                 <form id="edit_user_form" method="post" enctype="multipart/form-data">
                     <div class="box-body">
-                       <div class="row">
-                            <div class="form-group">
-                                <div class='col-md-6'>
-                                    <label for="exampleInputEmail1">Staff ID</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="staff_id" value="<?php echo $res[0]['staff_id']; ?>" readonly>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
                         <div class="row">
                             <div class="form-group">
                                 <div class='col-md-4'>
@@ -134,7 +100,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group">
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Mobile Number</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>" readonly>
+                                    <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>

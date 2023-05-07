@@ -39,7 +39,6 @@
                                     <th data-field="email" data-sortable="true">Email</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
-                                    <th data-field="role" data-sortable="true">Role</th>
                                     <th data-field="branch" data-sortable="true">Branch</th>
                                     <th data-field="join_date" data-sortable="true">Join Date</th>
                                     <th data-field="salary_date" data-sortable="true">Salary Date</th>
