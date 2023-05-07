@@ -21,7 +21,7 @@ if (empty($_POST['staff_id'])) {
 
 $staff_id = $db->escapeString($_POST['staff_id']);
 $date = date('Y-m-d');
-$sql = "SELECT * FROM staffs WHERE id=" . $staff_id;
+$sql = "SELECT * FROM staffs LEFT JOIN staff_roles ON staffs.staff_role_id = staff_roles.id WHERE staffs.id = " . $staff_id;
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
