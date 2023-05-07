@@ -26,7 +26,11 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
-    $res[0]['staff_id'] = 'Weekly Target 5/25';
+    $sql = "SELECT id FROM `users` WHERE support_id = $staff_id AND status = 1 AND YEAR(joined_date) = YEAR('$date') AND WEEK(joined_date) = WEEK('$date')";
+    $db->sql($sql);
+    $wres = $db->getResult();
+    $week_joins = $db->numRows($wres);
+    $res[0]['staff_id'] = 'Weekly Target '.$week_joins.'/'.$weekly_target;
 
     $sql = "SELECT SUM(amount) AS salary_amount FROM staff_transactions WHERE type='salary' AND staff_id=" . $staff_id;
     $db->sql($sql);
