@@ -26,6 +26,7 @@ $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 if ($num >= 1) {
+    $res[0]['staff_id'] = 'Weekly Target 5/25';
 
     $sql = "SELECT SUM(amount) AS salary_amount FROM staff_transactions WHERE type='salary' AND staff_id=" . $staff_id;
     $db->sql($sql);
