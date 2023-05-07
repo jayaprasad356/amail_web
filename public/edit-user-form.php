@@ -162,8 +162,22 @@ if (isset($_POST['btnEdit'])) {
             
         }
         if($status == 1 && $rejoin == 1){
-            // $sql_query = "UPDATE users SET referred_by = 'rejoin',earn = 0,withdrawal = 0,total_referrals = 0,today_codes = 0,total_codes = 0,balance = 0,refer_income = 0 WHERE id =  $ID";
-            // $db->sql($sql_query);
+            $total_codes = 0;
+            $today_codes = 0;
+            $join_codes = 500;
+            $withdrawal = 0;
+            $salary_advance_balance = 200;
+            $joined_date = $date;
+            $referred_by = 'rejoin';
+            $amount = $join_codes  * $per_code_cost;
+            $register_bonus = $amount;
+            $total_codes = $total_codes + $join_codes;
+            $today_codes = $today_codes + $join_codes;
+            
+            $earn = $earn + $register_bonus;
+            $balance = $balance + $register_bonus;
+            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
+            $db->sql($sql_query);
         }
     
         $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost WHERE id =  $ID";
