@@ -30,7 +30,7 @@ if (empty($_POST['password'])) {
 $mobile = $db->escapeString($_POST['mobile']);
 $password = $db->escapeString($_POST['password']);
 
-$sql = "SELECT * FROM staffs WHERE mobile = '$mobile' AND password = '$password'";
+$sql = "SELECT * FROM staffs LEFT JOIN staff_roles ON staffs.staff_role_id = staff_roles.id WHERE staffs.mobile = '$mobile' AND staffs.password = '$password'";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
