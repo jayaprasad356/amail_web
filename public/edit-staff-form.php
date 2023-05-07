@@ -17,15 +17,16 @@ if (isset($_POST['btnEdit'])) {
             $status = $db->escapeString($fn->xss_clean($_POST['status']));
             $join_date = $db->escapeString(($_POST['join_date']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-            $role = $db->escapeString(($_POST['role']));
+        
             $balance = $db->escapeString(($_POST['balance']));
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $salary = $db->escapeString(($_POST['salary']));
             $incentive_percentage = $db->escapeString(($_POST['incentive_percentage']));
             $weekly_target = $db->escapeString(($_POST['weekly_target']));
+            $staff_role_id = $db->escapeString(($_POST['staff_role_id']));
             $error = array();
 
-            if (!empty($status) && !empty($join_date) && !empty($branch_id)&& !empty($role) && !empty($balance)&& !empty($sa_balance) && !empty($salary)&& !empty($weekly_target)) {
+            if (!empty($status) && !empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
                 if($status==1){
                     $sql_query = "SELECT staff_id FROM staffs WHERE id =" . $ID;
                     $db->sql($sql_query);
@@ -52,7 +53,7 @@ if (isset($_POST['btnEdit'])) {
                         $db->sql($sql_query);
                     }
                 }
-                $sql_query = "UPDATE staffs SET status='$status',role='$role', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -239,17 +240,18 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                             <div class="form-group col-md-4">
                                     <label for="exampleInputEmail1">Select Role</label> <i class="text-danger asterik">*</i>
-                                    <select id='role' name="role" class='form-control'>
-                                            <option value="">--Select--</option>
-                                            <option value="Branch Head" <?php if ($res[0]['role'] == "Branch Head") {echo "selected";} ?>>Branch Head</option>
-                                            <option value="Manager" <?php if ($res[0]['role'] == "Manager") {echo "selected";} ?>>Manager</option>         
-                                            <option value="Team Leader" <?php if ($res[0]['role'] == "Team Leader") {echo "selected";} ?>>Team Leader</option>
-                                            <option value="Chat Support" <?php if ($res[0]['role'] == "Chat Support") {echo "selected";} ?>>Chat Support</option>  
-                                            <option value="Branch Senior Support" <?php if ($res[0]['role'] == "Branch Senior Support") {echo "selected";} ?>>Branch Senior Support</option>
-                                            <option value="Branch Assistant" <?php if ($res[0]['role'] == "Branch Assistant") {echo "selected";} ?>>Branch Assistant</option>         
-                                            <option value="Telecaller" <?php if ($res[0]['role'] == "Telecaller") {echo "selected";} ?>>Telecaller</option>
-                                            <option value="Marketing Head" <?php if ($res[0]['role'] == "Marketing Head") {echo "selected";} ?>>Marketing Head</option> 
-                                            <option value="Accounts Manager" <?php if ($res[0]['role'] == "Accounts Manager") {echo "selected";} ?>>Accounts Manager</option>   
+                                    <select id='staff_role_id' name="staff_role_id" class='form-control'>
+                                           <option value="">--Select--</option>
+                                                <?php
+                                                $sql = "SELECT id,role FROM `staff_roles`";
+                                                $db->sql($sql);
+
+                                                $result = $db->getResult();
+                                                foreach ($result as $value) {
+                                                ?>
+                                                    <option value='<?= $value['id'] ?>' <?= $value['id']==$res[0]['branch_id'] ? 'selected="selected"' : '';?>><?= $value['role'] ?></option>
+                                                    
+                                                <?php } ?>
                                     </select>
                             </div>
                             <div class="col-md-4">
