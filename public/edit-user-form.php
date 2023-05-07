@@ -173,10 +173,29 @@ if (isset($_POST['btnEdit'])) {
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
+            $incentives = 50;
             
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
+            $db->sql($sql_query);
+
+            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
+            $db->sql($sql_query);
+
+            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
+            $db->sql($sql_query);
+            
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
+            $db->sql($sql_query);
+
+            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
             $db->sql($sql_query);
         }
     
