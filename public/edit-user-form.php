@@ -166,6 +166,7 @@ if (isset($_POST['btnEdit'])) {
             $today_codes = 0;
             $join_codes = 500;
             $withdrawal = 0;
+            $worked_days = 0;
             $salary_advance_balance = 200;
             $joined_date = $date;
             $referred_by = 'rejoin';
