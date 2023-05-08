@@ -41,7 +41,7 @@ if (isset($_POST['btnEdit'])) {
             
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
-            $rejoin = (isset($_POST['rejoin']) && !empty($_POST['rejoin'])) ? $db->escapeString($_POST['rejoin']) : 0;
+            $join_type = (isset($_POST['join_type']) && !empty($_POST['join_type'])) ? $db->escapeString($_POST['join_type']) : 0;
             $task_type = $db->escapeString(($_POST['task_type']));
             $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
@@ -123,7 +123,7 @@ if (isset($_POST['btnEdit'])) {
 
 
         }
-        if($status == 1 && $register_bonus_sent != 1 && $rejoin == 0){
+        if($status == 1 && $register_bonus_sent != 1 && $join_type == 0){
             $join_codes = $function->getSettingsVal('join_codes');
             $amount = $join_codes  * $per_code_cost;
             $register_bonus = $amount;
@@ -161,7 +161,7 @@ if (isset($_POST['btnEdit'])) {
             $db->sql($sql_query);
             
         }
-        if($status == 1 && $rejoin == 1){
+        if($status == 1 && ($join_type == 1 || $join_type == 2)){
             $total_codes = 0;
             $today_codes = 0;
             $join_codes = 500;
@@ -169,7 +169,14 @@ if (isset($_POST['btnEdit'])) {
             $worked_days = 0;
             $salary_advance_balance = 200;
             $joined_date = $date;
-            $referred_by = 'rejoin';
+            if($join_type == 1){
+                $referred_by = 'rejoin';
+
+            }else{
+                $referred_by = 'free';
+                $per_code_cost = 0.14;
+            }
+            
             $amount = $join_codes  * $per_code_cost;
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
@@ -528,11 +535,12 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-                                <div class="form-group col-md-12">
-                                    
-                                    <div id="rejoin" class="btn-group">
-                                    <input type="checkbox" name="rejoin" value="1"> Rejoin
-                                    </div>
+                                <div class="form-group col-md-3">
+                                    <select id='join_type' name="join_type" class='form-control'>
+                                           <option value="0">None</option>
+                                           <option value='1'>Rejoin</option>
+                                           <option value='2'>Free</option>
+                                    </select>
                                 </div>
                         </div>
 
