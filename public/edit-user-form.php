@@ -169,14 +169,6 @@ if (isset($_POST['btnEdit'])) {
             $worked_days = 0;
             $salary_advance_balance = 200;
             $joined_date = $date;
-            if($join_type == 1){
-                $referred_by = 'rejoin';
-
-            }else{
-                $referred_by = 'free';
-                $per_code_cost = 0.14;
-            }
-            
             $amount = $join_codes  * $per_code_cost;
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
@@ -185,26 +177,36 @@ if (isset($_POST['btnEdit'])) {
             
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
-            $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
-            $db->sql($sql_query);
+            if($join_type == 1){
+                $referred_by = 'rejoin';
+                $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
+                $db->sql($sql_query);
+    
+                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
+                $db->sql($sql_query);
+    
+                $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
+                $db->sql($sql_query);
+                
+                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
+                $db->sql($sql_query);
+    
+                $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
+                $db->sql($sql_query);
 
-            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,supports = supports + 1 WHERE id =  $support_id";
-            $db->sql($sql_query);
-
-            $sql_query = "UPDATE staffs SET incentives = incentives + $incentives,earn = earn + $incentives,balance = balance + $incentives,leads = leads + 1 WHERE id =  $lead_id";
-            $db->sql($sql_query);
+            }else{
+                $referred_by = 'free';
+                $per_code_cost = 0.14;
+            }
             
-            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$support_id,$incentives,'$datetime','support')";
-            $db->sql($sql_query);
 
-            $sql_query = "INSERT INTO incentives (user_id,staff_id,amount,datetime,type)VALUES($ID,$lead_id,$incentives,'$datetime','lead')";
-            $db->sql($sql_query);
 
-            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($support_id,$incentives,'$datetime','incentives')";
-            $db->sql($sql_query);
-
-            $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
-            $db->sql($sql_query);
         }
     
         $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost WHERE id =  $ID";
