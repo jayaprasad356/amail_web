@@ -123,7 +123,7 @@ if (isset($_POST['btnEdit'])) {
 
 
         }
-        if($status == 1 && $register_bonus_sent != 1){
+        if($status == 1 && $register_bonus_sent != 1 && $rejoin == 0){
             $join_codes = $function->getSettingsVal('join_codes');
             $amount = $join_codes  * $per_code_cost;
             $register_bonus = $amount;
@@ -174,7 +174,7 @@ if (isset($_POST['btnEdit'])) {
             $register_bonus = $amount;
             $total_codes = $total_codes + $join_codes;
             $today_codes = $today_codes + $join_codes;
-            $incentives = 50;
+            $incentives = 25;
             
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
