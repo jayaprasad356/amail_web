@@ -59,6 +59,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $support_id = $db->escapeString($fn->xss_clean($_GET['support_id']));
         $where .= "AND u.support_id='$support_id'";
     }
+
+    if ((isset($_GET['status'])  && $_GET['status'] != '')) {
+        $status = $db->escapeString($fn->xss_clean($_GET['status']));
+        $where .= "AND u.status='$status'";
+    }
     
     if ((isset($_GET['activeusers'])  && $_GET['activeusers'] != '')) {
         $where .= "AND u.status=1 AND u.today_codes != 0 AND u.total_codes != 0 AND DATE(u.last_updated) = '$currentdate' ";

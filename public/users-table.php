@@ -45,6 +45,15 @@
                                 <?php } ?>
                         </select>
                     </div>
+                    <div class="col-md-3">
+                            <h4 class="box-title">Status</h4>
+                            <select id='status' name="status" class='form-control'>
+                                    <option value="">All</option>
+                                    <option value="0">Non Verfied</option>
+                                    <option value="1">Verfied</option>
+                                    <option value="2">Blocked</option>
+                            </select>
+                    </div>
 
                     </div>
                     
@@ -119,6 +128,10 @@
             idf = $('#support_id').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#status').on('change', function() {
+            idf = $('#status').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
    
 
     function queryParams(p) {
@@ -126,6 +139,7 @@
             "date": $('#date').val(),
             "support_id": $('#support_id').val(),
             "activeusers": $('#activeusers').val(),
+            "status": $('#status').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
