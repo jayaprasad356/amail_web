@@ -159,6 +159,34 @@ class custom_functions
             return 0;
         }
     }
+    public function get_branch_num($id)
+    {
+        if($id != ''){
+            $sql = "SELECT support_id,branch_id FROM users WHERE id=" . $id;
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            if (!empty($res) && isset($res[0]['support_id']) && $res[0]['support_id'] != '') {
+                $staff_id = $res[0]['support_id'];
+                $sql = "SELECT mobile FROM staffs WHERE id=" . $staff_id;
+                $this->db->sql($sql);
+                $res = $this->db->getResult();
+                return $res[0]['mobile'];
+            } elseif (!empty($res) && isset($res[0]['branch_id']) && $res[0]['branch_id'] != '') {
+                $branch_id = $res[0]['branch_id'];
+                $sql = "SELECT mobile FROM branches WHERE id=" . $branch_id;
+                $this->db->sql($sql);
+                $res = $this->db->getResult();
+                return $res[0]['mobile'];
+            }else {
+                return '8792401148';
+            }
+
+        }else{
+            return '8792401148';
+
+        }
+
+    }
     public function get_code_per_cost($id)
     {
         $sql = "SELECT per_code_cost FROM users WHERE id=" . $id;

@@ -13,7 +13,8 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('appupdate');
+include_once('../includes/custom-functions.php');
+$fnc = new custom_functions;
 
 $date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
@@ -69,6 +70,7 @@ $response['message'] = "App Update listed Successfully";
 $response['data'] = $appres;
 $response['settings'] = $set;
 $response['user_details'] = $res;
+$response['customer_support_mobile'] = $fnc->get_branch_num($user_id);
 print_r(json_encode($response));
 
 ?>
