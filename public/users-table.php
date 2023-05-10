@@ -83,6 +83,8 @@
                                     <th data-field="today_codes" data-sortable="true">Today Codes</th>
                                     <th data-field="total_codes" data-sortable="true">Total Codes</th>
                                     <th data-field="refer_code" data-sortable="true">Refer Code</th>
+                                    <th data-field="refer_name" >Refer Name</th>
+                                    <th data-field="refer_mobile" >Refer Mobile</th>
                                     <th data-field="referred_by" data-sortable="true">Refered By</th>
                                     <th data-field="salary_advance_balance" data-sortable="true">Salary Advance Balance</th>
                                     <th data-field="ongoing_sa_balance" data-sortable="true">Ongoing SA Balance</th>

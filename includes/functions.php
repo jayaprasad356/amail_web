@@ -307,6 +307,18 @@ class functions
             return 0;
         }
     }
+    public function get_refer_details($refer_code,$col)
+    {
+        $sql = "SELECT $col FROM users WHERE refer_code= '$refer_code'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        
+        if (!empty($res) && isset($res[0][$col])) {
+            return $res[0][$col];
+        } else {
+            return '';
+        }
+    }
     public function get_joined_date($id)
     {
         $date = date('Y-m-d');

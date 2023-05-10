@@ -117,6 +117,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row) {
         $user_id = $row['id'];
         $history_days = $fnc->get_leave($user_id);
+        $refer_name = $fnc->get_refer_details($row['referred_by'],'name');
+        $refer_mobile = $fnc->get_refer_details($row['referred_by'],'mobile');
         $row['history'] = $history_days;
         $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
@@ -132,6 +134,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['refer_code'] = $row['refer_code'];
         $tempRow['referred_by'] = $row['referred_by'];
         $tempRow['earn'] = $row['earn'];
+        $tempRow['refer_name'] = $refer_name;
+        $tempRow['refer_mobile'] = $refer_mobile;
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['total_codes'] = $row['total_codes'];
