@@ -15,51 +15,65 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header">
-                    <form action="export-user.php">
-                        <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
-                    </form>
-                    <br>
-                    <div class="col-md-3">
-                            <h4 class="box-title">Filter by Joined Date </h4>
-                            <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
-                    </div>
-                    <div class="col-md-3">
-                            <h4 class="box-title">Filter Users</h4>
-                            <select id='activeusers' name="activeusers" class='form-control'>
-                                    <option value="">All</option>
-                                    <option value="1"<?php echo (isset($_GET['activeusers'])) ? 'selected' : "" ?>>Active Users</option>
+                        <form action="export-user.php">
+                            <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
+                        </form>
+                        <br>
+                        <div class="col-md-3">
+                                <h4 class="box-title">Filter by Joined Date </h4>
+                                <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
+                        </div>
+                        <div class="col-md-2">
+                                <h4 class="box-title">Filter Users</h4>
+                                <select id='activeusers' name="activeusers" class='form-control'>
+                                        <option value="">All</option>
+                                        <option value="1"<?php echo (isset($_GET['activeusers'])) ? 'selected' : "" ?>>Active Users</option>
+                                </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
+                            <select id='support_id' name="support_id" class='form-control'>
+                                <option value=''>All</option>
+                                
+                                        <?php
+                                        $sql = "SELECT name FROM `staffs`";
+                                        $db->sql($sql);
+                                        $result = $db->getResult();
+                                        foreach ($result as $value) {
+                                        ?>
+                                            <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                    <?php } ?>
                             </select>
-                    </div>
-                    <div class="col-md-3">
-                    <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
-                        <select id='support_id' name="support_id" class='form-control'>
-                            <option value=''>All</option>
-                            
-                                    <?php
-                                    $sql = "SELECT name FROM `staffs`";
-                                    $db->sql($sql);
-                                    $result = $db->getResult();
-                                    foreach ($result as $value) {
-                                    ?>
-                                        <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
-                                <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                            <h4 class="box-title">Status</h4>
-                            <select id='status' name="status" class='form-control'>
-                                    <option value="">All</option>
-                                    <option value="0">Non Verfied</option>
-                                    <option value="1">Verfied</option>
-                                    <option value="2">Blocked</option>
-                            </select>
-                    </div>
+                        </div>
+                        <div class="col-md-2">
+                                <h4 class="box-title">Status</h4>
+                                <select id='status' name="status" class='form-control'>
+                                        <option value="">All</option>
+                                        <option value="0">Non Verfied</option>
+                                        <option value="1">Verfied</option>
+                                        <option value="2">Blocked</option>
+                                </select>
+                        </div>
+                        <div class="col-md-2">
+                        <h4 class="box-title">Filter by Month </h4>
+                                    <select id='month' name="month" class='form-control'>
+                                        <option value="">select</option>
+                                            <?php
+                                            $sql = "SELECT id,month FROM `months`";
+                                            $db->sql($sql);
+                                            $result = $db->getResult();
+                                            foreach ($result as $value) {
+                                            ?>
+                                                <option value='<?= $value['id'] ?>'><?= $value['month'] ?></option>
+                                        <?php } ?>
+                                    </select>
+                        </div>
 
                     </div>
                     
                     <!-- /.box-header -->
                     <div class="box-body table-responsive">
-                        <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=users" data-page-list="[5, 10, 20, 50, 100, 200]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
+                        <table id='users_table' class="table table-hover" data-toggle="table" data-url="api-firebase/get-bootstrap-table-data.php?table=users" data-page-list="[5, 10, 20, 50, 100, 200, 500]" data-show-refresh="true" data-show-columns="true" data-side-pagination="server" data-pagination="true" data-search="true" data-trim-on-search="false" data-filter-control="true" data-query-params="queryParams" data-sort-name="id" data-sort-order="desc" data-show-export="true" data-export-types='["txt","csv"]' data-export-options='{
                             "fileName": "yellow app-users-list-<?= date('d-m-Y') ?>",
                             "ignoreColumn": ["operate"] 
                         }'>
@@ -114,6 +128,7 @@
             </div>
             <div class="separator"> </div>
         </div>
+        
         <!-- /.row (main row) -->
     </section>
 
@@ -134,6 +149,11 @@
             idf = $('#status').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#month').on('change', function() {
+            id = $('#month').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
+   
    
 
     function queryParams(p) {
@@ -142,6 +162,7 @@
             "support_id": $('#support_id').val(),
             "activeusers": $('#activeusers').val(),
             "status": $('#status').val(),
+            "month": $('#month').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,
