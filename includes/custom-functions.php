@@ -178,11 +178,11 @@ class custom_functions
                 $res = $this->db->getResult();
                 return $res[0]['mobile'];
             }else {
-                return '8792401148';
+                return '7676636990';
             }
 
         }else{
-            return '8792401148';
+            return '7676636990';
 
         }
 

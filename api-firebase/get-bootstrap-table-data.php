@@ -105,7 +105,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
+    $sql = "SELECT u.id AS id,u.*,u.name AS name,(SELECT name FROM users WHERE refer_code COLLATE utf8mb4_general_ci = u.referred_by COLLATE utf8mb4_general_ci) AS refer_name,(SELECT mobile FROM users WHERE refer_code COLLATE utf8mb4_general_ci = u.referred_by COLLATE utf8mb4_general_ci) AS refer_mobile,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
                 $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -134,8 +134,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['refer_code'] = $row['refer_code'];
         $tempRow['referred_by'] = $row['referred_by'];
         $tempRow['earn'] = $row['earn'];
-        $tempRow['refer_name'] = $refer_name;
-        $tempRow['refer_mobile'] = $refer_mobile;
+        $tempRow['refer_name'] = $row['refer_name'];
+        $tempRow['refer_mobile'] = $row['refer_mobile'];
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['total_codes'] = $row['total_codes'];
