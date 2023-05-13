@@ -42,10 +42,7 @@ if (isset($_POST['btnEdit'])) {
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
             $total_codes = (isset($_POST['total_codes']) && !empty($_POST['total_codes'])) ? $db->escapeString($_POST['total_codes']) : 0;
             $join_type = (isset($_POST['join_type']) && !empty($_POST['join_type'])) ? $db->escapeString($_POST['join_type']) : 0;
-            $task_type = $db->escapeString(($_POST['task_type']));
-            $champion_task_eligible = $db->escapeString(($_POST['champion_task_eligible']));
             $mcg_timer = $db->escapeString(($_POST['mcg_timer']));
-            $ad_status = $db->escapeString(($_POST['ad_status']));
             $salary_advance_balance = $db->escapeString(($_POST['salary_advance_balance']));
             $duration = $db->escapeString(($_POST['duration']));
             $worked_days = $db->escapeString(($_POST['worked_days']));
@@ -55,6 +52,10 @@ if (isset($_POST['btnEdit'])) {
           
             $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
+            $num_sync_times = (isset($_POST['num_sync_times']) && !empty($_POST['num_sync_times'])) ? $db->escapeString($_POST['num_sync_times']) : 34;
+            $plan = (isset($_POST['plan']) && !empty($_POST['plan'])) ? $db->escapeString($_POST['plan']) : 30;
+            $l_referral_count = (isset($_POST['l_referral_count']) && !empty($_POST['l_referral_count'])) ? $db->escapeString($_POST['l_referral_count']) : 0;
+
             $error = array();
 
             if (empty($lead_id)) {
@@ -99,7 +100,7 @@ if (isset($_POST['btnEdit'])) {
                 $sa_refer_count=$res[0]['sa_refer_count'];
                 $refer_sa_balance=200;
               
-                $sql_query = "UPDATE users SET `total_referrals` = total_referrals + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$refer_sa_balance,`sa_refer_count`=sa_refer_count + 1 WHERE id =  $user_id";
+                $sql_query = "UPDATE users SET `l_referral_count` = l_referral_count + 1,`earn` = earn + $referral_bonus,`balance` = balance + $referral_bonus,`salary_advance_balance`=salary_advance_balance +$refer_sa_balance,`sa_refer_count`=sa_refer_count + 1 WHERE id =  $user_id";
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO transactions (user_id,amount,datetime,type)VALUES($user_id,$referral_bonus,'$datetime','refer_bonus')";
                 $db->sql($sql_query);
@@ -132,6 +133,13 @@ if (isset($_POST['btnEdit'])) {
             $salary_advance_balance = $salary_advance_balance + 200;
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
+            $duration = $plan;
+            if($plan == 30){
+                $num_sync_times = 34;
+            }else{
+                $num_sync_times = 20;
+
+            }
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
@@ -209,7 +217,7 @@ if (isset($_POST['btnEdit'])) {
 
         }
     
-        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', total_referrals='$total_referrals', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',task_type='$task_type',champion_task_eligible='$champion_task_eligible',mcg_timer='$mcg_timer',ad_status='$ad_status',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost WHERE id =  $ID";
+        $sql_query = "UPDATE users SET name='$name', mobile='$mobile', password='$password', dob='$dob', email='$email', city='$city', refer_code='$refer_code', referred_by='$referred_by', earn='$earn', balance='$balance', withdrawal_status=$withdrawal_status,total_codes=$total_codes, today_codes=$today_codes,device_id='$device_id',status = $status,code_generate = $code_generate,code_generate_time = $code_generate_time,joined_date = '$joined_date',mcg_timer='$mcg_timer',security='$security',salary_advance_balance='$salary_advance_balance',duration='$duration',worked_days='$worked_days',lead_id='$lead_id',support_id='$support_id',branch_id='$branch_id',trial_wallet='$trial_wallet',per_code_cost=$per_code_cost,plan=$plan,num_sync_times=$num_sync_times,l_referral_count=$l_referral_count WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -389,24 +397,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="hidden" id="withdrawal_status" name="withdrawal_status" value="<?= isset($res[0]['withdrawal_status']) && $res[0]['withdrawal_status'] == 1 ? 1 : 0 ?>">
                                 </div>
                             </div>
-                            <div class="form-group col-md-4">
-                                    <label class="control-label">Task Type</label><i class="text-danger asterik">*</i><br>
-                                    <div id="task_type" class="btn-group">
-                                        <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="task_type" value="regular" <?= ($res[0]['task_type'] == 'regular') ? 'checked' : ''; ?>> Regular
-                                        </label>
-                                        <label class="btn btn-info" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="task_type" value="champion" <?= ($res[0]['task_type'] == 'champion') ? 'checked' : ''; ?>> Champion
-                                        </label>
-                                    </div>
-                            </div>
+
                             <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="">Champion Task Eligible</label><br>
-                                    <input type="checkbox" id="eligible_button" class="js-switch" <?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 'checked' : '' ?>>
-                                    <input type="hidden" id="champion_task_eligible" name="champion_task_eligible" value="<?= isset($res[0]['champion_task_eligible']) && $res[0]['champion_task_eligible'] == 1 ? 1 : 0 ?>">
+                                    <label for="exampleInputEmail1">Num Sync Times</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="num_sync_times" value="<?php echo $res[0]['num_sync_times']; ?>">
                                 </div>
-                            </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Level Referral Count</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="l_referral_count" value="<?php echo $res[0]['l_referral_count']; ?>" readonly>
+                                </div>
 
                         </div>
                         <br>
@@ -415,13 +414,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">MCG Timer</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="mcg_timer" value="<?php echo $res[0]['mcg_timer']; ?>">
                                 </div>
-                                <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Ad Status</label><br>
-                                            <input type="checkbox" id="ad_button" class="js-switch" <?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 'checked' : '' ?>>
-                                            <input type="hidden" id="ad_status" name="ad_status" value="<?= isset($res[0]['ad_status']) && $res[0]['ad_status'] == 1 ? 1 : 0 ?>">
-                                        </div>
-                                 </div>
                         </div>
                         <br>
                         <div class="row">
@@ -545,6 +537,21 @@ if (isset($_POST['btnCancel'])) { ?>
                                     </select>
                                 </div>
                         </div>
+                        <br>
+                        <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label class="control-label">Plan</label><i class="text-danger asterik">*</i><br>
+                                    <div id="plan" class="btn-group">
+                                        <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="plan" value="30" <?= ($res[0]['plan'] == 30) ? 'checked' : ''; ?>> 30 Days
+                                        </label>
+                                        <label class="btn btn-default" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                                            <input type="radio" name="plan" value="50" <?= ($res[0]['plan'] == 50) ? 'checked' : ''; ?>> 50 Days
+                                        </label>
+                                    </div>
+                                </div>
+                        </div>
+                        <br>
 
                     </div><!-- /.box-body -->
 
