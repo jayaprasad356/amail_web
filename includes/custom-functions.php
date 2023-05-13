@@ -198,6 +198,46 @@ class custom_functions
             return COST_PER_CODE;
         }
     }
+    public function update_refer_code_cost($id)
+    {
+        $sql = "SELECT l_referral_count FROM users WHERE id = " . $id;
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        if (!empty($res) && isset($res[0]['l_referral_count'])) {
+            $l_referral_count =  $res[0]['l_referral_count'];
+            $per_code_val = 1;
+            if($l_referral_count <= 2){
+                $per_code_val = 1;
+                $level = 1;
+
+
+            }elseif($l_referral_count >= 3 && $l_referral_count <= 4){
+                $per_code_val = 2;
+                $level = 1;
+
+            }
+            elseif($l_referral_count >= 5 && $l_referral_count <= 7){
+                $per_code_val = 3;
+                $level = 1;
+
+            }
+            elseif($l_referral_count >= 8 && $l_referral_count <= 9){
+                $per_code_val = 4;
+                $level = 1;
+
+            }else{
+                $per_code_val = 6;
+                $level = 1;
+
+            }
+            $sql_query = "UPDATE users SET `per_code_val` = $per_code_val,`level` = $level WHERE id =  $id";
+            $db->sql($sql_query);
+
+            return '';
+        } else {
+            return '';
+        }
+    }
     public function get_permissions($id)
     {
         $sql = "SELECT permissions FROM admin WHERE id=" . $id;
