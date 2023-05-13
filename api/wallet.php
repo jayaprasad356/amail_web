@@ -33,6 +33,9 @@ $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($
 $datetime = date('Y-m-d H:i:s');
 
 $type = 'generate';
+$sql = "SELECT num_sync_times FROM users WHERE id = $user_id";
+$db->sql($sql);
+$ures = $db->getResult();
 $sql = "SELECT code_generate,num_sync_times,sync_codes FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
@@ -48,7 +51,7 @@ if($code_generate == 1){
             $db->sql($sql);
             $tres = $db->getResult();
             $t_count = $tres[0]['count'];
-            if ($t_count > $set[0]['num_sync_times']) {
+            if ($t_count > $ures[0]['num_sync_times']) {
                 $response['success'] = false;
                 $response['message'] = "You Reached Daily Sync Limit";
                 print_r(json_encode($response));

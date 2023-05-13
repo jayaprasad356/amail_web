@@ -231,7 +231,7 @@ class custom_functions
 
             }
             $sql_query = "UPDATE users SET `per_code_val` = $per_code_val,`level` = $level WHERE id =  $id";
-            $db->sql($sql_query);
+            $this->db->sql($sql_query);
 
             return '';
         } else {
