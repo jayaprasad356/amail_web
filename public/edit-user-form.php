@@ -126,6 +126,14 @@ if (isset($_POST['btnEdit'])) {
 
 
         }
+        if($plan == 30){
+            $num_sync_times = 34;
+        }else{
+            $num_sync_times = 20;
+
+        }
+        $fn->update_refer_code_cost($ID);
+
         if($status == 1 && $register_bonus_sent != 1 && $join_type == 0){
             $join_codes = $function->getSettingsVal('join_codes');
             $amount = $join_codes  * $per_code_cost;
@@ -136,12 +144,7 @@ if (isset($_POST['btnEdit'])) {
             $earn = $earn + $register_bonus;
             $balance = $balance + $register_bonus;
             $duration = $plan;
-            if($plan == 30){
-                $num_sync_times = 34;
-            }else{
-                $num_sync_times = 20;
 
-            }
             $sql_query = "UPDATE users SET register_bonus_sent = 1 WHERE id =  $ID";
             $db->sql($sql_query);
             $sql_query = "INSERT INTO transactions (user_id,amount,codes,datetime,type)VALUES($ID,$amount,$join_codes,'$datetime','register_bonus')";
