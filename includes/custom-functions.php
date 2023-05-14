@@ -213,21 +213,21 @@ class custom_functions
 
             }elseif($l_referral_count >= 3 && $l_referral_count <= 4){
                 $per_code_val = 2;
-                $level = 1;
+                $level = 2;
 
             }
             elseif($l_referral_count >= 5 && $l_referral_count <= 7){
                 $per_code_val = 3;
-                $level = 1;
+                $level = 3;
 
             }
             elseif($l_referral_count >= 8 && $l_referral_count <= 9){
                 $per_code_val = 4;
-                $level = 1;
+                $level = 4;
 
             }else{
                 $per_code_val = 6;
-                $level = 1;
+                $level = 5;
 
             }
             $sql_query = "UPDATE users SET `per_code_val` = $per_code_val,`level` = $level WHERE id =  $id";
