@@ -43,7 +43,6 @@ $code_generate = $set[0]['code_generate'];
 $sync_codes = $set[0]['sync_codes'];
 if($code_generate == 1){
     if($codes != 0){
-        if($codes == $sync_codes){
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
             $amount = $codes  * $per_code_cost;
@@ -86,7 +85,6 @@ if($code_generate == 1){
                 $response['sync'] = "Code Sync Successfully";
         
             }
-        }
         }
      
     

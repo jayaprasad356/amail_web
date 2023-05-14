@@ -128,8 +128,10 @@ if (isset($_POST['btnEdit'])) {
         }
         if($plan == 30){
             $num_sync_times = 34;
+            $duration = 30;
         }else{
             $num_sync_times = 20;
+            $duration = 50;
 
         }
         $fn->update_refer_code_cost($ID);
