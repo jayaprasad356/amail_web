@@ -19,7 +19,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT id FROM `users` WHERE duration = 60";
+$sql = "SELECT id FROM `users` WHERE referred_by like '%rejoin%' AND status = 1 AND duration != 60";
 $db->sql($sql);
 $res = $db->getResult();
 foreach ($res as $row) {
@@ -30,7 +30,7 @@ foreach ($res as $row) {
 }
 
 $response['success'] = true;
-$response['message'] = 'History Days Updated';
+$response['message'] = 'History Days Updated Successfully';
 print_r(json_encode($response));
 
 
