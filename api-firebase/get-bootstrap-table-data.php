@@ -130,6 +130,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['registered_date'] = $row['registered_date'];
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
+        $tempRow['level'] = $row['level'];
         $tempRow['password'] = $row['password'];
         $tempRow['dob'] = $row['dob'];
         $tempRow['email'] = $row['email'];

@@ -87,6 +87,7 @@
                                     <th data-field="registered_date" data-sortable="true">Registration Date</th>
                                     <th data-field="name" data-sortable="true">Name</th>
                                     <th data-field="mobile" data-sortable="true">Phone Number</th>
+                                    <th data-field="level" data-sortable="true">Level</th>
                                     <th data-field="status" data-sortable="true">Status</th>
                                     <th data-field="total_referrals" data-sortable="true">Total Referrals</th>
                                     <th data-field="balance" data-sortable="true">Balance</th>
