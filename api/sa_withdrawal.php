@@ -37,7 +37,7 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $mres = $db->getResult();
 $main_ws = $mres[0]['withdrawal_status'];
-$sql = "SELECT salary_advance_balance,ongoing_sa_balance,refer_balance,sa_refer_count,withdrawal_status FROM users WHERE id = $user_id ";
+$sql = "SELECT salary_advance_balance,ongoing_sa_balance,refer_balance,sa_refer_count,withdrawal_status,sa_withdrawal FROM users WHERE id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $user_num=$db->numRows($res);
@@ -50,8 +50,9 @@ $salary_advance_balance = $res[0]['salary_advance_balance'];
 $sa_refer_count = $res[0]['sa_refer_count'];
 $ongoing_sa_balance = $res[0]['ongoing_sa_balance'];
 $withdrawal_status = $res[0]['withdrawal_status'];
+$sa_withdrawal = $res[0]['sa_withdrawal'];
 if($user_num >= 1 ){
-    if($withdrawal_status == 1 && $main_ws == 1 ){
+    if($withdrawal_status == 1 && $main_ws == 1 && $sa_withdrawal == 1){
         if($bank_num >= 1){
             if($amount <= $salary_advance_balance){
                 if($ongoing_sa_balance == 0){
@@ -114,7 +115,7 @@ if($user_num >= 1 ){
     }
     else{
         $response['success'] = false;
-        $response['message'] = "Withdrawal Disabled Right Now,Please Try Again";
+        $response['message'] = "Withdrawal Disabled Right Now,Please Try Again After";
         print_r(json_encode($response));
         return false;
     }
