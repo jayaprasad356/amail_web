@@ -25,10 +25,11 @@ if (isset($_POST['btnEdit'])) {
             $weekly_target = $db->escapeString(($_POST['weekly_target']));
             $staff_role_id = $db->escapeString(($_POST['staff_role_id']));
             $mobile = $db->escapeString(($_POST['mobile']));
+            $salary_date = $db->escapeString(($_POST['salary_date']));
             $error = array();
 
             if (!empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
-                $sql_query = "UPDATE staffs SET staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET salary_date='$salary_date',staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -108,7 +109,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Salary Date</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="salary_date" value="<?php echo $res[0]['salary_date']; ?>" readonly>
+                                    <input type="text" class="form-control" name="salary_date" value="<?php echo $res[0]['salary_date']; ?>">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">Salary</label><i class="text-danger asterik">*</i>

@@ -82,6 +82,7 @@ if ($num >= 1){
             }else{
                 $response['success'] = false;
                 $response['message'] = "you are not eligible for withdrawal";
+                $response['week_joins'] = $week_joins;
                 print_r(json_encode($response)); 
             }
 
