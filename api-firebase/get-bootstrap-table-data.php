@@ -1780,11 +1780,18 @@ if (isset($_GET['table']) && $_GET['table'] == 'staffs') {
     $rows = array();
     $tempRow = array();
     foreach ($res as $row) {
+        $staff_id = $row['id'];
+        $sql = "SELECT id FROM `users` WHERE support_id = $staff_id AND status = 1 AND YEAR(joined_date) = YEAR('$currentdate') AND WEEK(joined_date) = WEEK('$currentdate')";
+        $db->sql($sql);
+        $tres = $db->getResult();
+        $week_joins = $db->numRows($tres);
         
         $operate = '<a href="edit-staff.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-staff.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['name'] = $row['name'];
+        $tempRow['week_joins'] = $week_joins;
+        $tempRow['weekly_target'] = $row['weekly_target'];
     
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['balance'] = $row['balance'];
