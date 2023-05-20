@@ -388,10 +388,40 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="password" value="<?php echo $res[0]['password']; ?>">
                                 </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Referred By</label>
+                                    <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group">
+
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Refer Code</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
+                                    <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
+                                </div>
                                 <div class='col-md-3'>
                                     <label for="exampleInputEmail1">Device Id</label>
                                     <input type="text" class="form-control" name="device_id" value="<?php echo $res[0]['device_id']; ?>">
                                 </div>
+
+
+
+
+
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Level Referral Count</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="l_referral_count" value="<?php echo $res[0]['l_referral_count']; ?>" readonly>
+                                </div>
+
                             </div>
                         </div>
                         <br>
@@ -410,36 +440,15 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <input type="text" class="form-control" name="city" value="<?php echo $res[0]['city']; ?>">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Joined Date</label><i class="text-danger asterik">*</i>
-                                    <input type="date" class="form-control" name="joined_date" value="<?php echo $res[0]['joined_date']; ?>">
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="form-group">
-                                <div class="col-md-3">
                                     <label for="exampleInputEmail1">Total Referrals</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>" readonly>
                                 </div>
 
 
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Referred By</label>
-                                    <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Refer Code</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="refer_code" value="<?php echo $res[0]['refer_code']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Level Referral Count</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="l_referral_count" value="<?php echo $res[0]['l_referral_count']; ?>" readonly>
-                                </div>
-
                             </div>
                         </div>
                         <br>
+
                         <div class="row">
                             <div class="form-group">
                             <div class="col-md-3">
