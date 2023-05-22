@@ -21,7 +21,9 @@ if (empty($_POST['staff_id'])) {
 }
 
 $staff_id = $db->escapeString($_POST['staff_id']);
-$sql = "SELECT s.name AS name,b.name AS branch_name,s.incentives FROM staffs s,branches b WHERE s.branch_id = b.id AND s.incentives != 0 AND s.staff_role_id != 1 AND s.staff_role_id != 2 ORDER BY s.incentives DESC LIMIT 5";
+//$sql = "SELECT s.name AS name,b.name AS branch_name,s.incentives FROM staffs s,branches b WHERE s.branch_id = b.id AND s.incentives != 0 AND s.staff_role_id != 1 AND s.staff_role_id != 2 ORDER BY s.incentives DESC LIMIT 5";
+$sql = "SELECT s.name AS name,b.name AS branch_name,SUM(i.amount) AS incentives FROM incentives i JOIN staffs s ON i.staff_id = s.id
+JOIN branches b ON s.branch_id = b.id WHERE s.branch_id = b.id AND s.incentives != 0 AND s.staff_role_id != 1 AND s.staff_role_id != 2 AND YEAR(i.datetime) = YEAR('2023-05-20') AND WEEK(i.datetime) = WEEK('2023-05-20') ORDER BY SUM(i.amount) DESC LIMIT 10";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
