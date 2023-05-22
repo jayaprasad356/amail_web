@@ -1992,9 +1992,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'staff_transactions') {
     if (isset($_GET['type']) && !empty($_GET['type'])){
         $type = $db->escapeString($fn->xss_clean($_GET['type']));
         $where .= "AND t.type = '$type' ";
-
+      
     }
-
+    if (isset($_GET['staff']) && !empty($_GET['staff'])) {
+        $staff = $db->escapeString($fn->xss_clean($_GET['staff']));
+        $where .= "AND s.id = '$staff' ";
+    }
+    
+    
 
     if (isset($_GET['search']) && !empty($_GET['search'])) {
         $search = $db->escapeString($fn->xss_clean($_GET['search']));

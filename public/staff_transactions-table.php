@@ -39,7 +39,23 @@ if (isset($_POST['btnDelete'])) {
                                                 <?php } ?>
                                             </select> 
                                     </div>
-                            </div>
+                                    <div class="form-group col-md-3">
+                            <h4 class="box-title">Filter by Staff</h4>
+                            <select id='staff' name="staff" class='form-control'>
+                                <option value="">All</option>
+                                <?php
+                                $sql = "SELECT id, name FROM `staffs` ORDER BY id";
+                                $db->sql($sql);
+                                $result = $db->getResult();
+                                foreach ($result as $value) {
+                                ?>
+                                    <option value='<?= $value['id'] ?>'><?= $value['name'] ?></option>
+                                <?php } ?>
+                            </select> 
+                        </div>
+
+                    
+                         
                         </div>
 
                     <!-- /.box-header -->
@@ -76,17 +92,20 @@ if (isset($_POST['btnDelete'])) {
     $('#type').on('change', function() {
         $('#users_table').bootstrapTable('refresh');
     });
+    $('#staff').on('change', function() {
+    $('#users_table').bootstrapTable('refresh');
+});
 
-    function queryParams(p) {
-        return {
-            "type": $('#type').val(),
-            "seller_id": $('#seller_id').val(),
-            "community": $('#community').val(),
-            limit: p.limit,
-            sort: p.sort,
-            order: p.order,
-            offset: p.offset,
-            search: p.search
-        };
-    }
+   
+function queryParams(p) {
+    return {
+        "type": $('#type').val(),
+        "staff": $('#staff').val(),
+        "limit": p.limit,
+        "sort": p.sort,
+        "order": p.order,
+        "offset": p.offset,
+        "search": p.search
+    };
+}
 </script>
