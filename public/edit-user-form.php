@@ -288,9 +288,9 @@ if (isset($_POST['btnCancel'])) { ?>
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3" >
                                     <label for="exampleInputEmail1">Phone Number</label><i class="text-danger asterik">*</i>
-                                    <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>">
+                                    <input type="number" class="form-control" name="mobile" value="<?php echo $res[0]['mobile']; ?>" style="background-color: #7EC8E3;">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Password</label><i class="text-danger asterik">*</i>
@@ -298,7 +298,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Referred By</label>
-                                    <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>">
+                                    <input type="text" class="form-control" name="referred_by" value="<?php echo $res[0]['referred_by']; ?>" style="background-color: #eea782;">
                                 </div>
 
 
@@ -332,7 +332,7 @@ if (isset($_POST['btnCancel'])) { ?>
                     <div class="row">
                             <div class="form-group col-md-3">
                                     <label for="exampleInputEmail1">Select Lead</label> <i class="text-danger asterik">*</i>
-                                    <select id='lead_id' name="lead_id" class='form-control'>
+                                    <select id='lead_id' name="lead_id" class='form-control' style="background-color: #c9ee82">
                                            <option value="">--Select--</option>
                                                 <?php
                                                 $sql = "SELECT * FROM `staffs`";
@@ -348,7 +348,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             </div>
                             <div class="form-group col-md-3">
                                     <label for="exampleInputEmail1">Select Support</label> <i class="text-danger asterik">*</i>
-                                    <select id='support_id' name="support_id" class='form-control'>
+                                    <select id='support_id' name="support_id" class='form-control' style="background-color: #dd82ee">
                                              <option value="">--Select--</option>
                                                 <?php
                                                 $sql = "SELECT * FROM `staffs`";
