@@ -48,7 +48,6 @@ if (isset($_POST['btnEdit'])) {
             $lead_id = $db->escapeString(($_POST['lead_id']));
             $support_id = $db->escapeString(($_POST['support_id']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-            $level = $db->escapeString(($_POST['level']));
           
             $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
@@ -74,6 +73,7 @@ if (isset($_POST['btnEdit'])) {
      !empty($lead_id)  && 
      !empty($support_id) && 
      !empty($branch_id)) {
+        $refer_bonus_sent = $fn->get_value('users','refer_bonus_sent',$ID);
 
         if($status == 1 && !empty($referred_by) && $refer_bonus_sent != 1){
             $refer_bonus_codes = $function->getSettingsVal('refer_bonus_codes');
@@ -136,6 +136,7 @@ if (isset($_POST['btnEdit'])) {
 
         }
         $fn->update_refer_code_cost($ID);
+        $register_bonus_sent = $fn->get_value('users','register_bonus_sent',$ID);
 
         if($status == 1 && $register_bonus_sent != 1 && $join_type == 0){
             $join_codes = $function->getSettingsVal('join_codes');
