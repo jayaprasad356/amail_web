@@ -451,11 +451,11 @@ include "header.php";
                                             <th data-field="mobile">Mobile</th>
                                             <th data-field="today_codes">Codes</th>
                                             <th data-field="earn" >Earn</th>
-                                            <th data-field="task_type" >Task Type</th>
+                                            <th data-field="duration" >Duration</th>
                                             <th data-field="total_earn" >Total Earn</th>
-                                            <!-- <th data-field="balance" data-sortable='true' data-visible="true">Balance</th> -->
-                                            <th data-field="total_referrals" data-sortable='true' data-visible="true">Total Referals</th>
-                                            <!-- <th data-field="operate">Action</th> -->
+                                            <th data-field="l_referral_count">Level Referals Count</th>
+                                            <th data-field="level">Level</th>
+                                        
                                         </tr>
                                     </thead>
                                 </table>

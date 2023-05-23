@@ -1301,7 +1301,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
     $db->sql($sql);
     $res = $db->getResult();
     $total = $db->numRows($res);
-    $sql = "SELECT users.id,users.task_type,users.name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn AS total_earn
+    $sql = "SELECT users.level,users.duration,users.id,users.task_type,users.name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn,users.l_referral_count AS total_earn
     FROM users
     JOIN transactions ON users.id = transactions.user_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
     GROUP BY users.id ORDER BY today_codes DESC LIMIT " . $offset . "," . $limit;
@@ -1319,7 +1319,9 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['today_codes'] = $row['today_codes'];
-        $tempRow['task_type'] = $row['task_type'];
+        $tempRow['l_referral_count'] = $row['l_referral_count'];
+        $tempRow['duration'] = $row['duration'];
+        $tempRow['level'] = $row['level'];
         $tempRow['earn'] = $row['earn'];
         $tempRow['total_earn'] = $row['total_earn'];
         $tempRow['joined_date'] = $row['joined_date'];
