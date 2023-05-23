@@ -46,21 +46,6 @@ $sql = "UPDATE users SET code_generate = 0  WHERE worked_days = duration";
 $db->sql($sql);
 
 
-$sql = "INSERT INTO join_reports (date, total_users)
-SELECT joined_date, COUNT(id) AS total_users
-FROM users
-WHERE status = 1
-GROUP BY joined_date
-ORDER BY joined_date;
-UPDATE join_reports
-SET total_paid = (
-  SELECT SUM(amount)
-  FROM withdrawals
-  WHERE status = 1 AND DATE(datetime) = join_reports.date
-  GROUP BY DATE(datetime)
-) WHERE EXISTS ( SELECT 1 FROM withdrawals WHERE status = 1 AND DATE(datetime) = join_reports.date);";
-$db->sql($sql);
-
 
 
 ?>
