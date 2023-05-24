@@ -447,15 +447,15 @@ include "header.php";
                                         <tr>
                                             <th data-field="id" data-sortable='true'>ID</th>
                                             <!-- <th data-field="joined_date" data-visible="true">Joined Date</th> -->
-                                            <th data-field="name">Name</th>
+                                            <th data-field="name" data-sortable='true'>Name</th>
                                             <th data-field="mobile">Mobile</th>
-                                            <th data-field="today_codes">Codes</th>
-                                            <th data-field="support">Support</th>
+                                            <th data-field="today_codes" data-sortable='true'>Codes</th>
+                                            <th data-field="support" data-sortable='true'>Support</th>
                                             <th data-field="earn" >Earn</th>
-                                            <th data-field="duration" >Duration</th>
+                                            <th data-field="duration" data-sortable='true'>Duration</th>
                                             <th data-field="total_earn" >Total Earn</th>
-                                            <th data-field="l_referral_count">Level Referals Count</th>
-                                            <th data-field="level">Level</th>
+                                            <th data-field="l_referral_count" data-sortable='true'>Level Referals Count</th>
+                                            <th data-field="level" data-sortable='true'>Level</th>
                                         
                                         </tr>
                                     </thead>
