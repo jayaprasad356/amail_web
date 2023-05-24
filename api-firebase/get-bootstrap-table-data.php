@@ -1294,14 +1294,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
 
 
 
-    $sql = "SELECT COUNT(users.id) AS total, users.name, SUM(transactions.codes) AS today_codes,users.joined_date,users.mobile,staffs.name
+    $sql = "SELECT COUNT(users.id) AS total, users.name, SUM(transactions.codes) AS today_codes,users.joined_date,users.mobile,staffs.name AS staff_name
     FROM users
     JOIN transactions ON users.id = transactions.user_id JOIN staffs ON staffs.id = users.support_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
     GROUP BY users.id";
     $db->sql($sql);
     $res = $db->getResult();
     $total = $db->numRows($res);
-    $sql = "SELECT users.level,users.duration,users.id,users.task_type,users.name,staffs.name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn AS total_earn,users.l_referral_count 
+    $sql = "SELECT users.level,users.duration,users.id,users.task_type,users.name,staffs.name AS staff_name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn AS total_earn,users.l_referral_count 
     FROM users
     JOIN transactions ON users.id = transactions.user_id JOIN staffs ON staffs.id = users.support_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
     GROUP BY users.id ORDER BY today_codes DESC LIMIT " . $offset . "," . $limit;
@@ -1317,6 +1317,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         // $operate = '<a href="users.php"><i class="fa fa-eye"></i>View </a>';
         $tempRow['id'] = $i;
         $tempRow['name'] = $row['name'];
+        $tempRow['support'] = $row['staff_name'];
         
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['today_codes'] = $row['today_codes'];

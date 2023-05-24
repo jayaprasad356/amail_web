@@ -450,6 +450,7 @@ include "header.php";
                                             <th data-field="name">Name</th>
                                             <th data-field="mobile">Mobile</th>
                                             <th data-field="today_codes">Codes</th>
+                                            <th data-field="support">Support</th>
                                             <th data-field="earn" >Earn</th>
                                             <th data-field="duration" >Duration</th>
                                             <th data-field="total_earn" >Total Earn</th>
