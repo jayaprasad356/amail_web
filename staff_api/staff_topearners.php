@@ -42,6 +42,9 @@ if ($num >= 1) {
         
         $rows[] = $temp;
     }
+    usort($rows, function ($a, $b) {
+        return $b['incentives'] - $a['incentives'];
+    });
 
     $response['success'] = true;
     $response['message'] = "Incentive Details Fetched Successfully";
