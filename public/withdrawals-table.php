@@ -37,8 +37,16 @@ if (isset($_POST['btnPaid'])  && isset($_POST['enable'])) {
     
             // Add due dates to the database
             foreach ($due_dates as $due_date) {
-                $sql = "INSERT INTO repayments (`user_id`, amount, `due_date`,`status`) VALUES ('$user_id', '$due_amount', '$due_date',0)";
+                $sql = "SELECT * FROM `repayments` WHERE user_id = $user_id AND due_date = '$due_amount'";
                 $db->sql($sql);
+                $rpes = $db->getResult();
+                $num = $db->numRows($rpes);
+                if ($num == 0) {
+                    $sql = "INSERT INTO repayments (`user_id`, amount, `due_date`,`status`) VALUES ('$user_id', '$due_amount', '$due_date',0)";
+                    $db->sql($sql);
+
+                }
+
             }
             $result = $db->getResult();
         }

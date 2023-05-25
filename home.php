@@ -282,6 +282,28 @@ include "header.php";
                         <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                <div class="col-lg-4 col-xs-6">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                        <h3><?php
+                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            if ($branch_id != '') {
+                                $join1="AND branch_id='$branch_id'";
+                            } else {
+                                $join1="";
+                            }
+                            $sql = "SELECT COUNT(id) AS total FROM users WHERE DATE(registered_date) = '$currentdate' $join1";
+                            $db->sql($sql);
+                            $res = $db->getResult();
+                            $total = $res[0]['total'];
+                            echo $total;
+                             ?></h3>
+                            <p>Total Registration</p>
+                        </div>
+                        
+                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
                 <!-- <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-yellow">
                         <div class="inner">
