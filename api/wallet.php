@@ -50,7 +50,7 @@ if($code_generate == 1){
             $db->sql($sql);
             $tres = $db->getResult();
             $t_count = $tres[0]['count'];
-            if ($t_count > $ures[0]['num_sync_times']) {
+            if ($t_count >= $ures[0]['num_sync_times']) {
                 $response['success'] = false;
                 $response['message'] = "You Reached Daily Sync Limit";
                 print_r(json_encode($response));
