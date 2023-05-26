@@ -301,7 +301,7 @@ include "header.php";
                             <p>Total Registration</p>
                         </div>
                         
-                        <a href="withdrawals.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- <div class="col-lg-4 col-xs-6">
