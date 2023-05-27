@@ -19,8 +19,8 @@
                             <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
                         </form>
                         <br>
-                        <div class="col-md-3">
-                                <h4 class="box-title">Filter by Joined Date </h4>
+                        <div class="col-md-2">
+                                <h4 class="box-title">Joined Date </h4>
                                 <input type="date" class="form-control" id="date" name="date" value="<?php echo (isset($_GET['date'])) ? $_GET['date'] : "" ?>"></input>
                         </div>
                         <div class="col-md-2">
@@ -31,7 +31,8 @@
                                 </select>
                         </div>
                         <div class="col-md-2">
-                            <label for="exampleInputEmail1">Filter by support</label> <i class="text-danger asterik">*</i>
+                        <h4 class="box-title">Filter by support</h4>
+                           
                             <select id='support_id' name="support_id" class='form-control'>
                                 <option value=''>All</option>
                                 
@@ -67,6 +68,11 @@
                                                 <option value='<?= $value['id'] ?>'><?= $value['month'] ?></option>
                                         <?php } ?>
                                     </select>
+                        </div>
+                        <div class="col-md-2">
+                        <h4 class="box-title">Referred By</h4>
+                    
+                                    <input type="text" class="form-control" name="referred_by" id="referred_by" >
                         </div>
 
                     </div>
@@ -154,6 +160,10 @@
             id = $('#month').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#referred_by').on('change', function() {
+            id = $('#month').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
    
    
 
@@ -164,6 +174,7 @@
             "activeusers": $('#activeusers').val(),
             "status": $('#status').val(),
             "month": $('#month').val(),
+            "referred_by": $('#referred_by').val(),
             limit: p.limit,
             sort: p.sort,
             order: p.order,

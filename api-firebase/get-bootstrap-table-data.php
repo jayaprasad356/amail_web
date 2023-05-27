@@ -51,6 +51,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     $where = '';
     $sort = 'id';
     $order = 'DESC';
+    if ((isset($_GET['referred_by'])  && $_GET['referred_by'] != '')) {
+        $referred_by = $db->escapeString($fn->xss_clean($_GET['referred_by']));
+        $where .= "AND u.referred_by='$referred_by'";
+    }
     if ((isset($_GET['date'])  && $_GET['date'] != '')) {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         $where .= "AND u.joined_date='$date' AND u.status=1 ";
