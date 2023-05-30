@@ -23,9 +23,11 @@ if (isset($_POST['btnUpdate'])) {
     $num_sync_times = $db->escapeString(($_POST['num_sync_times']));
     $min_sync_refer_wallet = $db->escapeString(($_POST['min_sync_refer_wallet']));
     $main_content = $db->escapeString(($_POST['main_content']));
+    $plan1_video = $db->escapeString(($_POST['plan1_video']));
+    $plan2_video = $db->escapeString(($_POST['plan2_video']));
     
     $error = array();
-    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content' WHERE id=1";
+    $sql_query = "UPDATE settings SET code_generate=$code_generate,withdrawal_status=$withdrawal_status,sync_time=$sync_time,duration='$duration',min_withdrawal = $min_withdrawal,chat_support = $chat_support,reward = $reward,ad_show_time = $ad_show_time,ad_status = $ad_status,ad_type='$ad_type',fetch_time = $fetch_time,sync_codes = $sync_codes,min_sync_refer_wallet = $min_sync_refer_wallet,num_sync_times='$num_sync_times',main_content='$main_content',plan1_video='$plan1_video',plan2_video='$plan2_video' WHERE id=1";
     $db->sql($sql_query);
     $result = $db->getResult();
     if (!empty($result)) {
@@ -181,6 +183,20 @@ $res = $db->getResult();
                                     </div>
                                 </div>
                             </div>  
+                            <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <label for="">Plan 1 Video</label><br>
+                                <input type="text" class="form-control" name="plan1_video" value="">
+                             </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                  <label for="">Plan 2 Video</label><br>
+                                  <input type="text" class="form-control" name="plan2_video" value="">
+                               </div>
+                            </div>
+</div>
                             <br>   
                             <div class="form-group">
                                 <label for="main_content">Main Content :</label> <i class="text-danger asterik">*</i><?php echo isset($error['main_content']) ? $error['main_content'] : ''; ?>
