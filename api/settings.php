@@ -14,7 +14,7 @@ $fn = new functions;
 $fn->monitorApi('settings');
 $db = new Database();
 $db->connect();
-$sql = "SELECT chat_support FROM `settings`";
+$sql = "SELECT * FROM `settings`";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
