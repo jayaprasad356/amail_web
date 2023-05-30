@@ -186,13 +186,13 @@ $res = $db->getResult();
                             <div class="row">
                             <div class="col-md-6">
                               <div class="form-group">
-                                <label for="">Plan 1 Video</label><br>
+                                <label for="">30 Days Plan Video</label><br>
                                 <input type="text" class="form-control" name="plan1_video" value="<?= $res[0]['plan1_video'] ?>">
                              </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
-                                  <label for="">Plan 2 Video</label><br>
+                                  <label for="">50 Days Plan Video</label><br>
                                   <input type="text" class="form-control" name="plan2_video" value="<?= $res[0]['plan2_video'] ?>">
                                </div>
                             </div>
