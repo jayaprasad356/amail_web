@@ -187,16 +187,16 @@ $res = $db->getResult();
                             <div class="col-md-6">
                               <div class="form-group">
                                 <label for="">Plan 1 Video</label><br>
-                                <input type="text" class="form-control" name="plan1_video" value="">
+                                <input type="text" class="form-control" name="plan1_video" value="<?= $res[0]['plan1_video'] ?>">
                              </div>
                             </div>
                             <div class="col-md-6">
                               <div class="form-group">
                                   <label for="">Plan 2 Video</label><br>
-                                  <input type="text" class="form-control" name="plan2_video" value="">
+                                  <input type="text" class="form-control" name="plan2_video" value="<?= $res[0]['plan2_video'] ?>">
                                </div>
                             </div>
-</div>
+                          </div>
                             <br>   
                             <div class="form-group">
                                 <label for="main_content">Main Content :</label> <i class="text-danger asterik">*</i><?php echo isset($error['main_content']) ? $error['main_content'] : ''; ?>
