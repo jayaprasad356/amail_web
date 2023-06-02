@@ -45,6 +45,8 @@ $db->sql($sql);
 $sql = "UPDATE users SET code_generate = 0  WHERE worked_days = duration";
 $db->sql($sql);
 
+$sql = "UPDATE users SET referred_by = LEFT(refer_code , 3) WHERE DATEDIFF( '2023-06-03',DATE(registered_date)) > 7 AND status = 0 AND LENGTH(referred_by) != 3 AND referred_by != ''";
+$db->sql($sql);
 
 
 
