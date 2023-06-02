@@ -262,6 +262,12 @@ $fn = new custom_functions;
                     <span>Multiple Admin</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="scratch_cards.php">
+                    <i class="fa fa-adn"></i>
+                    <span>scratch cards</span>
+                    </a>
+                </li>
               
 
                 <!-- <li class="treeview">
