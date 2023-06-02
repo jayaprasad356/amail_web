@@ -25,27 +25,29 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
-
-$sql = "SELECT * FROM scratch_cards WHERE user_id = '$user_id'";
+$currentdate = date('Y-m-d');
+$sql = "SELECT * FROM scratch_cards WHERE user_id = '$user_id' AND expiry_date > '$currentdate' AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
+    foreach ($res as $row) {
+        $temp['id'] = $row['id'];
+        $temp['user_id'] = $row['user_id'];
+        $temp['discount'] = $row['discount'];
+        $temp['expiry_date'] = $row['expiry_date'];
+        $temp['is_scratched'] = $row['is_scratched'];
+        $temp['status'] = $row['status'];
+        $rows[] = $temp;
+    }
     $response['success'] = true;
     $response['message'] = "Scratch cards listed successfully";
-    $response['data'] = $res;
+    $response['data'] = $rows;
     print_r(json_encode($response));
 } else {
-    $sql = "INSERT INTO scratch_cards (user_id) VALUES ('$user_id')";
-    $db->sql($sql);
-    $sql = "SELECT * FROM scratch_cards WHERE user_id = '$user_id'";
-    $db->sql($sql);
-    $res = $db->getResult();
-    
     $response['success'] = true;
-    $response['message'] = "Scratch cards listed successfully";
-    $response['data'] = $res;
+    $response['message'] = "No Scratch cards";
     print_r(json_encode($response));
 }
 ?>

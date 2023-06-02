@@ -19,12 +19,13 @@ if (isset($_POST['btnEdit'])) {
                 $discount = $db->escapeString(($_POST['discount']));
                 $expiry_date = $db->escapeString(($_POST['expiry_date']));
                 $status = $db->escapeString(($_POST['status']));
+                $is_scratched = $db->escapeString(($_POST['is_scratched']));
                 $error = array();
 
      if (!empty($discount) && !empty($expiry_date)) 
        {
     
-        $sql_query = "UPDATE scratch_cards SET user_id='$user_id', discount='$discount',expiry_date='$expiry_date',status='$status' WHERE id =  $ID";
+        $sql_query = "UPDATE scratch_cards SET user_id='$user_id', discount='$discount',expiry_date='$expiry_date',status='$status',is_scratched=$is_scratched WHERE id =  $ID";
         $db->sql($sql_query);
         $update_result = $db->getResult();
         if (!empty($update_result)) {
@@ -35,7 +36,7 @@ if (isset($_POST['btnEdit'])) {
 
         // check update result
         if ($update_result == 1) {
-            $error['update_scratch_cards'] = " <section class='content-header'><span class='label label-success'>scratch_cards Details updated Successfully</span></section>";
+            $error['update_scratch_cards'] = " <section class='content-header'><span class='label label-success'>scratch cards Details updated Successfully</span></section>";
         } else {
             $error['update_scratch_cards'] = " <span class='label label-danger'>Failed update scratch cards</span>";
         }
@@ -82,7 +83,7 @@ if (isset($_POST['btnCancel'])) { ?>
           <select id="user_id" name="user_id" class="form-control">
             <option value="">--Select--</option>
             <?php
-            $sql = "SELECT * FROM `users`";
+            $sql = "SELECT * FROM `users` LIMIT 10";
             $db->sql($sql);
             $result = $db->getResult();
             foreach ($result as $value) {
@@ -118,6 +119,17 @@ if (isset($_POST['btnCancel'])) { ?>
           </label>
           <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
             <input type="radio" name="status" value="0" <?= ($res[0]['status'] == 0) ? 'checked' : ''; ?>> Inactive
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label>is Scratched</label><i class="text-danger asterisk">*</i><br>
+        <div id="status" class="btn-group">
+          <label class="btn btn-success" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+            <input type="radio" name="is_scratched" value="1" <?= ($res[0]['is_scratched'] == 1) ? 'checked' : ''; ?>> Yes
+          </label>
+          <label class="btn btn-danger" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+            <input type="radio" name="is_scratched" value="0" <?= ($res[0]['is_scratched'] == 0) ? 'checked' : ''; ?>> No
           </label>
         </div>
       </div>

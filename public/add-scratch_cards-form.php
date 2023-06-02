@@ -43,7 +43,7 @@ if (isset($_POST['btnAdd'])) {
     }
 ?>
 <section class="content-header">
-    <h1>Add New scratch_cards <small><a href='scratch_cards.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to scratch_cards</a></small></h1>
+    <h1>Add New scratch cards <small><a href='scratch_cards.php'> <i class='fa fa-angle-double-left'></i>&nbsp;&nbsp;&nbsp;Back to scratch_cards</a></small></h1>
 
     <?php echo isset($error['add_scratch_card']) ? $error['add_scratch_card'] : ''; ?>
     <ol class="breadcrumb">
@@ -68,7 +68,7 @@ if (isset($_POST['btnAdd'])) {
           <select id="user_id" name="user_id" class="form-control">
             <option value="">--Select--</option>
             <?php
-            $sql = "SELECT * FROM `users`";
+            $sql = "SELECT * FROM `users` LIMIT 10";
             $db->sql($sql);
             $result = $db->getResult();
             foreach ($result as $value) {

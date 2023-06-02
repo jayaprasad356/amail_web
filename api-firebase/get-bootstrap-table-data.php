@@ -2229,6 +2229,14 @@ if (isset($_GET['table']) && $_GET['table'] == 'scratch_card') {
         $tempRow['user_id'] = $row['user_id'];
         $tempRow['discount'] = $row['discount'];
         $tempRow['expiry_date'] = $row['expiry_date'];
+    
+        if($row['is_scratched']==0){
+            $tempRow['is_scratched']="<p class='text text-danger'>No</p>";        
+        }
+        elseif($row['is_scratched']==1){
+            $tempRow['is_scratched']="<p class='text text-success'>Yes</p>";        
+        }
+
         if($row['status']==0){
             $tempRow['status']="<p class='text text-danger'>Inactive</p>";        
         }

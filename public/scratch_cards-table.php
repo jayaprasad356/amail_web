@@ -25,6 +25,7 @@
                                     <th data-field="discount" data-sortable="true">Discount</th>
                                     <th data-field="expiry_date" data-sortable="true">Expiry Date</th>
                                     <th data-field="status" data-sortable="true">Status</th>
+                                    <th data-field="is_scratched" data-sortable="true">Is Scratched</th>
                                     <th data-field="operate">Action</th>
                                 </tr>
                             </thead>
