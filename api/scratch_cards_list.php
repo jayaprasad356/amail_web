@@ -25,6 +25,7 @@ if (empty($_POST['user_id'])) {
 
 $user_id = $db->escapeString($_POST['user_id']);
 
+
 $sql = "SELECT * FROM scratch_cards WHERE user_id = '$user_id'";
 $db->sql($sql);
 $res = $db->getResult();
