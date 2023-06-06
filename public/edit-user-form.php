@@ -393,17 +393,28 @@ if (isset($_POST['btnCancel'])) { ?>
                         </div>
                         <br>
                         <div class="row">
-                        <div class="form-group col-md-6">
-                                    <label class="control-label">Plan</label><i class="text-danger asterik">*</i><br>
-                                    <div id="plan" class="btn-group">
-                                        <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="plan" value="30" <?= ($res[0]['plan'] == 30) ? 'checked' : ''; ?>> 30 Days
-                                        </label>
-                                        <label class="btn btn-default" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
-                                            <input type="radio" name="plan" value="50" <?= ($res[0]['plan'] == 50) ? 'checked' : ''; ?>> 50 Days
-                                        </label>
-                                    </div>
+                           <div class="form-group col-md-6">
+                              <label class="control-label">Plan</label><i class="text-danger asterik">*</i><br>
+                             <div id="plan" class="btn-group">
+                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                               <input type="radio" name="plan" value="30" <?= ($res[0]['plan'] == 30) ? 'checked' : ''; ?>> 30 Days
+                             </label>
+                             <label class="btn btn-default" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                               <input type="radio" name="plan" value="50" <?= ($res[0]['plan'] == 50) ? 'checked' : ''; ?>> 50 Days
+                             </label>
+                             <label class="btn btn-default" data-toggle-class="btn-default" data-toggle-passive-class="btn-default">
+                               <input type="radio" name="plan" value="others"<?= ($res[0]['plan'] == 50) ? 'checked' : ''; ?>>others
+                             </label>
+                             </div>
+                            </div>
+                            <div class="row">
+                              <div class="form-group col-md-3">
+                                <div id="others-box" style="display: none;">
+                            <label class="control-label">Enter Number of Days</label>
+                            <input type="text" name="plan" class="form-control">
+                                   </div>
                                 </div>
+                            </div>
                                 <div class="form-group col-md-6">
                                     <label class="control-label">Status</label><i class="text-danger asterik">*</i><br>
                                     <div id="status" class="btn-group">
@@ -419,6 +430,7 @@ if (isset($_POST['btnCancel'])) { ?>
                                     </div>
                                 </div>
                         </div>
+                                                
                         <div class="box-footer">
                         <button type="submit" class="btn btn-primary" name="btnEdit">Update</button>
 
@@ -677,4 +689,19 @@ if (isset($_POST['btnCancel'])) { ?>
             $('#ad_status').val(0);
         }
     };
+</script>
+<script>
+    var othersBox = document.getElementById('others-box');
+    var othersRadio = document.querySelector('input[name="plan"][value="others"]');
+
+    othersRadio.addEventListener('change', function() {
+        if (this.checked) {
+            if (othersBox.style.display === 'none') {
+                othersBox.style.display = 'block';
+            } else {
+                othersBox.style.display = 'none';
+                this.checked = false;
+            }
+        }
+    });
 </script>
