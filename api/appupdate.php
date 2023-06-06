@@ -26,6 +26,10 @@ $sql = "SELECT * FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
 $res = array();
+
+$sql = "SELECT * FROM app_settings";
+$db->sql($sql);
+$appres = $db->getResult();
 if($user_id != ''){
     $sql = "SELECT code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date,today_codes,refer_balance,trial_expired,task_type,champion_task_eligible,trial_count,mcg_timer,security,ongoing_sa_balance,salary_advance_balance,sa_refer_count,refund_wallet,total_refund,earn,refer_code,level,per_code_val,worked_days  FROM users WHERE id = $user_id ";
     $db->sql($sql);
@@ -39,6 +43,10 @@ if($user_id != ''){
 
 
     $champion_task = $set[0]['champion_task'];
+    if($res[0]['status'] == 0){
+        $appres[0]['version'] = '35';
+
+    }
     
 
     $sql = "UPDATE `users` SET  `app_version` = $app_version WHERE `id` = $user_id";
@@ -62,9 +70,7 @@ if($user_id != ''){
 
 
 }
-$sql = "SELECT * FROM app_settings";
-$db->sql($sql);
-$appres = $db->getResult();
+
 $response['success'] = true;
 $response['message'] = "App Update listed Successfully";
 $response['data'] = $appres;

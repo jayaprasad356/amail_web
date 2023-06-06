@@ -219,6 +219,9 @@ if (isset($_POST['btnEdit'])) {
                 $sql_query = "INSERT INTO staff_transactions (staff_id,amount,datetime,type)VALUES($lead_id,$incentives,'$datetime','incentives')";
                 $db->sql($sql_query);
 
+                $sql_query = "DELETE FROM `leaves` WHERE user_id = $ID";
+                $db->sql($sql_query);
+
             }else{
                 $referred_by = 'free';
                 $per_code_cost = 0.14;
