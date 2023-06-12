@@ -2171,17 +2171,19 @@ if (isset($_GET['table']) && $_GET['table'] == 'expenses') {
     print_r(json_encode($bulkData));
 }
 
-//leaves table goes here
+//scartch_card table goes here
 if (isset($_GET['table']) && $_GET['table'] == 'scratch_card') {
     $offset = 0;
     $limit = 10;
     $where = '';
     $sort = 'date';
     $order = 'DESC';
+    
     if ((isset($_GET['type']) && $_GET['type'] != '')) {
         $type = $db->escapeString($fn->xss_clean($_GET['type']));
-        $where .= "AND l.type = '$type'";
+        $where .= " AND l.is_scratched = '$type'";
     }
+    
     if (isset($_GET['date']) && $_GET['date'] != '') {
         $date = $db->escapeString($fn->xss_clean($_GET['date']));
         $where .= " AND l.date = '$date'";
@@ -2207,15 +2209,17 @@ if (isset($_GET['table']) && $_GET['table'] == 'scratch_card') {
         $order = $db->escapeString($_GET['order']);
     }
    
-    $sql = "SELECT COUNT(`id`) as total FROM `scratch_cards`" . $where;
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `scratch_cards` l " . $join;
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
         $total = $row['total'];
    
-        $sql = "SELECT * FROM scratch_cards " . $where . " ORDER BY " . $sort . " " . $order . " LIMIT " . $offset . "," . $limit;
-        $db->sql($sql);
-        $res = $db->getResult();
+     $sql = "SELECT l.id AS id,l.*,u.name,u.mobile  FROM `scratch_cards` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+     $res = $db->getResult();
 
     $bulkData = array();
     $bulkData['total'] = $total;
@@ -2227,6 +2231,8 @@ if (isset($_GET['table']) && $_GET['table'] == 'scratch_card') {
         $operate .= ' <a class="text text-danger" href="delete-scratch_cards.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
         $tempRow['id'] = $row['id'];
         $tempRow['user_id'] = $row['user_id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
         $tempRow['discount'] = $row['discount'];
         $tempRow['expiry_date'] = $row['expiry_date'];
     
