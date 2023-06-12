@@ -17,7 +17,7 @@ if (isset($_POST['btnEdit'])) {
             $status = $db->escapeString($fn->xss_clean($_POST['status']));
             $join_date = $db->escapeString(($_POST['join_date']));
             $branch_id = $db->escapeString(($_POST['branch_id']));
-        
+            $name = $db->escapeString(($_POST['name']));
             $balance = $db->escapeString(($_POST['balance']));
             $sa_balance = $db->escapeString(($_POST['sa_balance']));
             $salary = $db->escapeString(($_POST['salary']));
@@ -29,7 +29,7 @@ if (isset($_POST['btnEdit'])) {
             $error = array();
 
             if (!empty($join_date) && !empty($branch_id) && !empty($salary)&& !empty($weekly_target)) {
-                $sql_query = "UPDATE staffs SET salary_date='$salary_date',staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
+                $sql_query = "UPDATE staffs SET  name='$name', salary_date='$salary_date',staff_role_id='$staff_role_id',status='$status', branch_id='$branch_id', join_date='$join_date',balance='$balance',sa_balance='$sa_balance',weekly_target = '$weekly_target',salary='$salary',incentive_percentage = $incentive_percentage,mobile = '$mobile' WHERE id =  $ID";
                 $db->sql($sql_query);
                 $update_result = $db->getResult();
                 if (!empty($update_result)) {
@@ -88,7 +88,7 @@ if (isset($_POST['btnCancel'])) { ?>
                             <div class="form-group">
                                 <div class='col-md-4'>
                                     <label for="exampleInputEmail1">Name</label> <i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>" readonly>
+                                    <input type="text" class="form-control" name="name" value="<?php echo $res[0]['name']; ?>">
                                 </div>
                                 <div class="col-md-4">
                                     <label for="exampleInputEmail1">E-mail</label><i class="text-danger asterik">*</i>
