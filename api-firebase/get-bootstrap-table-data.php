@@ -495,7 +495,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'withdrawals') {
     $seven_days_ago = date('Y-m-d', strtotime('-7 days'));
     $where .= " AND w.datetime >= '$seven_days_ago' ";
 
-    $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join ". $where ."";
+    $sql = "SELECT COUNT(w.id) as total FROM `withdrawals` w,`users` u,`bank_details` b $join AND w.status=0  ". $where ."";
     $db->sql($sql);
     $res = $db->getResult();
     foreach ($res as $row)
