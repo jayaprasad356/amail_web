@@ -3,7 +3,7 @@ session_start();
 
 // set time for session timeout
 $currentTime = time() + 25200;
-$expired = 3600;
+$expired = 7200;
 
 // if session not set go to login page
 if (!isset($_SESSION['username'])) {
