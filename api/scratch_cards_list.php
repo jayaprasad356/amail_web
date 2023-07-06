@@ -26,7 +26,7 @@ if (empty($_POST['user_id'])) {
 $user_id = $db->escapeString($_POST['user_id']);
 
 $currentdate = date('Y-m-d');
-$sql = "SELECT * FROM scratch_cards WHERE user_id = '$user_id' AND expiry_date > '$currentdate' AND status = 1";
+$sql = "SELECT * FROM scratch_cards sc,users u WHERE sc.user_id = u.id AND sc.user_id = '$user_id' AND sc.expiry_date > '$currentdate' AND sc.status = 1 AND u.status = 0";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);

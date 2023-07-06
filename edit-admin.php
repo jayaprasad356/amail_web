@@ -5,7 +5,7 @@
 	
 	// set time for session timeout
 	$currentTime = time() + 25200;
-	$expired = 3600;
+	$expired = 7200;
 	
 	
 	// if current time is more than session timeout back to login page
