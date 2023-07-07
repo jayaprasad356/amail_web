@@ -14,7 +14,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
-$sql = "SELECT id FROM `users` WHERE joined_date = '2023-06-23' AND status = 1";
+$sql = "SELECT id FROM `users` WHERE joined_date = '2023-07-01' AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -39,7 +39,7 @@ if ($num >= 1) {
 
     }
     $response['success'] = true;
-    $response['message'] = "Codes Added Successfully";
+    $response['message'] = "Codes July Added Successfully";
     print_r(json_encode($response));
 
 }else{
