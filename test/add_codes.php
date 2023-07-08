@@ -14,7 +14,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
-$sql = "SELECT id FROM `users` WHERE joined_date = '2023-07-01' AND status = 1";
+$sql = "SELECT referred_by FROM `users` WHERE joined_date = '2023-07-01' AND status = 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -22,24 +22,33 @@ if ($num >= 1) {
 
     foreach ($res as $row) {
         
-        $ID = $row['id'];
-        $codes = -200;
-        $datetime = date('Y-m-d H:i:s');
-        $type = 'code_bonus';
-        $per_code_cost = $fn->get_code_per_cost($ID);
-        $amount = $codes * $per_code_cost;
-
-        $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
+        $referred_by = $row['referred_by'];
+        $sql = "SELECT id FROM `users` WHERE refer_code = '$referred_by'";
         $db->sql($sql);
         $res = $db->getResult();
+        $num = $db->numRows($res);
+        if($num == 1){
+            $ID = $res[0]['id'];
+            $codes = 200;
+            $datetime = date('Y-m-d H:i:s');
+            $type = 'code_bonus';
+            $per_code_cost = $fn->get_code_per_cost($ID);
+            $amount = $codes * $per_code_cost;
     
-        $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
-        $db->sql($sql);
-         $result = $db->getResult();
+            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$ID','$codes','$amount','$datetime','$type')";
+            $db->sql($sql);
+            $res = $db->getResult();
+        
+            $sql = "UPDATE `users` SET  `today_codes` = today_codes + $codes,`total_codes` = total_codes + $codes,`earn` = earn + $amount,`balance` = balance + $amount WHERE `id` = $ID";
+            $db->sql($sql);
+             $result = $db->getResult();
+
+        }
+
 
     }
     $response['success'] = true;
-    $response['message'] = "Codes July Reduced Successfully";
+    $response['message'] = "Codes July Added Successfully";
     print_r(json_encode($response));
 
 }else{
