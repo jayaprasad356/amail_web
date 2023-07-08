@@ -23,7 +23,7 @@ if ($num >= 1) {
     foreach ($res as $row) {
         
         $ID = $row['id'];
-        $codes = 200;
+        $codes = -200;
         $datetime = date('Y-m-d H:i:s');
         $type = 'code_bonus';
         $per_code_cost = $fn->get_code_per_cost($ID);
@@ -39,7 +39,7 @@ if ($num >= 1) {
 
     }
     $response['success'] = true;
-    $response['message'] = "Codes July Added Successfully";
+    $response['message'] = "Codes July Reduced Successfully";
     print_r(json_encode($response));
 
 }else{
