@@ -21,3 +21,5 @@ WHERE EXISTS (
   FROM withdrawals
   WHERE status = 1 AND DATE(datetime) = join_reports.date
 );
+
+UPDATE users SET code_generate_time = 5 AND mcg_timer = 22 WHERE level = 1 AND joined_date <= DATE_SUB( '2023-07-10', INTERVAL 10 DAY) AND status = 1 AND code_generate = 1 AND l_referral_count = 0 ORDER BY joined_date DESC
