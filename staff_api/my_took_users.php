@@ -18,28 +18,17 @@ if (empty($_POST['staff_id'])) {
     print_r(json_encode($response));
     return false;
 }
-if (empty($_POST['user_id'])) {
-    $response['success'] = false;
-    $response['message'] = "user Id is Empty";
-    print_r(json_encode($response));
-    return false;
-}
 $staff_id = $db->escapeString($_POST['staff_id']);
-$user_id = $db->escapeString($_POST['user_id']);
 
-
-
-
-$sql = "SELECT id FROM users WHERE (support_id IS NULL OR support_id = '') AND id = $user_id";
+$sql = "SELECT * FROM users WHERE support_id = $staff_id AND status = 1 AND code_generate = 1 AND op_leads = 1  ORDER BY worked_days DESC";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    $sql = "UPDATE `users` SET `support_id` = $staff_id,`op_leads` = 1 WHERE (support_id IS NULL OR support_id = '') AND id = $user_id";
-    $db->sql($sql);
     $response['success'] = true;
-    $response['message'] = " User Taken Successfully";
+    $response['message'] = " Users Retrived Successfully";
+    $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
