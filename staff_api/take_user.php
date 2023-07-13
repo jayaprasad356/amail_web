@@ -30,17 +30,16 @@ $user_id = $db->escapeString($_POST['user_id']);
 
 
 
-$sql = "SELECT id FROM users WHERE support_id = '' AND id = $user_id";
+$sql = "SELECT id FROM users WHERE (support_id IS NULL OR support_id = '') AND id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
 
 if ($num >= 1) {
-    $sql = "UPDATE `users` SET `support_id` = $support_id WHERE `support_id` = '' AND id = $user_id";
+    $sql = "UPDATE `users` SET `support_id` = $staff_id WHERE (support_id IS NULL OR support_id = '') AND id = $user_id";
     $db->sql($sql);
     $response['success'] = true;
     $response['message'] = " User Taken Successfully";
-    $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
