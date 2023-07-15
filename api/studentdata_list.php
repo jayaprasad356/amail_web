@@ -14,7 +14,7 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 
-$sql = "SELECT * FROM excel_text limit 1";
+$sql = "SELECT * FROM excel_text ORDER BY RAND() LIMIT 1";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
