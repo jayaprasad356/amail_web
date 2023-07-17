@@ -33,7 +33,7 @@ $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($
 $datetime = date('Y-m-d H:i:s');
 
 $type = 'generate';
-$sql = "SELECT num_sync_times FROM users WHERE id = $user_id";
+$sql = "SELECT num_sync_times,level FROM users WHERE id = $user_id";
 $db->sql($sql);
 $ures = $db->getResult();
 $sql = "SELECT code_generate,num_sync_times,sync_codes FROM settings";
@@ -41,6 +41,29 @@ $db->sql($sql);
 $set = $db->getResult();
 $code_generate = $set[0]['code_generate'];
 $sync_codes = $set[0]['sync_codes'];
+$sql = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'generate' ORDER BY datetime DESC LIMIT 1 ";
+$db->sql($sql);
+$tres = $db->getResult();
+$num = $db->numRows($tres);
+$code_min_sync_time = $fn->get_sync_time($ures[0]['level']);
+if ($num >= 1) {
+    $dt1 = $tres[0]['datetime'];
+    $date1 = new DateTime($dt1);
+    $date2 = new DateTime($datetime);
+
+    $diff = $date1->diff($date2);
+    $totalMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
+    if($totalMinutes < $code_min_sync_time){
+        $response['success'] = false;
+        $response['message'] = "Cannot Sync Right Now, Try again after few mins";
+        print_r(json_encode($response));
+        return false;
+
+    }
+
+
+}
+
 if($code_generate == 1){
     if($codes != 0){
             $currentdate = date('Y-m-d');
