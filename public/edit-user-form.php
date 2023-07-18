@@ -113,7 +113,7 @@ if (isset($_POST['btnEdit'])) {
                 $db->sql($sql_query);
                 $sql_query = "INSERT INTO salary_advance_trans (user_id,refer_user_id,amount,datetime,type)VALUES($ID,$user_id,'$refer_sa_balance','$datetime','credit')";
                 $db->sql($sql_query);
-                if($ref_code_generate == 1 && $ref_user_status == 1 && $ref_user_history_days <= 57){
+                if($ref_user_status == 1 && ($ref_code_generate == 1 || $ref_code_generate == 0 && $ref_worked_days < $ref_duration)  ){
 
                     $ref_per_code_cost = $fn->get_code_per_cost($user_id);
 
