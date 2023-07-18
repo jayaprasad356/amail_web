@@ -88,14 +88,16 @@ if (isset($_POST['btnEdit'])) {
                 $set_duration = $function->getSettingsVal('duration');
                 $user_id = $res[0]['id'];
                 $ref_code_generate = $res[0]['code_generate'];
+                $ref_worked_days = $res[0]['worked_days'];
+                $ref_duration = $res[0]['duration'];
                 $ref_user_status = $res[0]['status'];
                 $ref_user_history_days = $res[0]['history_days'];
                 $ref_total_refund = $res[0]['total_refund'];
-                if($ref_user_status == 1 && $ref_code_generate == 1 ){
+                if($ref_user_status == 1 && ($ref_code_generate == 1 || $ref_code_generate == 0 && $ref_worked_days < $ref_duration)  ){
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
-                if($ref_user_status == 1 && $ref_code_generate == 0 && $ref_user_history_days >= $set_duration ){
+                if($ref_user_status == 1 && $ref_code_generate == 0 && $ref_worked_days >= $ref_duration ){
                     $referral_bonus = 500;
 
                 }
