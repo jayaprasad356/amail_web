@@ -29,6 +29,15 @@ if (empty($_POST['mobile'])) {
     print_r(json_encode($response));
     return false;
 }
+if (strlen($_POST['mobile']) !== 10) {
+    $response['success'] = false;
+    $response['message'] = "Mobile number should be exactly 10 digits,please remove if +91 is there";
+    print_r(json_encode($response));
+    return false;
+}
+
+
+
 if (empty($_POST['password'])) {
     $response['success'] = false;
     $response['message'] = "Password is Empty";

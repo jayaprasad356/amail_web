@@ -475,9 +475,11 @@ include "header.php";
                                             <th data-field="support" data-sortable='true'>Support</th>
                                             <th data-field="earn" >Earn</th>
                                             <th data-field="duration" data-sortable='true'>Duration</th>
+                                            <th data-field="worked_days" data-sortable='true'>Worked Days</th>
                                             <th data-field="total_earn" >Total Earn</th>
                                             <th data-field="l_referral_count" data-sortable='true'>Level Referals Count</th>
                                             <th data-field="level" data-sortable='true'>Level</th>
+                                            
                                         
                                         </tr>
                                     </thead>

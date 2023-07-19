@@ -257,7 +257,10 @@ if (isset($_POST['btnEdit'])) {
 
 // create array variable to store previous data
 $data = array();
-
+$sql_query = "SELECT id FROM leaves WHERE user_id =" . $ID;
+$db->sql($sql_query);
+$lres = $db->getResult();
+$balance_leave = 4 - $db->numRows($lres);
 $sql_query = "SELECT * FROM users WHERE id =" . $ID;
 $db->sql($sql_query);
 $res = $db->getResult();
@@ -565,6 +568,10 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Per Code Value</label><i class="text-danger asterik">*</i>
                                     <input type="number" class="form-control" name="per_code_val" value="<?php echo $res[0]['per_code_val']; ?>">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleInputEmail1">Balance Leave</label><i class="text-danger asterik">*</i>
+                                    <input type="text" class="form-control" name="balance_leave" value="<?php echo $balance_leave ?>" readonly>
                                 </div>
                             </div>
                         </div>
