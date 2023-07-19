@@ -19,7 +19,7 @@ $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');
-$sql = "SELECT id FROM `users` WHERE referred_by like '%rejoin%' AND status = 1 AND duration != 60";
+$sql = "SELECT id FROM `users` WHERE worked_days > duration AND status = 1 AND code_generate = 1";
 $db->sql($sql);
 $res = $db->getResult();
 foreach ($res as $row) {
