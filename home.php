@@ -459,7 +459,7 @@ include "header.php";
                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
-                            <form action="export-active_users.php">
+                            <form method="post" action="export-active_users.php" enctype="multipart/form-data" >
                             <div class="col-md-3">
                                     
                                     <input type="date" class="form-control" name="date">
