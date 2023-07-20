@@ -12,8 +12,8 @@ if (isset($_POST['btnLogin'])) {
     $password = $db->escapeString($_POST['password']);
 
     // set time for session timeout
-    $currentTime = time() + 25200;
-    $expired = 7200;
+    $currentTime = time();
+    $expired = 3600; // 1 hour in seconds
 
     // create array variable to handle error
     $error = array();

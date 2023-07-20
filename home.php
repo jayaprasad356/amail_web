@@ -5,28 +5,32 @@ include_once('includes/functions.php');
 $function = new custom_functions;
 
 // set time for session timeout
-$currentTime = time() + 25200;
-$expired = 7200;
+$currentTime = time();
+$expired = 3600; // 1 hour in seconds
+
 // if session not set go to login page
 if (!isset($_SESSION['username'])) {
-    header("location:index.php");
+    header("location: index.php");
 }
-// if current time is more than session timeout back to login page
+
+// if current time is more than session timeout, go back to login page
 if ($currentTime > $_SESSION['timeout']) {
-    session_destroy();
-    header("location:index.php");
+   
+    header("location: index.php");
 }
+
 // destroy previous session timeout and create new one
 unset($_SESSION['timeout']);
 $_SESSION['timeout'] = $currentTime + $expired;
 
 include "header.php";
+
 ?>
 <html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>ABCD - Dashboard</title>
+    <title>ABCD - Dashboard <?php echo $_SESSION['timeout'] ;?></title>
 </head>
 
 <body>

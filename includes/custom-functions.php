@@ -252,7 +252,7 @@ class custom_functions
     public function get_sync_time($level)
     {
         if ($level == 1) {
-            $time = 22;
+            $time = 20;
 
         }
         elseif($level == 2){

@@ -1,8 +1,20 @@
 <?php
+ session_start();
 
-$date1 = new DateTime("");
-$date2 = new DateTime("2009-06-28");
-$interval = $date1->diff($date2);
-$days = $interval->days;
-echo "difference " . $days . " days ";
+// set time for session timeout
+$currentTime = time();
+$expired = 3600; // 1 hour in seconds
+
+$_SESSION['timeout'] = $currentTime + $expired;
+// if current time is more than session timeout, go back to login page
+if ($currentTime > $_SESSION['timeout']) {
+    //session_destroy();
+    echo 'expireds';
+}
+
+// destroy previous session timeout and create new one
+unset($_SESSION['timeout']);
+$_SESSION['timeout'] = $currentTime + $expired;
+echo 'timeout '.$_SESSION['timeout'];
+echo 'currentTime '.$currentTime;
 ?>
