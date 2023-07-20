@@ -13,7 +13,7 @@ $date = $db->escapeString(($_POST['date']));
 	$db->sql($sql_query);
 	$developer_records = $db->getResult();
 	
-	$filename = "Allusers-data".date('Ymd') . ".xls";			
+	$filename = "Activeusers-data".$date . ".xls";			
 	header("Content-Type: application/vnd.ms-excel");
 	header("Content-Disposition: attachment; filename=\"$filename\"");	
 	$show_coloumn = false;
