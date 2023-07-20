@@ -451,12 +451,24 @@ include "header.php";
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
+
                         <div class="box-header with-border">
+                            
                             <h3 class="box-title">Top Today Coders <small>( Day: <?= date("D"); ?>)</small></h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
+                            <form action="export-active_users.php">
+                            <div class="col-md-3">
+                                    
+                                    <input type="date" class="form-control" name="date">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
+                                </div>
+                            
+                        </form>
                         </div>
                         <div class="box-body">
 
