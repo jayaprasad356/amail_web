@@ -410,45 +410,6 @@ include "header.php";
 
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-success">
-                        <?php 
-                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
-                        
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'   GROUP BY hour( datetime ) , day( datetime )";
-                        $db->sql($sql);
-                        $res_order = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
-                        $db->sql($sql);
-                        $sts_total = $db->getResult();
-                        
-                         ?>
-                        <div class="tile-stats" style="padding:10px;">
-                            <div id="earning_chart3" style="width:100%;height:350px;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-success">
-                        <?php 
-                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
-                        
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime ) AND task_type='champion'";
-                        $db->sql($sql);
-                        $result_order4 = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' ";
-                        $db->sql($sql);
-                        $stu_total4 = $db->getResult();
-                        
-                         ?>
-                        <div class="tile-stats" style="padding:10px;">
-                            <div id="earning_chart4" style="width:100%;height:350px;"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
@@ -581,22 +542,6 @@ include "header.php";
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Hour', 'Total - <?= $stu_total[0]['total'] ?>'],
-                <?php foreach ($result_order as $row) {
-                    //$date = date('d-M', strtotime($row['order_date']));
-                    echo "['" . $row['time'] . "'," . $row['numoft'] . "],";
-                } ?>
-            ]);
-            var options = {
-                chart: {
-                    title: 'Transactions By Hour Wise',
-                    //subtitle: 'Total Sale In Last Week (Month: <?php echo date("M"); ?>)',
-                }
-            };
-
-            // var chart = new google.charts.Bar(document.getElementById('earning_chart'));
-            // chart.draw(data, google.charts.Bar.convertOptions(options));
 
 
             var data = google.visualization.arrayToDataTable([
@@ -620,9 +565,9 @@ include "header.php";
 
 <script>
 google.charts.load('current',{packages:['corechart']});
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChart2);
 
-function drawChart() {
+function drawChart2() {
 
     var data = google.visualization.arrayToDataTable([
         ['Date', 'Joins', 'Withdrawals'],
