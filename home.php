@@ -465,7 +465,7 @@ include "header.php";
                                     <input type="date" class="form-control" name="date">
                                 </div>
                                 <div class="col-md-3">
-                                    <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export All Users</button>
+                                    <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Active Users</button>
                                 </div>
                             
                         </form>
