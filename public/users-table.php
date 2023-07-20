@@ -85,10 +85,8 @@
                         }'>
                             <thead>
                                 <tr>
-                                    <?php 
-                                if($_SESSION['role'] == 'Super Admin'){?>
+
                                    <th data-field="operate">Action</th>
-                                   <?php } ?>
                                     <th data-field="id" data-sortable="true">ID</th>
                                     <th data-field="registered_date" data-sortable="true">Registration Date</th>
                                     <th data-field="name" data-sortable="true">Name</th>

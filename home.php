@@ -15,8 +15,7 @@ if (!isset($_SESSION['username'])) {
 
 // if current time is more than session timeout, go back to login page
 if ($currentTime > $_SESSION['timeout']) {
-   
-    header("location: index.php");
+
 }
 
 // destroy previous session timeout and create new one
