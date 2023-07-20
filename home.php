@@ -369,13 +369,14 @@ include "header.php";
                 </div>
             </div>
             <br>
+
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="box box-success">
                         <?php 
                         $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
                         
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime )";
+                        $sql ="SELECT * FROM `join_reports` ORDER BY date DESC LIMIT 10 ";
                         $db->sql($sql);
                         $result_order = $db->getResult();
                         $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
@@ -594,8 +595,8 @@ include "header.php";
                 }
             };
 
-            var chart = new google.charts.Bar(document.getElementById('earning_chart'));
-            chart.draw(data, google.charts.Bar.convertOptions(options));
+            // var chart = new google.charts.Bar(document.getElementById('earning_chart'));
+            // chart.draw(data, google.charts.Bar.convertOptions(options));
 
 
             var data = google.visualization.arrayToDataTable([
@@ -616,5 +617,47 @@ include "header.php";
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
     </script>
+
+<script>
+google.charts.load('current',{packages:['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+        ['Date', 'Joins', 'Withdrawals'],
+                
+                <?php foreach ($result_order as $row) {
+                    //$date = date('d-M', strtotime($row['order_date']));
+                    echo "[new Date('" . $row['date'] . "')," . $row['total_users'] * 3000 . "," . $row['total_paid'] . "],";
+                } ?>
+            ]);
+
+// // Set Data
+// const data = google.visualization.arrayToDataTable([
+//   ['Date', 'Price', 'Size'],
+//   [new Date('2023-07-01'), 200000, 200000],
+//   [new Date('2023-07-02'), 300000, 250000],
+//   [new Date('2023-07-03'), 245000, 300000],
+//   [new Date('2023-07-04'), 1700000, 200000],
+
+// ]);
+
+// Set Options
+const options = {
+  title: 'Joins vs Withdrawals',
+  hAxis: { title: 'Date' },
+  vAxis: { title: 'Charges' },
+  legend: 'none'
+};
+
+
+
+// Draw
+const chart = new google.visualization.LineChart(document.getElementById('earning_chart'));
+chart.draw(data, options);
+
+}
+</script>
 </body>
 </html>
