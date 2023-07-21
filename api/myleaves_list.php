@@ -7,33 +7,38 @@ header("Cache-Control: no-store, no-cache, must-revalidate");
 header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
+
 include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
 
-if (empty($_POST['staff_id'])) {
+if (empty($_POST['user_id'])) {
     $response['success'] = false;
-    $response['message'] = "staff Id is Empty";
+    $response['message'] = "User Id is Empty";
     print_r(json_encode($response));
     return false;
 }
-$staff_id = $db->escapeString($_POST['staff_id']);
-
-$sql = "SELECT * FROM users WHERE (support_id IS NULL OR support_id = '') AND status = 1 AND code_generate = 1 AND branch_id != 8 ORDER BY worked_days DESC";
+$user_id = $db->escapeString($_POST['user_id']);
+$sql = "SELECT * FROM leaves WHERE user_id = $user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-
 if ($num >= 1) {
     $response['success'] = true;
-    $response['message'] = " Users Retrived Successfully";
+    $response['total_leaves'] = 4 - $num;
+    $response['message'] = "Leaves Listed Successfully";
     $response['data'] = $res;
     print_r(json_encode($response));
 }
 else{
     $response['success'] = false;
-    $response['message'] =" Not Found";
+    $response['message'] = "No Data Found";
     print_r(json_encode($response));
 }
+
+
+
+
+
 ?>

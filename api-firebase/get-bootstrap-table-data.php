@@ -3,17 +3,17 @@ session_start();
 
 // set time for session timeout
 $currentTime = time() + 25200;
-$expired = 7200;
+$expired = 720000;
 
 // if session not set go to login page
 if (!isset($_SESSION['username'])) {
-    header("location:index.php");
+    
 }
 
 // if current time is more than session timeout back to login page
 if ($currentTime > $_SESSION['timeout']) {
-    session_destroy();
-    header("location:index.php");
+   
+    
 }
 
 // destroy previous session timeout and create new one
@@ -1305,7 +1305,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
     $db->sql($sql);
     $res = $db->getResult();
     $total = $db->numRows($res);
-    $sql = "SELECT users.level,users.duration,users.id,users.task_type,users.name,staffs.name AS staff_name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn AS total_earn,users.l_referral_count 
+    $sql = "SELECT users.level,users.worked_days,users.duration,users.id,users.task_type,users.name,staffs.name AS staff_name, SUM(transactions.codes) AS today_codes,SUM(transactions.amount) AS earn,users.joined_date,users.mobile,users.total_referrals,users.earn AS total_earn,users.l_referral_count 
     FROM users
     JOIN transactions ON users.id = transactions.user_id JOIN staffs ON staffs.id = users.support_id WHERE DATE(transactions.datetime) = '$currentdate' AND transactions.type = 'generate'
     GROUP BY users.id ORDER BY today_codes DESC LIMIT " . $offset . "," . $limit;
@@ -1322,6 +1322,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'top_coders') {
         $tempRow['id'] = $i;
         $tempRow['name'] = $row['name'];
         $tempRow['support'] = $row['staff_name'];
+        $tempRow['worked_days'] = $row['worked_days'];
         
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['today_codes'] = $row['today_codes'];

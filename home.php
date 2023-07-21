@@ -5,28 +5,31 @@ include_once('includes/functions.php');
 $function = new custom_functions;
 
 // set time for session timeout
-$currentTime = time() + 25200;
-$expired = 7200;
+$currentTime = time();
+$expired = 3600; // 1 hour in seconds
+
 // if session not set go to login page
 if (!isset($_SESSION['username'])) {
-    header("location:index.php");
+    header("location: index.php");
 }
-// if current time is more than session timeout back to login page
+
+// if current time is more than session timeout, go back to login page
 if ($currentTime > $_SESSION['timeout']) {
-    session_destroy();
-    header("location:index.php");
+
 }
+
 // destroy previous session timeout and create new one
 unset($_SESSION['timeout']);
 $_SESSION['timeout'] = $currentTime + $expired;
 
 include "header.php";
+
 ?>
 <html>
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>ABCD - Dashboard</title>
+    <title>ABCD - Dashboard <?php echo $_SESSION['timeout'] ;?></title>
 </head>
 
 <body>
@@ -369,13 +372,14 @@ include "header.php";
                 </div>
             </div>
             <br>
+
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="box box-success">
                         <?php 
                         $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
                         
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime )";
+                        $sql ="SELECT * FROM `join_reports` ORDER BY date DESC LIMIT 10 ";
                         $db->sql($sql);
                         $result_order = $db->getResult();
                         $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
@@ -409,54 +413,27 @@ include "header.php";
 
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-success">
-                        <?php 
-                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
-                        
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'   GROUP BY hour( datetime ) , day( datetime )";
-                        $db->sql($sql);
-                        $res_order = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
-                        $db->sql($sql);
-                        $sts_total = $db->getResult();
-                        
-                         ?>
-                        <div class="tile-stats" style="padding:10px;">
-                            <div id="earning_chart3" style="width:100%;height:350px;"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                    <div class="box box-success">
-                        <?php 
-                        $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
-                        
-                        $sql ="SELECT hour(datetime) AS time, count(*) AS numoft FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  GROUP BY hour( datetime ) , day( datetime ) AND task_type='champion'";
-                        $db->sql($sql);
-                        $result_order4 = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59' ";
-                        $db->sql($sql);
-                        $stu_total4 = $db->getResult();
-                        
-                         ?>
-                        <div class="tile-stats" style="padding:10px;">
-                            <div id="earning_chart4" style="width:100%;height:350px;"></div>
-                        </div>
-                    </div>
-
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
+
                         <div class="box-header with-border">
+                            
                             <h3 class="box-title">Top Today Coders <small>( Day: <?= date("D"); ?>)</small></h3>
                             <div class="box-tools pull-right">
                                 <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                                 <button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                             </div>
+                            <form method="post" action="export-active_users.php" enctype="multipart/form-data" >
+                            <div class="col-md-3">
+                                    
+                                    <input type="date" class="form-control" name="date">
+                                </div>
+                                <div class="col-md-3">
+                                    <button type='submit'  class="btn btn-primary"><i class="fa fa-download"></i> Export Active Users</button>
+                                </div>
+                            
+                        </form>
                         </div>
                         <div class="box-body">
 
@@ -475,9 +452,11 @@ include "header.php";
                                             <th data-field="support" data-sortable='true'>Support</th>
                                             <th data-field="earn" >Earn</th>
                                             <th data-field="duration" data-sortable='true'>Duration</th>
+                                            <th data-field="worked_days" data-sortable='true'>Worked Days</th>
                                             <th data-field="total_earn" >Total Earn</th>
                                             <th data-field="l_referral_count" data-sortable='true'>Level Referals Count</th>
                                             <th data-field="level" data-sortable='true'>Level</th>
+                                            
                                         
                                         </tr>
                                     </thead>
@@ -566,22 +545,6 @@ include "header.php";
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Hour', 'Total - <?= $stu_total[0]['total'] ?>'],
-                <?php foreach ($result_order as $row) {
-                    //$date = date('d-M', strtotime($row['order_date']));
-                    echo "['" . $row['time'] . "'," . $row['numoft'] . "],";
-                } ?>
-            ]);
-            var options = {
-                chart: {
-                    title: 'Transactions By Hour Wise',
-                    //subtitle: 'Total Sale In Last Week (Month: <?php echo date("M"); ?>)',
-                }
-            };
-
-            var chart = new google.charts.Bar(document.getElementById('earning_chart'));
-            chart.draw(data, google.charts.Bar.convertOptions(options));
 
 
             var data = google.visualization.arrayToDataTable([
@@ -602,5 +565,47 @@ include "header.php";
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
     </script>
+
+<script>
+google.charts.load('current',{packages:['corechart']});
+google.charts.setOnLoadCallback(drawChart2);
+
+function drawChart2() {
+
+    var data = google.visualization.arrayToDataTable([
+        ['Date', 'Joins', 'Withdrawals'],
+                
+                <?php foreach ($result_order as $row) {
+                    //$date = date('d-M', strtotime($row['order_date']));
+                    echo "[new Date('" . $row['date'] . "')," . $row['total_users'] * 3000 . "," . $row['total_paid'] . "],";
+                } ?>
+            ]);
+
+// // Set Data
+// const data = google.visualization.arrayToDataTable([
+//   ['Date', 'Price', 'Size'],
+//   [new Date('2023-07-01'), 200000, 200000],
+//   [new Date('2023-07-02'), 300000, 250000],
+//   [new Date('2023-07-03'), 245000, 300000],
+//   [new Date('2023-07-04'), 1700000, 200000],
+
+// ]);
+
+// Set Options
+const options = {
+  title: 'Joins vs Withdrawals',
+  hAxis: { title: 'Date' },
+  vAxis: { title: 'Charges' },
+  legend: 'none'
+};
+
+
+
+// Draw
+const chart = new google.visualization.LineChart(document.getElementById('earning_chart'));
+chart.draw(data, options);
+
+}
+</script>
 </body>
 </html>

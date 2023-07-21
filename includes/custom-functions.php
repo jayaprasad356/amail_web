@@ -249,6 +249,30 @@ class custom_functions
             return '';
         }
     }
+    public function get_sync_time($level)
+    {
+        if ($level == 1) {
+            $time = 20;
+
+        }
+        elseif($level == 2){
+            $time = 11 ;
+        }
+        elseif($level == 3){
+            $time = 8;
+        }
+        elseif($level == 4){
+            $time = 5;
+        }
+        elseif($level == 5){
+            $time = 3;
+        }
+        else {
+            $time = 22;
+        }
+
+        return $time;
+    } 
     public function get_permissions($id)
     {
         $sql = "SELECT permissions FROM admin WHERE id=" . $id;
