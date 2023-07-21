@@ -33,9 +33,10 @@ $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($
 $datetime = date('Y-m-d H:i:s');
 
 $type = 'generate';
-$sql = "SELECT num_sync_times,level FROM users WHERE id = $user_id";
+$sql = "SELECT code_generate,num_sync_times,level,total_codes FROM users WHERE id = $user_id";
 $db->sql($sql);
 $ures = $db->getResult();
+$user_code_generate = $ures[0]['code_generate'];
 $sql = "SELECT code_generate,num_sync_times,sync_codes FROM settings";
 $db->sql($sql);
 $set = $db->getResult();
@@ -65,7 +66,7 @@ if ($num >= 1) {
 
 }
 
-if($code_generate == 1){
+if($code_generate == 1 && $user_code_generate == 1){
     if($codes != 0){
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
@@ -77,6 +78,15 @@ if($code_generate == 1){
             if ($t_count >= $ures[0]['num_sync_times']) {
                 $response['success'] = false;
                 $response['message'] = "You Reached Daily Sync Limit";
+                print_r(json_encode($response));
+                return false;
+            }
+
+            if ($ures[0]['total_codes'] >= 60000) {
+                $sql = "UPDATE `users` SET  `code_generate` = 0 WHERE `id` = $user_id";
+                $db->sql($sql);
+                $response['success'] = false;
+                $response['message'] = "You Reached Codes Limit";
                 print_r(json_encode($response));
                 return false;
             }
