@@ -18,8 +18,9 @@ $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
 $currentdate = date('Y-m-d');
-// $sql = "UPDATE users SET mcg_timer=40,code_generate_time = 5 WHERE task_type = 'champion' ";
-// $db->sql($sql);
+$yesterday = new DateTime($currentdate);
+$yesterday->modify('-1 day');
+$yesterday_date = $yesterday->format('Y-m-d');
 
 $sql = "UPDATE users SET mcg_timer=18,code_generate_time = 3";
 $db->sql($sql);
@@ -42,7 +43,8 @@ $db->sql($sql);
 $sql = "UPDATE users SET referred_by = LEFT(refer_code , 3) WHERE DATEDIFF( '$currentdate',DATE(registered_date)) > 7 AND status = 0 AND LENGTH(referred_by) != 3 AND referred_by != ''";
 $db->sql($sql);
 
-$sql = "INSERT INTO join_reports (date, total_users,total_paid) SELECT joined_date, COUNT(id) AS total_users,(SELECT SUM(amount) FROM withdrawals WHERE DATE(datetime) = '$currentdate' AND status = 1) AS total_paid FROM users WHERE status = 1 AND joined_date = '$currentdate'";
+
+$sql = "INSERT INTO join_reports (date, total_users,total_paid) SELECT joined_date, COUNT(id) AS total_users,(SELECT SUM(amount) FROM withdrawals WHERE DATE(datetime) = '$yesterday_date' AND status = 1) AS total_paid FROM users WHERE status = 1 AND joined_date = '$yesterday_date'";
 $db->sql($sql);
 
 ?>
