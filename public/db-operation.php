@@ -129,6 +129,68 @@ if (isset($_POST['bulk_upload']) && $_POST['bulk_upload'] == 1) {
         echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
     }
 }
+if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) {
+    $count = 0;
+    $count1 = 0;
+    $error = false;
+    $filename = $_FILES["upload_file"]["tmp_name"];
+    $result = $fn->validate_image($_FILES["upload_file"], false);
+    if (!$result) {
+        $error = true;
+    }
+    if ($_FILES["upload_file"]["size"] > 0  && $error == false) {
+        $file = fopen($filename, "r");
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
+            // print_r($emapData);
+            if ($count1 != 0) {
+                $emapData[0] = trim($db->escapeString($emapData[0]));
+                $emapData[1] = trim($db->escapeString($emapData[1]));          
+                
+                
+                $sql = "SELECT id FROM users WHERE id = $emapData[1]";
+                $db->sql($sql);
+                $res = $db->getResult();
+                $num = $db->numRows($res);
+                if ($num >= 1) {
+                    echo "<p class='alert alert-danger'>User Id Not Exist</p><br>";
+                    return false;
+
+                }
+                $sql = "SELECT id FROM staffs WHERE id = $emapData[2]";
+                $db->sql($sql);
+                $res = $db->getResult();
+                $num = $db->numRows($res);
+                if ($num >= 1) {
+                    echo "<p class='alert alert-danger'>Staff Not Exist</p><br>";
+                    return false;
+
+                }
+            }
+
+            $count1++;
+        }
+        fclose($file);
+        $file = fopen($filename, "r");
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
+            // print_r($emapData);
+            if ($count1 != 0) {
+                $emapData[0] = trim($db->escapeString($emapData[0]));
+                $emapData[1] = trim($db->escapeString($emapData[1]));  
+                
+                $sql = "UPDATE users SET `support_id`= $emapData[1],op_leads = 1 WHERE id= $emapData[0]";
+                $db->sql($sql);
+
+            }
+
+            $count1++;
+        }
+        fclose($file);
+
+        echo "<p class='alert alert-success'>CSV file is successfully imported!</p><br>";
+    } else {
+        echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
+    }
+}
 
 
 if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
@@ -168,7 +230,9 @@ if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
                 $emapData[20] = trim($db->escapeString($emapData[20]));
                 $emapData[21] = trim($db->escapeString($emapData[21]));   
                 $emapData[22] = trim($db->escapeString($emapData[22]));  
-                $emapData[23] = trim($db->escapeString($emapData[23]));   
+                $emapData[23] = trim($db->escapeString($emapData[23]));  
+                
+                
                 // $data = array(
                 //     'name'=>$emapData[0],
                 //     'mobile'=>$emapData[1],

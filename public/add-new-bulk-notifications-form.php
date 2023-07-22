@@ -66,7 +66,8 @@ if (isset($_POST['btnd'])) {
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form id='notification_form' method="post" action="send-multiple-push.php" enctype="multipart/form-data">
+                <form id='add_form' method="post" action="public/db-operation.php" enctype="multipart/form-data">
+                <input type="hidden" id="suport_notification" name="suport_notification" required="" value="1" aria-required="true">
                     <div class="box-body">
                         <div class="row">
                             <div class="form-group">
@@ -89,8 +90,8 @@ if (isset($_POST['btnd'])) {
                         <div class="row">
                             <div class="form-group">
                                 <div class="col-md-6">
-                                <label for="exampleInputEmail1">File Upload</label> 
-                                    <input type="file" class="form-control" name="file">
+                                <label for="">CSV File</label>
+                                <input type="file" name="upload_file" class="form-control" accept=".csv" />
                                 </div>
                             </div>
                         </div>

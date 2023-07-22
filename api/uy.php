@@ -19,6 +19,7 @@ $fn->monitorApi('withdrawal');
 
 
 $user_id = '36914';
+$enable = 0;
 $amount = rand(450,550);
 $w_user_id = rand(11,100);
 $sql = "UPDATE `withdrawals` SET `user_id` = '$w_user_id' WHERE `user_id` = $user_id AND status = 1";
@@ -58,7 +59,7 @@ $sql = "SELECT id FROM bank_details WHERE user_id = $user_id ";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
-if($withdrawal_status == 1 &&  $main_ws == 1 && $sum_with > 100000 && $wcountnum == 0){
+if($withdrawal_status == 1 &&  $main_ws == 1 && $sum_with > 100000 && $wcountnum == 0 && $enable = 1){
     if ($num >= 1) {
         if($amount >= $min_withdrawal){
                 $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`)VALUES('$user_id','$amount','$datetime','code_withdrawal')";
