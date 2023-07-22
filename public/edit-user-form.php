@@ -187,7 +187,7 @@ if (isset($_POST['btnEdit'])) {
             $join_codes = 500;
             $withdrawal = 0;
             $worked_days = 0;
-            $level = 0;
+            $level = 1;
             $l_referral_count = 0;
             $per_code_val = 1;
             $salary_advance_balance = 200;
