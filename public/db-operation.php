@@ -5,13 +5,17 @@ include('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $db->sql("SET NAMES 'utf8'");
+date_default_timezone_set('Asia/Kolkata');
+
 
 include_once('../includes/custom-functions.php');
 $fn = new custom_functions;
+require_once('../includes/firebase.php');
+require_once ('../includes/push.php');
 include_once('../includes/functions.php');
 $function = new functions;
 
-
+$datetime = date('Y-m-d H:i:s');
 
 if (isset($_POST['bulk_upload']) && $_POST['bulk_upload'] == 1) {
     $count = 0;
@@ -133,6 +137,8 @@ if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) 
     $count = 0;
     $count1 = 0;
     $error = false;
+    $title = $db->escapeString(($_POST['title']));
+    $description = $db->escapeString(($_POST['description']));
     $filename = $_FILES["upload_file"]["tmp_name"];
     $result = $fn->validate_image($_FILES["upload_file"], false);
     if (!$result) {
@@ -144,25 +150,47 @@ if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) 
             // print_r($emapData);
             if ($count1 != 0) {
                 $emapData[0] = trim($db->escapeString($emapData[0]));
-                $emapData[1] = trim($db->escapeString($emapData[1]));          
                 
                 
-                $sql = "SELECT id FROM users WHERE id = $emapData[1]";
+                $sql = "SELECT id FROM users WHERE mobile = $emapData[0]";
                 $db->sql($sql);
                 $res = $db->getResult();
                 $num = $db->numRows($res);
                 if ($num >= 1) {
-                    echo "<p class='alert alert-danger'>User Id Not Exist</p><br>";
-                    return false;
+                    $user_id = $res[0]['id'];
 
-                }
-                $sql = "SELECT id FROM staffs WHERE id = $emapData[2]";
-                $db->sql($sql);
-                $res = $db->getResult();
-                $num = $db->numRows($res);
-                if ($num >= 1) {
-                    echo "<p class='alert alert-danger'>Staff Not Exist</p><br>";
-                    return false;
+                    $sql = "INSERT INTO support_notifications (`user_id`,`title`,`description`,`datetime`)VALUES('$user_id','$title','$description','$datetime')";
+                    $db->sql($sql);
+                
+                    $type = "default";
+                    $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
+                    $url .= $_SERVER['SERVER_NAME'];
+                    $url .= $_SERVER['REQUEST_URI'];
+                    $server_url = dirname($url).'/';
+                    
+                    $push = null;
+                    $id = "0";
+                    $devicetoken = $function->getTokenById($user_id);
+                    $push = new Push(
+                        $title,
+                        $description,
+                        null,
+                        $type,
+                        $id
+                    );
+                    $mPushNotification = $push->getPush();
+                
+                
+                    $f_tokens = array_unique($devicetoken);
+                    $devicetoken_chunks = array_chunk($f_tokens,1000);
+                    foreach($devicetoken_chunks as $devicetokens){
+                        //creating firebase class object 
+                        $firebase = new Firebase(); 
+                
+                        //sending push notification and displaying result 
+                        $response['token'] = $devicetokens;
+                        $firebase->send($devicetokens, $mPushNotification);
+                    }
 
                 }
             }
@@ -170,21 +198,21 @@ if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) 
             $count1++;
         }
         fclose($file);
-        $file = fopen($filename, "r");
-        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
-            // print_r($emapData);
-            if ($count1 != 0) {
-                $emapData[0] = trim($db->escapeString($emapData[0]));
-                $emapData[1] = trim($db->escapeString($emapData[1]));  
+        // $file = fopen($filename, "r");
+        // while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
+        //     // print_r($emapData);
+        //     if ($count1 != 0) {
+        //         $emapData[0] = trim($db->escapeString($emapData[0]));
+        //         $emapData[1] = trim($db->escapeString($emapData[1]));  
                 
-                $sql = "UPDATE users SET `support_id`= $emapData[1],op_leads = 1 WHERE id= $emapData[0]";
-                $db->sql($sql);
+        //         $sql = "UPDATE users SET `support_id`= $emapData[1],op_leads = 1 WHERE id= $emapData[0]";
+        //         $db->sql($sql);
 
-            }
+        //     }
 
-            $count1++;
-        }
-        fclose($file);
+        //     $count1++;
+        // }
+        // fclose($file);
 
         echo "<p class='alert alert-success'>CSV file is successfully imported!</p><br>";
     } else {

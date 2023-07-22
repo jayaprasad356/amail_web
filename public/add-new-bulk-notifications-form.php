@@ -82,7 +82,7 @@ if (isset($_POST['btnd'])) {
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <label for="exampleInputEmail1">Description</label><i class="text-danger asterik">*</i><?php echo isset($error['description']) ? $error['description'] : ''; ?>
-                                    <textarea  rows="3" type="number" class="form-control" name="description" required></textarea>
+                                    <textarea  rows="3" type="text" class="form-control" name="description" required></textarea>
                                 </div>
                             </div>
                         </div>
@@ -96,6 +96,10 @@ if (isset($_POST['btnd'])) {
                             </div>
                         </div>
                         <br>
+                        <div class="form-group">
+
+<div id="result" style="display: none;"></div>
+</div>
 
                     </div>
                     <!-- /.box-body -->
@@ -116,32 +120,29 @@ if (isset($_POST['btnd'])) {
 <div class="separator"> </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
 <script>
-    $('#notification_form').on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $.ajax({
-                type: 'POST',
-                url: $(this).attr('action'),
-                data: formData,
-                dataType: 'json',
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: function(result) {
-
-                    $('#result').html(result.message);
-                    $('#result').show().delay(6000).fadeOut();
-                    $('#notification_form').each(function() {
-                        this.reset();
-                    });
-                    
-                }
-            });
-
-        });
-    $('#btnClear').on('click', function() {
-        for (instance in CKEDITOR.instances) {
-            CKEDITOR.instances[instance].setData('');
+    $('#add_form').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        if ($("#add_form").validate().form()) {
+            if (confirm('Are you sure?Want to upload')) {
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'),
+                    data: formData,
+                    beforeSend: function() {
+                        $('#submit_btn').html('Please wait..').attr('disabled', 'true');
+                    },
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(result) {
+                        $('#result').html(result);
+                        $('#result').show().delay(6000).fadeOut();
+                        $('#submit_btn').html('Upload').removeAttr('disabled');
+                        $('#add_form')[0].reset();
+                    }
+                });
+            }
         }
     });
 </script>
