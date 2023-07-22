@@ -35,7 +35,6 @@ if (isset($_POST['btnEdit'])) {
             $referred_by = (isset($_POST['referred_by']) && !empty($_POST['referred_by'])) ? $db->escapeString($_POST['referred_by']) : "";
             $earn = (isset($_POST['earn']) && !empty($_POST['earn'])) ? $db->escapeString($_POST['earn']) : 0;
             $code_generate = (isset($_POST['code_generate']) && !empty($_POST['code_generate'])) ? $db->escapeString($_POST['code_generate']) : 0;
-            $total_referrals = (isset($_POST['total_referrals']) && !empty($_POST['total_referrals'])) ? $db->escapeString($_POST['total_referrals']) : 0;
             $balance = (isset($_POST['balance']) && !empty($_POST['balance'])) ? $db->escapeString($_POST['balance']) : "0";
           
             $today_codes = (isset($_POST['today_codes']) && !empty($_POST['today_codes'])) ? $db->escapeString($_POST['today_codes']) : 0;
@@ -188,6 +187,9 @@ if (isset($_POST['btnEdit'])) {
             $join_codes = 500;
             $withdrawal = 0;
             $worked_days = 0;
+            $level = 0;
+            $l_referral_count = 0;
+            $per_code_val = 1;
             $salary_advance_balance = 200;
             $joined_date = $date;
             $amount = $join_codes  * $per_code_cost;
@@ -453,10 +455,6 @@ if (isset($_POST['btnCancel'])) { ?>
                                 <div class="col-md-3">
                                     <label for="exampleInputEmail1">Level Referral Count</label><i class="text-danger asterik">*</i>
                                     <input type="text" class="form-control" name="l_referral_count" value="<?php echo $res[0]['l_referral_count']; ?>">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="exampleInputEmail1">Total Referrals</label><i class="text-danger asterik">*</i>
-                                    <input type="text" class="form-control" name="total_referrals" value="<?php echo $res[0]['total_referrals']; ?>" readonly>
                                 </div>
 
 
