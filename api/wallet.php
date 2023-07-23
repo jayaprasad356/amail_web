@@ -66,7 +66,7 @@ if ($num >= 1) {
 
 }
 
-if($code_generate == 0 && $user_code_generate == 1){
+if($code_generate == 1 && $user_code_generate == 1){
     if($codes != 0){
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
