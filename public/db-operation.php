@@ -162,7 +162,7 @@ if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) 
                     $sql = "INSERT INTO support_notifications (`user_id`,`title`,`description`,`datetime`)VALUES('$user_id','$title','$description','$datetime')";
                     $db->sql($sql);
                 
-                    $type = "default";
+                    $type = "support_message";
                     $url  = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
                     $url .= $_SERVER['SERVER_NAME'];
                     $url .= $_SERVER['REQUEST_URI'];
