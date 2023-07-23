@@ -122,7 +122,7 @@ if($code_generate == 1 && $user_code_generate == 1){
         }
      
     
-    $sql = "SELECT today_codes,total_codes,balance,code_generate,status,referred_by,refund_wallet,total_refund  FROM users WHERE id = $user_id ";
+    $sql = "SELECT level,per_code_val,today_codes,total_codes,balance,code_generate,status,referred_by,refund_wallet,total_refund  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     
@@ -130,6 +130,8 @@ if($code_generate == 1 && $user_code_generate == 1){
     $response['message'] = "Code Added Successfully";
     $response['status'] = $res[0]['status'];
     $response['balance'] = $res[0]['balance'];
+    $response['level'] = $res[0]['level'];
+    $response['per_code_val'] = $res[0]['per_code_val'];
     $response['today_codes'] = $res[0]['today_codes'];
     $response['total_codes'] = $res[0]['total_codes'];
     $response['code_generate'] = $res[0]['code_generate'];
