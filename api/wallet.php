@@ -72,12 +72,12 @@ if ($num >= 1) {
 if($code_generate == 1 && $user_code_generate == 1){
     if($codes != 0){
 
-            if ($sync_codes != $codes) {
-                $response['success'] = false;
-                $response['message'] = "Please Sync Only ".$sync_codes." Codes";
-                print_r(json_encode($response));
-                return false;
-            }
+            // if ($sync_codes != $codes) {
+            //     $response['success'] = false;
+            //     $response['message'] = "Please Sync Only ".$sync_codes." Codes";
+            //     print_r(json_encode($response));
+            //     return false;
+            // }
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
             $amount = $codes  * $per_code_cost;
