@@ -42,6 +42,9 @@ $db->sql($sql);
 $set = $db->getResult();
 $code_generate = $set[0]['code_generate'];
 $sync_codes = $set[0]['sync_codes'];
+
+
+
 $sql = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'generate' ORDER BY datetime DESC LIMIT 1 ";
 $db->sql($sql);
 $tres = $db->getResult();
@@ -68,6 +71,13 @@ if ($num >= 1) {
 
 if($code_generate == 1 && $user_code_generate == 1){
     if($codes != 0){
+
+            if ($sync_codes != $codes) {
+                $response['success'] = false;
+                $response['message'] = "Please Sync Only ".$sync_codes." Codes";
+                print_r(json_encode($response));
+                return false;
+            }
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
             $amount = $codes  * $per_code_cost;
