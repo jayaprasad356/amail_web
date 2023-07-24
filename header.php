@@ -269,7 +269,12 @@ $fn = new custom_functions;
                     <span>scratch cards</span>
                     </a>
                 </li>
-              
+                <li class="treeview">
+                    <a href="bulk_support_change.php">
+                    <i class="fa fa-file"></i>
+                    <span>Bulk Support Change</span>
+                    </a>
+                </li>
 
                 <!-- <li class="treeview">
                     <a href="#">
