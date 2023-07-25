@@ -43,7 +43,7 @@ if($user_id != ''){
 
 
     $champion_task = $set[0]['champion_task'];
-    if($res[0]['mobile'] == '7406051288'){
+    if($res[0]['mobile'] == '7406051288' || $res[0]['mobile'] == '9036319894' || $res[0]['mobile'] == '9606313320' || $res[0]['mobile'] == '9148668157' || $res[0]['mobile'] == '7337786424'){
         $appres[0]['version'] = '41';
 
     }
