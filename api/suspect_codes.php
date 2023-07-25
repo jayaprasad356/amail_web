@@ -20,6 +20,7 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+$datetime = date('Y-m-d H:i:s');
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $user_id = $db->escapeString($_POST['user_id']);
 $total_text = (isset($_POST['total_text']) && $_POST['total_text'] != "") ? $db->escapeString($_POST['total_text']) : 0;
