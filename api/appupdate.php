@@ -31,7 +31,7 @@ $sql = "SELECT * FROM app_settings";
 $db->sql($sql);
 $appres = $db->getResult();
 if($user_id != ''){
-    $sql = "SELECT mobile,code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date,today_codes,refer_balance,trial_expired,task_type,champion_task_eligible,trial_count,mcg_timer,security,ongoing_sa_balance,salary_advance_balance,sa_refer_count,refund_wallet,total_refund,earn,refer_code,level,per_code_val,worked_days  FROM users WHERE id = $user_id ";
+    $sql = "SELECT black_box,code_generate_time,total_referrals,withdrawal,last_updated,device_id,datediff('$date', joined_date) AS history_days,datediff('$datetime', last_updated) AS days,code_generate,withdrawal_status,status,joined_date,today_codes,refer_balance,trial_expired,task_type,champion_task_eligible,trial_count,mcg_timer,security,ongoing_sa_balance,salary_advance_balance,sa_refer_count,refund_wallet,total_refund,earn,refer_code,level,per_code_val,worked_days  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     $history_days = $res[0]['history_days'];
@@ -43,7 +43,7 @@ if($user_id != ''){
 
 
     $champion_task = $set[0]['champion_task'];
-    if($res[0]['mobile'] == '7406051288' || $res[0]['mobile'] == '9036319894' || $res[0]['mobile'] == '9606313320' || $res[0]['mobile'] == '9148668157' || $res[0]['mobile'] == '7337786424'){
+    if($res[0]['black_box'] == 1 ){
         $appres[0]['version'] = '41';
 
     }
