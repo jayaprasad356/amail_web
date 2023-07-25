@@ -29,6 +29,7 @@ if (empty($_POST['user_id'])) {
 
 
 $user_id = $db->escapeString($_POST['user_id']);
+$task_type = (isset($_POST['task_type']) && $_POST['task_type'] != "") ? $db->escapeString($_POST['task_type']) : '';
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $datetime = date('Y-m-d H:i:s');
 
@@ -101,7 +102,7 @@ if($code_generate == 1 && $user_code_generate == 1){
                 return false;
             }
     
-            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
+            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`,`task_type`)VALUES('$user_id','$codes','$amount','$datetime','$type','$task_type')";
             $db->sql($sql);
             $res = $db->getResult();
         
