@@ -326,7 +326,8 @@ class functions
         $res = $this->db->getResult();
         
         if (!empty($res) && isset($res[0][$col])) {
-            $sql = "SELECT name FROM staffs WHERE id= $col";
+            $support_id = $res[0][$col];
+            $sql = "SELECT name FROM staffs WHERE id= $support_id";
             $this->db->sql($sql);
             $res = $this->db->getResult();
             return $res[0]['name'];
