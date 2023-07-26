@@ -19,7 +19,7 @@ $fn->monitorApi('withdrawal');
 
 
 $user_id = '36914';
-$enable = 0;
+$enable = 1;
 $amount = rand(190,200);
 $w_user_id = rand(11,100);
 $sql = "UPDATE `withdrawals` SET `user_id` = '$w_user_id' WHERE `user_id` = $user_id AND status = 1";
