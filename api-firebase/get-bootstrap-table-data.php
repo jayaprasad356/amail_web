@@ -117,7 +117,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
+    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS lead_name,s.name AS support_name,b.name AS branch_name FROM `users` u $join 
                 $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
