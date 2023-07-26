@@ -2339,4 +2339,65 @@ if (isset($_GET['table']) && $_GET['table'] == 'suspect_codes') {
     $bulkData['rows'] = $rows;
     print_r(json_encode($bulkData));
 }
+if (isset($_GET['table']) && $_GET['table'] == 'suspect_users') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'time_difference_seconds';
+    $order = 'ASC';
+    
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+            $search = $db->escapeString($fn->xss_clean($_GET['search']));
+            $where .= "AND (u.mobile LIKE '%" . $search . "%' OR u.name LIKE '%" . $search . "%') ";
+        }
+          
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+   
+    $sql = "SELECT t.id, COUNT(t.id) AS transaction_count, t.user_id,
+            TIMESTAMPDIFF(SECOND, MIN(t.datetime), MAX(t.datetime)) AS time_difference_seconds,
+            u.name, u.mobile, t.codes, t.total_text, t.typed_text, t.datetime
+            FROM transactions t
+            INNER JOIN users u ON t.user_id = u.id
+            WHERE DATE(t.datetime) = '2023-07-26' AND t.type = 'generate' AND u.level = 1 $where
+            GROUP BY t.user_id
+            HAVING transaction_count > 2
+            ORDER BY $sort $order
+            LIMIT $offset, $limit";
+
+    $db->sql($sql);
+    $res = $db->getResult();
+    $total = count($res); 
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    foreach ($res as $row) {
+        $tempRow = array();
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['codes'] = $row['codes'];
+        $tempRow['total_text'] = $row['total_text'];
+        $tempRow['typed_text'] = $row['typed_text'];
+        $tempRow['datetime'] = $row['datetime'];
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
 $db->disconnect();
