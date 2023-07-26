@@ -219,7 +219,40 @@ if (isset($_POST['suport_notification']) && $_POST['suport_notification'] == 1) 
         echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
     }
 }
+if (isset($_POST['bulk_suppoort_change']) && $_POST['bulk_suppoort_change'] == 1) {
+    $count = 0;
+    $count1 = 0;
+    $jp = '';
+    $error = false;
+    $filename = $_FILES["upload_file"]["tmp_name"];
+    $result = $fn->validate_image($_FILES["upload_file"], false);
+    if (!$result) {
+        $error = true;
+    }
+    if ($_FILES["upload_file"]["size"] > 0  && $error == false) {
+        $file = fopen($filename, "r");
+        $jp = '1';
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE) {
+            $jp = '2';
+            //print_r($emapData);
+            if ($count1 != 0) {
+               
+                $emapData[0] = trim($db->escapeString($emapData[0]));
+                $emapData[1] = trim($db->escapeString($emapData[1]));  
+                $sql = "UPDATE users SET `support_id`= $emapData[1] WHERE mobile= '$emapData[0]'";
+                $db->sql($sql);
+                 
+            }
 
+            $count1++;
+        }
+        fclose($file);
+
+        echo "<p class='alert alert-success'>Support updated successfully!</p><br>".$jp;
+    } else {
+        echo "<p class='alert alert-danger'>Invalid file format! Please upload data in CSV file!</p><br>";
+    }
+}
 
 if (isset($_POST['bulk_update']) && $_POST['bulk_update'] == 1) {
     $count = 0;

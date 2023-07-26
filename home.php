@@ -158,55 +158,56 @@ include "header.php";
                     <div class="small-box bg-purple">
                         <div class="inner">
                             <h3><?php
-                            if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE id IS NOT NULL AND task_type='champion'";
-                            }
-                            else{
-                                $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion'";
-                            }
-                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
-                            if ($branch_id != '') {
-                                $join1="AND branch_id='$branch_id'";
-                            } else {
-                                $join1="";
-                            }
-                            $sql = "SELECT id FROM users $join $join1";
+                            // if($_SESSION['role'] == 'Super Admin'){
+                            //     $join = "WHERE id IS NOT NULL AND task_type='champion'";
+                            // }
+                            // else{
+                            //     $refer_code = $_SESSION['refer_code'];
+                            //     $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion'";
+                            // }
+                            // $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            // if ($branch_id != '') {
+                            //     $join1="AND branch_id='$branch_id'";
+                            // } else {
+                            //     $join1="";
+                            // }
+                            $currentdate = date('Y-m-d');
+                            $sql = "SELECT t.id FROM transactions t,users u WHERE t.user_id = u.id AND u.l_referral_count = 1 AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' GROUP BY user_id";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
-                            <p>Champion Users</p>
+                            <p>Today New Referred Users</p>
                         </div>
                         
-                        <a href="champion_users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-6">
                     <div class="small-box bg-purple">
                         <div class="inner">
                             <h3><?php
-                            if($_SESSION['role'] == 'Super Admin'){
-                                $join = "WHERE task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
-                            }
-                            else{
-                                $refer_code = $_SESSION['refer_code'];
-                                $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
-                            }
-                            $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
-                            if ($branch_id != '') {
-                                $join1="AND branch_id='$branch_id'";
-                            } else {
-                                $join1="";
-                            }
-                            $sql = "SELECT id FROM users $join $join1";
+                            // if($_SESSION['role'] == 'Super Admin'){
+                            //     $join = "WHERE task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
+                            // }
+                            // else{
+                            //     $refer_code = $_SESSION['refer_code'];
+                            //     $join = "WHERE refer_code REGEXP '^$refer_code' AND task_type='champion' AND status=1 AND code_generate = 1 AND today_codes != 0";
+                            // }
+                            // $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
+                            // if ($branch_id != '') {
+                            //     $join1="AND branch_id='$branch_id'";
+                            // } else {
+                            //     $join1="";
+                            // }
+                            $sql = "SELECT SUM(codes) AS codes FROM transactions WHERE task_type = 'regular' AND DATE(datetime) = '$currentdate'";
                             $db->sql($sql);
                             $res = $db->getResult();
-                            $num = $db->numRows($res);
+                            $num = $res[0]['codes'];
                             echo $num;
                              ?></h3>
-                            <p>Active Champion Users</p>
+                            <p>Regular Today Codes</p>
                         </div>
                         
                         <a href="champion_users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
@@ -220,19 +221,11 @@ include "header.php";
                         <div class="inner">
                             <h3><?php
                                 $currentdate = date('Y-m-d');
-                                $branch_id = (isset($_POST['branch_id']) && $_POST['branch_id']!='') ? $_POST['branch_id'] :"";
-                                if ($branch_id != '') {
-                                    $join1="AND users.branch_id='$branch_id'";
-                                } else {
-                                    $join1="";
-                                }
-                                $sql = "SELECT SUM(codes) AS today_codes
-                                FROM transactions
-                                JOIN users ON transactions.user_id = users.id
-                                WHERE DATE(transactions.datetime) = '$currentdate' AND users.task_type = 'champion' $join1";
+                                $sql = "SELECT SUM(codes) AS codes FROM transactions WHERE task_type = 'champion' AND DATE(datetime) = '$currentdate'";
                                 $db->sql($sql);
                                 $res = $db->getResult();
-                                echo $res[0]['today_codes'];
+                                $num = $res[0]['codes'];
+                                echo $num;
                                 ?></h3>
                                 <p>Champions Today Codes</p>
                         </div>

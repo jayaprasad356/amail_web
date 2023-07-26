@@ -29,6 +29,7 @@ if (empty($_POST['user_id'])) {
 
 
 $user_id = $db->escapeString($_POST['user_id']);
+$task_type = (isset($_POST['task_type']) && $_POST['task_type'] != "") ? $db->escapeString($_POST['task_type']) : '';
 $codes = (isset($_POST['codes']) && $_POST['codes'] != "") ? $db->escapeString($_POST['codes']) : 0;
 $datetime = date('Y-m-d H:i:s');
 
@@ -42,6 +43,9 @@ $db->sql($sql);
 $set = $db->getResult();
 $code_generate = $set[0]['code_generate'];
 $sync_codes = $set[0]['sync_codes'];
+
+
+
 $sql = "SELECT datetime FROM transactions WHERE user_id = $user_id AND type = 'generate' ORDER BY datetime DESC LIMIT 1 ";
 $db->sql($sql);
 $tres = $db->getResult();
@@ -68,6 +72,13 @@ if ($num >= 1) {
 
 if($code_generate == 1 && $user_code_generate == 1){
     if($codes != 0){
+
+            // if ($sync_codes != $codes) {
+            //     $response['success'] = false;
+            //     $response['message'] = "Please Sync Only ".$sync_codes." Codes";
+            //     print_r(json_encode($response));
+            //     return false;
+            // }
             $currentdate = date('Y-m-d');
             $per_code_cost = $fn->get_code_per_cost($user_id);
             $amount = $codes  * $per_code_cost;
@@ -91,7 +102,7 @@ if($code_generate == 1 && $user_code_generate == 1){
                 return false;
             }
     
-            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`)VALUES('$user_id','$codes','$amount','$datetime','$type')";
+            $sql = "INSERT INTO transactions (`user_id`,`codes`,`amount`,`datetime`,`type`,`task_type`)VALUES('$user_id','$codes','$amount','$datetime','$type','$task_type')";
             $db->sql($sql);
             $res = $db->getResult();
         
@@ -122,12 +133,13 @@ if($code_generate == 1 && $user_code_generate == 1){
         }
      
     
-    $sql = "SELECT level,per_code_val,today_codes,total_codes,balance,code_generate,status,referred_by,refund_wallet,total_refund  FROM users WHERE id = $user_id ";
+    $sql = "SELECT level,per_code_val,today_codes,total_codes,balance,code_generate,status,referred_by,refund_wallet,total_refund,black_box  FROM users WHERE id = $user_id ";
     $db->sql($sql);
     $res = $db->getResult();
     
     $response['success'] = true;
     $response['message'] = "Code Added Successfully";
+    $response['black_box'] = $res[0]['black_box'];
     $response['status'] = $res[0]['status'];
     $response['balance'] = $res[0]['balance'];
     $response['level'] = $res[0]['level'];
