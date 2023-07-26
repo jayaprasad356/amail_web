@@ -319,6 +319,22 @@ class functions
             return '';
         }
     }
+    public function get_support_refer_details($refer_code,$col)
+    {
+        $sql = "SELECT $col FROM users WHERE refer_code= '$refer_code'";
+        $this->db->sql($sql);
+        $res = $this->db->getResult();
+        
+        if (!empty($res) && isset($res[0][$col])) {
+            $support_id = $res[0][$col];
+            $sql = "SELECT name FROM staffs WHERE id= $support_id";
+            $this->db->sql($sql);
+            $res = $this->db->getResult();
+            return $res[0]['name'];
+        } else {
+            return '';
+        }
+    }
     public function get_joined_date($id)
     {
         $date = date('Y-m-d');

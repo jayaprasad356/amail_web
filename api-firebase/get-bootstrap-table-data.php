@@ -117,7 +117,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS support_name,s.name AS lead_name,b.name AS branch_name FROM `users` u $join 
+    $sql = "SELECT u.id AS id,u.*,u.name AS name,u.mobile AS mobile,DATEDIFF( '$currentdate',u.joined_date) AS history,s.id AS support_id,e.name AS lead_name,s.name AS support_name,b.name AS branch_name FROM `users` u $join 
                 $where ORDER BY $sort $order LIMIT $offset, $limit";
     $db->sql($sql);
     $res = $db->getResult();
@@ -131,6 +131,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $history_days = $fnc->get_leave($user_id);
         $refer_name = $fnc->get_refer_details($row['referred_by'],'name');
         $refer_mobile = $fnc->get_refer_details($row['referred_by'],'mobile');
+        $refer_support = $fnc->get_support_refer_details($row['referred_by'],'support_id');
         $row['history'] = $history_days;
         $operate = '<a href="edit-user.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
         $operate .= ' <a class="text text-danger" href="delete-user.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
@@ -149,6 +150,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['level'] = $row['level'];
         $tempRow['refer_name'] = $refer_name;
         $tempRow['refer_mobile'] = $refer_mobile;
+        $tempRow['refer_support'] = $refer_support;
         $tempRow['total_referrals'] = $row['total_referrals'];
         $tempRow['today_codes'] = $row['today_codes'];
         $tempRow['total_codes'] = $row['total_codes'];
@@ -603,7 +605,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile,u.task_type FROM `transactions` t $join 
+    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile,t.task_type FROM `transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
