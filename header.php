@@ -275,6 +275,12 @@ $fn = new custom_functions;
                     <span>Bulk Support Change</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="suspect_codes.php">
+                    <i class="fa fa-file"></i>
+                    <span>Suspect Codes</span>
+                    </a>
+                </li>
 
                 <!-- <li class="treeview">
                     <a href="#">

@@ -68,6 +68,10 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $status = $db->escapeString($fn->xss_clean($_GET['status']));
         $where .= "AND u.status='$status'";
     }
+    if ((isset($_GET['black_box'])  && $_GET['black_box'] != '')) {
+        $black_box = $db->escapeString($fn->xss_clean($_GET['black_box']));
+        $where .= "AND u.black_box='$black_box'";
+    }
     if (isset($_GET['month']) && !empty($_GET['month'] != '')){
         $month = $db->escapeString($fn->xss_clean($_GET['month']));
         $where .= "AND MONTH(u.joined_date) = $month AND YEAR(u.joined_date) = 2023 ";  
@@ -170,6 +174,11 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
             $tempRow['code_generate'] ="<p class='text text-success'>enabled</p>";
         else
             $tempRow['code_generate']="<p class='text text-danger'>disabled</p>";
+
+            if($row['black_box']==1)
+            $tempRow['black_box'] ="<p class='text text-success'>enabled</p>";
+        else
+            $tempRow['black_box']="<p class='text text-danger'>disabled</p>";
 
         if($row['withdrawal_status']==1)
             $tempRow['withdrawal_status'] ="<p class='text text-success'>enabled</p>";
@@ -2251,6 +2260,76 @@ if (isset($_GET['table']) && $_GET['table'] == 'scratch_card') {
             $tempRow['status']="<p class='text text-success'>Active</p>";        
         }
         $tempRow['operate'] = $operate;
+        $rows[] = $tempRow;
+    }
+    $bulkData['rows'] = $rows;
+    print_r(json_encode($bulkData));
+}
+//scartch_card table goes here
+if (isset($_GET['table']) && $_GET['table'] == 'suspect_codes') {
+    $offset = 0;
+    $limit = 10;
+    $where = '';
+    $sort = 'date';
+    $order = 'DESC';
+    
+    if ((isset($_GET['type']) && $_GET['type'] != '')) {
+        $type = $db->escapeString($fn->xss_clean($_GET['type']));
+        $where .= " AND l.is_scratched = '$type'";
+    }
+    
+    if (isset($_GET['date']) && $_GET['date'] != '') {
+        $date = $db->escapeString($fn->xss_clean($_GET['date']));
+        $where .= " AND l.date = '$date'";
+    }
+    if (isset($_GET['offset']))
+        $offset = $db->escapeString($fn->xss_clean($_GET['offset']));
+    if (isset($_GET['limit']))
+        $limit = $db->escapeString($fn->xss_clean($_GET['limit']));
+
+    if (isset($_GET['sort']))
+        $sort = $db->escapeString($fn->xss_clean($_GET['sort']));
+    if (isset($_GET['order']))
+        $order = $db->escapeString($fn->xss_clean($_GET['order']));
+
+    if (isset($_GET['search']) && !empty($_GET['search'])) {
+        $search = $db->escapeString($fn->xss_clean($_GET['search']));
+        $where .= "AND u.name like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR l.id like '%" . $search . "%'  OR l.date like '%" . $search . "%' OR u.mobile like '%" . $search . "%' OR l.type like '%" . $search . "%' ";
+    }
+    if (isset($_GET['sort'])) {
+        $sort = $db->escapeString($_GET['sort']);
+    }
+    if (isset($_GET['order'])) {
+        $order = $db->escapeString($_GET['order']);
+    }
+   
+    $join = "LEFT JOIN `users` u ON l.user_id = u.id WHERE l.id IS NOT NULL " . $where;
+
+    $sql = "SELECT COUNT(l.id) AS total FROM `suspect_codes` l " . $join;
+    $db->sql($sql);
+    $res = $db->getResult();
+    foreach ($res as $row)
+        $total = $row['total'];
+   
+     $sql = "SELECT l.id AS id,l.*,u.name,u.mobile  FROM `suspect_codes` l " . $join . " ORDER BY $sort $order LIMIT $offset, $limit";
+     $db->sql($sql);
+     $res = $db->getResult();
+
+    $bulkData = array();
+    $bulkData['total'] = $total;
+    $rows = array();
+    $tempRow = array();
+    foreach ($res as $row) {
+
+       // $operate = '<a href="edit-scratch_cards.php?id=' . $row['id'] . '" class="text text-primary"><i class="fa fa-edit"></i>Edit</a>';
+       // $operate .= ' <a class="text text-danger" href="delete-scratch_cards.php?id=' . $row['id'] . '"><i class="fa fa-trash"></i>Delete</a>';
+        $tempRow['id'] = $row['id'];
+        $tempRow['name'] = $row['name'];
+        $tempRow['mobile'] = $row['mobile'];
+        $tempRow['codes'] = $row['codes'];
+        $tempRow['total_text'] = $row['total_text'];
+        $tempRow['typed_text'] = $row['typed_text'];
+        $tempRow['datetime'] = $row['datetime'];
         $rows[] = $tempRow;
     }
     $bulkData['rows'] = $rows;

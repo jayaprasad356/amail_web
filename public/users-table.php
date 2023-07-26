@@ -30,6 +30,7 @@
                                         <option value="1"<?php echo (isset($_GET['activeusers'])) ? 'selected' : "" ?>>Active Users</option>
                                 </select>
                         </div>
+                      
                         <div class="col-md-2">
                         <h4 class="box-title">Filter by support</h4>
                            
@@ -53,6 +54,14 @@
                                         <option value="0">Non Verfied</option>
                                         <option value="1">Verfied</option>
                                         <option value="2">Blocked</option>
+                                </select>
+                        </div>
+                        <div class="col-md-2">
+                                <h4 class="box-title">Black Box</h4>
+                                <select id='black_box' name="black_box" class='form-control'>
+                                        <option value="">All</option>
+                                        <option value="1">Enable</option>
+                                        <option value="0">Disable</option>
                                 </select>
                         </div>
                         <div class="col-md-2">
@@ -154,6 +163,10 @@
             idf = $('#status').val();
             $('#users_table').bootstrapTable('refresh');
         });
+        $('#black_box').on('change', function() {
+            idf = $('#black_box').val();
+            $('#users_table').bootstrapTable('refresh');
+        });
         $('#month').on('change', function() {
             id = $('#month').val();
             $('#users_table').bootstrapTable('refresh');
@@ -171,6 +184,7 @@
             "support_id": $('#support_id').val(),
             "activeusers": $('#activeusers').val(),
             "status": $('#status').val(),
+            "black_box": $('#black_box').val(),
             "month": $('#month').val(),
             "referred_by": $('#referred_by').val(),
             limit: p.limit,
