@@ -603,7 +603,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'transactions') {
     foreach ($res as $row)
         $total = $row['total'];
 
-    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile,u.task_type FROM `transactions` t $join 
+    $sql = "SELECT t.id AS id,t.*,u.name,u.mobile,t.task_type FROM `transactions` t $join 
     $where ORDER BY $sort $order LIMIT $offset, $limit";
      $db->sql($sql);
     $res = $db->getResult();
