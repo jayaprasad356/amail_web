@@ -114,6 +114,8 @@ else{
     $res = $db->getResult();
     $user_id = $res[0]['id'];
 
+    $support_id = '';
+
 
     if(empty($referred_by)){
         $refer_code = MAIN_REFER . $user_id;
@@ -136,6 +138,15 @@ else{
 
             }else{
                 $refer_code = MAIN_REFER . $user_id;
+
+            }
+
+            $sql = "SELECT support_id FROM users WHERE refer_code = '$referred_by'";
+            $db->sql($sql);
+            $refres = $db->getResult();
+            $num = $db->numRows($refres);
+            if ($num == 1) {
+                $support_id = $refres[0]['support_id'];
 
             }
 
@@ -165,8 +176,16 @@ else{
         $branch_id = '1';
     }
 
-    $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id WHERE id =  $user_id";
-    $db->sql($sql_query);
+    if(empty($support_id)){
+        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id WHERE id =  $user_id";
+        $db->sql($sql_query);
+
+    }
+    else{
+        $sql_query = "UPDATE users SET refer_code='$refer_code',branch_id = $branch_id,support_id = $support_id WHERE id =  $user_id";
+        $db->sql($sql_query);
+    }
+
     
     $sql = "SELECT * FROM settings";
     $db->sql($sql);
