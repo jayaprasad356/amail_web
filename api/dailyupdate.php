@@ -28,7 +28,7 @@ $db->sql($sql);
 $sql = "UPDATE users SET code_generate=0 WHERE total_codes >= 60000";
 $db->sql($sql);
 
-$sql = "UPDATE users SET code_generate_time = 5,mcg_timer = 22 WHERE worked_days >= 10 AND l_referral_count = 0 ";
+$sql = "UPDATE users SET code_generate_time = 5,mcg_timer = 22 WHERE worked_days >= 10 AND level = 1 ";
 $db->sql($sql);
 
 $sql = "UPDATE users SET code_generate_time = 4,mcg_timer = 20 WHERE referred_by LIKE '%rejoin%'";

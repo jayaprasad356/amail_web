@@ -20,6 +20,13 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
+$enabled = 0;
+if ($enabled == 0) {
+    $response['success'] = false;
+    $response['message'] = "Trial Withdrawal is disabled";
+    print_r(json_encode($response));
+    return false;
+}
 $datetime = date('Y-m-d H:i:s');
 $user_id = $db->escapeString($_POST['user_id']);
 $sql = "SELECT * FROM users WHERE id = '$user_id'";
