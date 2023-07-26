@@ -281,6 +281,12 @@ $fn = new custom_functions;
                     <span>Suspect Codes</span>
                     </a>
                 </li>
+                <li class="treeview">
+                    <a href="suspect_users.php">
+                    <i class="fa fa-file"></i>
+                    <span>Suspect users</span>
+                    </a>
+                </li>
 
                 <!-- <li class="treeview">
                     <a href="#">
