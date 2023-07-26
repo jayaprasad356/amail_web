@@ -172,7 +172,7 @@ include "header.php";
                             //     $join1="";
                             // }
                             $currentdate = date('Y-m-d');
-                            $sql = "SELECT id FROM transactions WHERE type = 'refer_bonus' AND DATE(datetime) = '$currentdate'";
+                            $sql = "SELECT id FROM transactions WHERE type = 'refer_bonus' AND DATE(datetime) = '$currentdate' GROUP BY user_id";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
