@@ -87,13 +87,17 @@ if (isset($_POST['btnEdit'])) {
             if ($num == 1){
                 $set_duration = $function->getSettingsVal('duration');
                 $user_id = $res[0]['id'];
+                $sql_query = "SELECT id FROM leaves WHERE user_id =  $user_id AND date = '$date'";
+                $db->sql($sql_query);
+                $lres = $db->getResult();
+                $lnum = $db->numRows($lres);
                 $ref_code_generate = $res[0]['code_generate'];
                 $ref_worked_days = $res[0]['worked_days'];
                 $ref_duration = $res[0]['duration'];
                 $ref_user_status = $res[0]['status'];
                 $ref_user_history_days = $res[0]['history_days'];
                 $ref_total_refund = $res[0]['total_refund'];
-                if($ref_user_status == 1 && ($ref_code_generate == 1 || $ref_code_generate == 0 && $ref_worked_days < $ref_duration)  ){
+                if($ref_user_status == 1 && ($ref_code_generate == 1 || $ref_code_generate == 0 && $ref_worked_days < $ref_duration && $lnum == 1)  ){
                     $referral_bonus = $function->getSettingsVal('refer_bonus_amount');
 
                 }
