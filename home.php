@@ -172,13 +172,13 @@ include "header.php";
                             //     $join1="";
                             // }
                             $currentdate = date('Y-m-d');
-                            $sql = "SELECT id FROM transactions WHERE type = 'refer_bonus' AND DATE(datetime) = '$currentdate' GROUP BY user_id";
+                            $sql = "SELECT t.id FROM transactions t,users u WHERE t.user_id = u.id AND u.l_referral_count = 1 AND t.type = 'refer_bonus' AND DATE(t.datetime) = '$currentdate' GROUP BY user_id";
                             $db->sql($sql);
                             $res = $db->getResult();
                             $num = $db->numRows($res);
                             echo $num;
                              ?></h3>
-                            <p>Today Referred Users</p>
+                            <p>Today New Referred Users</p>
                         </div>
                         
                         <a href="users.php" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
