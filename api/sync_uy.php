@@ -66,10 +66,8 @@ if ($response === false) {
         echo "<script>alert('$message');</script>";
 
     } else {
-        // echo "Failed to fetch transaction details.";
-        // if ($responseData !== null) {
-        //     echo " Error message: " . $responseData["message"];
-        // }
+        $message = $responseData["message"];
+        echo "<script>alert('$message');</script>";
     }
 }
 

@@ -15,7 +15,6 @@ $db->connect();
 date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('withdrawal');
 
 function isBetween9AMand10PM() {
     $currentHour = date('H'); // Get the current hour in 24-hour format
@@ -33,13 +32,17 @@ if (!isBetween9AMand10PM()) {
     print_r(json_encode($response)); 
     return false;
 }
-$user_id = '36914';
-$amount = 260;
+$user_id = '40969';
+$codes = 60;
+if($codes != 60){
+    $message = 'Generate 60 Codes Please';
+    echo "<script>alert('$message');</script>";
+  }
 $data = array(
     "user_id" => $user_id,
-    "amount" => $amount,
+    "codes" => $codes,
 );
-$apiUrl = "https://appadmin.abcdapp.in/api/withdrawal.php";
+$apiUrl = "https://appadmin.abcdapp.in/api/wallet.php";
 
 
 $curl = curl_init($apiUrl);
@@ -58,19 +61,17 @@ if ($response === false) {
 } else {
     // Successful API response
     $responseData = json_decode($response, true);
-    if ($responseData !== null && isset($responseData["success"])) {
+    if ($responseData !== null && $codes == 60 && isset($responseData["today_codes"])) {
         $message = $responseData["message"];
-        echo $message;
+        echo "<script>alert('$message');</script>";
 
     } else {
         $message = $responseData["message"];
-        echo $message;
+        echo "<script>alert('$message');</script>";
     }
 }
 
 curl_close($curl);
-
-
 
 
 ?>

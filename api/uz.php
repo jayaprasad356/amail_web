@@ -18,76 +18,58 @@ $fn = new functions;
 $fn->monitorApi('withdrawal');
 
 
-$user_id = '44516';
-$amount = rand(450,550);
-$w_user_id = rand(11,100);
-$sql = "UPDATE `withdrawals` SET `user_id` = '$w_user_id' WHERE `user_id` = $user_id AND status = 1";
-$db->sql($sql);
+function isBetween9AMand10PM() {
+    $currentHour = date('H'); // Get the current hour in 24-hour format
 
-$sql = "SELECT * FROM settings";
-$db->sql($sql);
-$mres = $db->getResult();
+    // Convert the time strings to timestamps for comparison
+    $startTimestamp = strtotime('09:00:00');
+    $endTimestamp = strtotime('22:00:00');
 
-$sql = "SELECT SUM(amount) AS amount FROM withdrawals WHERE DATE(datetime) AND status = 0";
-$db->sql($sql);
-$wsres = $db->getResult();
-$sum_with = $wsres[0]['amount'];
-$main_ws = $mres[0]['withdrawal_status'];
-
-$sql = "SELECT id FROM withdrawals WHERE DATE(datetime) AND status = 0 AND user_id = $user_id";
-$db->sql($sql);
-$wcount = $db->getResult();
-$wcountnum = $db->numRows($wcount);
-
-$sql = "SELECT withdrawal_status FROM users WHERE id = $user_id ";
-$db->sql($sql);
-$res = $db->getResult();
-$withdrawal_status = $res[0]['withdrawal_status'];
-if(!empty($branch_id)){
-    $sql = "SELECT min_withdrawal FROM branches WHERE id = $branch_id";
-    $db->sql($sql);
-    $result = $db->getResult();
-    $min_withdrawal = $result[0]['min_withdrawal'];
+    // Check if the current hour is after 9 AM and before 10 PM
+    return ($currentHour >= date('H', $startTimestamp)) && ($currentHour < date('H', $endTimestamp));
 }
-else{
-    $min_withdrawal = $mres[0]['min_withdrawal'];
-}
-
-$datetime = date('Y-m-d H:i:s');
-$sql = "SELECT id FROM bank_details WHERE user_id = $user_id ";
-$db->sql($sql);
-$res = $db->getResult();
-$num = $db->numRows($res);
-if($withdrawal_status == 1 &&  $main_ws == 1 && $sum_with > 100000 && $wcountnum == 0){
-    if ($num >= 1) {
-        if($amount >= $min_withdrawal){
-                $sql = "INSERT INTO withdrawals (`user_id`,`amount`,`datetime`,`withdrawal_type`)VALUES('$user_id','$amount','$datetime','code_withdrawal')";
-                $db->sql($sql);
-
-                $response['success'] = true;
-                $response['message'] = "Withdrawal Requested Successfully";
-                print_r(json_encode($response));
-        
-            }        else{
-                $response['success'] = false;
-                $response['message'] = "Required Minimum Amount to Withdrawal is ".$min_withdrawal;
-                print_r(json_encode($response)); 
-            }
-        }
-
-    else{
-        $response['success'] = false;
-        $response['message'] = "Update Bank Details first";
-        print_r(json_encode($response)); 
-    
-    }
-}else{
+if (!isBetween9AMand10PM()) {
     $response['success'] = false;
-    $response['message'] = "Withdrawal Disabled Right Now,Please Try Again";
-    print_r(json_encode($response));    
+    $response['message'] = "Not Specific Range";
+    print_r(json_encode($response)); 
+    return false;
+}
+$user_id = '44516';
+$amount = 260;
+$data = array(
+    "user_id" => $user_id,
+    "amount" => $amount,
+);
+$apiUrl = "https://appadmin.abcdapp.in/api/withdrawal.php";
+
+
+$curl = curl_init($apiUrl);
+
+curl_setopt($curl, CURLOPT_POST, true);
+curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+$response = curl_exec($curl);
+
+
+if ($response === false) {
+    // Error in cURL request
+    echo "Error: " . curl_error($curl);
+} else {
+    // Successful API response
+    $responseData = json_decode($response, true);
+    if ($responseData !== null && isset($responseData["success"])) {
+        $message = $responseData["message"];
+        echo $message;
+
+    } else {
+        $message = $responseData["message"];
+        echo $message;
+    }
 }
 
-
+curl_close($curl);
 
 
 
