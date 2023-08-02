@@ -372,7 +372,7 @@ include "header.php";
                         <?php 
                         $currentdate = (isset($_POST['date']) && $_POST['date']!='') ? $_POST['date'] : date('Y-m-d');
                         
-                        $sql ="SELECT * FROM `join_reports`  WHERE total_users > 50 ORDER BY date DESC LIMIT 10 ";
+                        $sql ="SELECT * FROM `join_reports`  WHERE total_paid > 100000 ORDER BY date DESC LIMIT 10 ";
                         $db->sql($sql);
                         $result_order = $db->getResult();
                         
