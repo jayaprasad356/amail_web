@@ -140,6 +140,7 @@ if (isset($_GET['table']) && $_GET['table'] == 'users') {
         $tempRow['name'] = $row['name'];
         $tempRow['mobile'] = $row['mobile'];
         $tempRow['password'] = $row['password'];
+        $tempRow['plan'] = $row['plan'];
         $tempRow['dob'] = $row['dob'];
         $tempRow['email'] = $row['email'];
         $tempRow['city'] = $row['city'];
