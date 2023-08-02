@@ -14,11 +14,7 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 $currentdate = date('Y-m-d');
-$sql = "SELECT user_id
-FROM transactions
-WHERE DATE(datetime) = '2023-07-19' AND type = 'refer_bonus'
-GROUP BY user_id
-HAVING COUNT(id) = 2";
+$sql = "SELECT t.id,t.user_id FROM transactions t,users u WHERE t.user_id = u.id AND u.l_referral_count = 1 AND t.type = 'refer_bonus' AND DATE(t.datetime) = '2023-08-01' GROUP BY user_id";
 $db->sql($sql);
 $res = $db->getResult();
 $num = $db->numRows($res);
@@ -52,7 +48,7 @@ if ($num >= 1) {
 
     }
     $response['success'] = true;
-    $response['message'] = "Codes Refer Bonus Added Successfully";
+    $response['message'] = "Codes 1st  Refer Bonus Added Successfully";
     print_r(json_encode($response));
 
 }else{
