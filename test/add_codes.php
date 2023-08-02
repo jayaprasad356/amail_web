@@ -48,7 +48,7 @@ if ($num >= 1) {
 
     }
     $response['success'] = true;
-    $response['message'] = "Codes 1st  Refer Bonus Added Successfully";
+    $response['message'] = "1st refer Bonus Added Successfully";
     print_r(json_encode($response));
 
 }else{
