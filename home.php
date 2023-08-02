@@ -375,9 +375,6 @@ include "header.php";
                         $sql ="SELECT * FROM `join_reports`  WHERE total_users > 50 ORDER BY date DESC LIMIT 10 ";
                         $db->sql($sql);
                         $result_order = $db->getResult();
-                        $sql ="SELECT COUNT(id) AS total FROM montior WHERE datetime BETWEEN '$currentdate 00:00:00' AND '$currentdate 23:59:59'  ";
-                        $db->sql($sql);
-                        $stu_total = $db->getResult();
                         
                          ?>
                         <div class="tile-stats" style="padding:10px;">
