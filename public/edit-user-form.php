@@ -165,10 +165,10 @@ if (isset($_POST['btnEdit'])) {
                 $incentives = 100;
             }else{
                 if($plan == 30){
-                    $incentives = 25;
+                    $incentives = 12.5;
 
                 }else{
-                    $incentives = 10;
+                    $incentives = 5;
                 }
                 
             }
