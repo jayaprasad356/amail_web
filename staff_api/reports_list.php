@@ -33,7 +33,7 @@ $staff_id = $db->escapeString($_POST['staff_id']);
 $level = $db->escapeString($_POST['level']);
 
 if ($level == 1) {
-    $sql = "SELECT * FROM users WHERE worked_days = 1 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE level = 1 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -48,7 +48,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 2) {
-    $sql = "SELECT * FROM users WHERE worked_days = 3 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE level = 2 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -63,7 +63,7 @@ if ($level == 1) {
         print_r(json_encode($response));
     }
 } elseif ($level == 3) {
-    $sql = "SELECT * FROM users WHERE worked_days = 6 AND support_id='$staff_id' AND status= 1";
+    $sql = "SELECT * FROM users WHERE level = 3 AND support_id='$staff_id' AND status= 1";
     $db->sql($sql);
     $res = $db->getResult();
     $num = $db->numRows($res);
@@ -79,7 +79,7 @@ if ($level == 1) {
     
     }
 } elseif ($level == 4) {
-        $sql = "SELECT * FROM users WHERE DATEDIFF('$currentdate', joined_date) >= 7 AND support_id='$staff_id' AND total_referrals=0 AND status= 1";
+        $sql = "SELECT * FROM users WHERE level = 4 AND  support_id='$staff_id' AND status= 1";
         $db->sql($sql);
         $res = $db->getResult();
         $num = $db->numRows($res);
@@ -96,6 +96,24 @@ if ($level == 1) {
         }
         
         }
+        elseif ($level == 5) {
+            $sql = "SELECT * FROM users WHERE level = 5 AND  support_id='$staff_id' AND status= 1";
+            $db->sql($sql);
+            $res = $db->getResult();
+            $num = $db->numRows($res);
+            if ($num >= 1) {
+                $response['success'] = true;
+                $response['message'] = "Users listed successfully";
+                $response['data'] = $res;
+                print_r(json_encode($response));
+            } else {
+                $response['success'] = false;
+                $response['message'] = "No Users Found";
+                print_r(json_encode($response));
+            
+            }
+            
+            }
 
 
 
