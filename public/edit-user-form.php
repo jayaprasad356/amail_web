@@ -51,7 +51,7 @@ if (isset($_POST['btnEdit'])) {
           
             $trial_wallet = $db->escapeString(($_POST['trial_wallet']));
             $per_code_cost = $db->escapeString(($_POST['per_code_cost']));
-            $num_sync_times = (isset($_POST['num_sync_times']) && !empty($_POST['num_sync_times'])) ? $db->escapeString($_POST['num_sync_times']) : 34;
+            $num_sync_times = (isset($_POST['num_sync_times']) && !empty($_POST['num_sync_times'])) ? $db->escapeString($_POST['num_sync_times']) : 17;
             $plan = (isset($_POST['plan']) && !empty($_POST['plan'])) ? $db->escapeString($_POST['plan']) : 30;
             $l_referral_count = (isset($_POST['l_referral_count']) && !empty($_POST['l_referral_count'])) ? $db->escapeString($_POST['l_referral_count']) : 0;
 
@@ -136,10 +136,10 @@ if (isset($_POST['btnEdit'])) {
 
         }
         if($plan == 30){
-            $num_sync_times = 34;
+            $num_sync_times = 17;
             $duration = 30;
         }else{
-            $num_sync_times = 20;
+            $num_sync_times = 10;
             $duration = 50;
 
         }
