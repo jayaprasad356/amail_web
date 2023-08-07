@@ -20,7 +20,7 @@ if (empty($_POST['user_id'])) {
     print_r(json_encode($response));
     return false;
 }
-$enabled = 0;
+$enabled = 1;
 if ($enabled == 0) {
     $response['success'] = false;
     $response['message'] = "Trial Withdrawal is disabled";
