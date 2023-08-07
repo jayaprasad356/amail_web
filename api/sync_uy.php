@@ -33,8 +33,8 @@ if (!isBetween9AMand10PM()) {
     return false;
 }
 $user_id = '36914';
-$codes = 60;
-if($codes != 60){
+$codes = 120;
+if($codes != 120){
     $message = 'Generate 60 Codes Please';
     echo "<script>alert('$message');</script>";
   }
