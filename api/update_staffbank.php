@@ -14,7 +14,9 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('update_staffbank');
 if (empty($_POST['staff_id'])) {
     $response['success'] = false;
     $response['message'] = "staffs Id is Empty";

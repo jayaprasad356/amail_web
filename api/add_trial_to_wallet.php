@@ -13,6 +13,8 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
+$fn->monitorApi('add_trial_wallet');
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;

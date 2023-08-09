@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-
+$fn->monitorApi('update_lead');
 $sql = "SELECT id FROM users WHERE referred_by = 'YMS' AND status = 0";
 $db->sql($sql);
 $res = $db->getResult();

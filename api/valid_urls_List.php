@@ -11,7 +11,9 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
-
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('valid_urls');
 
 $sql = "SELECT * FROM valid_urls";
 $db->sql($sql);

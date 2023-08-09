@@ -11,6 +11,12 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('job_details');
+
+
 if (empty($_POST['type'])) {
     $response['success'] = false;
     $response['message'] = "Type is Empty";

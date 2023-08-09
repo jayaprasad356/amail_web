@@ -14,7 +14,7 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-
+$fn->monitorApi('update_staff');
 if (empty($_POST['staff_id'])) {
     $response['success'] = false;
     $response['message'] = "staff Id is Empty";

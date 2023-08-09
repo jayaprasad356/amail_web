@@ -13,7 +13,8 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('userdetails');
+$fn->monitorApi('translist');
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;

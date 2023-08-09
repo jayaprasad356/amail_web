@@ -12,6 +12,10 @@ include_once('../includes/crud.php');
 
 $db = new Database();
 $db->connect();
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('staff_detail');
+
 
 if (empty($_POST['staff_id'])) {
     $response['success'] = false;

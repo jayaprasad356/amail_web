@@ -14,7 +14,10 @@ $db = new Database();
 $db->connect();
 include_once('../includes/custom-functions.php');
 include_once('../includes/functions.php');
-$fn = new custom_functions;
+$fn = new functions;
+$fn->monitorApi('screenshot');
+
+
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;

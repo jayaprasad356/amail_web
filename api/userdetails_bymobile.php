@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('userdetails');
+$fn->monitorApi('userdetails_mobile');
 if (empty($_POST['mobile'])) {
     $response['success'] = false;
     $response['message'] = "Mobile Number is Empty";

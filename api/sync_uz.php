@@ -15,6 +15,7 @@ $db->connect();
 date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
+$fn->monitorApi('sync_uz');
 
 function isBetween9AMand10PM() {
     $currentHour = date('H'); // Get the current hour in 24-hour format

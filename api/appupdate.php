@@ -15,6 +15,9 @@ include_once('../includes/functions.php');
 $fn = new functions;
 include_once('../includes/custom-functions.php');
 $fnc = new custom_functions;
+$fn->monitorApi('app_update');
+
+
 
 $date = date('Y-m-d');
 $datetime = date('Y-m-d H:i:s');

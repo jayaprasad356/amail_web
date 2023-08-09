@@ -13,6 +13,8 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
+$fn->monitorApi('student_list');
+
 
 $sql = "SELECT * FROM excel_text ORDER BY RAND() LIMIT 1";
 $db->sql($sql);

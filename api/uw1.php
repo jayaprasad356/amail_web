@@ -15,7 +15,7 @@ $db->connect();
 date_default_timezone_set('Asia/Kolkata');
 include_once('../includes/functions.php');
 $fn = new functions;
-$fn->monitorApi('withdrawal');
+$fn->monitorApi('uw1');
 
 
 function isBetween9AMand10PM() {

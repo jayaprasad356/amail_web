@@ -13,7 +13,7 @@ $db = new Database();
 $db->connect();
 include_once('../includes/functions.php');
 $fn = new functions;
-// $fn->monitorApi('userdetails');
+$fn->monitorApi('repayment');
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;

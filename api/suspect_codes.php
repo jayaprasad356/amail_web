@@ -13,6 +13,9 @@ include_once('../includes/crud.php');
 $db = new Database();
 $db->connect();
 
+include_once('../includes/functions.php');
+$fn = new functions;
+$fn->monitorApi('suspect_codes');
 
 if (empty($_POST['user_id'])) {
     $response['success'] = false;
